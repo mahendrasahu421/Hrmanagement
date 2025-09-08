@@ -10,7 +10,23 @@ use App\Http\Controllers\Admin\Clients\ClientsController;
 use App\Http\Controllers\Hr\HumanResourceController;
 use App\Http\Controllers\Hr\EmployeeController;
 use App\Http\Controllers\Hr\JobsController;
+use App\Http\Controllers\HR\JobCategoryController;
+use App\Http\Controllers\StateCityController;
+use App\Http\Controllers\SkillsController;
 
+Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
+Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('skills.search');
+
+Route::prefix('hr')->name('hr.')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('hr.dashboard');
+    })->name('dashboard');
+
+    // Category ke liye resource route
+    Route::resource('categories', JobCategoryController::class);
+    Route::resource('jobs', JobsController::class);
+
+});
 Route::get('/', [AuthController::class, 'index']);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');

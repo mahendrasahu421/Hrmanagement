@@ -31,6 +31,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('frontent/assets/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontent/assets/css/animate.css') }}">
 
     <!-- Feather CSS -->
     <link rel="stylesheet" href="{{ asset('frontent/assets/plugins/icons/feather/feather.css') }}">
@@ -47,6 +48,7 @@
 
     <!-- Datetimepicker CSS -->
     <link rel="stylesheet" href="{{ asset('frontent/assets/css/bootstrap-datetimepicker.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontent/assets/css/dataTables.bootstrap5.min.css') }}">
 
     <!-- Bootstrap Tagsinput CSS -->
     <link rel="stylesheet" href="{{ asset('frontent/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
@@ -64,6 +66,10 @@
     <link rel="stylesheet" href="{{ asset('frontent/assets/css/style.css') }}">
 
 
+    <link rel="stylesheet" href="{{ asset('datatables/dataTables.css') }}" />
+    @section('styles')
+
+    @show
 
 </head>
 
@@ -135,7 +141,8 @@
                                                     <a href="deals-grid.html"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
-                                                            <i class="ti ti-heart-handshake text-default me-2"></i>Deals
+                                                            <i
+                                                                class="ti ti-heart-handshake text-default me-2"></i>Deals
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
@@ -1105,44 +1112,56 @@
                                         <i class="ti ti-smart-home"></i>
                                         <span>Dashboard</span>
                                         <span class="badge badge-danger fs-10 fw-medium text-white p-1">Hot</span>
-                                        
+
                                     </a>
-                                   
+
                                 </li>
-                               
-                               
+
+
                             </ul>
                         </li>
-                       
-                        <li class="menu-title"><span>PROJECTS</span></li>
+
+                        <li class="menu-title"><span>Category</span></li>
                         <li>
-                            <ul>
+                            <ul class="sidebar-menu">
                                 <li>
-                                    <a href="{{ route('admin.clients') }}">
-                                        <i class="ti ti-users-group"></i><span>Clients</span>
+                                    <a href="{{ route('hr.categories.index') }}">
+                                        <i class="ti ti-category"></i>
+                                        <span>Job Categories</span>
                                     </a>
                                 </li>
+                            </ul>
+
+                        </li>
+
+                        <li class="menu-title"><span>Jobs</span></li>
+                        <li>
+                            <ul>
+                                {{-- <li>
+                                    <a href="{{ route('admin.clients') }}">
+                                        <i class="ti ti-users-group"></i><span>Jobs</span>
+                                    </a>
+                                </li> --}}
                                 <li class="submenu">
                                     <a href="javascript:void(0);">
-                                        <i class="ti ti-box"></i><span>Projects</span>
+                                        <i class="ti ti-box"></i><span>Jobs</span>
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul>
-                                        <li><a href="projects-grid.html">Projects</a></li>
-                                        <li><a href="tasks.html">Tasks</a></li>
-                                        <li><a href="task-board.html">Task Board</a></li>
+                                        <li><a href="{{ route('hr.jobs') }}">jobs</a></li>
+
                                     </ul>
                                 </li>
                             </ul>
                         </li>
-                      
+
                     </ul>
                 </div>
             </div>
         </div>
         <!-- /Sidebar -->
 
-      
+
         @yield('main-section')
     </div> <!-- Bootstrap Core JS -->
     <script data-cfasync="false" src="{{ asset('frontent/assets/email-decode.min.js') }}"></script>
@@ -1154,6 +1173,8 @@
 
     <!-- Slimscroll JS -->
     <script src="{{ asset('frontent/assets/js/jquery.slimscroll.min.js') }}"></script>
+    {{-- <script src="{{ asset('frontent/assets/js/jquery.dataTables.min.js') }}"></script> --}}
+    {{-- <script src="{{ asset('frontent/assets/js/dataTables.bootstrap5.min.js') }}"></script> --}}
 
     <!-- Chart JS -->
     <script src="{{ asset('frontent/assets/plugins/apexchart/apexcharts.min.js') }}"></script>
@@ -1186,7 +1207,8 @@
     <script src="{{ asset('frontent/assets/js/todo.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/theme-colorpicker.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/script.js') }}"></script>
-
+    @section('script')
+    @show
 </body>
 
 
