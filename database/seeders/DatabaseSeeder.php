@@ -13,19 +13,19 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // $this->call(RolePermissionSeeder::class);
-        // $this->call(UserSeeder::class);
-        // $this->call(ClientSeeder::class);
-        // $this->call([
-        //     CountrySeeder::class,
-        // ]);
-        // $this->call([
-        //     StateSeeder::class,
-        // ]);
-        // $this->call([
-        //     CitySeeder::class,
-        // ]);
-        //  $this->call(JobCategorySeeder::class);
+        $this->call(RolePermissionSeeder::class);
+        $this->call(UserSeeder::class);
+        $this->call(ClientSeeder::class);
+        $this->call([
+            CountrySeeder::class,
+        ]);
+        $this->call([
+            StateSeeder::class,
+        ]);
+        $this->call([
+            CitySeeder::class,
+        ]);
+         $this->call(JobCategorySeeder::class);
          $this->call(SkillSeeder::class);
     }
 
