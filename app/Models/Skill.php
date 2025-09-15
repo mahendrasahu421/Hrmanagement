@@ -10,4 +10,9 @@ class Skill extends Model
     use SoftDeletes;
 
     protected $fillable = ['name', 'slug'];
+
+     public function jobs()
+    {
+        return $this->belongsToMany(JobHrms::class, 'job_skill', 'skill_id', 'job_id');
+    }
 }

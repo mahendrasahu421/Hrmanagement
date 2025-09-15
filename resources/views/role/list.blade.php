@@ -42,8 +42,9 @@
                         </div>
                     </div>
                     <div class="mb-2">
-                        <a href="{{ route('hr.jobs.create') }}" class="btn btn-primary d-flex align-items-center"><i
-                                class="ti ti-circle-plus me-2"></i>{{ $title }}</a>
+                        <a href="{{ route('role.create') }}" class="btn btn-primary d-flex align-items-center"><i
+                                class="ti ti-circle-plus me-2"></i>Add
+                            Role</a>
                     </div>
 
                 </div>
@@ -54,7 +55,7 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
-                            <h5>Categories</h5>
+                            <h5>Role</h5>
 
                         </div>
                         <div class="card-body p-0">
@@ -64,25 +65,51 @@
                                         <thead>
                                             <tr>
                                                 <th>ID</th>
-                                                <th>title</th>
-                                                <th>category_id</th>
-                                                <th>skills</th>
-                                                <th>positions</th>
-                                                <th>job_type</th>
-                                                <th>ctc_from</th>
-                                                <th>ctc_to</th>
-                                                <th>min_experience</th>
-                                                <th>max_experience</th>
-                                                <th>locations</th>
-                                                <th>description</th>
-                                                <th>keywords</th>
+                                                <th>Name</th>
+                                                <th>Permissions</th>
+                                                <th>Create at</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
+                                            @forelse ($roles as $role)
+                                                <tr>
+                                                    <td>{{ $role->id }}</td>
+                                                    <td>{{ $role->name }}</td>
+                                                    <td>
+                                                        @if ($role->permissions->count())
+                                                            @foreach ($role->permissions as $permission)
+                                                                <span
+                                                                    class="badge bg-info text-dark">{{ $permission->name }}</span>
+                                                            @endforeach
+                                                        @else
+                                                            <span class="text-muted">No Permissions</span>
+                                                        @endif
+                                                    </td>
+                                                    <td>{{ $role->created_at->format('d M, Y') }}</td>
+                                                    <td>
+                                                        <a href="{{ route('roles.edit', $role->id) }}"
+                                                            class="btn btn-sm btn-primary">Edit</a>
 
+                                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                                                            style="display:inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Are you sure you want to delete this role?')">
+                                                                Delete
+                                                            </button>
+                                                        </form>
+                                                    </td>
+                                                </tr>
+                                            @empty
+                                                <tr>
+                                                    <td colspan="5" class="text-center">No roles found.</td>
+                                                </tr>
+                                            @endforelse
                                         </tbody>
                                     </table>
+
 
                                 </div>
                             </div>
@@ -95,6 +122,9 @@
         </div>
 
     </div>
+    <!-- /Page Wrapper -->
+
+    <!-- Add categories -->
 
     @if (session('success'))
         <!-- Success Modal -->
@@ -153,55 +183,13 @@
     <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function(e) {
             new DataTable('#jobs-list', {
-                processing: true,
-                serverSide: true,
-                responsive: true,
 
-                ajax: {
-                    url: "{{ route('hr.jobs.list') }}",
-                    data: function(d) {
-                        // Agar custom filter bhejna hai to yaha add karo
-                        // d.filter = $('#filter-input').val();
-                    }
-                },
 
-                columns: [{
-                        data: 'sn'
-                    },
-                    {
-                        data: 'name'
-                    },
-                    {
-                        data: 'salary'
-                    },
-                    {
-                        data: 'location'
-                    },
-                    {
-                        data: 'post'
-                    },
-                    {
-                        data: 'description'
-                    },
-                    {
-                        data: 'status'
-                    },
-                    {
-                        data: 'created_at'
-                    },
-                    {
-                        data: 'action',
-                        orderable: false,
-                        searchable: false
-                    }
-                ]
             });
         });
     </script>
-
-
 @endsection
 
 @section('styles')

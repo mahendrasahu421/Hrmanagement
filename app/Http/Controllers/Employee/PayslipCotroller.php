@@ -1,20 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\Hr;
+namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class EmployeeController extends Controller
+class PayslipCotroller extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $data['title'] = 'Employee Details';
+          $data['title'] = 'Permission / List';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('hr.employee.index', $data);
+        return view('employee.payslip.index',$data);
     }
 
     /**

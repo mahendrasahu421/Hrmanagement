@@ -1,54 +1,32 @@
 <!-- Page Wrapper -->
 @extends('hr.layout.layout')
 @section('title', $title)
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
-    @if (session('success'))
-        <div class="toast align-items-center text-white bg-success border-0 show" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ session('success') }}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    @endif
 
-    @if ($errors->any())
-        <div class="toast align-items-center text-white bg-danger border-0 show" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    @endif
-
-</div>
 @section('main-section')
+    <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content">
-
             <!-- Breadcrumb -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                 <div class="my-auto mb-2">
-                    <h2 class="mb-1">{{ $title }}</h2>
+                    <h2 class="mb-1">Employee</h2>
                     <nav>
                         <ol class="breadcrumb mb-0">
 
-                            <li class="breadcrumb-item">
-                                {{ $title }}
-                            </li>
-                            {{-- <li class="breadcrumb-item active" aria-current="page">Client Grid</li> --}}
+                            <li class="breadcrumb-item active" aria-current="page">Employee List</li>
                         </ol>
                     </nav>
                 </div>
                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                   
+                    <div class="me-2 mb-2">
+                        <div class="d-flex align-items-center border bg-white rounded p-1 me-2 icon-list">
+                            <a href="https://smarthr.co.in/demo/html/template/employees.html"
+                                class="btn btn-icon btn-sm active bg-primary text-white me-1"><i
+                                    class="ti ti-list-tree"></i></a>
+                            <a href="https://smarthr.co.in/demo/html/template/employees-grid.html"
+                                class="btn btn-icon btn-sm"><i class="ti ti-layout-grid"></i></a>
+                        </div>
+                    </div>
                     <div class="me-2 mb-2">
                         <div class="dropdown">
                             <a href="javascript:void(0);"
@@ -69,205 +47,847 @@
                         </div>
                     </div>
                     <div class="mb-2">
-                        <a href="#" data-bs-toggle="modal" data-bs-target="#add_client"
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#add_employee"
                             class="btn btn-primary d-flex align-items-center"><i class="ti ti-circle-plus me-2"></i>Add
                             Employee</a>
                     </div>
-                   
+                    <div class="head-icons ms-2">
+                        <a href="javascript:void(0);" class="" data-bs-toggle="tooltip" data-bs-placement="top"
+                            data-bs-original-title="Collapse" id="collapse-header">
+                            <i class="ti ti-chevrons-up"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
             <!-- /Breadcrumb -->
 
-            <!-- Clients Info -->
             <div class="row">
-                <div class="col-xl-3 col-md-6 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0 me-2">
-                                        <span
-                                            class="p-2 br-10 bg-pink-transparent border border-pink d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-users-group text-pink fs-18"></i>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <p class="fs-12 fw-medium mb-0 text-gray-5 mb-1">Total Employee</p>
-                                        <h4></h4>
-                                    </div>
-                                </div>
-                                <span class="badge bg-transparent-purple d-inline-flex align-items-center fw-normal">
-                                    <i class="ti ti-arrow-wave-right-down me-1"></i>
 
-                                </span>
+                <!-- Total Plans -->
+                <div class="col-lg-3 col-md-6 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center overflow-hidden">
+                                <div>
+                                    <span class="avatar avatar-lg bg-dark rounded-circle"><i class="ti ti-users"></i></span>
+                                </div>
+                                <div class="ms-2 overflow-hidden">
+                                    <p class="fs-12 fw-medium mb-1 text-truncate">Total Employee</p>
+                                    <h4>1007</h4>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /Total Plans -->
+
+                <!-- Total Plans -->
+                <div class="col-lg-3 col-md-6 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center overflow-hidden">
+                                <div>
+                                    <span class="avatar avatar-lg bg-success rounded-circle"><i
+                                            class="ti ti-user-share"></i></span>
+                                </div>
+                                <div class="ms-2 overflow-hidden">
+                                    <p class="fs-12 fw-medium mb-1 text-truncate">Active</p>
+                                    <h4>1007</h4>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /Total Plans -->
+
+                <!-- Inactive Plans -->
+                <div class="col-lg-3 col-md-6 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center overflow-hidden">
+                                <div>
+                                    <span class="avatar avatar-lg bg-danger rounded-circle"><i
+                                            class="ti ti-user-pause"></i></span>
+                                </div>
+                                <div class="ms-2 overflow-hidden">
+                                    <p class="fs-12 fw-medium mb-1 text-truncate">InActive</p>
+                                    <h4>1007</h4>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- /Inactive Companies -->
+
+                <!-- No of Plans  -->
+                <div class="col-lg-3 col-md-6 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div class="d-flex align-items-center overflow-hidden">
+                                <div>
+                                    <span class="avatar avatar-lg bg-info rounded-circle"><i
+                                            class="ti ti-user-plus"></i></span>
+                                </div>
+                                <div class="ms-2 overflow-hidden">
+
+                                </div>
+                            </div>
+                            <div>
+                                {{-- <span class="badge badge-soft-secondary badge-sm fw-normal"> --}}
+                                <p class="fs-12 fw-medium mb-1 text-truncate">New Joiners</p>
+                                <h4>67</h4>
+                                {{-- </span> --}}
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 col-md-6 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0 me-2">
-                                        <span
-                                            class="p-2 br-10 bg-success-transparent border border-success d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-user-share fs-18"></i>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <p class="fs-12 fw-medium mb-0 text-gray-5 mb-1">Active Employee</p>
-                                        <h4></h4>
-                                    </div>
-                                </div>
-                                <span
-                                    class="badge bg-transparent-primary text-primary d-inline-flex align-items-center fw-normal">
-                                    <i class="ti ti-arrow-wave-right-down me-1"></i>
+                <!-- /No of Plans -->
 
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0 me-2">
-                                        <span
-                                            class="p-2 br-10 bg-danger-transparent border border-danger d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-user-pause fs-18"></i>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <p class="fs-12 fw-medium mb-0 text-gray-5 mb-1">Inactive Employee</p>
-                                        <h4></h4>
-                                    </div>
-                                </div>
-                                <span
-                                    class="badge bg-transparent-dark text-dark d-inline-flex align-items-center fw-normal">
-                                    <i class="ti ti-arrow-wave-right-down me-1"></i>
-
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-md-6 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-shrink-0 me-2">
-                                        <span
-                                            class="p-2 br-10 bg-info-transparent border border-info d-flex align-items-center justify-content-center">
-                                            <i class="ti ti-user-plus fs-18"></i>
-                                        </span>
-                                    </div>
-                                    <div>
-                                        <p class="fs-12 fw-medium mb-0 text-gray-5 mb-1">New Employee</p>
-                                        <h4></h4>
-                                    </div>
-                                </div>
-                                <span
-                                    class="badge bg-transparent-secondary text-dark d-inline-flex align-items-center fw-normal">
-                                    <i class="ti ti-arrow-wave-right-down me-1"></i>
-
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <!-- /Clients Info -->
 
             <div class="card">
-                <div class="card-body p-3">
-                    <div class="d-flex align-items-center justify-content-between flex-wrap row-gap-3">
-                        <h5>Employee </h5>
-                        <div class="d-flex align-items-center flex-wrap row-gap-3">
-                            <div class="dropdown me-2">
-                                <a href="javascript:void(0);"
-                                    class="dropdown-toggle btn btn-sm btn-white d-inline-flex align-items-center"
-                                    data-bs-toggle="dropdown">
-                                    Select Status
-                                </a>
-                                <ul class="dropdown-menu  dropdown-menu-end p-3">
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">Select Status</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">Active</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">Inactive</a>
-                                    </li>
-                                </ul>
+                <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
+                    <h5>Employee List</h5>
+                    <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
+                        <div class="me-3">
+                            <div class="input-icon-end position-relative">
+                                <input type="text" class="form-control date-range bookingrange"
+                                    placeholder="dd/mm/yyyy - dd/mm/yyyy">
+                                <span class="input-icon-addon">
+                                    <i class="ti ti-chevron-down"></i>
+                                </span>
                             </div>
-                            <div class="dropdown">
-                                <a href="javascript:void(0);"
-                                    class="dropdown-toggle btn btn-sm btn-white d-inline-flex align-items-center"
-                                    data-bs-toggle="dropdown">
-                                    Sort By : Last 7 Days
-                                </a>
-                                <ul class="dropdown-menu  dropdown-menu-end p-3">
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">Recently Added</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">Ascending</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">Desending</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">Last Month</a>
-                                    </li>
-                                    <li>
-                                        <a href="javascript:void(0);" class="dropdown-item rounded-1">Last 7 Days</a>
-                                    </li>
-                                </ul>
-                            </div>
+                        </div>
+                        <div class="dropdown me-3">
+                            <a href="javascript:void(0);"
+                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                data-bs-toggle="dropdown">
+                                Designation
+                            </a>
+                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Finance</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Developer</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Executive</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="dropdown me-3">
+                            <a href="javascript:void(0);"
+                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                data-bs-toggle="dropdown">
+                                Select Status
+                            </a>
+                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Active</a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Inactive</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="dropdown">
+                            <a href="javascript:void(0);"
+                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                data-bs-toggle="dropdown">
+                                Sort By : Last 7 Days
+                            </a>
+                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                <li>
+                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Ascending</a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Clients Grid -->
-            <div class="row" id="client-list">
-
-                {{-- @include('admin.client.partials.client-list', ['clients' => $clients]) --}}
-
-                <div class="col-md-12">
-                    <div class="text-center mt-3" id="load-message">
-                        <span class="text-muted">Scroll down to load more...</span>
+                <div class="card-body p-0">
+                    <div class="custom-datatable-filter table-responsive">
+                        <table class="table datatable">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th class="no-sort">
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox" id="select-all">
+                                        </div>
+                                    </th>
+                                    <th>Emp ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Designation</th>
+                                    <th>Joining Date</th>
+                                    <th>Status</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-001</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-32.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Anthony
+                                                        Lewis</a></p>
+                                                <span class="fs-12">Finance</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="0d6c6379656263744d68756c607d6168236e6260">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(123) 4567 890</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Finance
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Developer</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Executive</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>12 Sep 2024</td>
+                                    <td>
+                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                            <i class="ti ti-point-filled me-1"></i>Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-002</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-09.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Brian
+                                                        Villalobos</a></p>
+                                                <span class="fs-12">Developer</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="ec8e9e858d82ac89948d819c8089c28f8381">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(179) 7382 829</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Developer
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Finance</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Executive</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>24 Oct 2024</td>
+                                    <td>
+                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                            <i class="ti ti-point-filled me-1"></i>Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-003</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-01.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Harvey
+                                                        Smith</a></p>
+                                                <span class="fs-12">Developer</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="355d544743504c75504d54584559501b565a58">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(184) 2719 738</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Developer
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Finance</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Executive</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>18 Feb 2024</td>
+                                    <td>
+                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                            <i class="ti ti-point-filled me-1"></i>Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-004</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-33.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Stephan
+                                                        Peralt</a></p>
+                                                <span class="fs-12">Executive Officer</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="bacadfc8dbd6fadfc2dbd7cad6df94d9d5d7">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(193) 7839 748</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Executive
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Finance</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Developer</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>17 Oct 2024</td>
+                                    <td>
+                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                            <i class="ti ti-point-filled me-1"></i>Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-005</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-33.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Doglas
+                                                        Martini</a></p>
+                                                <span class="fs-12">Manager</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="9bf6fae9eff5f2ece9dbfee3faf6ebf7feb5f8f4f6">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(183) 9302 890</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Manager
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Finance</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Developer</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>20 Jul 2024</td>
+                                    <td>
+                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                            <i class="ti ti-point-filled me-1"></i>Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-006</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-02.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Linda
+                                                        Ray</a></p>
+                                                <span class="fs-12">Finance</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="c3b1a2baf7f6f583a6bba2aeb3afa6eda0acae">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(120) 3728 039</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Finance
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Executive</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Developer</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>10 Apr 2024</td>
+                                    <td>
+                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                            <i class="ti ti-point-filled me-1"></i>Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-007</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-35.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Elliot
+                                                        Murray</a></p>
+                                                <span class="fs-12">Finance</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="4e233b3c3c2f370e2b362f233e222b602d2123">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(102) 8480 832</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Developer
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Executive</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Finance</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>29 Aug 2024</td>
+                                    <td>
+                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                            <i class="ti ti-point-filled me-1"></i>Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-008</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-36.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Rebecca
+                                                        Smtih</a></p>
+                                                <span class="fs-12">Executive</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="cab9a7bea3a28aafb2aba7baa6afe4a9a5a7">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(162) 8920 713</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Executive
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Finance</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Developer</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>22 Feb 2024</td>
+                                    <td>
+                                        <span class="badge badge-danger d-inline-flex align-items-center badge-sm">
+                                            <i class="ti ti-point-filled me-1"></i>Inactive
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-009</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-37.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Connie
+                                                        Waters</a></p>
+                                                <span class="fs-12">Developer</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="89eae6e7e7e0ecc9ecf1e8e4f9e5eca7eae6e4">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(189) 0920 723</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Developer
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Executive</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Finance</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>03 Nov 2024</td>
+                                    <td>
+                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                            <i class="ti ti-point-filled me-1"></i>Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="form-check form-check-md">
+                                            <input class="form-check-input" type="checkbox">
+                                        </div>
+                                    </td>
+                                    <td><a
+                                            href="{{ route('hr.employee-details') }}">Emp-010</a>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <a href="{{ route('hr.employee-details') }}"
+                                                class="avatar avatar-md" data-bs-toggle="modal"
+                                                data-bs-target="#view_details"><img
+                                                    src="https://smarthr.co.in/demo/html/template/assets/img/users/user-38.jpg"
+                                                    class="img-fluid rounded-circle" alt="img"></a>
+                                            <div class="ms-2">
+                                                <p class="text-dark mb-0"><a
+                                                        href="{{ route('hr.employee-details') }}"
+                                                        data-bs-toggle="modal" data-bs-target="#view_details">Lori
+                                                        Broaddus</a></p>
+                                                <span class="fs-12">Finance</span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><a href="" class="__cf_email__"
+                                            data-cfemail="4022322f2124243533002538212d302c256e232f2d">[email&#160;protected]</a>
+                                    </td>
+                                    <td>(168) 8392 823</td>
+                                    <td>
+                                        <div class="dropdown me-3">
+                                            <a href="javascript:void(0);"
+                                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
+                                                data-bs-toggle="dropdown">
+                                                Finance
+                                            </a>
+                                            <ul class="dropdown-menu  dropdown-menu-end p-3">
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Executive</a>
+                                                </li>
+                                                <li>
+                                                    <a href="javascript:void(0);"
+                                                        class="dropdown-item rounded-1">Developer</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                    <td>17 Dec 2024</td>
+                                    <td>
+                                        <span class="badge badge-success d-inline-flex align-items-center badge-xs">
+                                            <i class="ti ti-point-filled me-1"></i>Active
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div class="action-icon d-inline-flex">
+                                            <a href="#" class="me-2" data-bs-toggle="modal"
+                                                data-bs-target="#edit_employee"><i class="ti ti-edit"></i></a>
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#delete_modal"><i
+                                                    class="ti ti-trash"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <!-- /Clients Grid -->
 
         </div>
-        {{-- <div class="footer d-sm-flex align-items-center justify-content-between border-top bg-white p-3">
+
+        <div class="footer d-sm-flex align-items-center justify-content-between border-top bg-white p-3">
             <p class="mb-0">2014 - 2025 &copy; SmartHR.</p>
-            <p>Designed &amp; Developed By <a href="javascrSomething went wrong!ipt:void(0);" class="text-primary">Dreams</a></p>
-        </div> --}}
+            <p>Designed &amp; Developed By <a href="javascript:void(0);" class="text-primary">Dreams</a></p>
+        </div>
+
     </div>
     <!-- /Page Wrapper -->
-
-    <!-- Add Client -->
-    <div class="modal fade" id="add_client">
+    <!-- Add Employee -->
+    <div class="modal fade" id="add_employee">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Add New Client</h4>
+                    <div class="d-flex align-items-center">
+                        <h4 class="modal-title me-2">Add New Employee</h4><span>Employee ID : EMP -0024</span>
+                    </div>
                     <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
                         aria-label="Close">
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="" method="post" enctype="multipart/form-data">
-                    @csrf
+                <form action="https://smarthr.co.in/demo/html/template/employees.html">
                     <div class="contact-grids-tab">
                         <ul class="nav nav-underline" id="myTab" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -275,9 +895,10 @@
                                     data-bs-target="#basic-info" type="button" role="tab"
                                     aria-selected="true">Basic Information</button>
                             </li>
-                            {{-- <li class="nav-item" role="presentation">
-								  <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address" type="button" role="tab" aria-selected="false">Permissions</button>
-								</li> --}}
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address"
+                                    type="button" role="tab" aria-selected="false">Permissions</button>
+                            </li>
                         </ul>
                     </div>
                     <div class="tab-content" id="myTabContent">
@@ -290,7 +911,7 @@
                                             class="d-flex align-items-center flex-wrap row-gap-3 bg-light w-100 rounded p-3 mb-4">
                                             <div
                                                 class="d-flex align-items-center justify-content-center avatar avatar-xxl rounded-circle border border-dashed me-2 flex-shrink-0 text-dark frames">
-                                                <i class="ti ti-photo"></i>
+                                                <i class="ti ti-photo text-gray-2 fs-16"></i>
                                             </div>
                                             <div class="profile-upload">
                                                 <div class="mb-2">
@@ -301,10 +922,11 @@
                                                     <div class="drag-upload-btn btn btn-sm btn-primary me-2">
                                                         Upload
                                                         <input type="file" class="form-control image-sign"
-                                                            name="profile" multiple="">
+                                                            multiple="">
                                                     </div>
                                                     <a href="javascript:void(0);" class="btn btn-light btn-sm">Cancel</a>
                                                 </div>
+
                                             </div>
                                         </div>
                                     </div>
@@ -312,34 +934,52 @@
                                         <div class="mb-3">
                                             <label class="form-label">First Name <span class="text-danger">
                                                     *</span></label>
-                                            <input type="text" class="form-control" name="first_name">
+                                            <input type="text" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
                                             <label class="form-label">Last Name</label>
-                                            <input type="text" class="form-control" name="last_name">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label class="form-label">User Name<span class="text-danger"> *</span></label>
-                                            <input type="text" class="form-control" name="username">
+                                            <input type="email" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Email<span class="text-danger"> *</span></label>
-                                            <input type="text" class="form-control" name="email">
+                                            <label class="form-label">Employee ID <span class="text-danger">
+                                                    *</span></label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Joining Date <span class="text-danger">
+                                                    *</span></label>
+                                            <div class="input-icon-end position-relative">
+                                                <input type="text" class="form-control datetimepicker"
+                                                    placeholder="dd/mm/yyyy">
+                                                <span class="input-icon-addon">
+                                                    <i class="ti ti-calendar text-gray-7"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Username <span class="text-danger"> *</span></label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Email <span class="text-danger"> *</span></label>
+                                            <input type="email" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3 ">
-                                            <label class="form-label">Password <span class="text-danger">
-                                                    *</span></label>
+                                            <label class="form-label">Password <span class="text-danger"> *</span></label>
                                             <div class="pass-group">
-                                                <input type="password" class="pass-input form-control" name="password">
+                                                <input type="password" class="pass-input form-control">
                                                 <span class="ti toggle-password ti-eye-off"></span>
                                             </div>
                                         </div>
@@ -349,8 +989,7 @@
                                             <label class="form-label">Confirm Password <span class="text-danger">
                                                     *</span></label>
                                             <div class="pass-group">
-                                                <input type="password" class="pass-inputs form-control"
-                                                    name="password_confirmation">
+                                                <input type="password" class="pass-inputs form-control">
                                                 <span class="ti toggle-passwords ti-eye-off"></span>
                                             </div>
                                         </div>
@@ -359,13 +998,42 @@
                                         <div class="mb-3">
                                             <label class="form-label">Phone Number <span class="text-danger">
                                                     *</span></label>
-                                            <input type="text" class="form-control" name="phone">
+                                            <input type="text" class="form-control">
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="mb-3">
-                                            <label class="form-label">Company</label>
-                                            <input type="text" class="form-control" name="company_name">
+                                            <label class="form-label">Company<span class="text-danger"> *</span></label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Department</label>
+                                            <select class="select">
+                                                <option>Select</option>
+                                                <option>All Department</option>
+                                                <option>Finance</option>
+                                                <option>Developer</option>
+                                                <option>Executive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Designation</label>
+                                            <select class="select">
+                                                <option>Select</option>
+                                                <option>Finance</option>
+                                                <option>Developer</option>
+                                                <option>Executive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">About <span class="text-danger"> *</span></label>
+                                            <textarea class="form-control" rows="3"></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -376,32 +1044,1223 @@
                                 <button type="submit" class="btn btn-primary">Save </button>
                             </div>
                         </div>
-
+                        <div class="tab-pane fade" id="address" role="tabpanel" aria-labelledby="address-tab"
+                            tabindex="0">
+                            <div class="modal-body">
+                                <div class="card bg-light-500 shadow-none">
+                                    <div
+                                        class="card-body d-flex align-items-center justify-content-between flex-wrap row-gap-3">
+                                        <h6>Enable Options</h6>
+                                        <div class="d-flex align-items-center justify-content-end">
+                                            <div class="form-check form-switch me-2">
+                                                <label class="form-check-label mt-0">
+                                                    <input class="form-check-input me-2" type="checkbox" role="switch">
+                                                    Enable all Module
+                                                </label>
+                                            </div>
+                                            <div class="form-check d-flex align-items-center">
+                                                <label class="form-check-label mt-0">
+                                                    <input class="form-check-input" type="checkbox" checked="">
+                                                    Select All
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive border rounded">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch" checked>
+                                                            Holidays
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                checked="">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                checked="">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Leaves
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Clients
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Projects
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Tasks
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Chats
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch" checked>
+                                                            Assets
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                checked="">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                checked="">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Timing Sheets
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-light border me-2"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#success_modal">Save </button>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <!-- /Add Client -->
+    <!-- /Add Employee -->
 
-    <!-- Edit Client -->
-    <div class="modal fade" id="edit_client">
+    <!-- Edit Employee -->
+    <div class="modal fade" id="edit_employee">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Edit Client</h4>
+                    <div class="d-flex align-items-center">
+                        <h4 class="modal-title me-2">Edit Employee</h4><span>Employee ID : EMP -0024</span>
+                    </div>
                     <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
                         aria-label="Close">
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
+                <form action="https://smarthr.co.in/demo/html/template/employees.html">
+                    <div class="contact-grids-tab">
+                        <ul class="nav nav-underline" id="myTab2" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="info-tab2" data-bs-toggle="tab"
+                                    data-bs-target="#basic-info2" type="button" role="tab"
+                                    aria-selected="true">Basic Information</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="address-tab2" data-bs-toggle="tab"
+                                    data-bs-target="#address2" type="button" role="tab"
+                                    aria-selected="false">Permissions</button>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="tab-content" id="myTabContent2">
+                        <div class="tab-pane fade show active" id="basic-info2" role="tabpanel"
+                            aria-labelledby="info-tab2" tabindex="0">
+                            <div class="modal-body pb-0 ">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div
+                                            class="d-flex align-items-center flex-wrap row-gap-3 bg-light w-100 rounded p-3 mb-4">
+                                            <div
+                                                class="d-flex align-items-center justify-content-center avatar avatar-xxl rounded-circle border border-dashed me-2 flex-shrink-0 text-dark frames">
+                                                <img src="https://smarthr.co.in/demo/html/template/assets/img/users/user-13.jpg"
+                                                    alt="img" class="rounded-circle">
+                                            </div>
+                                            <div class="profile-upload">
+                                                <div class="mb-2">
+                                                    <h6 class="mb-1">Upload Profile Image</h6>
+                                                    <p class="fs-12">Image should be below 4 mb</p>
+                                                </div>
+                                                <div class="profile-uploader d-flex align-items-center">
+                                                    <div class="drag-upload-btn btn btn-sm btn-primary me-2">
+                                                        Upload
+                                                        <input type="file" class="form-control image-sign"
+                                                            multiple="">
+                                                    </div>
+                                                    <a href="javascript:void(0);"
+                                                        class="btn btn-light btn-sm">Cancel</a>
+                                                </div>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">First Name <span class="text-danger">
+                                                    *</span></label>
+                                            <input type="text" class="form-control" value="Anthony">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Last Name</label>
+                                            <input type="email" class="form-control" value="Lewis">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Employee ID <span class="text-danger">
+                                                    *</span></label>
+                                            <input type="text" class="form-control" value="Emp-001">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Joining Date <span class="text-danger">
+                                                    *</span></label>
+                                            <div class="input-icon-end position-relative">
+                                                <input type="text" class="form-control datetimepicker"
+                                                    placeholder="dd/mm/yyyy" value="17-10-2022">
+                                                <span class="input-icon-addon">
+                                                    <i class="ti ti-calendar text-gray-7"></i>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Username <span class="text-danger">
+                                                    *</span></label>
+                                            <input type="text" class="form-control" value="Anthony">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Email <span class="text-danger"> *</span></label>
+                                            <input type="email" class="form-control" value="anthony@example.com	">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3 ">
+                                            <label class="form-label">Password <span class="text-danger">
+                                                    *</span></label>
+                                            <div class="pass-group">
+                                                <input type="password" class="pass-input form-control">
+                                                <span class="ti toggle-password ti-eye-off"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3 ">
+                                            <label class="form-label">Confirm Password <span class="text-danger">
+                                                    *</span></label>
+                                            <div class="pass-group">
+                                                <input type="password" class="pass-inputs form-control">
+                                                <span class="ti toggle-passwords ti-eye-off"></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Phone Number <span class="text-danger">
+                                                    *</span></label>
+                                            <input type="text" class="form-control" value="(123) 4567 890">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Company<span class="text-danger"> *</span></label>
+                                            <input type="text" class="form-control" value="Abac Company">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Department</label>
+                                            <select class="select">
+                                                <option>Select</option>
+                                                <option>All Department</option>
+                                                <option selected>Finance</option>
+                                                <option>Developer</option>
+                                                <option>Executive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label class="form-label">Designation</label>
+                                            <select class="select">
+                                                <option>Select</option>
+                                                <option selected>Finance</option>
+                                                <option>Developer</option>
+                                                <option>Executive</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label class="form-label">About <span class="text-danger"> *</span></label>
+                                            <textarea class="form-control" rows="3"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-light border me-2"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save </button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="address2" role="tabpanel" aria-labelledby="address-tab2"
+                            tabindex="0">
+                            <div class="modal-body">
+                                <div class="card bg-light-500 shadow-none">
+                                    <div
+                                        class="card-body d-flex align-items-center justify-content-between flex-wrap row-gap-3">
+                                        <h6>Enable Options</h6>
+                                        <div class="d-flex align-items-center justify-content-end">
+                                            <div class="form-check form-switch me-2">
+                                                <label class="form-check-label mt-0">
+                                                    <input class="form-check-input me-2" type="checkbox"
+                                                        role="switch">
+                                                    Enable all Module
+                                                </label>
+                                            </div>
+                                            <div class="form-check d-flex align-items-center">
+                                                <label class="form-check-label mt-0">
+                                                    <input class="form-check-input" type="checkbox" checked="">
+                                                    Select All
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="table-responsive border rounded">
+                                    <table class="table">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch" checked>
+                                                            Holidays
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                checked="">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                checked="">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Leaves
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Clients
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Projects
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Tasks
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Chats
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch" checked>
+                                                            Assets
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                checked="">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                checked="">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <div class="form-check form-switch me-2">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input me-2" type="checkbox"
+                                                                role="switch">
+                                                            Timing Sheets
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Read
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Write
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Create
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Delete
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Import
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="form-check d-flex align-items-center">
+                                                        <label class="form-check-label mt-0">
+                                                            <input class="form-check-input" type="checkbox">
+                                                            Export
+                                                        </label>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-outline-light border me-2"
+                                    data-bs-dismiss="modal">Cancel</button>
+                                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#success_modal">Save </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
-    <!-- /Edit Client -->
+    <!-- /Edit Employee -->
 
-    <!-- Add Client Success -->
+    <!-- Add Employee Success -->
     <div class="modal fade" id="success_modal" role="dialog">
         <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
@@ -409,18 +2268,18 @@
                     <div class="text-center p-3">
                         <span class="avatar avatar-lg avatar-rounded bg-success mb-3"><i
                                 class="ti ti-check fs-24"></i></span>
-                        <h5 class="mb-2">Client Added Successfully</h5>
-                        <p class="mb-3">Stephan Peralt has been added with Client ID : <span class="text-primary">#CLT
-                                - 0024</span>
+                        <h5 class="mb-2">Employee Added Successfully</h5>
+                        <p class="mb-3">Stephan Peralt has been added with Client ID : <span class="text-primary">#EMP
+                                - 0001</span>
                         </p>
                         <div>
                             <div class="row g-2">
                                 <div class="col-6">
-                                    <a href="https://smarthr.co.in/demo/html/template/clients.html"
+                                    <a href="https://smarthr.co.in/demo/html/template/employees.html"
                                         class="btn btn-dark w-100">Back to List</a>
                                 </div>
                                 <div class="col-6">
-                                    <a href="https://smarthr.co.in/demo/html/template/client-details.html"
+                                    <a href="{{ route('hr.employee-details') }}"
                                         class="btn btn-primary w-100">Detail Page</a>
                                 </div>
                             </div>
@@ -434,7 +2293,7 @@
 
     <!-- Delete Modal -->
     <div class="modal fade" id="delete_modal">
-        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-dialog modal-dialog-centered modal-sm">
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
@@ -444,7 +2303,7 @@
                     <p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
                     <div class="d-flex justify-content-center">
                         <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-                        <a href="https://smarthr.co.in/demo/html/template/clients-grid.html" class="btn btn-danger">Yes,
+                        <a href="https://smarthr.co.in/demo/html/template/employees.html" class="btn btn-danger">Yes,
                             Delete</a>
                     </div>
                 </div>
@@ -452,57 +2311,7 @@
         </div>
     </div>
     <!-- /Delete Modal -->
+
 @endsection
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-{{-- <script>
-    let page = 2; // pehla page already load hai
-    let lastPage = {{ $clients->lastPage() }};
-    let loading = false;
 
-    $(window).scroll(function() {
-        if (loading) return;
 
-        // Jab user almost bottom par pohonch jaye
-        if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
-            if (page <= lastPage) {
-                loadMore(page);
-                page++;
-            }
-        }
-    });
-
-    function loadMore(page) {
-        loading = true;
-        $("#load-message").html('<span class="text-primary">Loading...</span>');
-
-        $.ajax({
-            url: "{{ route('admin.clients') }}?page=" + page,
-            type: "get",
-            success: function(data) {
-                if (data.trim().length === 0) {
-                    $("#load-message").html('<span class="text-danger">No more records</span>');
-                    return;
-                }
-                $("#client-list").append(data);
-                $("#load-message").html('<span class="text-muted">Scroll down to load more...</span>');
-                loading = false;
-            },
-            error: function() {
-                $("#load-message").html('<span class="text-danger">Something went wrong!</span>');
-                loading = false;
-            }
-        });
-    }
-</script> --}}
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        toastElList.map(function(toastEl) {
-            var toast = new bootstrap.Toast(toastEl, {
-                delay: 4000
-            }); // 4 sec
-            toast.show();
-        })
-    });
-</script>

@@ -17,7 +17,8 @@
     <meta name="robots" content="index, follow">
 
     <!-- Title -->
-    <title>HRXpert - Admin Panel</title>
+    <title>Chitragupta – The HR Guardian
+    </title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="assets/img/hrxpert-favicon.png">
@@ -138,7 +139,8 @@
                                     @csrf
                                     <div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
                                         <div class="logo-text mx-auto mb-5 text-center">
-                                            HRXpert
+                                           <img src="{{ asset('frontent/assets/img/icons/logo.png') }}"
+                                          alt="Img">
                                         </div>
 
 
@@ -187,41 +189,12 @@
                                                     <a href="#" class="hover-a"> Create Account</a>
                                                 </h6>
                                             </div>
-                                            <div class="login-or">
-                                                <span class="span-or">Or</span>
-                                            </div>
-                                            <div class="mt-2">
-                                                <div
-                                                    class="d-flex align-items-center justify-content-center flex-wrap">
-                                                    <div class="text-center me-2 flex-fill">
-                                                        <a href="javascript:void(0);"
-                                                            class="br-10 p-2 btn btn-info d-flex align-items-center justify-content-center">
-                                                            <img class="img-fluid m-1"
-                                                                src="{{ asset('frontent/assets/img/icons/facebook-logo.svg') }}"
-                                                                alt="Facebook">
-                                                        </a>
-                                                    </div>
-                                                    <div class="text-center me-2 flex-fill">
-                                                        <a href="javascript:void(0);"
-                                                            class="br-10 p-2 btn btn-outline-light border d-flex align-items-center justify-content-center">
-                                                            <img class="img-fluid m-1"
-                                                                src="{{ asset('frontent/assets/img/icons/google-logo.svg') }}"
-                                                                alt="Facebook">
-                                                        </a>
-                                                    </div>
-                                                    <div class="text-center flex-fill">
-                                                        <a href="javascript:void(0);"
-                                                            class="bg-dark br-10 p-2 btn btn-dark d-flex align-items-center justify-content-center">
-                                                            <img class="img-fluid m-1"
-                                                                src="{{ asset('frontent/assets/img/icons/apple-logo.svg') }}"
-                                                                alt="Apple">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                           
+
                                         </div>
                                         <div class="mt-5 pb-4 text-center">
-                                            <p class="mb-0 text-gray-9">Copyright &copy; 2024 - Smarthr</p>
+                                            <p class="mb-0 text-gray-9">Copyright &copy; 2026 - Chitragupta – The HR Guardian
+</p>
                                         </div>
                                     </div>
                                 </form>

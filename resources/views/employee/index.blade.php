@@ -1,5 +1,7 @@
 @extends('employee.layout.layout')
 @section('title', $title)
+
+@section('main-section')
 <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
     @if (session('success'))
         <div class="toast align-items-center text-white bg-success border-0 show" role="alert">
@@ -23,8 +25,6 @@
         </div>
     @endif
 </div>
-@section('main-section')
-
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content">
@@ -97,9 +97,9 @@
                                 <div>
                                     <h5 class="text-white mb-1">{{ Auth::user()->name }}</h5>
                                     <div class="d-flex align-items-center">
-                                        <p class="text-white fs-12 mb-0">Senior Product Designer</p>
+                                        <p class="text-white fs-12 mb-0">SSenior Manager & Company Secretary</p>
                                         <span class="mx-1"><i class="ti ti-point-filled text-primary"></i></span>
-                                        <p class="fs-12">UI/UX Design</p>
+                                        <p class="fs-12">Designation</p>
                                     </div>
                                 </div>
                             </div>
@@ -120,11 +120,12 @@
                             </div>
                             <div class="mb-3">
                                 <span class="d-block mb-1 fs-13">Report Office</span>
-                                <p class="text-gray-9">Doglas Martini</p>
+                                <p class="text-gray-9">Patna</p>
                             </div>
                             <div>
                                 <span class="d-block mb-1 fs-13">Joined on</span>
-                                <p class="text-gray-9">{{ Auth::user()->created_at }}</p>
+                                <p class="text-gray-9">{{ Auth::user()->created_at->format('d-m-Y') }}
+</p>
                             </div>
                         </div>
                     </div>
@@ -285,7 +286,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            {{-- <div class="row">
                 <div class="col-xl-4 d-flex">
                     <div class="card flex-fill border-primary attendance-bg">
                         <div class="card-body">
@@ -927,7 +928,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-xl-5 d-flex">
                     <div class="card flex-fill">
@@ -1000,19 +1001,11 @@
                                             <span
                                                 class="d-block border border-2 h-12 border-primary rounded-5 me-2"></span>
                                             <div>
-                                                <h6 class="fw-medium mb-1">Figma</h6>
-                                                <p>Updated : 15 May 2025</p>
+                                                <h6 class="fw-medium mb-1">Presentation skills</h6>
+                                                
                                             </div>
                                         </div>
-                                        <div class="circle-progress circle-progress-md" data-value='95'>
-                                            <span class="progress-left">
-                                                <span class="progress-bar border-primary"></span>
-                                            </span>
-                                            <span class="progress-right">
-                                                <span class="progress-bar border-primary"></span>
-                                            </span>
-                                            <div class="progress-value">95%</div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="border border-dashed bg-transparent-light rounded p-2 mb-2">
@@ -1021,19 +1014,11 @@
                                             <span
                                                 class="d-block border border-2 h-12 border-success rounded-5 me-2"></span>
                                             <div>
-                                                <h6 class="fw-medium mb-1">HTML</h6>
-                                                <p>Updated : 12 May 2025</p>
+                                                <h6 class="fw-medium mb-1">Leadership skills</h6>
+                                               
                                             </div>
                                         </div>
-                                        <div class="circle-progress circle-progress-md" data-value='85'>
-                                            <span class="progress-left">
-                                                <span class="progress-bar border-success"></span>
-                                            </span>
-                                            <span class="progress-right">
-                                                <span class="progress-bar border-success"></span>
-                                            </span>
-                                            <div class="progress-value">85%</div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
                                 <div class="border border-dashed bg-transparent-light rounded p-2 mb-2">
@@ -1041,61 +1026,15 @@
                                         <div class="d-flex align-items-center">
                                             <span class="d-block border border-2 h-12 border-purple rounded-5 me-2"></span>
                                             <div>
-                                                <h6 class="fw-medium mb-1">CSS</h6>
-                                                <p>Updated : 12 May 2025</p>
+                                                <h6 class="fw-medium mb-1">Time management - Prioratising tasks</h6>
+                                                
                                             </div>
                                         </div>
-                                        <div class="circle-progress circle-progress-md" data-value='70'>
-                                            <span class="progress-left">
-                                                <span class="progress-bar border-purple"></span>
-                                            </span>
-                                            <span class="progress-right">
-                                                <span class="progress-bar border-purple"></span>
-                                            </span>
-                                            <div class="progress-value">70%</div>
-                                        </div>
+                                        
                                     </div>
                                 </div>
-                                <div class="border border-dashed bg-transparent-light rounded p-2 mb-2">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center">
-                                            <span class="d-block border border-2 h-12 border-info rounded-5 me-2"></span>
-                                            <div>
-                                                <h6 class="fw-medium mb-1">Wordpress</h6>
-                                                <p>Updated : 15 May 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="circle-progress circle-progress-md" data-value='61'>
-                                            <span class="progress-left">
-                                                <span class="progress-bar border-info"></span>
-                                            </span>
-                                            <span class="progress-right">
-                                                <span class="progress-bar border-info"></span>
-                                            </span>
-                                            <div class="progress-value">61%</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="border border-dashed bg-transparent-light rounded p-2">
-                                    <div class="d-flex align-items-center justify-content-between">
-                                        <div class="d-flex align-items-center">
-                                            <span class="d-block border border-2 h-12 border-dark rounded-5 me-2"></span>
-                                            <div>
-                                                <h6 class="fw-medium mb-1">Javascript</h6>
-                                                <p>Updated : 13 May 2025</p>
-                                            </div>
-                                        </div>
-                                        <div class="circle-progress circle-progress-md" data-value='58'>
-                                            <span class="progress-left">
-                                                <span class="progress-bar border-dark"></span>
-                                            </span>
-                                            <span class="progress-right">
-                                                <span class="progress-bar border-dark"></span>
-                                            </span>
-                                            <div class="progress-value">58%</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
+                                
                             </div>
                         </div>
                     </div>
@@ -1111,7 +1050,7 @@
                                             alt="Img">
                                     </span>
                                     <div class="mb-3">
-                                        <h6 class="text-white fw-medium mb-1">Andrew Jermia</h6>
+                                        <h6 class="text-white fw-medium mb-1">Mahendra Sahu</h6>
                                         <p>IOS Developer</p>
                                     </div>
                                     <a href="#" class="btn btn-sm btn-primary">Send Wishes</a>
@@ -1159,9 +1098,8 @@
                                             class="rounded-circle border border-2" alt="img">
                                     </a>
                                     <div class="ms-2">
-                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Alexander
-                                                Jermai</a></h6>
-                                        <p class="fs-13">UI/UX Designer</p>
+                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Mahendra sahu</a></h6>
+                                        <p class="fs-13">Sales</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">
@@ -1180,9 +1118,8 @@
                                             class="rounded-circle border border-2" alt="img">
                                     </a>
                                     <div class="ms-2">
-                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Doglas
-                                                Martini</a></h6>
-                                        <p class="fs-13">Product Designer</p>
+                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Pranshi</a></h6>
+                                        <p class="fs-13">Manager</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">
@@ -1201,9 +1138,8 @@
                                             class="rounded-circle border border-2" alt="img">
                                     </a>
                                     <div class="ms-2">
-                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Daniel
-                                                Esbella</a></h6>
-                                        <p class="fs-13">Project Manager</p>
+                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Sheetanshu Shrivastva</a></h6>
+                                        <p class="fs-13">Team Leader</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">
@@ -1222,9 +1158,8 @@
                                             class="rounded-circle border border-2" alt="img">
                                     </a>
                                     <div class="ms-2">
-                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Daniel
-                                                Esbella</a></h6>
-                                        <p class="fs-13">Team Lead</p>
+                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Pritima Shrivastava</a></h6>
+                                        <p class="fs-13">Admin</p>
                                     </div>
                                 </div>
                                 <div class="d-flex align-items-center">
@@ -1236,48 +1171,8 @@
                                             class="ti ti-brand-hipchat fs-16"></i></a>
                                 </div>
                             </div>
-                            <div class="d-flex align-items-center justify-content-between mb-4">
-                                <div class="d-flex align-items-center">
-                                    <a href="javascript:void(0);" class="avatar flex-shrink-0">
-                                        <img src="https://smarthr.co.in/demo/html/template/assets/img/users/user-44.jpg"
-                                            class="rounded-circle border border-2" alt="img">
-                                    </a>
-                                    <div class="ms-2">
-                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Stephan
-                                                Peralt</a></h6>
-                                        <p class="fs-13">Team Lead</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <a href="#" class="btn btn-light btn-icon btn-sm me-2"><i
-                                            class="ti ti-phone fs-16"></i></a>
-                                    <a href="#" class="btn btn-light btn-icon btn-sm me-2"><i
-                                            class="ti ti-mail-bolt fs-16"></i></a>
-                                    <a href="#" class="btn btn-light btn-icon btn-sm"><i
-                                            class="ti ti-brand-hipchat fs-16"></i></a>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center justify-content-between">
-                                <div class="d-flex align-items-center">
-                                    <a href="javascript:void(0);" class="avatar flex-shrink-0">
-                                        <img src="https://smarthr.co.in/demo/html/template/assets/img/users/user-54.jpg"
-                                            class="rounded-circle border border-2" alt="img">
-                                    </a>
-                                    <div class="ms-2">
-                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Andrew Jermia</a>
-                                        </h6>
-                                        <p class="fs-13">Project Lead</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center">
-                                    <a href="#" class="btn btn-light btn-icon btn-sm me-2"><i
-                                            class="ti ti-phone fs-16"></i></a>
-                                    <a href="#" class="btn btn-light btn-icon btn-sm me-2"><i
-                                            class="ti ti-mail-bolt fs-16"></i></a>
-                                    <a href="#" class="btn btn-light btn-icon btn-sm"><i
-                                            class="ti ti-brand-hipchat fs-16"></i></a>
-                                </div>
-                            </div>
+                           
+                          
                         </div>
                     </div>
                 </div>
@@ -1460,20 +1355,10 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="https://smarthr.co.in/demo/html/template/employee-dashboard.html">
+                <form action="#">
                     <div class="modal-body pb-0">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label class="form-label">Employee Name</label>
-                                    <select class="select">
-                                        <option>Select</option>
-                                        <option>Anthony Lewis</option>
-                                        <option>Brian Villalobos</option>
-                                        <option>Harvey Smith</option>
-                                    </select>
-                                </div>
-                            </div>
+                            
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label class="form-label">Leave Type</label>
@@ -1550,7 +1435,7 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="https://smarthr.co.in/demo/html/template/employee-dashboard.html">
+                <form action="#">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12">
@@ -1706,7 +1591,7 @@
                     <p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
                     <div class="d-flex justify-content-center">
                         <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-                        <a href="https://smarthr.co.in/demo/html/template/employee-dashboard.html"
+                        <a href="#"
                             class="btn btn-danger">Yes, Delete</a>
                     </div>
                 </div>

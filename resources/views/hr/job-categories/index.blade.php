@@ -237,15 +237,3 @@
     @parent
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
 @endsection
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        toastElList.map(function(toastEl) {
-            var toast = new bootstrap.Toast(toastEl, {
-                delay: 2000
-            }); // 4 sec
-            toast.show();
-        })
-    });
-</script>

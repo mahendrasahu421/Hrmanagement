@@ -9,7 +9,7 @@
     <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title',$title)</title>
+    <title>@yield('title', $title)</title>
 
     <meta name="description"
         content="HRXpert - A responsive Bootstrap 5 admin dashboard template for HRM, payroll, attendance, recruitment, and team management. Streamline your workforce management with an intuitive interface.">
@@ -82,10 +82,10 @@
 
                 <div class="header-left">
                     <a href="index.html" class="logo">
-                        <img src="assets/img/logo.svg" alt="Logo">
+                        <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
                     <a href="index.html" class="dark-logo">
-                        <img src="assets/img/logo-white.svg" alt="Logo">
+                        <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
                 </div>
 
@@ -203,9 +203,9 @@
                                                 <li><a href="leads-dashboard.html">Leads Dashboard</a></li>
                                             </ul>
                                         </li>
-                                      
-                              
-                                    
+
+
+
 
 
                                     </ul>
@@ -258,18 +258,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="me-1">
-                                <a href="chat.html" class="btn btn-menubar position-relative">
-                                    <i class="ti ti-brand-hipchat"></i>
-                                    <span
-                                        class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge">5</span>
-                                </a>
-                            </div>
-                            <div class="me-1">
-                                <a href="email.html" class="btn btn-menubar">
-                                    <i class="ti ti-mail"></i>
-                                </a>
-                            </div>
+                          
+                           
                             <div class="me-1 notification_item">
                                 <a href="#" class="btn btn-menubar position-relative me-1"
                                     id="notification_popup" data-bs-toggle="dropdown">
@@ -403,11 +393,11 @@
                                                     <img src="assets/img/profiles/avatar-12.jpg" alt="img">
                                                 </span>
                                                 <div>
-                                                    <h5 class="mb-0">Kevin Larry</h5>
+                                                    <h5 class="mb-0">{{ Auth::user()->name }}</h5>
                                                     <p class="fs-12 fw-medium mb-0"><a
                                                             href="https://smarthr.co.in/cdn-cgi/l/email-protection"
                                                             class="__cf_email__"
-                                                            data-cfemail="99eef8ebebfcf7d9fce1f8f4e9f5fcb7faf6f4">[email&#160;protected]</a>
+                                                            data-cfemail="99eef8ebebfcf7d9fce1f8f4e9f5fcb7faf6f4">{{ Auth::user()->email }}</a>
                                                     </p>
                                                 </div>
                                             </div>
@@ -466,13 +456,13 @@
             <!-- Logo -->
             <div class="sidebar-logo">
                 <a href="index.html" class="logo logo-normal">
-                    <img src="assets/img/logo.svg" alt="Logo">
+                    <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
                 <a href="index.html" class="logo-small">
-                    <img src="assets/img/logo-small.svg" alt="Logo">
+                    <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
                 <a href="index.html" class="dark-logo">
-                    <img src="assets/img/logo-white.svg" alt="Logo">
+                    <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
             </div>
             <!-- /Logo -->
@@ -549,16 +539,47 @@
                                         <i class="ti ti-smart-home"></i>
                                         <span>Dashboard</span>
                                         <span class="badge badge-danger fs-10 fw-medium text-white p-1">Hot</span>
+
+                                    </a>
+
+                                </li>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);" class="subdrop">
+                                        <i class="ti ti-file-time"></i><span>Attendance</span>
                                         <span class="menu-arrow"></span>
                                     </a>
-                                    <ul>
-                                        <li><a href="index.html" class="active">Admin Dashboard</a></li>
-                                        <li><a href="employee-dashboard.html">Employee Dashboard</a></li>
-                                        <li><a href="deals-dashboard.html">Deals Dashboard</a></li>
-                                        <li><a href="leads-dashboard.html">Leads Dashboard</a></li>
+                                    <ul style="display: block;">
+                                        <li><a href="{{ url('employee/leaves') }}">Leaves</a></li>
+                                        <li><a href="{{ url('employee/attendance') }}">Attendance</a></li>
+
                                     </ul>
                                 </li>
-                               
+                                <li class="submenu">
+                                    <a href="javascript:void(0);" class="subdrop">
+                                        <i class="ti ti-file-time"></i><span>Performance</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul style="display: block;">
+
+                                        <li><a href="{{ url('employee/performance') }}">Performance Indicator</a></li>
+                                        <li><a href="{{ url('employee/performance/review') }}">Performance Review</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);" class="subdrop">
+                                        <i class="ti ti-file-time"></i><span>Payroll</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul style="display: block;">
+
+                                        <li><a href="{{ url('employee/payslip') }}">Payslip</a></li>
+                                   
+                                        </li>
+
+                                    </ul>
+                                </li>
                             </ul>
                         </li>
 

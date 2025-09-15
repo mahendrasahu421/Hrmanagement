@@ -1,8 +1,6 @@
 @extends('hr.layout.layout')
 @section('title', $title)
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
 
-</div>
 @section('main-section')
     <!-- Page Wrapper -->
     <div class="page-wrapper">
@@ -102,8 +100,7 @@
                                         <i class="ti ti-calendar-share fs-16"></i>
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Attendance Overview</h6>
-                                    <h3 class="mb-3">120/154 <span class="fs-12 fw-medium text-success"><i
-                                                class="fa-solid fa-caret-up me-1"></i>+2.1%</span></h3>
+                                    <h3 class="mb-3">120/154 </h3>
                                     <a href="attendance-employee.html" class="link-default">View Details</a>
                                 </div>
                             </div>
@@ -115,8 +112,7 @@
                                         <i class="ti ti-browser fs-16"></i>
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Total No of Project's</h6>
-                                    <h3 class="mb-3">90/125 <span class="fs-12 fw-medium text-danger"><i
-                                                class="fa-solid fa-caret-down me-1"></i>-2.1%</span></h3>
+                                    <h3 class="mb-3">90/125 </h3>
                                     <a href="projects.html" class="link-default">View All</a>
                                 </div>
                             </div>
@@ -128,8 +124,7 @@
                                         <i class="ti ti-users-group fs-16"></i>
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Total No of Clients</h6>
-                                    <h3 class="mb-3">69/86 <span class="fs-12 fw-medium text-danger"><i
-                                                class="fa-solid fa-caret-down me-1"></i>-11.2%</span></h3>
+                                    <h3 class="mb-3">69/86 </h3>
                                     <a href="clients.html" class="link-default">View All</a>
                                 </div>
                             </div>
@@ -141,8 +136,7 @@
                                         <i class="ti ti-checklist fs-16"></i>
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Total No of Tasks</h6>
-                                    <h3 class="mb-3">225/28 <span class="fs-12 fw-medium text-success"><i
-                                                class="fa-solid fa-caret-down me-1"></i>+11.2%</span></h3>
+                                    <h3 class="mb-3">225/28 </h3>
                                     <a href="tasks.html" class="link-default">View All</a>
                                 </div>
                             </div>
@@ -154,8 +148,7 @@
                                         <i class="ti ti-moneybag fs-16"></i>
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Earnings</h6>
-                                    <h3 class="mb-3">$21445 <span class="fs-12 fw-medium text-success"><i
-                                                class="fa-solid fa-caret-up me-1"></i>+10.2%</span></h3>
+                                    <h3 class="mb-3">$21445 </h3>
                                     <a href="expenses.html" class="link-default">View All</a>
                                 </div>
                             </div>
@@ -167,8 +160,7 @@
                                         <i class="ti ti-browser fs-16"></i>
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Profit This Week</h6>
-                                    <h3 class="mb-3">$5,544 <span class="fs-12 fw-medium text-success"><i
-                                                class="fa-solid fa-caret-up me-1"></i>+2.1%</span></h3>
+                                    <h3 class="mb-3">$5,544 </h3>
                                     <a href="purchase-transaction.html" class="link-default">View All</a>
                                 </div>
                             </div>
@@ -180,8 +172,7 @@
                                         <i class="ti ti-users-group fs-16"></i>
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Job Applicants</h6>
-                                    <h3 class="mb-3">98 <span class="fs-12 fw-medium text-success"><i
-                                                class="fa-solid fa-caret-up me-1"></i>+2.1%</span></h3>
+                                    <h3 class="mb-3">98 </h3>
                                     <a href="job-list.html" class="link-default">View All</a>
                                 </div>
                             </div>
@@ -193,8 +184,7 @@
                                         <i class="ti ti-user-star fs-16"></i>
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">New Hire</h6>
-                                    <h3 class="mb-3">45/48 <span class="fs-12 fw-medium text-danger"><i
-                                                class="fa-solid fa-caret-down me-1"></i>-11.2%</span></h3>
+                                    <h3 class="mb-3">45/48 </h3>
                                     <a href="candidates.html" class="link-default">View All</a>
                                 </div>
                             </div>
@@ -1177,685 +1167,9 @@
 
             </div>
 
-            <div class="row">
 
-                <!-- Projects -->
-                <div class="col-xxl-8 col-xl-7 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
-                            <h5 class="mb-2">Projects</h5>
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown mb-2">
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-white border btn-sm d-inline-flex align-items-center"
-                                        data-bs-toggle="dropdown">
-                                        <i class="ti ti-calendar me-1"></i>This Week
-                                    </a>
-                                    <ul class="dropdown-menu  dropdown-menu-end p-3">
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1">This Month</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1">This Week</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1">Today</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body p-0">
-                            <div class="table-responsive">
-                                <table class="table table-nowrap mb-0">
-                                    <thead>
-                                        <tr>
-                                            <th>ID</th>
-                                            <th>Name</th>
-                                            <th>Team</th>
-                                            <th>Hours</th>
-                                            <th>Deadline</th>
-                                            <th>Priority</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-001</a></td>
-                                            <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Office Management
-                                                        App</a></h6>
-                                            </td>
-                                            <td>
-                                                <div class="avatar-list-stacked avatar-group-sm">
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-02.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-03.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-05.jpg" alt="img">
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="mb-1">15/255 Hrs</p>
-                                                <div class="progress progress-xs w-100" role="progressbar"
-                                                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-primary" style="width: 40%"></div>
-                                                </div>
-                                            </td>
-                                            <td>12 Sep 2024</td>
-                                            <td>
-                                                <span class="badge badge-danger d-inline-flex align-items-center badge-xs">
-                                                    <i class="ti ti-point-filled me-1"></i>High
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-002</a></td>
-                                            <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Clinic Management
-                                                    </a></h6>
-                                            </td>
-                                            <td>
-                                                <div class="avatar-list-stacked avatar-group-sm">
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-06.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-07.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-08.jpg" alt="img">
-                                                    </span>
-                                                    <a class="avatar bg-primary avatar-rounded text-fixed-white fs-10 fw-medium"
-                                                        href="javascript:void(0);">
-                                                        +1
-                                                    </a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="mb-1">15/255 Hrs</p>
-                                                <div class="progress progress-xs w-100" role="progressbar"
-                                                    aria-valuenow="40" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-primary" style="width: 40%"></div>
-                                                </div>
-                                            </td>
-                                            <td>24 Oct 2024</td>
-                                            <td>
-                                                <span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                    <i class="ti ti-point-filled me-1"></i>Low
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-003</a></td>
-                                            <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Educational
-                                                        Platform</a></h6>
-                                            </td>
-                                            <td>
-                                                <div class="avatar-list-stacked avatar-group-sm">
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-06.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-08.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-09.jpg" alt="img">
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="mb-1">40/255 Hrs</p>
-                                                <div class="progress progress-xs w-100" role="progressbar"
-                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-primary" style="width: 50%"></div>
-                                                </div>
-                                            </td>
-                                            <td>18 Feb 2024</td>
-                                            <td>
-                                                <span class="badge badge-pink d-inline-flex align-items-center badge-xs">
-                                                    <i class="ti ti-point-filled me-1"></i>Medium
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-004</a></td>
-                                            <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Chat & Call Mobile
-                                                        App</a></h6>
-                                            </td>
-                                            <td>
-                                                <div class="avatar-list-stacked avatar-group-sm">
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-11.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-12.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-13.jpg" alt="img">
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="mb-1">35/155 Hrs</p>
-                                                <div class="progress progress-xs w-100" role="progressbar"
-                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-primary" style="width: 50%"></div>
-                                                </div>
-                                            </td>
-                                            <td>19 Feb 2024</td>
-                                            <td>
-                                                <span class="badge badge-danger d-inline-flex align-items-center badge-xs">
-                                                    <i class="ti ti-point-filled me-1"></i>High
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-005</a></td>
-                                            <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Travel Planning
-                                                        Website</a></h6>
-                                            </td>
-                                            <td>
-                                                <div class="avatar-list-stacked avatar-group-sm">
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-17.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-18.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-19.jpg" alt="img">
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="mb-1">50/235 Hrs</p>
-                                                <div class="progress progress-xs w-100" role="progressbar"
-                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-primary" style="width: 50%"></div>
-                                                </div>
-                                            </td>
-                                            <td>18 Feb 2024</td>
-                                            <td>
-                                                <span class="badge badge-pink d-inline-flex align-items-center badge-xs">
-                                                    <i class="ti ti-point-filled me-1"></i>Medium
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-006</a></td>
-                                            <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Service Booking
-                                                        Software</a></h6>
-                                            </td>
-                                            <td>
-                                                <div class="avatar-list-stacked avatar-group-sm">
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-06.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-08.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-09.jpg" alt="img">
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <p class="mb-1">40/255 Hrs</p>
-                                                <div class="progress progress-xs w-100" role="progressbar"
-                                                    aria-valuenow="50" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-primary" style="width: 50%"></div>
-                                                </div>
-                                            </td>
-                                            <td>20 Feb 2024</td>
-                                            <td>
-                                                <span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-xs">
-                                                    <i class="ti ti-point-filled me-1"></i>Low
-                                                </span>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-0"><a href="project-details.html"
-                                                    class="link-default">PRO-008</a></td>
-                                            <td class="border-0">
-                                                <h6 class="fw-medium"><a href="project-details.html">Travel Planning
-                                                        Website</a></h6>
-                                            </td>
-                                            <td class="border-0">
-                                                <div class="avatar-list-stacked avatar-group-sm">
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-15.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-16.jpg" alt="img">
-                                                    </span>
-                                                    <span class="avatar avatar-rounded">
-                                                        <img class="border border-white"
-                                                            src="assets/img/profiles/avatar-17.jpg" alt="img">
-                                                    </span>
-                                                    <a class="avatar bg-primary avatar-rounded text-fixed-white fs-10 fw-medium"
-                                                        href="javascript:void(0);">
-                                                        +2
-                                                    </a>
-                                                </div>
-                                            </td>
-                                            <td class="border-0">
-                                                <p class="mb-1">15/255 Hrs</p>
-                                                <div class="progress progress-xs w-100" role="progressbar"
-                                                    aria-valuenow="45" aria-valuemin="0" aria-valuemax="100">
-                                                    <div class="progress-bar bg-primary" style="width: 45%"></div>
-                                                </div>
-                                            </td>
-                                            <td class="border-0">17 Oct 2024</td>
-                                            <td class="border-0">
-                                                <span class="badge badge-pink d-inline-flex align-items-center badge-xs">
-                                                    <i class="ti ti-point-filled me-1"></i>Medium
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Projects -->
 
-                <!-- Tasks Statistics -->
-                <div class="col-xxl-4 col-xl-5 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
-                            <h5 class="mb-2">Tasks Statistics</h5>
-                            <div class="d-flex align-items-center">
-                                <div class="dropdown mb-2">
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-white border btn-sm d-inline-flex align-items-center"
-                                        data-bs-toggle="dropdown">
-                                        <i class="ti ti-calendar me-1"></i>This Week
-                                    </a>
-                                    <ul class="dropdown-menu  dropdown-menu-end p-3">
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1">This Month</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1">This Week</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1">Today</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="chartjs-wrapper-demo position-relative mb-4">
-                                <canvas id="mySemiDonutChart" height="190"></canvas>
-                                <div class="position-absolute text-center attendance-canvas">
-                                    <p class="fs-13 mb-1">Total Tasks</p>
-                                    <h3>124/165</h3>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center flex-wrap">
-                                <div class="border-end text-center me-2 pe-2 mb-3">
-                                    <p class="fs-13 d-inline-flex align-items-center mb-1"><i
-                                            class="ti ti-circle-filled fs-10 me-1 text-warning"></i>Ongoing</p>
-                                    <h5>24%</h5>
-                                </div>
-                                <div class="border-end text-center me-2 pe-2 mb-3">
-                                    <p class="fs-13 d-inline-flex align-items-center mb-1"><i
-                                            class="ti ti-circle-filled fs-10 me-1 text-info"></i>On Hold </p>
-                                    <h5>10%</h5>
-                                </div>
-                                <div class="border-end text-center me-2 pe-2 mb-3">
-                                    <p class="fs-13 d-inline-flex align-items-center mb-1"><i
-                                            class="ti ti-circle-filled fs-10 me-1 text-danger"></i>Overdue</p>
-                                    <h5>16%</h5>
-                                </div>
-                                <div class="text-center me-2 pe-2 mb-3">
-                                    <p class="fs-13 d-inline-flex align-items-center mb-1"><i
-                                            class="ti ti-circle-filled fs-10 me-1 text-success"></i>Ongoing</p>
-                                    <h5>40%</h5>
-                                </div>
-                            </div>
-                            <div class="bg-dark br-5 p-3 pb-0 d-flex align-items-center justify-content-between">
-                                <div class="mb-2">
-                                    <h4 class="text-success">389/689 hrs</h4>
-                                    <p class="fs-13 mb-0">Spent on Overall Tasks This Week</p>
-                                </div>
-                                <a href="tasks.html" class="btn btn-sm btn-light mb-2 text-nowrap">View All</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Tasks Statistics -->
-
-            </div>
-
-            <div class="row">
-
-                <!-- Schedules -->
-                <div class="col-xxl-4 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
-                            <h5 class="mb-2">Schedules</h5>
-                            <a href="candidates.html" class="btn btn-light btn-md mb-2">View All</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="bg-light p-3 br-5 mb-4">
-                                <span class="badge badge-secondary badge-xs mb-1">UI/ UX Designer</span>
-                                <h6 class="mb-2 text-truncate">Interview Candidates - UI/UX Designer</h6>
-                                <div class="d-flex align-items-center flex-wrap">
-                                    <p class="fs-13 mb-1 me-2"><i class="ti ti-calendar-event me-2"></i>Thu, 15 Feb 2025
-                                    </p>
-                                    <p class="fs-13 mb-1"><i class="ti ti-clock-hour-11 me-2"></i>01:00 PM - 02:20 PM
-                                    </p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between border-top mt-2 pt-3">
-                                    <div class="avatar-list-stacked avatar-group-sm">
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-49.jpg"
-                                                alt="img">
-                                        </span>
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-13.jpg"
-                                                alt="img">
-                                        </span>
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-11.jpg"
-                                                alt="img">
-                                        </span>
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-22.jpg"
-                                                alt="img">
-                                        </span>
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-58.jpg"
-                                                alt="img">
-                                        </span>
-                                        <a class="avatar bg-primary avatar-rounded text-fixed-white fs-10 fw-medium"
-                                            href="javascript:void(0);">
-                                            +3
-                                        </a>
-                                    </div>
-                                    <a href="#" class="btn btn-primary btn-xs">Join Meeting</a>
-                                </div>
-                            </div>
-                            <div class="bg-light p-3 br-5 mb-0">
-                                <span class="badge badge-dark badge-xs mb-1">IOS Developer</span>
-                                <h6 class="mb-2 text-truncate">Interview Candidates - IOS Developer</h6>
-                                <div class="d-flex align-items-center flex-wrap">
-                                    <p class="fs-13 mb-1 me-2"><i class="ti ti-calendar-event me-2"></i>Thu, 15 Feb 2025
-                                    </p>
-                                    <p class="fs-13 mb-1"><i class="ti ti-clock-hour-11 me-2"></i>02:00 PM - 04:20 PM
-                                    </p>
-                                </div>
-                                <div class="d-flex align-items-center justify-content-between border-top mt-2 pt-3">
-                                    <div class="avatar-list-stacked avatar-group-sm">
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-49.jpg"
-                                                alt="img">
-                                        </span>
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-13.jpg"
-                                                alt="img">
-                                        </span>
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-11.jpg"
-                                                alt="img">
-                                        </span>
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-22.jpg"
-                                                alt="img">
-                                        </span>
-                                        <span class="avatar avatar-rounded">
-                                            <img class="border border-white" src="assets/img/users/user-58.jpg"
-                                                alt="img">
-                                        </span>
-                                        <a class="avatar bg-primary avatar-rounded text-fixed-white fs-10 fw-medium"
-                                            href="javascript:void(0);">
-                                            +3
-                                        </a>
-                                    </div>
-                                    <a href="#" class="btn btn-primary btn-xs">Join Meeting</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Schedules -->
-
-                <!-- Recent Activities -->
-                <div class="col-xxl-4 col-xl-6 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
-                            <h5 class="mb-2">Recent Activities</h5>
-                            <a href="activity.html" class="btn btn-light btn-md mb-2">View All</a>
-                        </div>
-                        <div class="card-body">
-                            <div class="recent-item">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex align-items-center w-100">
-                                        <a href="javscript:void(0);" class="avatar  flex-shrink-0">
-                                            <img src="assets/img/users/user-38.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </a>
-                                        <div class="ms-2 flex-fill">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <h6 class="fs-medium text-truncate"><a href="javscript:void(0);">Matt
-                                                        Morgan</a></h6>
-                                                <p class="fs-13">05:30 PM</p>
-                                            </div>
-                                            <p class="fs-13">Added New Project <span class="text-primary">HRMS
-                                                    Dashboard</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex align-items-center w-100">
-                                        <a href="javscript:void(0);" class="avatar  flex-shrink-0">
-                                            <img src="assets/img/users/user-01.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </a>
-                                        <div class="ms-2 flex-fill">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <h6 class="fs-medium text-truncate"><a href="javscript:void(0);">Jay
-                                                        Ze</a></h6>
-                                                <p class="fs-13">05:00 PM</p>
-                                            </div>
-                                            <p class="fs-13">Commented on Uploaded Document</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex align-items-center w-100">
-                                        <a href="javscript:void(0);" class="avatar  flex-shrink-0">
-                                            <img src="assets/img/users/user-19.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </a>
-                                        <div class="ms-2 flex-fill">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <h6 class="fs-medium text-truncate"><a href="javscript:void(0);">Mary
-                                                        Donald</a></h6>
-                                                <p class="fs-13">05:30 PM</p>
-                                            </div>
-                                            <p class="fs-13">Approved Task Projects</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex align-items-center w-100">
-                                        <a href="javscript:void(0);" class="avatar  flex-shrink-0">
-                                            <img src="assets/img/users/user-11.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </a>
-                                        <div class="ms-2 flex-fill">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <h6 class="fs-medium text-truncate"><a href="javscript:void(0);">George
-                                                        David</a></h6>
-                                                <p class="fs-13">06:00 PM</p>
-                                            </div>
-                                            <p class="fs-13">Requesting Access to Module Tickets</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex align-items-center w-100">
-                                        <a href="javscript:void(0);" class="avatar  flex-shrink-0">
-                                            <img src="assets/img/users/user-20.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </a>
-                                        <div class="ms-2 flex-fill">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <h6 class="fs-medium text-truncate"><a href="javscript:void(0);">Aaron
-                                                        Zeen</a></h6>
-                                                <p class="fs-13">06:30 PM</p>
-                                            </div>
-                                            <p class="fs-13">Downloaded App Reportss</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="recent-item">
-                                <div class="d-flex justify-content-between">
-                                    <div class="d-flex align-items-center w-100">
-                                        <a href="javscript:void(0);" class="avatar  flex-shrink-0">
-                                            <img src="assets/img/users/user-08.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </a>
-                                        <div class="ms-2 flex-fill">
-                                            <div class="d-flex align-items-center justify-content-between">
-                                                <h6 class="fs-medium text-truncate"><a href="javscript:void(0);">Hendry
-                                                        Daniel</a></h6>
-                                                <p class="fs-13">05:30 PM</p>
-                                            </div>
-                                            <p class="fs-13">Completed New Project <span>HMS</span></p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Recent Activities -->
-
-                <!-- Birthdays -->
-                <div class="col-xxl-4 col-xl-6 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
-                            <h5 class="mb-2">Birthdays</h5>
-                            <a href="javascript:void(0);" class="btn btn-light btn-md mb-2">View All</a>
-                        </div>
-                        <div class="card-body pb-1">
-                            <h6 class="mb-2">Today</h6>
-                            <div class="bg-light p-2 border border-dashed rounded-top mb-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <a href="javascript:void(0);" class="avatar">
-                                            <img src="assets/img/users/user-38.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </a>
-                                        <div class="ms-2 overflow-hidden">
-                                            <h6 class="fs-medium ">Andrew Jermia</h6>
-                                            <p class="fs-13">IOS Developer</p>
-                                        </div>
-                                    </div>
-                                    <a href="javascript:void(0);" class="btn btn-secondary btn-xs"><i
-                                            class="ti ti-cake me-1"></i>Send</a>
-                                </div>
-                            </div>
-                            <h6 class="mb-2">Tomorow</h6>
-                            <div class="bg-light p-2 border border-dashed rounded-top mb-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <a href="javascript:void(0);" class="avatar">
-                                            <img src="assets/img/users/user-10.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </a>
-                                        <div class="ms-2 overflow-hidden">
-                                            <h6 class="fs-medium"><a href="javascript:void(0);">Mary Zeen</a></h6>
-                                            <p class="fs-13">UI/UX Designer</p>
-                                        </div>
-                                    </div>
-                                    <a href="javascript:void(0);" class="btn btn-secondary btn-xs"><i
-                                            class="ti ti-cake me-1"></i>Send</a>
-                                </div>
-                            </div>
-                            <div class="bg-light p-2 border border-dashed rounded-top mb-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <a href="javascript:void(0);" class="avatar">
-                                            <img src="assets/img/users/user-09.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </a>
-                                        <div class="ms-2 overflow-hidden">
-                                            <h6 class="fs-medium "><a href="javascript:void(0);">Antony Lewis</a></h6>
-                                            <p class="fs-13">Android Developer</p>
-                                        </div>
-                                    </div>
-                                    <a href="javascript:void(0);" class="btn btn-secondary btn-xs"><i
-                                            class="ti ti-cake me-1"></i>Send</a>
-                                </div>
-                            </div>
-                            <h6 class="mb-2">25 Jan 2025</h6>
-                            <div class="bg-light p-2 border border-dashed rounded-top mb-3">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="d-flex align-items-center">
-                                        <span class="avatar">
-                                            <img src="assets/img/users/user-12.jpg" class="rounded-circle"
-                                                alt="img">
-                                        </span>
-                                        <div class="ms-2 overflow-hidden">
-                                            <h6 class="fs-medium ">Doglas Martini</h6>
-                                            <p class="fs-13">.Net Developer</p>
-                                        </div>
-                                    </div>
-                                    <a href="javascript:void(0);" class="btn btn-secondary btn-xs"><i
-                                            class="ti ti-cake me-1"></i>Send</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Birthdays -->
-
-            </div>
+       
 
         </div>
 
@@ -2261,14 +1575,3 @@
     <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
 @endsection
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-        var toastList = toastElList.map(function(toastEl) {
-            return new bootstrap.Toast(toastEl, {
-                delay: 2000
-            });
-        });
-        toastList.forEach(toast => toast.show());
-    });
-</script>

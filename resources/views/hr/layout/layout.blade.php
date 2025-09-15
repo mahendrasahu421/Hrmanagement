@@ -86,10 +86,10 @@
 
                 <div class="header-left">
                     <a href="index.html" class="logo">
-                        <img src="assets/img/logo.svg" alt="Logo">
+                        <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
                     <a href="index.html" class="dark-logo">
-                        <img src="assets/img/logo-white.svg" alt="Logo">
+                        <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
                 </div>
 
@@ -1029,13 +1029,13 @@
             <!-- Logo -->
             <div class="sidebar-logo">
                 <a href="index.html" class="logo logo-normal">
-                    <img src="assets/img/logo.svg" alt="Logo">
+                    <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
                 <a href="index.html" class="logo-small">
-                    <img src="{{ $imageUrl }}" alt="Logo">
+                    <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
                 <a href="index.html" class="dark-logo">
-                    <img src="{{ $imageUrl }}" alt="Logo">
+                    <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
             </div>
             <!-- /Logo -->
@@ -1101,64 +1101,228 @@
                     </div>
                 </div>
             </div>
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li class="menu-title"><span>MAIN MENU</span></li>
-                        <li>
-                            <ul>
-                                <li class="submenu">
-                                    <a href="{{ route('admin.dashboard') }}" class="active subdrop">
-                                        <i class="ti ti-smart-home"></i>
-                                        <span>Dashboard</span>
-                                        <span class="badge badge-danger fs-10 fw-medium text-white p-1">Hot</span>
-
-                                    </a>
-
-                                </li>
-
-
-                            </ul>
-                        </li>
-
-                        <li class="menu-title"><span>Category</span></li>
-                        <li>
-                            <ul class="sidebar-menu">
-                                <li>
-                                    <a href="{{ route('hr.categories.index') }}">
-                                        <i class="ti ti-category"></i>
-                                        <span>Job Categories</span>
-                                    </a>
-                                </li>
-                            </ul>
-
-                        </li>
-
-                        <li class="menu-title"><span>Jobs</span></li>
-                        <li>
-                            <ul>
-                                {{-- <li>
-                                    <a href="{{ route('admin.clients') }}">
-                                        <i class="ti ti-users-group"></i><span>Jobs</span>
-                                    </a>
-                                </li> --}}
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-box"></i><span>Jobs</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="{{ route('hr.jobs') }}">jobs</a></li>
-
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-
-                    </ul>
+            <div class="slimScrollDiv" style="position: relative; overflow: hidden; width: 100%; height: 264px;">
+                <div class="sidebar-inner slimscroll" style="overflow: hidden; width: 100%; height: 232px;">
+                    <div id="sidebar-menu" class="sidebar-menu">
+                        <ul>
+                            <li class="menu-title"><span>MAIN MENU</span></li>
+                           
+                           
+                            <li>
+                                <ul>
+                                    <li>
+                                        <a href="{{ route('hr.dashboard') }}">
+                                            <i class="ti ti-layout-navbar"></i><span>Dashboard</span>
+                                        </a>
+                                    </li>
+                                   
+                                </ul>
+                            </li>
+                            
+                          
+                            <li class="menu-title"><span>HRM</span></li>
+                            <li>
+                                <ul>
+                                    <li class="submenu">
+                                        <a href="javascript:void(0);">
+                                            <i class="ti ti-users"></i><span>Employees</span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <ul>
+                                            <li><a href="{{ route('hr.employee.index') }}">Employee Lists</a></li>
+                                           
+                                            {{-- <li><a href="{{ route('hr.employee-details') }}">Employee Details</a></li> --}}
+                                            <li><a href="{{ route('hr.employee.departments') }}">Departments</a></li>
+                                            <li><a href="{{ route('hr.employee.designations') }}">Designations</a></li>
+                                            <li><a href="{{ route('hr.employee.policy') }}">Policies</a></li>
+                                         
+                                        </ul>
+                                    </li>
+                                    
+                                    <li>
+                                        <a href="holidays.html">
+                                            <i class="ti ti-calendar-event"></i><span>Holidays</span>
+                                        </a>
+                                    </li>
+                                    <li class="submenu">
+                                        <a href="javascript:void(0);" class="active subdrop">
+                                            <i class="ti ti-file-time"></i><span>Attendance</span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <ul>
+                                            <li class="submenu submenu-two">
+                                                <a href="javascript:void(0);" class="active subdrop">Leaves<span
+                                                        class="menu-arrow inside-submenu"></span></a>
+                                                <ul>
+                                                    <li><a href="leaves.html" class="active">Leaves (Admin)</a></li>
+                                                    <li><a href="leaves-employee.html">Leave (Employee)</a></li>
+                                                    <li><a href="leave-settings.html">Leave Settings</a></li>
+                                                </ul>
+                                            </li>
+                                            <li><a href="attendance-admin.html">Attendance (Admin)</a></li>
+                                            <li><a href="attendance-employee.html">Attendance (Employee)</a></li>
+                                            <li><a href="timesheets.html">Timesheets</a></li>
+                                            <li><a href="schedule-timing.html">Shift &amp; Schedule</a></li>
+                                            <li><a href="overtime.html">Overtime</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="submenu">
+                                        <a href="javascript:void(0);">
+                                            <i class="ti ti-school"></i><span>Performance</span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <ul>
+                                            <li><a href="performance-indicator.html">Performance Indicator</a></li>
+                                            <li><a href="performance-review.html">Performance Review</a></li>
+                                            <li><a href="performance-appraisal.html">Performance Appraisal</a></li>
+                                            <li><a href="goal-tracking.html">Goal List</a></li>
+                                            <li><a href="goal-type.html">Goal Type</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="submenu">
+                                        <a href="javascript:void(0);">
+                                            <i class="ti ti-edit"></i><span>Training</span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <ul>
+                                            <li><a href="training.html">Training List</a></li>
+                                            <li><a href="trainers.html">Trainers</a></li>
+                                            <li><a href="training-type.html">Training Type</a></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="promotion.html">
+                                            <i class="ti ti-speakerphone"></i><span>Promotion</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="resignation.html">
+                                            <i class="ti ti-external-link"></i><span>Resignation</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="termination.html">
+                                            <i class="ti ti-circle-x"></i><span>Termination</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-title"><span>RECRUITMENT</span></li>
+                            <li>
+                                <ul>
+                                    <li>
+                                        <a href="job-grid.html">
+                                            <i class="ti ti-timeline"></i><span>Jobs</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="candidates-grid.html">
+                                            <i class="ti ti-user-shield"></i><span>Candidates</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="refferals.html">
+                                            <i class="ti ti-ux-circle"></i><span>Referrals</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                           
+                            <li class="menu-title"><span>ADMINISTRATION</span></li>
+                            <li>
+                                <ul>
+                                  
+                                   
+                                    <li class="submenu">
+                                        <a href="javascript:void(0);">
+                                            <i class="ti ti-user-star"></i><span>User Management</span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <ul>
+                                            <li><a href="users.html">Users</a></li>
+                                            <li><a href="roles-permissions.html">Roles &amp; Permissions</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="submenu">
+                                        <a href="javascript:void(0);">
+                                            <i class="ti ti-user-star"></i><span>Reports</span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <ul>
+                                            <li><a href="expenses-report.html">Expense Report</a></li>
+                                            <li><a href="invoice-report.html">Invoice Report</a></li>
+                                            <li><a href="payment-report.html">Payment Report</a></li>
+                                            <li><a href="project-report.html">Project Report</a></li>
+                                            <li><a href="task-report.html">Task Report</a></li>
+                                            <li><a href="user-report.html">User Report</a></li>
+                                            <li><a href="employee-report.html">Employee Report</a></li>
+                                            <li><a href="payslip-report.html">Payslip Report</a></li>
+                                            <li><a href="attendance-report.html">Attendance Report</a></li>
+                                            <li><a href="leave-report.html">Leave Report</a></li>
+                                            <li><a href="daily-report.html">Daily Report</a></li>
+                                        </ul>
+                                    </li>
+                                    <li class="submenu">
+                                        <a href="javascript:void(0);">
+                                            <i class="ti ti-settings"></i><span>Settings</span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <ul>
+                                            <li class="submenu submenu-two">
+                                                <a href="javascript:void(0);">General Settings<span
+                                                        class="menu-arrow inside-submenu"></span></a>
+                                                <ul>
+                                                    <li><a href="profile-settings.html">Profile</a></li>
+                                                    <li><a href="security-settings.html">Security</a></li>
+                                                    <li><a href="notification-settings.html">Notifications</a></li>
+                                                    <li><a href="connected-apps.html">Connected Apps</a></li>
+                                                </ul>
+                                            </li>
+                                           
+                                            <li class="submenu submenu-two">
+                                                <a href="javascript:void(0);">App Settings<span
+                                                        class="menu-arrow inside-submenu"></span></a>
+                                                <ul>
+                                                    <li><a href="salary-settings.html">Salary Settings</a></li>
+                                                    <li><a href="approval-settings.html">Approval Settings</a></li>
+                                                    <li><a href="invoice-settings.html">Invoice Settings</a></li>
+                                                    <li><a href="leave-type.html">Leave Type</a></li>
+                                                    <li><a href="custom-fields.html">Custom Fields</a></li>
+                                                </ul>
+                                            </li>
+                                            
+                                            <li class="submenu submenu-two">
+                                                <a href="javascript:void(0);">Financial Settings<span
+                                                        class="menu-arrow inside-submenu"></span></a>
+                                                <ul>
+                                                    <li><a href="payment-gateways.html">Payment Gateways</a></li>
+                                                    <li><a href="tax-rates.html">Tax Rate</a></li>
+                                                    <li><a href="currencies.html">Currencies</a></li>
+                                                </ul>
+                                            </li>
+                                           
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="menu-title"><span>CONTENT</span></li>
+                         
+                           
+                        
+                           
+                            
+                        </ul>
+                    </div>
+                </div>
+                <div class="slimScrollBar"
+                    style="background: rgb(204, 204, 204); width: 7px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 30px;">
+                </div>
+                <div class="slimScrollRail"
+                    style="width: 7px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;">
                 </div>
             </div>
         </div>
+      
         <!-- /Sidebar -->
 
 
@@ -1202,6 +1366,8 @@
 
     <!-- Color Picker JS -->
     <script src="{{ asset('frontent/assets/plugins/%40simonwep/pickr/pickr.es5.min.js') }}"></script>
+    <script src="{{ asset('frontent/assets/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('frontent/assets/js/dataTables.bootstrap5.min.js') }}"></script>
 
     <!-- Custom JS -->
     <script src="{{ asset('frontent/assets/js/todo.js') }}"></script>

@@ -24,8 +24,8 @@
 
 
                     <div class="mb-2">
-                        <a href="{{ route('hr.jobs.show') }}" data-bs-toggle="modal" data-bs-target="#add_categories"
-                            class="btn btn-primary d-flex align-items-center"><i class="ti ti-circle-plus me-2"></i>Jobs
+                        <a href="{{ route('hr.jobs.index') }}" class="btn btn-primary d-flex align-items-center"><i
+                                class="ti ti-circle-plus me-2"></i>Jobs
                             List</a>
                     </div>
 
@@ -64,11 +64,7 @@
                                     <label>Skills</label>
                                     <select name="skills[]" class="form-control select2" id="skills" multiple>
                                         <option value="">-- Select Category --</option>
-                                        <option value="Communication">Communication</option>
-                                        <option value="Project management">Project management</option>
-                                        <option value="Leadership">Leadership</option>
-                                        <option value="React JS">React JS</option>
-                                        <option value="Laravel">Laravel</option>
+
                                     </select>
                                 </div>
 
@@ -139,6 +135,11 @@
                                     </select>
                                 </div>
                             </div>
+                            <div class="form-check mt-3">
+                                <input type="checkbox" class="form-check-input" id="share_social" name="share_social"
+                                    value="1">
+                                <label class="form-check-label" for="share_social">Also share on Social Media</label>
+                            </div>
 
                             <button type="submit" class="btn btn-primary mt-3">Save Job</button>
                         </form>
@@ -168,16 +169,6 @@
             .catch(error => {
                 console.error(error);
             });
-    </script>
-
-
-    <script>
-        $(document).ready(function(e) {
-            new DataTable('#jobs-list', {
-
-
-            });
-        });
     </script>
     <script>
         $(document).ready(function() {
