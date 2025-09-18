@@ -1,26 +1,42 @@
 <div>
-    <!-- Simplicity is the consequence of refined emotions. - Jean D'Alembert -->
-@if ($message)
-    <div class="modal fade" id="alert_modal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered modal-sm">
-            <div class="modal-content">
-                <div class="modal-body text-center p-4">
-                    <span class="avatar avatar-lg avatar-rounded mb-3 d-inline-flex align-items-center justify-content-center"
-                          style="width:60px; height:60px; background-color: {{ $type === 'success' ? '#28a745' : '#dc3545' }};">
-                        <i class="ti {{ $type === 'success' ? 'ti-check' : 'ti-x' }} fs-24 text-white"></i>
-                    </span>
-                    <h5 class="mb-2">{{ $message }}</h5>
+    @if (session('success') || session('error'))
+        <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+
+            @if (session('success'))
+                <div class="toast align-items-center text-white bg-success border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('success') }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
                 </div>
-            </div>
+            @endif
+
+            @if (session('error'))
+                <div class="toast align-items-center text-white bg-danger border-0" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
+                            {{ session('error') }}
+                        </div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"
+                            aria-label="Close"></button>
+                    </div>
+                </div>
+            @endif
         </div>
-    </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var alertModal = new bootstrap.Modal(document.getElementById('alert_modal'));
-            alertModal.show();
-        });
-    </script>
-@endif
-
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+                var toastList = toastElList.map(function(toastEl) {
+                    return new bootstrap.Toast(toastEl, {
+                        delay: 3000
+                    });
+                });
+                toastList.forEach(toast => toast.show());
+            });
+        </script>
+    @endif
 </div>

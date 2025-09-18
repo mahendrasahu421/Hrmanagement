@@ -13,6 +13,16 @@ use App\Http\Controllers\Hr\JobsController;
 use App\Http\Controllers\HR\JobCategoryController;
 use App\Http\Controllers\HR\HrEmployeeController;
 use App\Http\Controllers\HR\HrEmployeeLeaveController;
+use App\Http\Controllers\HR\LeaveSettingController;
+use App\Http\Controllers\HR\HolidayController;
+use App\Http\Controllers\HR\AttendanceController;
+use App\Http\Controllers\HR\PerformanceController;
+use App\Http\Controllers\HR\PerformanceReviewController;
+use App\Http\Controllers\HR\PerformanceAppraisalController;
+use App\Http\Controllers\HR\GoalTrackingController;
+use App\Http\Controllers\HR\TraningController;
+use App\Http\Controllers\HR\TrainersController;
+use App\Http\Controllers\HR\TraningTypeController;
 use App\Http\Controllers\StateCityController;
 use App\Http\Controllers\SkillsController;
 use App\Http\Controllers\PermissionController;
@@ -47,6 +57,18 @@ Route::prefix('hr')->name('hr.')->group(function () {
     Route::get('employee/designations', [HrEmployeeController::class, 'designations'])->name('employee.designations');
     Route::get('employee/policy', [HrEmployeeController::class, 'policy'])->name('employee.policy');
     Route::get('employee/leave', [HrEmployeeLeaveController::class, 'index'])->name('leave.index');
+    Route::get('employee/holyday', [HolidayController::class, 'index'])->name('holidays.index');
+    Route::get('employee/leave', [HrEmployeeLeaveController::class, 'index'])->name('leave.index');
+    Route::get('employee/leave/setting', [LeaveSettingController::class, 'index'])->name('leave.setting.index');
+    Route::get('employee/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
+    Route::get('employee/performance-indicator', [PerformanceController::class, 'index'])->name('performance-indicator.index');
+    Route::get('employee/performance-review', [PerformanceReviewController::class, 'index'])->name('performance-review.index');
+    Route::get('employee/performance-appraisal', [PerformanceAppraisalController::class, 'index'])->name('performance-appraisal.index');
+    Route::get('employee/goal-tracking', [GoalTrackingController::class, 'index'])->name('goal-tracking.index');
+    Route::get('employee/goal-type', [GoalTrackingController::class, 'goalType'])->name('goal-type.goal-type');
+    Route::get('employee/training', [TraningController::class, 'index'])->name('training.index');
+    Route::get('employee/trainers', [TrainersController::class, 'index'])->name('trainers.index');
+    Route::get('employee/training-type', [TraningTypeController::class, 'index'])->name('training-type.index');
 });
 
 
