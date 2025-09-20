@@ -90,7 +90,7 @@ Route::prefix('employee')->middleware('auth')->group(function () {
 
 });
 Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('dashboard', [AdminController::class, 'index']);
     // Permission
     Route::get('permissions', [PermissionController::class, 'index'])->name('permission.index');
     Route::get('permissions/create', [PermissionController::class, 'create'])->name('permission.create');
