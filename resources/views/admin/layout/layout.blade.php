@@ -455,7 +455,7 @@
                         <li>
                             <ul>
                                 <li class="submenu">
-                                    <a href="{{ route('admin.dashboard.index') }}" class="active subdrop">
+                                    <a href="{{ url('admin/dashboard/index') }}" class="active subdrop">
                                         <i class="ti ti-smart-home"></i>
                                         <span>Dashboard</span>
                                         <span class="badge badge-danger fs-10 fw-medium text-white p-1">Hot</span>

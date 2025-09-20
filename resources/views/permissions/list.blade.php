@@ -61,43 +61,30 @@
                         <div class="card-body p-0">
                             <div class="custom-datatable-filter table-responsive">
                                 <div class="table-responsive ">
-                                    <table class="display" id="jobs-list">
+                                    <table class="table">
                                         <thead>
                                             <tr>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Create at</th>
-                                                <th>Action</th>
+                                                <th>#</th>
+                                                <th>Permission Name</th>
+                                                <th>Created At</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @foreach ($permissions as $permission)
+                                            @foreach ($permissions as $key => $permission)
                                                 <tr>
-                                                    <td>{{ $permission->id }}</td>
+                                                    <td>{{ $permissions->firstItem() + $key }}</td>
                                                     <td>{{ $permission->name }}</td>
-                                                    <td>{{ $permission->created_at->format('d M, Y') }}</td>
-                                                    <td>
-                                                        <!-- Example: Edit & Delete Buttons -->
-                                                        <a href="{{ route('permissions.edit', $permission->id) }}"
-                                                            class="btn btn-sm btn-primary">Edit</a>
-
-                                                        <form action="{{ route('permissions.destroy', $permission->id) }}"
-                                                            method="POST" style="display:inline-block;">
-                                                            @csrf
-                                                            @method('DELETE')
-                                                            <button type="submit" class="btn btn-sm btn-danger"
-                                                                onclick="return confirm('Are you sure you want to delete this permission?')">
-                                                                Delete
-                                                            </button>
-                                                        </form>
-                                                    </td>
+                                                    <td>{{ $permission->created_at }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
                                     </table>
 
-
+                                    <div class="d-flex justify-content-end">
+                                        {!! $permissions->links() !!}
+                                    </div>
                                 </div>
+
                             </div>
 
                         </div>
@@ -163,25 +150,9 @@
     <!-- /Delete Modal -->
 @endsection
 
-@section('script')
-    @parent
-    <!-- <script src="{{ asset('datatables/jquery.min.js') }}"></script> -->
-    <script src="https://cdn.datatables.net/2.1.5/js/dataTables.js"></script>
-
-    <script>
-        $(document).ready(function(e) {
-            new DataTable('#jobs-list', {
 
 
-            });
-        });
-    </script>
-@endsection
 
-@section('styles')
-    @parent
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.5/css/dataTables.dataTables.css" />
-@endsection
 
 <script>
     document.addEventListener("DOMContentLoaded", function() {
