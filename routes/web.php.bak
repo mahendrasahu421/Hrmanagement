@@ -41,7 +41,7 @@ Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('s
 
 
 Route::prefix('hr')->name('hr.')->group(function () {
-    // HR Dashboard
+    // hr Dashboard
     Route::get('/dashboard', [HumanResourceController::class, 'index'])->name('dashboard');
     // Job Categories
     Route::resource('categories', JobCategoryController::class);

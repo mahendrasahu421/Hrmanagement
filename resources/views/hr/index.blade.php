@@ -13,7 +13,7 @@
                     <nav>
                         <ol class="breadcrumb mb-0">
                             {{-- <li class="breadcrumb-item">
-                                <a href="index.html"><i class="ti ti-smart-home"></i></a>
+                                <a href="#"><i class="ti ti-smart-home"></i></a>
                             </li> --}}
                             <li class="breadcrumb-item">
                                 Dashboard
@@ -173,7 +173,7 @@
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Job Applicants</h6>
                                     <h3 class="mb-3">98 </h3>
-                                    <a href="job-list.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -185,7 +185,7 @@
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">New Hire</h6>
                                     <h3 class="mb-3">45/48 </h3>
-                                    <a href="candidates.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
