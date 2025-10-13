@@ -41,7 +41,7 @@ Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('s
 
 
 Route::prefix('hr')->name('hr.')->group(function () {
-    // HR Dashboard
+    // hr Dashboard
     Route::get('/dashboard', [HumanResourceController::class, 'index'])->name('dashboard');
     // Job Categories
     Route::resource('categories', JobCategoryController::class);
@@ -101,7 +101,7 @@ Route::prefix('employee')->middleware('auth')->group(function () {
 
 });
 Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('dashboard', [AdminController::class, 'index']);
+    Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     // Permission
     Route::get('permissions', [PermissionController::class, 'index'])->name('permission.index');
     Route::get('permissions/create', [PermissionController::class, 'create'])->name('permission.create');

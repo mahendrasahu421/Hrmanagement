@@ -434,7 +434,7 @@
 												<li><a href="{{ route('hr.masters.shift') }}">Shift / Working Hours </a></li>
 												<li><a href="{{ route('hr.masters.leavetype') }}">Leave Type </a></li>
 												<li><a href="{{ route('hr.masters.holiday') }}">Holiday </a></li>
-												<li><a href="{{ route('hr.masters.policyhr') }}">Policy  </a></li>
+												<li><a href="{{ route('hr.masters.policy') }}">Policy  </a></li>
                                             </ul>
                                         </li>
 
