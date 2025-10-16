@@ -1,4 +1,4 @@
-@extends('hr.layout.layout')
+@extends('layout.master')
 @section('title', $title)
 
 @section('main-section')
@@ -1169,7 +1169,7 @@
 
 
 
-       
+
 
         </div>
 
@@ -1313,8 +1313,7 @@
                                                         <input type="file" class="form-control image-sign"
                                                             multiple="">
                                                     </div>
-                                                    <a href="javascript:void(0);"
-                                                        class="btn btn-light btn-sm">Cancel</a>
+                                                    <a href="javascript:void(0);" class="btn btn-light btn-sm">Cancel</a>
                                                 </div>
 
                                             </div>

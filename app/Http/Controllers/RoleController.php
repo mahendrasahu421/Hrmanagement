@@ -16,7 +16,7 @@ class RoleController extends Controller
         $data['title'] = 'Role / List';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         $data['roles'] = Role::orderBy('created_at')->paginate(10);
-      
+
         return view('role.list', $data);
     }
 

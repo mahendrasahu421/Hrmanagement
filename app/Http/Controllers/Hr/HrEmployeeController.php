@@ -13,8 +13,8 @@ class HrEmployeeController extends Controller
     public function index()
     {
         $data['title'] = 'Employee List';
-         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('hr.employee.index',$data);
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('hr.employee.index', $data);
     }
 
     /**
@@ -65,24 +65,28 @@ class HrEmployeeController extends Controller
         //
     }
 
-    public function employee_details(){
-         $data['title'] = 'Employee List';
-         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('hr.employee.details',$data);
+    public function employee_details()
+    {
+        $data['title'] = 'Employee List';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('hr.employee.details', $data);
     }
-    public function departments(){
-         $data['title'] = 'Departments';
-         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('hr.employee.departments',$data);
+    public function departments()
+    {
+        $data['title'] = 'Departments';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('hr.employee.departments', $data);
     }
-    public function designations(){
-         $data['title'] = 'Designations';
-         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('hr.employee.designations',$data);
+    public function designations()
+    {
+        $data['title'] = 'Designations';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('hr.employee.designations', $data);
     }
-    public function policy(){
-         $data['title'] = 'Policy';
-         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('hr.employee.policy',$data);
+    public function policy()
+    {
+        $data['title'] = 'Policy';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('hr.employee.policy', $data);
     }
 }

@@ -12,7 +12,10 @@ class User extends Authenticatable
     use HasRoles;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
-
+    public function role_id()
+    {
+        return $this->roles->first()?->id;
+    }
     /**
      * The attributes that are mass assignable.
      *
