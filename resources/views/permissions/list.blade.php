@@ -1,5 +1,5 @@
 <!-- Page Wrapper -->
-@extends('hr.layout.layout')
+@extends('admin.layout.layout')
 @section('title', $title)
 
 @section('main-section')
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="mb-2">
-                        <a href="{{ route('permission.create') }}" class="btn btn-primary d-flex align-items-center"><i
+                        <a href="{{ route('admin.permission.create') }}" class="btn btn-primary d-flex align-items-center"><i
                                 class="ti ti-circle-plus me-2"></i>Add
                             Permission</a>
                     </div>
@@ -74,7 +74,26 @@
                                                 <tr>
                                                     <td>{{ $permissions->firstItem() + $key }}</td>
                                                     <td>{{ $permission->name }}</td>
+
+                                                    <td>{{ $permission->created_at->format('d M, Y') }}</td>
+                                                    <td>
+                                                        <!-- Example: Edit & Delete Buttons -->
+                                                        <a href="{{ route('admin.permission.edit', $permission->id) }}"
+                                                            class="btn btn-sm btn-primary">Edit</a>
+
+                                                        <form action="{{ route('admin.permission.destroy', $permission->id) }}"
+                                                            method="POST" style="display:inline-block;">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="btn btn-sm btn-danger"
+                                                                onclick="return confirm('Are you sure you want to delete this permission?')">
+                                                                Delete
+                                                            </button>
+                                                        </form>
+                                                    </td>
+
                                                     <td>{{ $permission->created_at }}</td>
+
                                                 </tr>
                                             @endforeach
                                         </tbody>

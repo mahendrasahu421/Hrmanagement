@@ -36,14 +36,14 @@ class AuthController extends Controller
             $successMessage = 'Login successful. Welcome, ' . $user->name . '!';
 
             // Role / type ke hisaab se redirect
-            switch ($user->user_type) {
-                case 'super-admin':
+            switch ($user->role_id) {
+                case 1:
                     return redirect('/super-admin/dashboard')->with('success', $successMessage);
-                case 'admin':
+                case 2:
                     return redirect('/admin/dashboard')->with('success', $successMessage);
-                case 'hr':
+                case 3:
                     return redirect('/hr/dashboard')->with('success', $successMessage);
-                case 'employee':
+                case 4:
                     return redirect('/employee/dashboard')->with('success', $successMessage);
                 default:
                     Auth::logout();

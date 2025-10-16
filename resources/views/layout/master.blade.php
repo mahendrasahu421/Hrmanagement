@@ -479,7 +479,6 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-
                         @foreach ($menus as $menu)
                             @php
                                 $hasChildren = $menu->children->isNotEmpty();
@@ -496,34 +495,6 @@
                                     <i class="{{ $menu->icon }}"></i>
                                     <span>{{ $menu->title }}</span>
                                     @if ($hasChildren)
-
-                        <li class="menu-title"><span>MAIN MENU</span></li>
-                        <li>
-                            <ul>
-                                <li class="submenu">
-                                    <a href="{{ url('admin/dashboard/index') }}" class="active subdrop">
-                                        <i class="ti ti-smart-home"></i>
-                                        <span>Dashboard</span>
-                                        <span class="badge badge-danger fs-10 fw-medium text-white p-1">Hot</span>
-                                        
-                                    </a>
-                                   
-                                </li>
-                               
-                               
-                            </ul>
-                        </li>
-                       
-                        
-                      
-                        <li class="menu-title"><span>Employee</span></li>
-                        {{-- <li>
-                            <ul>
-                               
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-box"></i><span>Employee</span>
-
                                         <span class="menu-arrow"></span>
                                     @endif
                                 </a>

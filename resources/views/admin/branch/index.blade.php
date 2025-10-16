@@ -1,34 +1,7 @@
 <!-- Page Wrapper -->
 @extends('admin.layout.layout')
 @section('title', $title)
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
-    @if (session('success'))
-        <div class="toast align-items-center text-white bg-success border-0 show" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ session('success') }}
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    @endif
 
-    @if ($errors->any())
-        <div class="toast align-items-center text-white bg-danger border-0 show" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    <ul class="mb-0">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-            </div>
-        </div>
-    @endif
-
-</div>
 @section('main-section')
     <div class="page-wrapper">
         <div class="content">
@@ -266,7 +239,7 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="{{ route('admin.clients.create') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('admin.branches.create') }}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="contact-grids-tab">
                         <ul class="nav nav-underline" id="myTab" role="tablist">
@@ -314,7 +287,13 @@
                                             <label class="form-label">Country <span class="text-danger">
                                                     *</span></label>
                                             <div class="pass-group">
-                                                <input type="text" class="pass-input form-control" name="password">
+                                               <select onchange="getDistricts(this.value)" id="state_stud" name="state_code"
+                                            class="form-control select2" data-placeholder="Select State">
+                                            <option value="">-- Select State --</option>
+                                            {{-- @foreach ($state as $states)
+                                                <option value="{{ $states->id }}">{{ $states->name }}</option>
+                                            @endforeach --}}
+                                        </select>
                                                 <span class="ti toggle-password ti-eye-off"></span>
                                             </div>
                                         </div>
@@ -325,7 +304,7 @@
                                                     *</span></label>
                                             <div class="pass-group">
                                                 <input type="password" class="pass-inputs form-control"
-                                                    name="password_confirmation">
+                                                    name="">
                                                 <span class="ti toggle-passwords ti-eye-off"></span>
                                             </div>
                                         </div>
@@ -454,14 +433,17 @@
 @endsection
 
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        toastElList.map(function(toastEl) {
-            var toast = new bootstrap.Toast(toastEl, {
-                delay: 4000
-            }); // 4 sec
-            toast.show();
-        })
-    });
-</script>
+@push('after_scripts')
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+            toastElList.map(function(toastEl) {
+                var toast = new bootstrap.Toast(toastEl, {
+                    delay: 4000
+                }); // 4 sec
+                toast.show();
+            })
+        });
+    </script>
+@endpush
