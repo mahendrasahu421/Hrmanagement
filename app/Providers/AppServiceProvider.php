@@ -3,9 +3,13 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Menu;
+
+=======
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,6 +26,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+
         view()->composer('*', function ($view) {
             $user = Auth::user();
 
@@ -50,5 +55,8 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('menus', $menus);
         });
+
+        Paginator::useBootstrap();
+
     }
 }
