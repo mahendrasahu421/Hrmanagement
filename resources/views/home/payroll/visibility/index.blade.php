@@ -1,0 +1,72 @@
+@extends('layout.master')
+@section('title', $title)
+@section('main-section')
+
+<div class="page-wrapper">
+    <div class="content">
+
+        <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
+            <div class="my-auto mb-2">
+                <h2 class="mb-1">{{ $title }}</h2>
+            </div>
+            <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
+                <div class="mb-2">
+                    <a href="{{ route('masters.payroll.visibility.create') }}" class="btn btn-primary d-flex align-items-center">
+                        <i class="ti ti-circle-plus me-2"></i> Add Visibility Rule
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-body p-0">
+                <div class="table-responsive custom-datatable-filter">
+                    <table class="table datatable">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>SL No.</th>
+                                <th>Rule Name</th>
+                                <th>Applies To</th>
+                                <th>Access Level</th>
+                                <th>Status</th>
+                                <th width="120" class="text-center">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Payroll Visibility - HR Only</td>
+                                <td>HR Department</td>
+                                <td>Restricted</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-sm btn-primary me-1"><i class="ti ti-edit"></i></a>
+                                    <a href="#" class="btn btn-sm btn-danger"><i class="ti ti-trash"></i></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>Manager Payroll Access</td>
+                                <td>Managers</td>
+                                <td>Read Only</td>
+                                <td><span class="badge bg-warning">Inactive</span></td>
+                                <td class="text-center">
+                                    <a href="#" class="btn btn-sm btn-primary me-1"><i class="ti ti-edit"></i></a>
+                                    <a href="#" class="btn btn-sm btn-danger"><i class="ti ti-trash"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="footer d-sm-flex align-items-center justify-content-between border-top bg-white p-3">
+        <p class="mb-0">2014 - {{ date('Y') }} &copy; SmartHR.</p>
+        <p>Designed &amp; Developed By <a href="#" class="text-primary">Dreams</a></p>
+    </div>
+</div>
+
+@endsection

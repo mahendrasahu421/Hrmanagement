@@ -14,7 +14,7 @@ class HrEmployeeController extends Controller
     {
         $data['title'] = 'Employee List';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('hr.employee.index', $data);
+        return view('employee.index', $data);
     }
 
     /**

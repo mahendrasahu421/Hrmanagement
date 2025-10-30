@@ -1,4 +1,4 @@
-@extends('employee.layout.layout')
+@extends('layout.master')
 @section('title', $title)
 
 @section('main-section')

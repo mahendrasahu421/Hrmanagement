@@ -409,7 +409,7 @@
                                         </div>
                                         <div class="card-footer">
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="{{ url('logout') }}">
+                                                href="{{ route('logout') }}">
                                                 <i class="ti ti-login me-2"></i>Logout
                                             </a>
                                         </div>
@@ -453,6 +453,22 @@
             </div>
             <!-- /Logo -->
             <style>
+                .sidebar .sidebar-menu>ul>li>a span {
+                    font-size: 13px;
+                    font-weight: 500;
+                    color: rgb(75, 85, 99);
+                }
+
+                .sidebar .sidebar-menu>ul>li.submenu ul li a {
+                    font-weight: 500;
+                    font-size: 14px;
+                    position: relative;
+                    display: block;
+                    padding: 8px 8px 8px 40px;
+                    padding-left: 30px;
+                }
+            </style>
+            <style>
                 /* Active menu highlight */
                 .active-red {
                     color: #F26522 !important;
@@ -463,260 +479,44 @@
             <div class="sidebar-inner slimscroll">
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
-                        {{-- MAIN MENU --}}
-                        <li class="menu-title"><span>MAIN MENU</span></li>
-                        <li>
-                            <ul>
-                                <li>
-                                    <a href="{{ url('dashboard') }}">
-                                        <i class="ti ti-layout-navbar"></i><span>Dashboard</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        @foreach ($menus as $menu)
+                            @php
+                                $hasChildren = $menu->children->isNotEmpty();
+                                $isActive =
+                                    request()->routeIs($menu->route_name . '*') ||
+                                    $menu->children
+                                        ->pluck('route_name')
+                                        ->contains(fn($r) => request()->routeIs($r . '*'));
+                            @endphp
 
-                        {{-- HRM --}}
-                        <li class="menu-title"><span>HRM</span></li>
-                        <li>
-                            <ul>
-                                {{-- Employees --}}
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-users"></i><span>Employees</span>
+                            <li class="{{ $hasChildren ? 'submenu' : '' }}">
+                                <a href="{{ $hasChildren ? 'javascript:void(0);' : ($menu->route_name ? route($menu->route_name) : '#') }}"
+                                    class="{{ $isActive && !$hasChildren ? 'active-red' : '' }}">
+                                    <i class="{{ $menu->icon }}"></i>
+                                    <span>{{ $menu->title }}</span>
+                                    @if ($hasChildren)
                                         <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="{{ url('employee.index') }}">Employee Lists</a></li>
-                                        <li><a href="{{ url('hr.employee.departments') }}">Departments</a></li>
-                                        <li><a href="{{ url('hr.employee.designations') }}">Designations</a></li>
-                                        {{-- <li><a href="{{ url('hr.employee.policy') }}">Policies</a></li> --}}
+                                    @endif
+                                </a>
+
+                                @if ($hasChildren)
+                                    <ul style="{{ $isActive ? 'display: block;' : '' }}">
+                                        @foreach ($menu->children as $submenu)
+                                            <li>
+                                                <a href="{{ $submenu->route_name ? route($submenu->route_name) : '#' }}"
+                                                    class="{{ request()->routeIs($submenu->route_name . '*') ? 'active-red' : '' }}">
+                                                    {{ $submenu->title }}
+                                                </a>
+                                            </li>
+                                        @endforeach
                                     </ul>
-                                </li>
-
-                                {{-- Holidays --}}
-                                <li>
-                                    <a href="{{ url('hr.holidays') }}">
-                                        <i class="ti ti-calendar-event"></i><span>Holidays</span>
-                                    </a>
-                                </li>
-
-                                {{-- Attendance --}}
-                                <li class="submenu">
-                                    <a href="javascript:void(0);" class="subdrop">
-                                        <i class="ti ti-file-time"></i><span>Attendance</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li class="submenu submenu-two">
-                                            <a href="javascript:void(0);" class="subdrop">Leaves<span
-                                                    class="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="{{ url('hr.leave.index') }}">Leaves (Admin)</a></li>
-                                                <li><a href="{{ url('hr.leave.settings') }}">Leave
-                                                        Settings</a></li>
-                                            </ul>
-                                        </li>
-                                        <li><a href="{{ url('hr.attendance') }}">Attendance</a></li>
-                                    </ul>
-                                </li>
-
-                                {{-- Performance --}}
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-school"></i><span>Performance</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="{{ url('hr.performance.indicator') }}">Performance
-                                                Indicator</a></li>
-                                        <li><a href="{{ url('hr.performance.review') }}">Performance
-                                                Review</a></li>
-                                        <li><a href="{{ url('hr.performance.appraisal') }}">Performance
-                                                Appraisal</a></li>
-                                        <li><a href="{{ url('hr.goal.tracking') }}">Goal List</a></li>
-                                        <li><a href="{{ url('hr.goal.type') }}">Goal Type</a></li>
-                                    </ul>
-                                </li>
-
-                                {{-- Training --}}
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-edit"></i><span>Training</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="{{ url('hr.training') }}">Training List</a></li>
-                                        <li><a href="{{ url('hr.trainers') }}">Trainers</a></li>
-                                        <li><a href="{{ url('hr.training.type') }}">Training Type</a></li>
-                                    </ul>
-                                </li>
-
-                                {{-- Promotion / Resignation / Termination --}}
-                                <li><a href=""><i class="ti ti-speakerphone"></i><span>Promotion</span></a>
-                                </li>
-                                <li><a href=""><i class="ti ti-external-link"></i><span>Resignation</span></a>
-                                </li>
-                                <li><a href=""><i class="ti ti-circle-x"></i><span>Termination</span></a></li>
-                            </ul>
-                        </li>
-
-                        {{-- RECRUITMENT --}}
-                        <li class="menu-title"><span>RECRUITMENT</span></li>
-                        <li>
-                            <ul>
-                                <li><a href=""><i class="ti ti-timeline"></i><span>Jobs</span></a></li>
-                                <li><a href=""><i class="ti ti-user-shield"></i><span>Candidates</span></a>
-                                </li>
-                                <li><a href=""><i class="ti ti-ux-circle"></i><span>Referrals</span></a></li>
-                            </ul>
-                        </li>
-
-                        {{-- ADMINISTRATION --}}
-                        <li class="menu-title"><span>ADMINISTRATION</span></li>
-                        <li>
-                            <ul>
-                                {{-- Masters --}}
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-settings"></i><span>Masters</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        {{-- Organisation --}}
-                                        <li class="submenu submenu-two">
-                                            <a href="javascript:void(0);">Organisation<span
-                                                    class="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="">Company</a></li>
-                                                <li><a href="">Branch</a></li>
-                                                <li><a href="">Department</a>
-                                                </li>
-                                                <li><a href="">Designation</a>
-                                                </li>
-                                                <li><a href="">Employee</a></li>
-                                                <li><a href="">Shift / Working
-                                                        Hours</a></li>
-                                                <li><a href="">Leave Type</a>
-                                                </li>
-                                                <li><a href="">Holiday</a></li>
-                                                <li><a href="">Policy</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{-- Payroll --}}
-                                        <li class="submenu submenu-two">
-                                            <a href="javascript:void(0);">Payroll<span
-                                                    class="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="">Salary Component</a></li>
-                                                <li><a href="">Calculation Rules</a>
-                                                </li>
-                                                <li><a href="">Taxation & Compliance</a>
-                                                </li>
-                                                <li><a href="">Applicability</a>
-                                                </li>
-                                                <li><a href="">Frequency</a></li>
-                                                <li><a href="">Payment Mode</a></li>
-                                                <li><a href="">Visibility &
-                                                        Control</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                {{-- User Management --}}
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-user-star"></i><span>User Management</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="">Users</a></li>
-                                        <li><a href="">Roles & Permissions</a></li>
-                                    </ul>
-                                </li>
-
-                                {{-- Reports --}}
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-user-star"></i><span>Reports</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="">Expense Report</a></li>
-                                        <li><a href="">Invoice Report</a></li>
-                                        <li><a href="">Payment Report</a></li>
-                                        <li><a href="">Project Report</a></li>
-                                        <li><a href="">Task Report</a></li>
-                                        <li><a href="">User Report</a></li>
-                                        <li><a href="">Employee Report</a></li>
-                                        <li><a href="">Payslip Report</a></li>
-                                        <li><a href="">Attendance Report</a></li>
-                                        <li><a href="">Leave Report</a></li>
-                                        <li><a href="">Daily Report</a></li>
-                                    </ul>
-                                </li>
-
-                                {{-- Settings --}}
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-settings"></i><span>Settings</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        {{-- General Settings --}}
-                                        <li class="submenu submenu-two">
-                                            <a href="javascript:void(0);">General Settings<span
-                                                    class="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="">Profile</a></li>
-                                                <li><a href="">Security</a></li>
-                                                <li><a href="">Notifications</a>
-                                                </li>
-                                                <li><a href="">Connected
-                                                        Apps</a></li>
-                                            </ul>
-                                        </li>
-
-                                        {{-- App Settings --}}
-                                        <li class="submenu submenu-two">
-                                            <a href="javascript:void(0);">App Settings<span
-                                                    class="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="">Salary Settings</a></li>
-                                                <li><a href="">Approval Settings</a>
-                                                </li>
-                                                <li><a href="">Invoice Settings</a>
-                                                </li>
-                                                <li><a href="">Leave Type</a></li>
-                                                <li><a href="">Custom Fields</a>
-                                                </li>
-                                            </ul>
-                                        </li>
-
-                                        {{-- Financial Settings --}}
-                                        <li class="submenu submenu-two">
-                                            <a href="javascript:void(0);">Financial Settings<span
-                                                    class="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="">Payment
-                                                        Gateways</a></li>
-                                                <li><a href="">Tax Rate</a></li>
-                                                <li><a href="">Currencies</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </li>
-                            </ul>
-                        </li>
-
-                        {{-- CONTENT --}}
-                        <li class="menu-title"><span>CONTENT</span></li>
-                        {{-- Add your content menu links here --}}
+                                @endif
+                            </li>
+                        @endforeach
                     </ul>
                 </div>
-
             </div>
+
 
 
 
