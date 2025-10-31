@@ -621,8 +621,8 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul>
-                                        <li><a href="users.html">Users</a></li>
-                                        <li><a href="roles-permissions.html">Roles &amp; Permissions</a></li>
+                                        <li><a href="{{ route('role') }}">Roles</a></li>
+                                        <li><a href="{{ route('permission') }}">Permissions</a></li>
                                     </ul>
                                 </li>
 

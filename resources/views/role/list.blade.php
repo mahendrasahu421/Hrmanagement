@@ -1,5 +1,5 @@
 <!-- Page Wrapper -->
-@extends('admin.layout.layout')
+@extends('layout.master')
 @section('title', $title)
 
 @section('main-section')
@@ -42,7 +42,7 @@
                         </div>
                     </div>
                     <div class="mb-2">
-                        <a href="{{ route('admin.roles.create') }}" class="btn btn-primary d-flex align-items-center"><i
+                        <a href="{{ route('role.create') }}" class="btn btn-primary d-flex align-items-center"><i
                                 class="ti ti-circle-plus me-2"></i>Add
                             Role</a>
                     </div>
@@ -88,10 +88,10 @@
                                                     </td>
                                                     <td>{{ $role->created_at->format('d M, Y') }}</td>
                                                     <td>
-                                                        <a href="{{ route('admin.roles.edit', $role->id) }}"
+                                                        <a href="{{ route('roles.edit', $role->id) }}"
                                                             class="btn btn-sm btn-primary">Edit</a>
 
-                                                        <form action="{{ route('admin.roles.destroy', $role->id) }}" method="POST"
+                                                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
                                                             style="display:inline-block;">
                                                             @csrf
                                                             @method('DELETE')
