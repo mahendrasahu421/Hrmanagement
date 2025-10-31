@@ -217,3 +217,58 @@ Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('/employee', [EmployeeController::class, 'index'])->name('admin.employee');
 });
 
+
+Route::prefix('admin')->middleware('auth')->group(function () {
+    Route::get('dashboard', [AdminController::class, 'index']);
+    // Permission
+    Route::get('permissions', [PermissionController::class, 'index'])->name('permission.index');
+    Route::get('permissions/create', [PermissionController::class, 'create'])->name('permission.create');
+    Route::post('permissions/store', [PermissionController::class, 'store'])->name('permission.store');
+    Route::get('permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+    Route::get('permissions/destroy', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+    // Roles
+    Route::get('roles', [RoleController::class, 'index'])->name('role.index');
+    Route::get('roles/create', [RoleController::class, 'create'])->name('role.create');
+    Route::post('roles/store', [RoleController::class, 'store'])->name('role.store');
+    Route::get('roles/edit', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::get('roles/destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+    // Clients
+    Route::get('clients', [ClientsController::class, 'index'])->name('admin.clients');
+    Route::post('clients/create', [ClientsController::class, 'create'])->name('admin.clients.create');
+    Route::get('clients/{id}/client-details', [ClientsController::class, 'show'])->name('admin.clients.details');
+
+    // Branch
+    Route::get('branch', [BranchController::class, 'index'])->name('admin.branch');
+    // Employee
+    Route::get('/employee', [EmployeeController::class, 'index'])->name('admin.employee');
+});
+
+
+
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+
+    // Dashboard
+    Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard.index');
+    // Menus
+    Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
+    Route::post('store', [MenuController::class, 'store'])->name('menus.store');
+    Route::get('edit', [MenuController::class, 'index'])->name('menus.edit');
+    Route::get('destroy', [MenuController::class, 'index'])->name('menus.destroy');
+    // map-role-permission
+    Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission.index');
+    Route::post('map-role-permission', [MapRolePermission::class, 'store'])->name('map-role-permission.store');
+   
+
+    // Resource Controllers (CRUD automatically handled)
+    Route::resource('permissions', PermissionController::class, ['as' => 'admin']);
+
+    Route::resource('clients', ClientsController::class, ['as' => 'admin']);
+    Route::resource('branches', BranchController::class);
+
+    Route::resource('roles', RoleController::class);
+    Route::resource('permission', PermissionController::class);
+    Route::resource('settings', SettingController::class);
+    Route::resource('employee', EmployeeController::class, ['as' => 'admin']);
+
+});
