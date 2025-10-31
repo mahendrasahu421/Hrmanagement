@@ -12,7 +12,7 @@ class CompanyController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Master/ Orgnaigation / Compney';
+        $data['title'] = 'Master/ Orgnaigation / Company';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.companey.index', $data);
     }
@@ -22,7 +22,7 @@ class CompanyController extends Controller
      */
     public function create()
     {
-        $data['title'] = 'Master/ Orgnaigation / Compney';
+        $data['title'] = 'Master/ Orgnaigation / Company';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.companey.create', $data);
     }
