@@ -24,6 +24,7 @@ use App\Http\Controllers\Hr\TraningTypeController;
 use App\Http\Controllers\Hr\MasterController;
 use App\Http\Controllers\StateCityController;
 use App\Http\Controllers\SkillsController;
+use App\Http\Controllers\MapRolePermission;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\Employee\leavesCotroller;
@@ -171,7 +172,24 @@ Route::middleware(['auth'])->group(function () {
     Route::get('attendance/attendance-dashboard/org-reports/store', [AttendanceOrgReportController::class, 'store'])->name('attendance.attendance-dashboard.org-reports.store');
     // Org-Reports
     Route::get('attendance/daily-attendance/consistent-attendees', [ConsistentAttendeesController::class, 'index'])->name('attendance.daily-attendance.consistent-attendees');
-    });
+
+    Route::get('permissions', [PermissionController::class, 'index'])->name('permission');
+    Route::get('permissions/create', [PermissionController::class, 'create'])->name('permission.create');
+    Route::post('permissions/store', [PermissionController::class, 'store'])->name('permission.store');
+    Route::get('permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+    Route::get('permissions/destroy', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+    // Roles
+    Route::get('roles', [RoleController::class, 'index'])->name('role');
+    Route::get('roles/create', [RoleController::class, 'create'])->name('role.create');
+    Route::post('roles/store', [RoleController::class, 'store'])->name('role.store');
+    Route::get('roles/edit', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::get('roles/destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
+    
+    // map-role-permission
+    Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission');
+    Route::get('map-role-permission/store', [MapRolePermission::class, 'index'])->name('map-role-permission.store');
+   
+});
 
 
 Route::get('/', [AuthController::class, 'index']);
@@ -194,17 +212,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     // Permission
-    Route::get('permissions', [PermissionController::class, 'index'])->name('permission.index');
-    Route::get('permissions/create', [PermissionController::class, 'create'])->name('permission.create');
-    Route::post('permissions/store', [PermissionController::class, 'store'])->name('permission.store');
-    Route::get('permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
-    Route::get('permissions/destroy', [PermissionController::class, 'destroy'])->name('permissions.destroy');
-    // Roles
-    Route::get('roles', [RoleController::class, 'index'])->name('role.index');
-    Route::get('roles/create', [RoleController::class, 'create'])->name('role.create');
-    Route::post('roles/store', [RoleController::class, 'store'])->name('role.store');
-    Route::get('roles/edit', [RoleController::class, 'edit'])->name('roles.edit');
-    Route::get('roles/destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
+
 
     // Clients
     Route::get('clients', [ClientsController::class, 'index'])->name('admin.clients');

@@ -1,5 +1,5 @@
 <!-- Page Wrapper -->
-@extends('admin.layout.layout')
+@extends('layout.master')
 @section('title', $title)
 
 @section('main-section')
@@ -16,7 +16,7 @@
                         </div>
                         <div class="card-body">
                             <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('admin.permission.store') }}">
+                                action="{{ route('permission.store') }}">
                                 @csrf
                                 <div class="form-row row">
                                     <!-- Title -->

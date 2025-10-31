@@ -1,5 +1,5 @@
 <!-- Page Wrapper -->
-@extends('admin.layout.layout')
+@extends('layout.master')
 @section('title', $title)
 
 @section('main-section')
@@ -15,8 +15,7 @@
                             </p>
                         </div>
                         <div class="card-body">
-                            <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('admin.roles.store') }}">
+                            <form class="needs-validation" novalidate method="POST" action="{{ route('role.store') }}">
                                 @csrf
                                 <div class="form-row row">
                                     <!-- Title -->
@@ -29,22 +28,33 @@
                                         </div>
                                     </div>
                                 </div>
-
-                                <!-- Status -->
                                 <div class="form-row row">
                                     <div class="col-md-12 mb-3">
-                                        <label class="form-label" for="status">Status *</label>
-                                        <select class="form-control" id="status" name="status" required>
-                                            <option value="Active">Active</option>
-                                            <option value="Active">Inactive</option>
-                                        </select>
-                                        <div class="invalid-feedback">
-                                            Please select menu status.
-                                        </div>
+                                        @if ($permissions->isNotEmpty())
+                                            <label class="form-label fw-bold mb-2">Assign Permissions</label>
+                                            <div class="d-flex flex-wrap">
+                                                @foreach ($permissions as $permission)
+                                                    <div class="form-check me-4 mb-2">
+                                                        <input type="checkbox" class="form-check-input"
+                                                            id="permission_{{ $permission->id }}" name="permissions[]"
+                                                            value="{{ $permission->name }}">
+                                                        <label class="form-check-label"
+                                                            for="permission_{{ $permission->id }}">
+                                                            {{ ucfirst($permission->name) }}
+                                                        </label>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <p class="text-muted">No permissions available.</p>
+                                        @endif
                                     </div>
                                 </div>
 
-                                <button class="btn btn-primary" type="submit">Save Menu</button>
+
+                               
+
+                                <button class="btn btn-primary" type="submit">Submit</button>
                             </form>
                         </div>
                     </div>

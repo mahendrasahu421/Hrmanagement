@@ -12,7 +12,7 @@
                         </div>
 
                         <div class="card-body">
-                            <form method="POST" action="{{ route('admin.map-role-permission.store') }}">
+                            <form method="POST" action="{{ route('map-role-permission.store') }}">
                                 @csrf
 
                                 {{-- Role Selection --}}
