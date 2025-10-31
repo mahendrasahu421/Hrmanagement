@@ -625,66 +625,7 @@
                                         <li><a href="roles-permissions.html">Roles &amp; Permissions</a></li>
                                     </ul>
                                 </li>
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-user-star"></i><span>Reports</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="expenses-report.html">Expense Report</a></li>
-                                        <li><a href="invoice-report.html">Invoice Report</a></li>
-                                        <li><a href="payment-report.html">Payment Report</a></li>
-                                        <li><a href="project-report.html">Project Report</a></li>
-                                        <li><a href="task-report.html">Task Report</a></li>
-                                        <li><a href="user-report.html">User Report</a></li>
-                                        <li><a href="employee-report.html">Employee Report</a></li>
-                                        <li><a href="payslip-report.html">Payslip Report</a></li>
-                                        <li><a href="attendance-report.html">Attendance Report</a></li>
-                                        <li><a href="leave-report.html">Leave Report</a></li>
-                                        <li><a href="daily-report.html">Daily Report</a></li>
-                                    </ul>
-                                </li>
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-settings"></i><span>Settings</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li class="submenu submenu-two">
-                                            <a href="javascript:void(0);">General Settings<span
-                                                    class="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="profile-settings.html">Profile</a></li>
-                                                <li><a href="security-settings.html">Security</a></li>
-                                                <li><a href="notification-settings.html">Notifications</a></li>
-                                                <li><a href="connected-apps.html">Connected Apps</a></li>
-                                            </ul>
-                                        </li>
 
-                                        <li class="submenu submenu-two">
-                                            <a href="javascript:void(0);">App Settings<span
-                                                    class="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="salary-settings.html">Salary Settings</a></li>
-                                                <li><a href="approval-settings.html">Approval Settings</a></li>
-                                                <li><a href="invoice-settings.html">Invoice Settings</a></li>
-                                                <li><a href="leave-type.html">Leave Type</a></li>
-                                                <li><a href="custom-fields.html">Custom Fields</a></li>
-                                            </ul>
-                                        </li>
-
-                                        <li class="submenu submenu-two">
-                                            <a href="javascript:void(0);">Financial Settings<span
-                                                    class="menu-arrow inside-submenu"></span></a>
-                                            <ul>
-                                                <li><a href="payment-gateways.html">Payment Gateways</a></li>
-                                                <li><a href="tax-rates.html">Tax Rate</a></li>
-                                                <li><a href="currencies.html">Currencies</a></li>
-                                            </ul>
-                                        </li>
-
-                                    </ul>
-                                </li>
                             </ul>
                         </li>
                         <li class="menu-title"><span>HRM</span></li>
@@ -885,7 +826,66 @@
 
                         <li class="menu-title"><span>CONTENT</span></li>
 
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-user-star"></i><span>Reports</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li><a href="expenses-report.html">Expense Report</a></li>
+                                <li><a href="invoice-report.html">Invoice Report</a></li>
+                                <li><a href="payment-report.html">Payment Report</a></li>
+                                <li><a href="project-report.html">Project Report</a></li>
+                                <li><a href="task-report.html">Task Report</a></li>
+                                <li><a href="user-report.html">User Report</a></li>
+                                <li><a href="employee-report.html">Employee Report</a></li>
+                                <li><a href="payslip-report.html">Payslip Report</a></li>
+                                <li><a href="attendance-report.html">Attendance Report</a></li>
+                                <li><a href="leave-report.html">Leave Report</a></li>
+                                <li><a href="daily-report.html">Daily Report</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-settings"></i><span>Settings</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li class="submenu submenu-two">
+                                    <a href="javascript:void(0);">General Settings<span
+                                            class="menu-arrow inside-submenu"></span></a>
+                                    <ul>
+                                        <li><a href="profile-settings.html">Profile</a></li>
+                                        <li><a href="security-settings.html">Security</a></li>
+                                        <li><a href="notification-settings.html">Notifications</a></li>
+                                        <li><a href="connected-apps.html">Connected Apps</a></li>
+                                    </ul>
+                                </li>
 
+                                <li class="submenu submenu-two">
+                                    <a href="javascript:void(0);">App Settings<span
+                                            class="menu-arrow inside-submenu"></span></a>
+                                    <ul>
+                                        <li><a href="salary-settings.html">Salary Settings</a></li>
+                                        <li><a href="approval-settings.html">Approval Settings</a></li>
+                                        <li><a href="invoice-settings.html">Invoice Settings</a></li>
+                                        <li><a href="leave-type.html">Leave Type</a></li>
+                                        <li><a href="custom-fields.html">Custom Fields</a></li>
+                                    </ul>
+                                </li>
+
+                                <li class="submenu submenu-two">
+                                    <a href="javascript:void(0);">Financial Settings<span
+                                            class="menu-arrow inside-submenu"></span></a>
+                                    <ul>
+                                        <li><a href="payment-gateways.html">Payment Gateways</a></li>
+                                        <li><a href="tax-rates.html">Tax Rate</a></li>
+                                        <li><a href="currencies.html">Currencies</a></li>
+                                    </ul>
+                                </li>
+
+                            </ul>
+                        </li>
 
 
 

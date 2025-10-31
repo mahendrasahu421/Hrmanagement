@@ -96,7 +96,7 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        echo "working";
+
         Auth::logout();
         $request->session()->invalidate(); // Session destroy
         $request->session()->regenerateToken(); // CSRF token regenerate

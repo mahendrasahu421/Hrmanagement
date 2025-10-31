@@ -84,7 +84,7 @@
                 <div class="card-body">
 					
                     <form class="row g-3 align-items-end">
-						<div class="col-md-3">
+						
                         <div class="input-icon-end position-relative">
                             <input type="text" class="form-control date-range bookingrange"
                                 placeholder="dd/mm/yyyy - dd/mm/yyyy">
@@ -92,7 +92,6 @@
                                 <i class="ti ti-chevron-down"></i>
                             </span>
                         </div>
-						</div>
                         <div class="col-md-3">
                             <label for="department" class="form-label">Department</label>
                             <select id="department" class="form-select">
@@ -181,10 +180,7 @@
         </div>
 
         <!-- Footer -->
-        <div class="footer d-sm-flex align-items-center justify-content-between border-top bg-white p-3 mt-4">
-            <p class="mb-0">2014 - {{ date('Y') }} &copy; SmartHR.</p>
-            <p>Designed &amp; Developed By <a href="javascript:void(0);" class="text-primary">Dreams</a></p>
-        </div>
+         <x-footer />
         <!-- /Footer -->
     </div>
     <!-- /Page Wrapper -->

@@ -143,6 +143,7 @@
                 </div>
             </div>
         </div>
+         <x-footer />
     </div>
     <!-- /Delete Modal -->
 @endsection

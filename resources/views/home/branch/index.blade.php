@@ -135,7 +135,7 @@
 
 
         </div>
-
+ <x-footer />
     </div>
     <!-- /Page Wrapper -->
 

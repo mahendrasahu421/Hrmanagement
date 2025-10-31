@@ -171,8 +171,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('attendance/attendance-dashboard/org-reports/store', [AttendanceOrgReportController::class, 'store'])->name('attendance.attendance-dashboard.org-reports.store');
     // Org-Reports
     Route::get('attendance/daily-attendance/consistent-attendees', [ConsistentAttendeesController::class, 'index'])->name('attendance.daily-attendance.consistent-attendees');
-    Route::get('attendance/daily-attendance/consistent-attendees/create', [ConsistentAttendeesController::class, 'create'])->name('attendance.daily-attendance.consistent-attendees.create');
-    Route::get('attendance/daily-attendance/consistent-attendees/store', [ConsistentAttendeesController::class, 'store'])->name('attendance.daily-attendance.consistent-attendees.store');});
+    });
 
 
 Route::get('/', [AuthController::class, 'index']);
