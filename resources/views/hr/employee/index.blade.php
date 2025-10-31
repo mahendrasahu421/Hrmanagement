@@ -236,18 +236,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-001</a>
+                                            href="{{ route('employee-details') }}">Emp-001</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-32.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Anthony
                                                         Lewis</a></p>
                                                 <span class="fs-12">Finance</span>
@@ -299,18 +299,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-002</a>
+                                            href="{{ route('employee-details') }}">Emp-002</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-09.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Brian
                                                         Villalobos</a></p>
                                                 <span class="fs-12">Developer</span>
@@ -362,18 +362,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-003</a>
+                                            href="{{ route('employee-details') }}">Emp-003</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-01.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Harvey
                                                         Smith</a></p>
                                                 <span class="fs-12">Developer</span>
@@ -425,18 +425,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-004</a>
+                                            href="{{ route('employee-details') }}">Emp-004</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-33.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Stephan
                                                         Peralt</a></p>
                                                 <span class="fs-12">Executive Officer</span>
@@ -488,18 +488,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-005</a>
+                                            href="{{ route('employee-details') }}">Emp-005</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-33.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Doglas
                                                         Martini</a></p>
                                                 <span class="fs-12">Manager</span>
@@ -551,18 +551,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-006</a>
+                                            href="{{ route('employee-details') }}">Emp-006</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-02.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Linda
                                                         Ray</a></p>
                                                 <span class="fs-12">Finance</span>
@@ -614,18 +614,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-007</a>
+                                            href="{{ route('employee-details') }}">Emp-007</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-35.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Elliot
                                                         Murray</a></p>
                                                 <span class="fs-12">Finance</span>
@@ -677,18 +677,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-008</a>
+                                            href="{{ route('employee-details') }}">Emp-008</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-36.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Rebecca
                                                         Smtih</a></p>
                                                 <span class="fs-12">Executive</span>
@@ -740,18 +740,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-009</a>
+                                            href="{{ route('employee-details') }}">Emp-009</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-37.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Connie
                                                         Waters</a></p>
                                                 <span class="fs-12">Developer</span>
@@ -803,18 +803,18 @@
                                         </div>
                                     </td>
                                     <td><a
-                                            href="{{ route('hr.employee-details') }}">Emp-010</a>
+                                            href="{{ route('employee-details') }}">Emp-010</a>
                                     </td>
                                     <td>
                                         <div class="d-flex align-items-center">
-                                            <a href="{{ route('hr.employee-details') }}"
+                                            <a href="{{ route('employee-details') }}"
                                                 class="avatar avatar-md" data-bs-toggle="modal"
                                                 data-bs-target="#view_details"><img
                                                     src="https://smarthr.co.in/demo/html/template/assets/img/users/user-38.jpg"
                                                     class="img-fluid rounded-circle" alt="img"></a>
                                             <div class="ms-2">
                                                 <p class="text-dark mb-0"><a
-                                                        href="{{ route('hr.employee-details') }}"
+                                                        href="{{ route('employee-details') }}"
                                                         data-bs-toggle="modal" data-bs-target="#view_details">Lori
                                                         Broaddus</a></p>
                                                 <span class="fs-12">Finance</span>
@@ -867,10 +867,7 @@
 
         </div>
 
-        <div class="footer d-sm-flex align-items-center justify-content-between border-top bg-white p-3">
-            <p class="mb-0">2014 - 2025 &copy; SmartHR.</p>
-            <p>Designed &amp; Developed By <a href="javascript:void(0);" class="text-primary">Dreams</a></p>
-        </div>
+        <x-footer />
 
     </div>
     <!-- /Page Wrapper -->
@@ -2279,7 +2276,7 @@
                                         class="btn btn-dark w-100">Back to List</a>
                                 </div>
                                 <div class="col-6">
-                                    <a href="{{ route('hr.employee-details') }}"
+                                    <a href="{{ route('employee-details') }}"
                                         class="btn btn-primary w-100">Detail Page</a>
                                 </div>
                             </div>

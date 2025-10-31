@@ -409,7 +409,7 @@
                                         </div>
                                         <div class="card-footer">
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="{{ route('logout') }}">
+                                                href="{{ url('logout') }}">
                                                 <i class="ti ti-login me-2"></i>Logout
                                             </a>
                                         </div>
@@ -468,7 +468,7 @@
                         <li>
                             <ul>
                                 <li>
-                                    <a href="{{ route('hr.dashboard.index') }}">
+                                    <a href="{{ url('dashboard') }}">
                                         <i class="ti ti-layout-navbar"></i><span>Dashboard</span>
                                     </a>
                                 </li>
@@ -486,16 +486,16 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul>
-                                        <li><a href="{{ route('hr.employee.index') }}">Employee Lists</a></li>
-                                        <li><a href="{{ route('hr.employee.departments') }}">Departments</a></li>
-                                        <li><a href="{{ route('hr.employee.designations') }}">Designations</a></li>
-                                        <li><a href="{{ route('hr.employee.policy') }}">Policies</a></li>
+                                        <li><a href="{{ url('employee.index') }}">Employee Lists</a></li>
+                                        <li><a href="{{ url('hr.employee.departments') }}">Departments</a></li>
+                                        <li><a href="{{ url('hr.employee.designations') }}">Designations</a></li>
+                                        {{-- <li><a href="{{ url('hr.employee.policy') }}">Policies</a></li> --}}
                                     </ul>
                                 </li>
 
                                 {{-- Holidays --}}
                                 <li>
-                                    <a href="{{ route('hr.holidays') }}">
+                                    <a href="{{ url('hr.holidays') }}">
                                         <i class="ti ti-calendar-event"></i><span>Holidays</span>
                                     </a>
                                 </li>
@@ -511,12 +511,12 @@
                                             <a href="javascript:void(0);" class="subdrop">Leaves<span
                                                     class="menu-arrow inside-submenu"></span></a>
                                             <ul>
-                                                <li><a href="{{ route('hr.leave.index') }}">Leaves (Admin)</a></li>
-                                                <li><a href="{{ route('hr.leave.settings') }}">Leave
+                                                <li><a href="{{ url('hr.leave.index') }}">Leaves (Admin)</a></li>
+                                                <li><a href="{{ url('hr.leave.settings') }}">Leave
                                                         Settings</a></li>
                                             </ul>
                                         </li>
-                                        <li><a href="{{ route('hr.attendance') }}">Attendance</a></li>
+                                        <li><a href="{{ url('hr.attendance') }}">Attendance</a></li>
                                     </ul>
                                 </li>
 
@@ -527,14 +527,14 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul>
-                                        <li><a href="{{ route('hr.performance.indicator') }}">Performance
+                                        <li><a href="{{ url('hr.performance.indicator') }}">Performance
                                                 Indicator</a></li>
-                                        <li><a href="{{ route('hr.performance.review') }}">Performance
+                                        <li><a href="{{ url('hr.performance.review') }}">Performance
                                                 Review</a></li>
-                                        <li><a href="{{ route('hr.performance.appraisal') }}">Performance
+                                        <li><a href="{{ url('hr.performance.appraisal') }}">Performance
                                                 Appraisal</a></li>
-                                        <li><a href="{{ route('hr.goal.tracking') }}">Goal List</a></li>
-                                        <li><a href="{{ route('hr.goal.type') }}">Goal Type</a></li>
+                                        <li><a href="{{ url('hr.goal.tracking') }}">Goal List</a></li>
+                                        <li><a href="{{ url('hr.goal.type') }}">Goal Type</a></li>
                                     </ul>
                                 </li>
 
@@ -545,9 +545,9 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul>
-                                        <li><a href="{{ route('hr.training') }}">Training List</a></li>
-                                        <li><a href="{{ route('hr.trainers') }}">Trainers</a></li>
-                                        <li><a href="{{ route('hr.training.type') }}">Training Type</a></li>
+                                        <li><a href="{{ url('hr.training') }}">Training List</a></li>
+                                        <li><a href="{{ url('hr.trainers') }}">Trainers</a></li>
+                                        <li><a href="{{ url('hr.training.type') }}">Training Type</a></li>
                                     </ul>
                                 </li>
 
