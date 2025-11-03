@@ -6,13 +6,15 @@
     <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HRXpert Dashboard | HRM, Payroll & CRM Admin Template</title>
+    <title>Chitragupta – The HR Guardian | HRM, Payroll & CRM Dashboard</title>
 
     <meta name="description"
-        content="HRXpert - A responsive Bootstrap 5 admin dashboard template for HRM, payroll, attendance, recruitment, and team management. Streamline your workforce management with an intuitive interface.">
+        content="Chitragupta – The HR Guardian is a modern and responsive HRM, Payroll, and CRM admin template built with Bootstrap 5. Manage employees, payroll, attendance, recruitment, and performance efficiently with an intuitive dashboard.">
+
     <meta name="keywords"
-        content="HR dashboard, HRM admin template, Bootstrap 5 HR template, employee management, payroll, attendance, recruitment, HR analytics, CRM dashboard, team management">
-    <meta name="author" content="HRXpert">
+        content="Chitragupta, HRM dashboard, HR management system, Payroll software, HR admin template, Bootstrap 5 dashboard, CRM template, attendance tracking, employee management, recruitment system, performance analytics, HR solution, workforce automation">
+
+    <meta name="author" content="Chitragupta Team">
     <meta name="robots" content="index, follow">
 
 

@@ -11,28 +11,32 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Drop the old column if it exists
+            // Drop old 'user_type' column if it exists
             if (Schema::hasColumn('users', 'user_type')) {
                 $table->dropColumn('user_type');
             }
 
-            // Add new column
-            $table->unsignedBigInteger('role_id')->nullable()->after('id');
-
-            // Optional: add foreign key reference to roles table
-            // $table->foreign('role_id')->references('id')->on('roles')->onDelete('set null');
+            // Add 'role_id' only if it doesn't exist
+            if (!Schema::hasColumn('users', 'role_id')) {
+                $table->unsignedBigInteger('role_id')->nullable()->after('id');
+            }
         });
     }
 
     /**
      * Reverse the migrations.
      */
-   public function down(): void
-    {
-        Schema::table('users', function (Blueprint $table) {
-            // Rollback actions
+    public function down(): void
+{
+    Schema::table('users', function (Blueprint $table) {
+        if (Schema::hasColumn('users', 'role_id')) {
             $table->dropColumn('role_id');
+        }
+
+        if (!Schema::hasColumn('users', 'user_type')) {
             $table->string('user_type')->nullable();
-        });
-    }
+        }
+    });
+}
+
 };
