@@ -27,7 +27,7 @@ use App\Http\Controllers\SkillsController;
 use App\Http\Controllers\MapRolePermission;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
-use App\Http\Controllers\Employee\leavesCotroller;
+use App\Http\Controllers\Employee\leavesController;
 use App\Http\Controllers\Employee\AttendanceCotroller;
 use App\Http\Controllers\Employee\PerformanceCotroller;
 use App\Http\Controllers\Employee\PerformanceReviewCotroller;
@@ -184,11 +184,11 @@ Route::middleware(['auth'])->group(function () {
     Route::post('roles/store', [RoleController::class, 'store'])->name('role.store');
     Route::get('roles/edit', [RoleController::class, 'edit'])->name('roles.edit');
     Route::get('roles/destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
-    
+
     // map-role-permission
     Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission');
     Route::get('map-role-permission/store', [MapRolePermission::class, 'index'])->name('map-role-permission.store');
-   
+
 });
 
 
@@ -200,21 +200,24 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 // // Employee
-// Route::prefix('employee')->middleware('auth')->group(function () {
-//     Route::get('dashboard', [EmployeeCotroller::class, 'index']);
-//     Route::get('leaves', [leavesCotroller::class, 'index']);
-//     Route::get('attendance', [AttendanceCotroller::class, 'index']);
-//     Route::get('performance', [PerformanceCotroller::class, 'index']);
-//     Route::get('performance/review', [PerformanceReviewCotroller::class, 'index']);
-//     Route::get('payslip', [PayslipCotroller::class, 'index']);
+Route::prefix('employee')->middleware('auth')->group(function () {
+    Route::get('dashboard', [EmployeeCotroller::class, 'index']);
+    Route::get('leaves', [leavesController::class, 'index'])->name('employee.leaves');
+    Route::get('leaves/apply', [leavesController::class, 'create'])->name('employee.leaves.apply');
+    Route::post('leaves/apply/store', [leavesController::class, 'store'])->name('employee.leaves.store');
+    Route::get('leaves/apply/list', [leavesController::class, 'list'])->name('employee.leaves.list');
 
-// });
+    Route::get('leaves/list', [AttendanceCotroller::class, 'show']);
+    Route::get('holiday/list', [AttendanceCotroller::class, 'holidayList']);
+    Route::get('performance', [PerformanceCotroller::class, 'index']);
+    Route::get('performance/review', [PerformanceReviewCotroller::class, 'index']);
+    Route::get('payslip', [PayslipCotroller::class, 'index']);
+
+});
+
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
     // Permission
-
-
-    // Clients
     Route::get('clients', [ClientsController::class, 'index'])->name('admin.clients');
     Route::post('clients/create', [ClientsController::class, 'create'])->name('admin.clients.create');
     Route::get('clients/{id}/client-details', [ClientsController::class, 'show'])->name('admin.clients.details');

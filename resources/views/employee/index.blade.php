@@ -1,30 +1,30 @@
-@extends('layout.master')
+@extends('employee.layout.layout')
 @section('title', $title)
 
 @section('main-section')
-<div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
-    @if (session('success'))
-        <div class="toast align-items-center text-white bg-success border-0 show" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ session('success') }}
+    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
+        @if (session('success'))
+            <div class="toast align-items-center text-white bg-success border-0 show" role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('success') }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
             </div>
-        </div>
-    @endif
+        @endif
 
-    @if (session('error'))
-        <div class="toast align-items-center text-white bg-danger border-0 show" role="alert">
-            <div class="d-flex">
-                <div class="toast-body">
-                    {{ session('error') }}
+        @if (session('error'))
+            <div class="toast align-items-center text-white bg-danger border-0 show" role="alert">
+                <div class="d-flex">
+                    <div class="toast-body">
+                        {{ session('error') }}
+                    </div>
+                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
                 </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
             </div>
-        </div>
-    @endif
-</div>
+        @endif
+    </div>
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content">
@@ -35,7 +35,7 @@
                     <h2 class="mb-1">{{ $title }}</h2>
                     <nav>
                         <ol class="breadcrumb mb-0">
-                          
+
                             <li class="breadcrumb-item">
                                 Dashboard
                             </li>
@@ -91,14 +91,21 @@
                             <div class="d-flex align-items-center">
                                 <span
                                     class="avatar avatar-lg avatar-rounded border border-white border-2 flex-shrink-0 me-2">
-                                    <img src="{{ $imageUrl }}"
-                                        alt="Img">
+                                    <img src="{{ $imageUrl }}" alt="Img">
                                 </span>
                                 <div>
                                     <h5 class="text-white mb-1">{{ Auth::user()->name }}</h5>
                                     <div class="d-flex align-items-center">
-                                        <p class="text-white fs-12 mb-0">SSenior Manager & Company Secretary</p>
-                                        <span class="mx-1"><i class="ti ti-point-filled text-primary"></i></span>
+                                        <p class="text-white fs-12 mb-0">Senior Manager & Company Secretary</p>
+                                        <span class="mx-1"><!-- resources/views/layouts/partials/status-dot.blade.php -->
+
+                                            @auth
+                                                <i class="ti ti-point-filled text-success" title="Online"></i>
+                                            @else
+                                                <i class="ti ti-point-filled text-danger" title="Offline"></i>
+                                            @endauth
+
+                                        </span>
                                         <p class="fs-12">Designation</p>
                                     </div>
                                 </div>
@@ -113,8 +120,7 @@
                             </div>
                             <div class="mb-3">
                                 <span class="d-block mb-1 fs-13">Email Address</span>
-                                <p class="text-gray-9"><a href="{{ Auth::user()->email }}"
-                                        class="__cf_email__"
+                                <p class="text-gray-9"><a href="{{ Auth::user()->email }}" class="__cf_email__"
                                         data-cfemail="fba88f9e8b9e899f9ecac9cfbb9e839a968b979ed5989496">{{ Auth::user()->email }}</a>
                                 </p>
                             </div>
@@ -125,7 +131,7 @@
                             <div>
                                 <span class="d-block mb-1 fs-13">Joined on</span>
                                 <p class="text-gray-9">{{ Auth::user()->created_at->format('d-m-Y') }}
-</p>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -1002,10 +1008,10 @@
                                                 class="d-block border border-2 h-12 border-primary rounded-5 me-2"></span>
                                             <div>
                                                 <h6 class="fw-medium mb-1">Presentation skills</h6>
-                                                
+
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="border border-dashed bg-transparent-light rounded p-2 mb-2">
@@ -1015,10 +1021,10 @@
                                                 class="d-block border border-2 h-12 border-success rounded-5 me-2"></span>
                                             <div>
                                                 <h6 class="fw-medium mb-1">Leadership skills</h6>
-                                               
+
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
                                 <div class="border border-dashed bg-transparent-light rounded p-2 mb-2">
@@ -1027,14 +1033,14 @@
                                             <span class="d-block border border-2 h-12 border-purple rounded-5 me-2"></span>
                                             <div>
                                                 <h6 class="fw-medium mb-1">Time management - Prioratising tasks</h6>
-                                                
+
                                             </div>
                                         </div>
-                                        
+
                                     </div>
                                 </div>
-                                
-                                
+
+
                             </div>
                         </div>
                     </div>
@@ -1098,7 +1104,8 @@
                                             class="rounded-circle border border-2" alt="img">
                                     </a>
                                     <div class="ms-2">
-                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Mahendra sahu</a></h6>
+                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Mahendra sahu</a>
+                                        </h6>
                                         <p class="fs-13">Sales</p>
                                     </div>
                                 </div>
@@ -1138,7 +1145,8 @@
                                             class="rounded-circle border border-2" alt="img">
                                     </a>
                                     <div class="ms-2">
-                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Sheetanshu Shrivastva</a></h6>
+                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Sheetanshu
+                                                Shrivastva</a></h6>
                                         <p class="fs-13">Team Leader</p>
                                     </div>
                                 </div>
@@ -1158,7 +1166,8 @@
                                             class="rounded-circle border border-2" alt="img">
                                     </a>
                                     <div class="ms-2">
-                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Pritima Shrivastava</a></h6>
+                                        <h6 class="fs-14 fw-medium text-truncate mb-1"><a href="#">Pritima
+                                                Shrivastava</a></h6>
                                         <p class="fs-13">Admin</p>
                                     </div>
                                 </div>
@@ -1171,8 +1180,8 @@
                                             class="ti ti-brand-hipchat fs-16"></i></a>
                                 </div>
                             </div>
-                           
-                          
+
+
                         </div>
                     </div>
                 </div>
@@ -1355,7 +1364,7 @@
                 <form action="#">
                     <div class="modal-body pb-0">
                         <div class="row">
-                            
+
                             <div class="col-md-12">
                                 <div class="mb-3">
                                     <label class="form-label">Leave Type</label>
@@ -1547,8 +1556,7 @@
                                             <input type="file" class="form-control image-sign" multiple="">
                                         </div>
                                     </div>
-                                    <div
-                                        class="d-flex align-items-center justify-content-between border-bottom mb-2 pb-2">
+                                    <div class="d-flex align-items-center justify-content-between border-bottom mb-2 pb-2">
                                         <div class="d-flex align-items-center">
                                             <h6 class="fs-12 fw-medium me-1">Logo.zip</h6>
                                             <span class="badge badge-soft-info">21MB </span>
@@ -1588,8 +1596,7 @@
                     <p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
                     <div class="d-flex justify-content-center">
                         <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-                        <a href="#"
-                            class="btn btn-danger">Yes, Delete</a>
+                        <a href="#" class="btn btn-danger">Yes, Delete</a>
                     </div>
                 </div>
             </div>
