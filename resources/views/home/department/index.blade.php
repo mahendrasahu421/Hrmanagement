@@ -2,7 +2,6 @@
 @section('title', $title)
 
 @section('main-section')
-    <!-- Page Wrapper -->
     <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
     <div class="page-wrapper">
         <div class="content">
@@ -12,7 +11,7 @@
                 <div class="my-auto mb-2">
                     <h2 class="mb-1">{{ $title }}</h2>
                 </div>
-                <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
+                <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                     <div class="mb-2">
                         <a href="{{ route('masters.organisation.department.create') }}"
                             class="btn btn-primary d-flex align-items-center">
@@ -26,74 +25,17 @@
             <div class="card">
                 <div class="card-body p-0">
                     <div class="custom-datatable-filter table-responsive">
-                        <table class="table datatable">
+                        <table id="departmentTable" class="table table-bordered table-striped w-100">
                             <thead class="thead-light">
                                 <tr>
-                                    <th class="no-sort">
-                                        <div class="form-check form-check-md">
-                                            <input class="form-check-input" type="checkbox" id="select-all">
-                                        </div>
-                                    </th>
+                                    <th>Sr.No</th>
                                     <th>Department Name</th>
                                     <th>Code</th>
                                     <th>Reporting Department</th>
                                     <th>Status</th>
-                                    <th></th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                @forelse ($departments as $dept)
-                                    <tr>
-                                        <td>
-                                            <div class="form-check form-check-md">
-                                                <input class="form-check-input" type="checkbox">
-                                            </div>
-                                        </td>
-                                        <td>{{ $dept->department_name }}</td>
-                                        <td>
-                                            <h6 class="fw-medium">
-                                                <a href="#">{{ $dept->department_code }}</a>
-                                            </h6>
-                                        </td>
-                                        <td>{{ $dept->department_head ?? 'N/A' }}</td>
-                                        <td>
-                                            @if ($dept->status == 'active')
-                                                <span class="badge badge-success d-inline-flex align-items-center badge-sm">
-                                                    <i class="ti ti-point-filled me-1"></i>Active
-                                                </span>
-                                            @else
-                                                <span class="badge badge-danger d-inline-flex align-items-center badge-sm">
-                                                    <i class="ti ti-point-filled me-1"></i>Inactive
-                                                </span>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="action-icon d-inline-flex">
-                                                <a href="{{ route('masters.organisation.department.edit', $dept->id) }}"
-                                                    class="me-2">
-                                                    <i class="ti ti-edit"></i>
-                                                </a>
-                                                <form
-                                                    action="{{ route('masters.organisation.department.destroy', $dept->id) }}"
-                                                    method="POST"
-                                                    onsubmit="return confirm('Are you sure you want to delete this department?');">
-                                                    @csrf
-                                                    @method('DELETE')
-
-                                                    <a href="delete"
-                                                        onclick="event.preventDefault(); this.closest('form').submit();">
-                                                        <i class="ti ti-trash"></i>
-                                                    </a>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="6" class="text-center text-muted">No departments found.</td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
                         </table>
                     </div>
                 </div>
@@ -102,7 +44,78 @@
         </div>
 
         <x-footer />
-
     </div>
-    <!-- /Page Wrapper -->
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function() {
+            // Initialize DataTable
+            let table = new DataTable('#departmentTable', {
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                ajax: {
+                    url: "{{ url('masters/organisation/department/list') }}",
+                    type: "GET"
+                },
+                columns: [{
+                        data: 'sn',
+                        name: 'sn'
+                    },
+                    {
+                        data: 'department_name',
+                        name: 'department_name'
+                    },
+                    {
+                        data: 'department_code',
+                        name: 'department_code'
+                    },
+                    {
+                        data: 'department_head',
+                        name: 'department_head'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+
+            // Delete Department (AJAX)
+            $(document).on('click', '.deleteDepartment', function(e) {
+                e.preventDefault();
+                let url = $(this).attr('href');
+
+                if (confirm('Are you sure you want to delete this department?')) {
+                    $.ajax({
+                        url: url,
+                        type: 'DELETE',
+                        data: {
+                            _token: '{{ csrf_token() }}'
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                alert(response.message);
+                                table.ajax.reload(null, false);
+                            } else {
+                                alert(response.message);
+                            }
+                        },
+                        error: function() {
+                            alert('Something went wrong!');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
 @endsection

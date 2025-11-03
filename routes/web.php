@@ -91,6 +91,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/department/edit/{id}', [DepartmentController::class, 'edit'])->name('masters.organisation.department.edit');
     Route::put('masters/organisation/department/edit/{id}', [DepartmentController::class, 'update'])->name('masters.organisation.department.update');
     Route::delete('masters/organisation/department/delete/{id}', [DepartmentController::class, 'destroy'])->name('masters.organisation.department.destroy');
+    Route::get('masters/organisation/department/list', [DepartmentController::class, 'list'])->name('masters.organisation.department.list');
 
     // Master/Organisation/Designation
     Route::get('masters/organisation/designation', [DesignationController::class, 'index'])->name('masters.organisation.designation');
