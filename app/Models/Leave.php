@@ -21,13 +21,14 @@ class Leave extends Model
     ];
 
     // Optional: Relationships
-    public function leaveType()
-    {
-        return $this->belongsTo(LeaveType::class, 'leave_type_id');
-    }
-
+    
     public function employee()
     {
         return $this->belongsTo(User::class, 'employee_id');
     }
+    public function leaveType()
+{
+    return $this->belongsTo(LeaveType::class, 'leave_type_id', 'id');
+}
+
 }

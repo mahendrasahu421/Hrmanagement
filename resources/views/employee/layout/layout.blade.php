@@ -66,7 +66,13 @@
 
     <link rel="stylesheet" href="{{ asset('frontent/assets/css/style.css') }}">
 
-
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
+    
+   
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
 
@@ -140,7 +146,8 @@
                                                     <a href="https://smarthr.co.in/demo/html/template/deals-grid.html"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
-                                                            <i class="ti ti-heart-handshake text-default me-2"></i>Deals
+                                                            <i
+                                                                class="ti ti-heart-handshake text-default me-2"></i>Deals
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
@@ -1623,7 +1630,7 @@
                                         </div>
                                         <div class="card-footer py-1">
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="https://smarthr.co.in/demo/html/template/login.html"><i
+                                                href="{{ route('logout') }}"><i
                                                     class="ti ti-login me-2"></i>Logout</a>
                                         </div>
                                     </div>
@@ -1742,7 +1749,7 @@
                         <li>
                             <ul>
                                 <li>
-                                    <a href="">
+                                    <a href="{{ url('dashboard') }}">
                                         <i class="ti ti-layout-navbar"></i><span>Dashboard</span>
                                     </a>
                                 </li>
@@ -1759,11 +1766,11 @@
                                     </a>
                                     <ul>
 
-                                        <li><a href="{{ route('employee.leaves') }}">Apply Leaves
+                                        <li><a href="{{ route('employee.leaves.apply') }}">Apply Leaves
                                             </a></li>
-                                        <li><a href="{{ url('employee/attendance') }}">Leaves List
+                                        <li><a href="{{ route('employee.leaves') }}">Leaves List
                                             </a></li>
-                                        <li><a href="">Holiday List
+                                        <li><a href="#">Holiday List
                                             </a></li>
 
                                     </ul>
@@ -1786,10 +1793,12 @@
 
 
         @yield('main-section')
+       
+        {{-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script> --}}
     </div> <!-- Bootstrap Core JS -->
     <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="{{ asset('frontent/assets/js/jquery-3.7.1.min.js') }}"></script>
-    <script src="{{ asset('frontent/assets/js/bootstrap.bundle.min.js') }}"></script>
+   
 
     <!-- Feather Icon JS -->
     <script src="{{ asset('frontent/assets/js/feather.min.js') }}"></script>
@@ -1828,7 +1837,7 @@
     <script src="{{ asset('frontent/assets/js/todo.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/theme-colorpicker.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/script.js') }}"></script>
-
+ @stack('after_scripts')
 </body>
 
 
