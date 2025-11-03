@@ -15,7 +15,7 @@ class UserSeeder extends Seeder
             'name' => 'Super Admin',
             'email' => 'superadmin@example.com',
             'password' => Hash::make('password123'),
-            'user_type' => 'super-admin',
+            
             'status' => 1,
         ]);
 
@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'name' => 'Admin User',
             'email' => 'admin@example.com',
             'password' => Hash::make('password123'),
-            'user_type' => 'admin',
+            
             'status' => 1,
         ]);
 
@@ -33,7 +33,7 @@ class UserSeeder extends Seeder
             'name' => 'HR User',
             'email' => 'hr@example.com',
             'password' => Hash::make('password123'),
-            'user_type' => 'hr',
+           
             'status' => 1,
         ]);
 

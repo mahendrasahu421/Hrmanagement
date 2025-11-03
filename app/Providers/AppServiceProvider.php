@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Menu;
 
-=======
+
 use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
