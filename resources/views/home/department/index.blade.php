@@ -75,12 +75,15 @@
                                                 </a>
                                                 <form
                                                     action="{{ route('masters.organisation.department.destroy', $dept->id) }}"
-                                                    method="POST">
+                                                    method="POST"
+                                                    onsubmit="return confirm('Are you sure you want to delete this department?');">
                                                     @csrf
                                                     @method('DELETE')
-                                                    <button type="submit" class="btn btn-link p-0 text-danger">
+
+                                                    <a href="delete"
+                                                        onclick="event.preventDefault(); this.closest('form').submit();">
                                                         <i class="ti ti-trash"></i>
-                                                    </button>
+                                                    </a>
                                                 </form>
                                             </div>
                                         </td>
