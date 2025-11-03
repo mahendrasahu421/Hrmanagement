@@ -22,9 +22,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             StateSeeder::class,
         ]);
-        $this->call([
-            CitySeeder::class,
-        ]);
+        // $this->call([
+        //     CitySeeder::class,
+        // ]);
          $this->call(JobCategorySeeder::class);
          $this->call(SkillSeeder::class);
     }

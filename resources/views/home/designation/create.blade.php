@@ -73,17 +73,6 @@
                                 <div class="invalid-feedback">Please enter designation code.</div>
                             </div>
 
-                            <!-- Reporting To -->
-                            <div class="col-md-4 mb-3">
-                                <label class="form-label" for="reporting_to">Reporting To</label>
-                                <select class="form-control" id="reporting_to" name="reporting_to">
-                                    <option value="">Select Reporting Designation</option>
-                                    <option value="1" selected>HR Manager</option>
-                                    <option value="2">Admin Head</option>
-                                    <option value="3">CEO</option>
-                                </select>
-                            </div>
-
                             <!-- Status -->
                             <div class="col-md-4 mb-3">
                                 <label class="form-label" for="status">Status *</label>
