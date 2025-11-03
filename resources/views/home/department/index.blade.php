@@ -3,6 +3,7 @@
 
 @section('main-section')
     <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+
     <div class="page-wrapper">
         <div class="content">
 
@@ -45,11 +46,35 @@
 
         <x-footer />
     </div>
+
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="delete_modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
+                        <i class="ti ti-trash-x fs-36"></i>
+                    </span>
+                    <h4 class="mb-1">Confirm Delete</h4>
+                    <p class="mb-3">Are you sure you want to delete this department? This action cannot be undone.</p>
+                    <input type="hidden" id="deleteDepartmentUrl">
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Yes, Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('script')
+    <!-- Include SweetAlert2 -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <script>
         $(document).ready(function() {
+
             // Initialize DataTable
             let table = new DataTable('#departmentTable', {
                 responsive: true,
@@ -60,8 +85,13 @@
                     type: "GET"
                 },
                 columns: [{
-                        data: 'sn',
-                        name: 'sn'
+                        data: null,
+                        name: 'sn',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
                     },
                     {
                         data: 'department_name',
@@ -88,33 +118,60 @@
                         searchable: false
                     }
                 ]
+
             });
 
-            // Delete Department (AJAX)
+            // When Delete Button Clicked → Open Modal
             $(document).on('click', '.deleteDepartment', function(e) {
                 e.preventDefault();
-                let url = $(this).attr('href');
+                let deleteUrl = $(this).attr('href');
+                $('#deleteDepartmentUrl').val(deleteUrl);
+                $('#delete_modal').modal('show');
+            });
 
-                if (confirm('Are you sure you want to delete this department?')) {
-                    $.ajax({
-                        url: url,
-                        type: 'DELETE',
-                        data: {
-                            _token: '{{ csrf_token() }}'
-                        },
-                        success: function(response) {
-                            if (response.success) {
-                                alert(response.message);
-                                table.ajax.reload(null, false);
-                            } else {
-                                alert(response.message);
-                            }
-                        },
-                        error: function() {
-                            alert('Something went wrong!');
+            // Confirm Delete (AJAX)
+            $('#confirmDeleteBtn').on('click', function() {
+                let url = $('#deleteDepartmentUrl').val();
+
+                $.ajax({
+                    url: url,
+                    type: 'DELETE',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    beforeSend: function() {
+                        $('#confirmDeleteBtn').prop('disabled', true).text('Deleting...');
+                    },
+                    success: function(response) {
+                        $('#confirmDeleteBtn').prop('disabled', false).text('Yes, Delete');
+                        $('#delete_modal').modal('hide');
+
+                        if (response.success) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Deleted!',
+                                text: response.message,
+                                timer: 1500,
+                                showConfirmButton: false
+                            });
+                            table.ajax.reload(null, false);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message
+                            });
                         }
-                    });
-                }
+                    },
+                    error: function() {
+                        $('#confirmDeleteBtn').prop('disabled', false).text('Yes, Delete');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Something went wrong!'
+                        });
+                    }
+                });
             });
         });
     </script>
