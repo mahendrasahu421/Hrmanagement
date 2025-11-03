@@ -87,7 +87,10 @@ Route::middleware(['auth'])->group(function () {
     // Master/Organisation/Department
     Route::get('masters/organisation/department', [DepartmentController::class, 'index'])->name('masters.organisation.department');
     Route::get('masters/organisation/department/create', [DepartmentController::class, 'create'])->name('masters.organisation.department.create');
-    Route::get('masters/organisation/department/store', [DepartmentController::class, 'create'])->name('masters.organisation.department.store');
+    Route::post('masters/organisation/department/store', [DepartmentController::class, 'store'])->name('masters.organisation.department.store');
+    Route::get('masters/organisation/department/edit/{id}', [DepartmentController::class, 'edit'])->name('masters.organisation.department.edit');
+    Route::put('masters/organisation/department/edit/{id}', [DepartmentController::class, 'update'])->name('masters.organisation.department.update');
+    Route::delete('masters/organisation/department/delete/{id}', [DepartmentController::class, 'destroy'])->name('masters.organisation.department.destroy');
 
     // Master/Organisation/Designation
     Route::get('masters/organisation/designation', [DesignationController::class, 'index'])->name('masters.organisation.designation');
@@ -188,7 +191,6 @@ Route::middleware(['auth'])->group(function () {
     // map-role-permission
     Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission');
     Route::get('map-role-permission/store', [MapRolePermission::class, 'index'])->name('map-role-permission.store');
-
 });
 
 
@@ -212,7 +214,6 @@ Route::prefix('employee')->middleware('auth')->group(function () {
     Route::get('performance', [PerformanceCotroller::class, 'index']);
     Route::get('performance/review', [PerformanceReviewCotroller::class, 'index']);
     Route::get('payslip', [PayslipCotroller::class, 'index']);
-
 });
 
 Route::prefix('admin')->middleware('auth')->group(function () {
@@ -269,7 +270,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     // map-role-permission
     Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission.index');
     Route::post('map-role-permission', [MapRolePermission::class, 'store'])->name('map-role-permission.store');
-   
+
 
     // Resource Controllers (CRUD automatically handled)
     Route::resource('permissions', PermissionController::class, ['as' => 'admin']);
@@ -281,5 +282,4 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::resource('permission', PermissionController::class);
     Route::resource('settings', SettingController::class);
     Route::resource('employee', EmployeeController::class, ['as' => 'admin']);
-
 });

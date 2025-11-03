@@ -13,11 +13,11 @@
                         <!-- Breadcrumb -->
                         <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                             <div class="my-auto mb-2">
-                                <h2 class="mb-1">Create Department</h2>
+                                <h2 class="mb-1">Edit Department</h2>
                                 <nav>
                                     <ol class="breadcrumb mb-0">
                                         <li class="breadcrumb-item" aria-current="page">
-                                            Master / Organisation / Department / Create
+                                            Master / Organisation / Department / Edit
                                         </li>
                                     </ol>
                                 </nav>
@@ -34,8 +34,9 @@
                     </div>
 
                     <div class="card-body">
-                        <form method="POST" action="{{ route('masters.organisation.department.store') }}">
+                        <form method="POST" action="{{ route('masters.organisation.department.update', $department->id) }}">
                             @csrf
+                            @method('PUT')
 
                             <div class="row">
                                 <!-- Select Company -->
@@ -43,7 +44,7 @@
                                     <label class="form-label" for="company_id">Select Company *</label>
                                     <select class="form-control" id="company_id" name="company_id" required>
                                         <option value="">Select Company</option>
-                                        <option value="1">Nerual Info Solution Pvt Ltd</option>
+                                        <option value="1" {{ $department->company_id == 1 ? 'selected' : '' }}>Nerual Info Solution Pvt Ltd</option>
                                     </select>
                                     @error('company_id')
                                         <span class="text-danger">{{ $message }}</span>
@@ -54,7 +55,8 @@
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label" for="department_name">Department Name *</label>
                                     <input type="text" class="form-control" id="department_name" name="department_name"
-                                        placeholder="Enter Department Name" value="{{ old('department_name') }}" required>
+                                        placeholder="Enter Department Name"
+                                        value="{{ old('department_name', $department->department_name) }}" required>
                                     @error('department_name')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -64,7 +66,8 @@
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label" for="department_code">Department Code *</label>
                                     <input type="text" class="form-control" id="department_code" name="department_code"
-                                        placeholder="Enter Department Code" value="{{ old('department_code') }}" required>
+                                        placeholder="Enter Department Code"
+                                        value="{{ old('department_code', $department->department_code) }}" required>
                                     @error('department_code')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -76,7 +79,8 @@
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label" for="department_head">Department Head</label>
                                     <input type="text" class="form-control" id="department_head" name="department_head"
-                                        placeholder="Enter Department Head" value="{{ old('department_head') }}">
+                                        placeholder="Enter Department Head"
+                                        value="{{ old('department_head', $department->department_head) }}">
                                     @error('department_head')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror
@@ -86,8 +90,8 @@
                                 <div class="col-md-4 mb-3">
                                     <label class="form-label" for="status">Status *</label>
                                     <select class="form-control" id="status" name="status" required>
-                                        <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                                        <option value="inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                                        <option value="active" {{ $department->status == 'active' ? 'selected' : '' }}>Active</option>
+                                        <option value="inactive" {{ $department->status == 'inactive' ? 'selected' : '' }}>Inactive</option>
                                     </select>
                                     @error('status')
                                         <span class="text-danger">{{ $message }}</span>
@@ -104,7 +108,7 @@
                                     <i class="ti ti-x me-1"></i> Cancel
                                 </button>
                                 <button class="btn btn-primary" type="submit">
-                                    <i class="ti ti-device-floppy me-1"></i> Save Department
+                                    <i class="ti ti-device-floppy me-1"></i> Update Department
                                 </button>
                             </div>
                         </form>
