@@ -25,4 +25,17 @@ class LeaveType extends Model
     {
         return $query->where('status', true);
     }
+
+
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class);
+    }
+
+
 }

@@ -205,10 +205,12 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 // // Employee
 Route::prefix('employee')->middleware('auth')->group(function () {
     Route::get('dashboard', [EmployeeCotroller::class, 'index']);
+    Route::get('employee/dashboard/data', [EmployeeCotroller::class, 'dashboardData'])->name('employee.dashboard.data');
     Route::get('leaves', [leavesController::class, 'index'])->name('employee.leaves');
     Route::get('leaves/apply', [leavesController::class, 'create'])->name('employee.leaves.apply');
     Route::post('leaves/apply/store', [leavesController::class, 'store'])->name('employee.leaves.store');
-    Route::get('leaves/apply/list', [leavesController::class, 'list'])->name('employee.leaves.list');
+    Route::get('employee/leaves/list', [leavesController::class, 'list'])->name('employee.leaves.list');
+
 
     Route::get('leaves/list', [AttendanceCotroller::class, 'show']);
     Route::get('holiday/list', [AttendanceCotroller::class, 'holidayList']);

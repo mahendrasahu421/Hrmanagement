@@ -7,14 +7,29 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
+use App\Models\Company;
 class User extends Authenticatable
 {
     use HasRoles;
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
+    public function profile()
+    {
+        return $this->hasOne(EmployeeProfile::class, 'user_id');
+    }
+
     public function role_id()
     {
         return $this->roles->first()?->id;
+    }
+    public function company()
+    {
+        return $this->belongsTo(Company::class);
+    }
+
+    public function leaves()
+    {
+        return $this->hasMany(Leave::class);
     }
     /**
      * The attributes that are mass assignable.

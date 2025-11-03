@@ -22,7 +22,7 @@
                                 </div>
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
-                                        <a href="{{ route('masters.organisation.branch') }}"
+                                        <a href="{{ route('employee.leaves') }}"
                                             class="btn btn-primary d-flex align-items-center">
                                             <i class="ti ti-circle-plus me-2"></i>Leave List
                                         </a>
@@ -44,7 +44,7 @@
                                         <select class="form-control" id="leave_type_id" name="leave_type_id" required>
                                             <option value="">-- Select Leave Type --</option>
                                             @foreach ($leaveTypes as $leave)
-                                                <option value="{{ $leave->id }}">{{ $leave->name }}</option>
+                                                <option value="{{ $leave->id }}">{{ $leave->leave_name }}</option>
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please select a leave type.</div>
@@ -54,6 +54,17 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="from_date">From Date *</label>
                                         <input type="date" class="form-control" id="from_date" name="from_date" required>
+
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function() {
+                                                let today = new Date().toISOString().split('T')[0];
+                                                let fromDate = document.getElementById("from_date");
+                                                fromDate.value = today; // 👈 Set current date selected
+                                                fromDate.min = today; // 👈 Disable past dates
+                                            });
+                                        </script>
+
+
                                         <div class="invalid-feedback">Please select a start date.</div>
                                     </div>
 
@@ -61,6 +72,15 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="to_date">To Date *</label>
                                         <input type="date" class="form-control" id="to_date" name="to_date" required>
+                                        <script>
+                                            document.addEventListener("DOMContentLoaded", function() {
+                                                let today = new Date().toISOString().split('T')[0];
+                                                let fromDate = document.getElementById("to_date");
+                                                fromDate.value = today; // 👈 Set current date selected
+                                                fromDate.min = today; // 👈 Disable past dates
+                                            });
+                                        </script>
+
                                         <div class="invalid-feedback">Please select an end date.</div>
                                     </div>
                                 </div>
@@ -78,10 +98,10 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="status">Status *</label>
                                         <select class="form-control" id="status" name="status" required>
-                                            <option value="Pending" selected>Pending</option>
-                                            <option value="Approved">Approved</option>
-                                            <option value="Rejected">Rejected</option>
+                                            <option value="DRAFT" selected>Draft</option>
+                                            <option value="SENT">Sent</option>
                                         </select>
+
                                         <div class="invalid-feedback">Please select status.</div>
                                     </div>
                                 </div>
@@ -129,7 +149,7 @@
         <x-footer />
 
     </div>
-    
+
 
 @endsection
 
