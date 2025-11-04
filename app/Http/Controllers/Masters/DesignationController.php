@@ -112,10 +112,12 @@ class DesignationController extends Controller
 
         Designation::create([
             'company_id' => $request->company_id,
+            'department_id' => $request->department_id,
             'designation_name' => $request->designation_name,
             'designation_code' => $request->designation_code,
             'designation_head' => $request->designation_head,
             'status' => $request->status,
+            'description' => $request->description,
         ]);
 
         return redirect()->route('masters.organisation.designation')
@@ -169,11 +171,12 @@ class DesignationController extends Controller
         if (!$designation) {
             return response()->json(['success' => false, 'message' => 'Designation not found.']);
         }
+
         try {
             $designation->delete();
             return response()->json(['success' => true, 'message' => 'Designation deleted successfully!']);
         } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => 'Something went wrong.']);
+            return response()->json(['success' => false, 'message' => 'Something went wrong while deleting.']);
         }
     }
 }

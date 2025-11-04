@@ -2,7 +2,10 @@
 @section('title', $title)
 @section('main-section')
 
-    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+    <x-alert-modal 
+        :type="session('success') ? 'success' : (session('error') ? 'error' : '')" 
+        :message="session('success') ?? session('error')" 
+    />
 
     <div class="page-wrapper">
         <div class="content">
@@ -37,7 +40,7 @@
         <x-footer />
     </div>
 
-    <!-- Delete Modal -->
+    <!-- Delete Confirmation Modal -->
     <div class="modal fade" id="delete_modal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -60,7 +63,6 @@
 @endsection
 
 @section('script')
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script>
         $(function() {
             let table = $('#designationTable').DataTable({
@@ -68,50 +70,34 @@
                 processing: true,
                 serverSide: true,
                 ajax: "{{ route('masters.organisation.designation.list') }}",
-                columns: [{
+                columns: [
+                    {
                         data: null,
                         render: (data, type, row, meta) => meta.row + meta.settings._iDisplayStart + 1
                     },
-                    {
-                        data: 'designation_name',
-                        name: 'designation_name'
-                    },
-                    {
-                        data: 'designation_code',
-                        name: 'designation_code'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
+                    { data: 'designation_name', name: 'designation_name' },
+                    { data: 'designation_code', name: 'designation_code' },
+                    { data: 'status', name: 'status', orderable: false, searchable: false },
+                    { data: 'action', name: 'action', orderable: false, searchable: false },
                 ]
             });
-
-            // Delete
             $(document).on('click', '.deleteDesignation', function(e) {
                 e.preventDefault();
                 $('#deleteDesignationUrl').val($(this).attr('href'));
                 $('#delete_modal').modal('show');
             });
 
+            // Confirm Delete
             $('#confirmDeleteBtn').click(function() {
                 let url = $('#deleteDesignationUrl').val();
+
                 $.ajax({
                     url: url,
                     type: 'DELETE',
-                    data: {
-                        _token: '{{ csrf_token() }}'
-                    },
+                    data: { _token: '{{ csrf_token() }}' },
                     success: function(response) {
                         $('#delete_modal').modal('hide');
+
                         if (response.success) {
                             Swal.fire({
                                 icon: 'success',
@@ -120,6 +106,8 @@
                                 timer: 1500,
                                 showConfirmButton: false
                             });
+
+                            // ✅ Instantly remove deleted row
                             table.ajax.reload(null, false);
                         } else {
                             Swal.fire({
@@ -128,6 +116,14 @@
                                 text: response.message
                             });
                         }
+                    },
+                    error: function(xhr) {
+                        $('#delete_modal').modal('hide');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Server Error',
+                            text: 'Something went wrong. Please try again.'
+                        });
                     }
                 });
             });
