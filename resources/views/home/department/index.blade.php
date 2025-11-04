@@ -2,14 +2,7 @@
 @section('title', $title)
 
 @section('main-section')
-<style>
-    .dataTables_wrapper {
-        padding: 10px 20px;
-    }
-    .paginate_button {
-        margin: 0px 5px;
-    }
-</style>
+
     <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
     <div class="page-wrapper">
@@ -77,8 +70,6 @@
 @endsection
 
 @section('script')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
         $(document).ready(function() {
             let table = new DataTable('#departmentTable', {
