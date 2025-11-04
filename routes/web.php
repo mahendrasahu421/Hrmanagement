@@ -96,7 +96,11 @@ Route::middleware(['auth'])->group(function () {
     // Master/Organisation/Designation
     Route::get('masters/organisation/designation', [DesignationController::class, 'index'])->name('masters.organisation.designation');
     Route::get('masters/organisation/designation/create', [DesignationController::class, 'create'])->name('masters.organisation.designation.create');
-    Route::get('masters/organisation/designation/store', [DesignationController::class, 'store'])->name('masters.organisation.designation.store');
+    Route::post('masters/organisation/designation/store', [DesignationController::class, 'store'])->name('masters.organisation.designation.store');
+    Route::get('masters/organisation/designation/edit/{id}', [DesignationController::class, 'edit'])->name('masters.organisation.designation.edit');
+    Route::put('masters/organisation/designation/edit/{id}', [DesignationController::class, 'update'])->name('masters.organisation.designation.update');
+    Route::delete('masters/organisation/designation/delete/{id}', [DesignationController::class, 'destroy'])->name('masters.organisation.designation.destroy');
+    Route::get('masters/organisation/designation/list', [DesignationController::class, 'list'])->name('masters.organisation.designation.list');
 
     // Master/Organisation/Shift
     Route::get('masters/organisation/shift', [ShiftController::class, 'index'])->name('masters.organisation.shift');
