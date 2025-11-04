@@ -139,8 +139,8 @@
                                     @csrf
                                     <div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
                                         <div class="logo-text mx-auto mb-5 text-center">
-                                           <img src="{{ asset('frontent/assets/img/icons/logo.png') }}"
-                                          alt="Img">
+                                            <img src="{{ asset('frontent/assets/img/icons/logo.png') }}"
+                                                alt="Img">
                                         </div>
 
 
@@ -189,12 +189,13 @@
                                                     <a href="#" class="hover-a"> Create Account</a>
                                                 </h6>
                                             </div>
-                                           
+
 
                                         </div>
                                         <div class="mt-5 pb-4 text-center">
-                                            <p class="mb-0 text-gray-9">Copyright &copy; 2026 - Chitragupta – The HR Guardian
-</p>
+                                            <p class="mb-0 text-gray-9">Copyright &copy; 2026 - Chitragupta – The HR
+                                                Guardian
+                                            </p>
                                         </div>
                                     </div>
                                 </form>
