@@ -2,29 +2,8 @@
 @section('title', $title)
 
 @section('main-section')
-    <div class="position-fixed top-0 end-0 p-3" style="z-index: 1100;">
-        @if (session('success'))
-            <div class="toast align-items-center text-white bg-success border-0 show" role="alert">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ session('success') }}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="toast align-items-center text-white bg-danger border-0 show" role="alert">
-                <div class="d-flex">
-                    <div class="toast-body">
-                        {{ session('error') }}
-                    </div>
-                    <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
-                </div>
-            </div>
-        @endif
-    </div>
+   
+    <x-alert-modal/>
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content">
@@ -94,7 +73,8 @@
                                     <img src="{{ $imageUrl }}" alt="Img">
                                 </span>
                                 <div>
-                                    <h5 class="text-white mb-1">{{ Auth::user()->name }}</h5>
+                                    <h5 class="text-white mb-1">{{ Auth::guard('employee')->user()->employee_name }}
+                                    </h5>
                                     <div class="d-flex align-items-center">
                                         <p class="text-white fs-12 mb-0">Senior Manager & Company Secretary</p>
                                         <span class="mx-1"><!-- resources/views/layouts/partials/status-dot.blade.php -->
@@ -116,12 +96,14 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <span class="d-block mb-1 fs-13">Phone Number</span>
-                                <p class="text-gray-9">{{ Auth::user()->phone }}</p>
+                                <p class="text-gray-9">{{ Auth::guard('employee')->user()->employee_mobile }}
+                                </p>
                             </div>
                             <div class="mb-3">
                                 <span class="d-block mb-1 fs-13">Email Address</span>
-                                <p class="text-gray-9"><a href="{{ Auth::user()->email }}" class="__cf_email__"
-                                        data-cfemail="fba88f9e8b9e899f9ecac9cfbb9e839a968b979ed5989496">{{ Auth::user()->email }}</a>
+                                <p class="text-gray-9"><a href="{{ Auth::guard('employee')->user()->employee_email }}"
+                                        class="__cf_email__"
+                                        data-cfemail="fba88f9e8b9e899f9ecac9cfbb9e839a968b979ed5989496">{{ Auth::guard('employee')->user()->employee_email }}</a>
                                 </p>
                             </div>
                             <div class="mb-3">
@@ -130,7 +112,8 @@
                             </div>
                             <div>
                                 <span class="d-block mb-1 fs-13">Joined on</span>
-                                <p class="text-gray-9">{{ Auth::user()->created_at->format('d-m-Y') }}
+                                <p class="text-gray-9">
+
                                 </p>
                             </div>
                         </div>
@@ -793,24 +776,24 @@
 
 @endsection
 @push('after_scripts')
- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-    $(document).ready(function() {
-        $.ajax({
-            url: "{{ route('employee.dashboard.data') }}", // backend route
-            type: "GET",
-            dataType: "json",
-            success: function(response) {
-                $('#totalEmployees').text(response.total_employees);
-                $('#pendingLeaves').text(response.pending_leaves);
-                $('#approvedLeaves').text(response.approved_leaves);
-            },
-            error: function() {
-                console.log('Error loading dashboard data');
-            }
+        $(document).ready(function() {
+            $.ajax({
+                url: "{{ route('employee.dashboard.data') }}", // backend route
+                type: "GET",
+                dataType: "json",
+                success: function(response) {
+                    $('#totalEmployees').text(response.total_employees);
+                    $('#pendingLeaves').text(response.pending_leaves);
+                    $('#approvedLeaves').text(response.approved_leaves);
+                },
+                error: function() {
+                    console.log('Error loading dashboard data');
+                }
+            });
         });
-    });
-</script>
+    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {

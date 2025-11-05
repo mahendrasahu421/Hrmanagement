@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Leave;
-class EmployeeCotroller extends Controller
+class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -58,6 +58,7 @@ class EmployeeCotroller extends Controller
         return view('employee.index', $data);
     }
 
+   
     /**
      * Show the form for creating a new resource.
      */

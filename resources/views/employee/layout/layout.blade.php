@@ -89,14 +89,15 @@
         <div class="header">
             <div class="main-header">
 
-                <div class="header-left">
-                    <a href="" class="logo">
-                        <img src="" alt="Logo">
+               <div class="header-left">
+                    <a href="index.html" class="logo">
+                        <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
-                    <a href="" class="dark-logo">
-                        <img src="" alt="Logo">
+                    <a href="index.html" class="dark-logo">
+                        <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
                 </div>
+
 
                 <a id="mobile_btn" class="mobile_btn" href="#sidebar">
                     <span class="bar-icon">
@@ -1630,7 +1631,7 @@
                                         </div>
                                         <div class="card-footer py-1">
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="{{ route('logout') }}"><i
+                                                href="{{ route('employee.logout') }}"><i
                                                     class="ti ti-login me-2"></i>Logout</a>
                                         </div>
                                     </div>
@@ -1661,16 +1662,16 @@
 
         <!-- Sidebar -->
         <div class="sidebar" id="sidebar">
-            <!-- Logo -->
+          <!-- Logo -->
             <div class="sidebar-logo">
-                <a href="" class="logo logo-normal">
-                    <img src="" alt="Logo">
+                <a href="index.html" class="logo logo-normal">
+                    <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
-                <a href="" class="logo-small">
-                    <img src="https://smarthr.co.in/demo/html/template/assets/img/logo-small.svg" alt="Logo">
+                <a href="index.html" class="logo-small">
+                    <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
-                <a href="" class="dark-logo">
-                    <img src="" alt="Logo">
+                <a href="index.html" class="dark-logo">
+                    <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
             </div>
             <!-- /Logo -->
