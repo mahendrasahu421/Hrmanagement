@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
@@ -23,75 +24,64 @@ class DepartmentController extends Controller
      */
     public function list(Request $request)
     {
-        $columns = [
-            0 => 'id',
-            1 => 'department_name',
-            2 => 'department_code',
-            3 => 'department_head',
-            4 => 'status'
-        ];
+        try {
+            $search = $request->input('search')['value'] ?? null;
+            $limit = $request->input('length', 10);
+            $start = $request->input('start', 0);
 
-        $totalData = Department::count();
-        $totalFiltered = $totalData;
+            // ✅ Eager load category relationship
+            $query = Department::with('category');
 
-        $limit = $request->input('length');
-        $start = $request->input('start');
-        $orderColumnIndex = $request->input('order.0.column');
-        $orderColumn = $columns[$orderColumnIndex] ?? 'id';
-        $orderDir = $request->input('order.0.dir') ?? 'desc';
+            // ✅ Apply search filter
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('department_name', 'like', "%{$search}%")
+                        ->orWhereHas('category', function ($c) use ($search) {
+                            $c->where('name', 'like', "%{$search}%");
+                        });
+                });
+            }
 
-        $searchValue = $request->input('search.value');
+            // ✅ Get total count before pagination
+            $totalRecord = $query->count();
 
-        $query = Department::select('id', 'department_name', 'department_code', 'department_head', 'status')
-                ->whereNull('deleted_at');
-        if (!empty($searchValue)) {
-            $query->where(function ($q) use ($searchValue) {
-                $q->where('department_name', 'like', "%{$searchValue}%")
-                    ->orWhere('department_code', 'like', "%{$searchValue}%")
-                    ->orWhere('department_head', 'like', "%{$searchValue}%");
-            });
+            // ✅ Apply pagination
+            $departments = $query->skip($start)->take($limit)->get();
 
-            $totalFiltered = $query->count();
+            // ✅ Prepare data for DataTable
+            $rows = [];
+            foreach ($departments as $index => $dept) {
+                $rows[] = [
+                    'DT_RowIndex' => $start + $index + 1,
+                    'department_name' => $dept->department_name ?? '--',
+                    'category_name' => $dept->category->name ?? '--',
+                    'department_code' => $dept->department_code ?? '--',
+                    'status' => $dept->status === 'Active'
+                        ? '<span class="badge bg-success">Active</span>'
+                        : '<span class="badge bg-danger">Inactive</span>',
+                    // 'action' => '<a href="' . url('employee.show', $dept->id) . '" class="btn btn-sm btn-primary">View</a>',
+                ];
+            }
+
+            // ✅ Return DataTable response
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $totalRecord,
+                'recordsFiltered' => $totalRecord,
+                'data' => $rows,
+            ]);
+
+        } catch (\Exception $e) {
+            // ⚠️ Handle errors gracefully
+            return response()->json([
+                'error' => true,
+                'message' => 'Something went wrong while fetching department records.',
+                'exception' => $e->getMessage(),
+            ], 500);
         }
-        $departments = $query->orderBy($orderColumn, $orderDir)
-            ->skip($start)
-            ->take($limit)
-            ->get();
-        $data = [];
-        foreach ($departments as $dept) {
-            $statusBadge = $dept->status === 'active'
-                ? '<span class="badge badge-success"><i class="ti ti-point-filled me-1"></i>Active</span>'
-                : '<span class="badge badge-danger"><i class="ti ti-point-filled me-1"></i>Inactive</span>';
-
-            $editBtn = '<a href="' . route('masters.organisation.department.edit', $dept->id) . '" 
-                class="btn btn-sm btn-primary me-2" title="Edit"><i class="ti ti-edit"></i></a>';
-
-            $deleteBtn = '<a href="' . route('masters.organisation.department.destroy', $dept->id) . '" 
-                        class="btn btn-sm btn-danger deleteDepartment" 
-                        data-bs-toggle="modal" 
-                        data-bs-target="#delete_modal">
-                            <i class="ti ti-trash"></i>
-                    </a>';
-
-            $data[] = [
-                'sn' => $dept->id,
-                'department_name' => $dept->department_name,
-                'department_code' => $dept->department_code,
-                'department_head' => $dept->department_head ?? 'N/A',
-                'status' => $statusBadge,
-                'action' => $editBtn . $deleteBtn,
-            ];
-        }
-
-        $json_data = [
-            "draw" => intval($request->input('draw')),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data
-        ];
-
-        return response()->json($json_data);
     }
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -100,6 +90,7 @@ class DepartmentController extends Controller
     {
         $data['title'] = 'Master / Organisation / Department Create';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        $data['category'] = Category::all();
         return view('home.department.create', $data);
     }
 
@@ -108,23 +99,42 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'company_id' => 'required',
-            'department_name' => 'required|string|max:255',
-            'department_code' => 'required|string|max:50|unique:departments,department_code',
-            'status' => 'required|in:active,inactive',
-        ]);
+        try {
+            // Validate input data
+            $request->validate([
+                'company_id' => 'required',
+                'category_id' => 'required',
+                'department_name' => 'required|string|max:255',
+                'department_code' => 'required|string|max:50|unique:departments,department_code',
+                'status' => 'required|in:Active,Inactive',
+            ]);
 
-        Department::create([
-            'company_id' => $request->company_id,
-            'department_name' => $request->department_name,
-            'department_code' => $request->department_code,
-            'department_head' => $request->department_head,
-            'status' => $request->status,
-        ]);
+            // Create department record
+            Department::create([
+                'company_id' => $request->company_id,
+                'category_id' => $request->category_id,
+                'department_name' => $request->department_name,
+                'department_code' => $request->department_code,
+                'department_head' => $request->department_head,
+                'status' => $request->status,
+            ]);
 
-        return redirect()->route('masters.organisation.department')
-            ->with('success', 'Department created successfully!');
+            return redirect()
+                ->route('masters.organisation.department')
+                ->with('success', 'Department created successfully!');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Handle validation errors separately
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+
+        } catch (\Exception $e) {
+            // Handle any other exceptions (like DB or unexpected errors)
+            return redirect()->back()
+                ->with('error', 'Something went wrong: ' . $e->getMessage())
+                ->withInput();
+        }
     }
 
     /**

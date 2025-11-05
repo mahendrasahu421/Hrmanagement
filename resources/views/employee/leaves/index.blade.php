@@ -1,7 +1,7 @@
 @extends('employee.layout.layout')
 @section('title', $title)
 @section('main-section')
-
+    <x-alert-modal/>
     <div class="page-wrapper" style="min-height: 428px;">
         <div class="content">
 
