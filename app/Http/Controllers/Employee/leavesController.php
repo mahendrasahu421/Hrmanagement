@@ -15,12 +15,9 @@ class leavesController extends Controller
         $data['title'] = 'Leaves';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
-        $employeeId = Auth::user()->id; // assuming logged-in user hasOne Employee
-
-        $companyId = 1;
-
-        // ✅ Load all active leave types for this company with relationships
-        $leaveTypes = LeaveType::with([
+        $employeeId = auth('employee')->id();
+         $companyId = 1;
+          $leaveTypes = LeaveType::with([
             'leaves' => function ($q) use ($employeeId) {
                 $q->where('employee_id', $employeeId)
                     ->where('status', 'Approved')
@@ -110,7 +107,7 @@ class leavesController extends Controller
 
             // ✅ Create leave entry
             Leave::create([
-                'employee_id' => auth()->id(),
+                'employee_id' => auth('employee')->id(),
                 'leave_type_id' => $request->leave_type_id,
                 'from_date' => $request->from_date,
                 'to_date' => $request->to_date,
@@ -121,7 +118,7 @@ class leavesController extends Controller
             // ✅ Redirect on success
             return redirect()
                 ->route('employee.leaves')
-                ->with('success', 'Leave applied successfully!');
+                ->with('success', 'Leave applied successfully!')->withInput();;
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             // ⚠️ Handle validation errors separately
@@ -131,7 +128,7 @@ class leavesController extends Controller
 
             // ❌ Catch all other exceptions
             \Log::error('Leave Apply Error: ' . $e->getMessage());
-            return back()->with('error', 'Something went wrong while applying for leave. Please try again.')->withInput();
+            return back()->with('error', 'Something went wrong !')->withInput();
         }
     }
 
@@ -144,7 +141,7 @@ class leavesController extends Controller
             $start = $request->input('start', 0);
 
             // ✅ Authenticated employee ID
-            $employeeId = Auth::user()->id;
+            $employeeId = auth('employee')->id();
 
             // ✅ Query for employee's leave records
             $query = Leave::with('leaveType')

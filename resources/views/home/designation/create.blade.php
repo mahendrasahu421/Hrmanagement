@@ -42,6 +42,22 @@
                                     </div>
 
 
+                                    <!-- Category Name -->
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="category_id">Category *</label>
+                                        <select class="form-control" id="category_id" name="category_id" required>
+                                            <option value="">Select category</option>
+                                            @foreach ($categorys as $category)
+                                                <option value="{{ $category->id }}"
+                                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                                                    {{ $category->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @error('department_id')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
                                     <!-- Department Name -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="department_id">Department *</label>
@@ -129,3 +145,15 @@
     </div>
 
 @endsection
+@push('after_scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        ('#category_id').change(function() {
+            alert('working');
+        })
+    });
+</script>
+@endpush

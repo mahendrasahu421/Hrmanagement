@@ -33,30 +33,45 @@
                             </div>
                             <div class="card-body">
                                 <div class="row g-3">
-                                    <div class="col-md-4">
-                                        <label class="form-label">Employee ID *</label>
-                                        <input type="text" class="form-control" name="emp_code" value="EMP1001" required>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Pat ID *</label>
+                                        <input type="text" class="form-control" name="patId" value="EMP1001" required>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Full Name *</label>
-                                        <input type="text" class="form-control" name="emp_name" value="Rahul Sharma"
+                                        <input type="text" class="form-control" name="employee_name" value="Rahul Sharma"
                                             required>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Email *</label>
+                                        <input type="email" class="form-control" name="email"
+                                            value="rahul.sharma@dreams.com" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Phone Number *</label>
+                                        <input type="text" class="form-control" name="phone" value="9876543210"
+                                            required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Password</label>
+                                        <input type="text" class="form-control" name="employee_password"
+                                            value="9876543210" required>
+                                    </div>
+                                    <div class="col-md-3">
                                         <label class="form-label">Gender *</label>
-                                        <select class="form-control" name="gender" required>
+                                        <select class="form-control" name="employee_gender" required>
                                             <option value="">Select</option>
                                             <option value="Male" selected>Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Other">Other</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Date of Birth *</label>
                                         <input type="date" class="form-control" name="dob" value="1995-06-15"
                                             required>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Marital Status</label>
                                         <select class="form-control" name="marital_status">
                                             <option value="Single" selected>Single</option>
@@ -64,26 +79,8 @@
                                             <option value="Divorced">Divorced</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Blood Group</label>
-                                        <select class="form-control" name="blood_group">
-                                            <option value="">Select</option>
-                                            <option value="A+" selected>A+</option>
-                                            <option value="B+">B+</option>
-                                            <option value="O+">O+</option>
-                                            <option value="AB+">AB+</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Email *</label>
-                                        <input type="email" class="form-control" name="email"
-                                            value="rahul.sharma@dreams.com" required>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="form-label">Phone Number *</label>
-                                        <input type="text" class="form-control" name="phone" value="9876543210"
-                                            required>
-                                    </div>
+
+
                                     <div class="col-md-12">
                                         <label class="form-label">Address</label>
                                         <textarea class="form-control" name="address" rows="3">Dreams Tech Park, Pune, Maharashtra</textarea>
@@ -99,7 +96,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row g-3">
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <label class="form-label">Company *</label>
                                         <select class="form-control" name="company_id" required>
                                             <option value="1" selected>Dreams Technologies Pvt. Ltd.</option>
@@ -107,8 +104,8 @@
                                             <option value="3">NextGen Innovations</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
-                                        <label class="form-label">Department *</label>
+                                    <div class="col-md-3">
+                                        <label class="form-label">Branch *</label>
                                         <select class="form-control" name="department" required>
                                             <option value="HR">Human Resource</option>
                                             <option value="IT" selected>IT</option>
@@ -116,7 +113,16 @@
                                             <option value="Sales">Sales</option>
                                         </select>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
+                                        <label class="form-label">Category *</label>
+                                        <select class="form-control" name="department" required>
+                                            <option value="HR">Human Resource</option>
+                                            <option value="IT" selected>IT</option>
+                                            <option value="Finance">Finance</option>
+                                            <option value="Sales">Sales</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-3">
                                         <label class="form-label">Designation *</label>
                                         <select class="form-control" name="designation" required>
                                             <option value="Manager">Manager</option>
@@ -273,7 +279,7 @@
 
         </div>
 
-         <x-footer />
+        <x-footer />
     </div>
 
 @endsection

@@ -41,6 +41,7 @@ use App\Http\Controllers\Masters\ShiftController;
 use App\Http\Controllers\Masters\LeaveTypeController;
 use App\Http\Controllers\Masters\HolidayController;
 use App\Http\Controllers\Masters\PolicyController;
+use App\Http\Controllers\Masters\CategoryController;
 use App\Http\Controllers\Masters\SalaryComponentController;
 use App\Http\Controllers\Masters\SalaryStructureController;
 use App\Http\Controllers\Masters\CalculationRulesController;
@@ -85,6 +86,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/branch', [BranchController::class, 'index'])->name('masters.organisation.branch');
     Route::get('masters/organisation/branch/create', [BranchController::class, 'create'])->name('masters.organisation.branch.create');
     Route::get('masters/organisation/branch/store', [BranchController::class, 'create'])->name('masters.organisation.branch.store');
+
+    // Master/Organisation/Category
+    Route::get('masters/organisation/category', [CategoryController::class, 'index'])->name('masters.organisation.category');
+    Route::get('masters/organisation/category/create', [CategoryController::class, 'create'])->name('masters.organisation.category.create');
+    Route::post('masters/organisation/category/store', [CategoryController::class, 'store'])->name('masters.organisation.category.store');
+    Route::get('masters/organisation/category/edit/{id}', [CategoryController::class, 'edit'])->name('masters.organisation.category.edit');
+    Route::put('masters/organisation/category/edit/{id}', [CategoryController::class, 'update'])->name('masters.organisation.category.update');
+    Route::delete('masters/organisation/category/delete/{id}', [CategoryController::class, 'destroy'])->name('masters.organisation.category.destroy');
+    Route::get('masters/organisation/category/list', [CategoryController::class, 'list'])->name('masters.organisation.category.list');
 
     // Master/Organisation/Department
     Route::get('masters/organisation/department', [DepartmentController::class, 'index'])->name('masters.organisation.department');
