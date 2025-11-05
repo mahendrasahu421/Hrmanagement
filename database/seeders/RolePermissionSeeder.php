@@ -3,49 +3,84 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 
 class RolePermissionSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
-        // Roles
-        $superAdmin = Role::create(['name' => 'super-admin']);
-        $admin      = Role::create(['name' => 'admin']);
-        $hr         = Role::create(['name' => 'hr']);
-        $employee   = Role::create(['name' => 'employee']);
-
-        // Permissions (example)
-        $permissions = [
-            'view dashboard',
-            'manage users',
-            'manage employees',
-            'view reports',
+        // --- Roles ---
+        $roles = [
+            'Super Admin',
+            'Admin',
+            'HR',
+            'Employee',
         ];
 
-        foreach ($permissions as $perm) {
-            Permission::create(['name' => $perm]);
+        foreach ($roles as $roleName) {
+            Role::firstOrCreate(['name' => $roleName, 'guard_name' => 'web']);
         }
 
-        // Assign permissions to roles
-        $superAdmin->givePermissionTo(Permission::all()); // super-admin can do everything
-        $admin->givePermissionTo(['view dashboard', 'manage users']);
-        $hr->givePermissionTo(['view dashboard', 'manage employees', 'view reports']);
-        $employee->givePermissionTo(['view dashboard']);
+        // --- Permissions ---
+        $permissions = [
+            // General Access
+            'dashboard.view',
 
-        // Example users (replace with your own)
-        $user1 = User::find(1); // super-admin
-        if ($user1) $user1->assignRole('super-admin');
+            // User Management
+            'user.view',
+            'user.create',
+            'user.edit',
+            'user.delete',
 
-        $user2 = User::find(2); // admin
-        if ($user2) $user2->assignRole('admin');
+            // Leave Management
+            'leave.apply',
+            'leave.approve',
+            'leave.reject',
+            'leave.view',
 
-        $user3 = User::find(3); // hr
-        if ($user3) $user3->assignRole('hr');
+            // HR & Admin Specific
+            'attendance.manage',
+            'payroll.manage',
+        ];
 
-        $user4 = User::find(4); // employee
-        if ($user4) $user4->assignRole('employee');
+        foreach ($permissions as $permissionName) {
+            Permission::firstOrCreate(['name' => $permissionName, 'guard_name' => 'web']);
+        }
+
+        // --- Assign Permissions ---
+
+        // Super Admin → all permissions
+        $superAdmin = Role::where('name', 'Super Admin')->first();
+        $superAdmin->syncPermissions(Permission::all());
+
+        // Admin → can manage users, view leaves
+        $admin = Role::where('name', 'Admin')->first();
+        $admin->syncPermissions([
+            'dashboard.view',
+            'user.view',
+            'user.create',
+            'user.edit',
+            'leave.view',
+            'attendance.manage',
+        ]);
+
+        // HR → manage leaves and attendance
+        $hr = Role::where('name', 'HR')->first();
+        $hr->syncPermissions([
+            'dashboard.view',
+            'leave.view',
+            'leave.approve',
+            'leave.reject',
+            'attendance.manage',
+        ]);
+
+        // Employee → can apply leaves & view dashboard
+        $employee = Role::where('name', 'Employee')->first();
+        $employee->syncPermissions([
+            'dashboard.view',
+            'leave.apply',
+            'leave.view',
+        ]);
     }
 }

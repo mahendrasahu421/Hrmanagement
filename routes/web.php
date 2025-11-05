@@ -49,10 +49,12 @@ use App\Http\Controllers\Masters\ApplicabilityController;
 use App\Http\Controllers\Masters\PaymentFrequencyController;
 use App\Http\Controllers\Masters\PaymentModeController;
 use App\Http\Controllers\Masters\VisibilityControlController;
-use App\Http\Controllers\Masters\EmployeeController;
+use App\Http\Controllers\Masters\AdminEmployeeController;
 use App\Http\Controllers\Attendance\AttendanceDashboardController;
 use App\Http\Controllers\Attendance\AttendanceOrgReportController;
 use App\Http\Controllers\Attendance\ConsistentAttendeesController;
+use App\Http\Controllers\EmployeeAuthController;
+use App\Http\Controllers\Employee\EmployeeController;
 
 
 Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
@@ -161,9 +163,10 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Employee
-    Route::get('employee', [EmployeeController::class, 'index'])->name('employee');
-    Route::get('employee/create', [EmployeeController::class, 'create'])->name('employee.create');
-    Route::get('employee/store', [EmployeeController::class, 'store'])->name('employee.store');
+    Route::get('employee', [AdminEmployeeController::class, 'index'])->name('employee');
+    Route::get('employee/create', [AdminEmployeeController::class, 'create'])->name('employee.create');
+    Route::get('employee/store', [AdminEmployeeController::class, 'store'])->name('employee.store');
+    Route::get('employee/list', [AdminEmployeeController::class, 'list'])->name('employee.list');
 
     // Summary
     Route::get('attendance/attendance-dashboard/summary', [AttendanceDashboardController::class, 'index'])->name('attendance.attendance-dashboard.summary');
@@ -197,26 +200,38 @@ Route::middleware(['auth'])->group(function () {
 
 Route::get('/', [AuthController::class, 'index']);
 Route::get('/login', [AuthController::class, 'login'])->name('login');
+
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
 
 
 // // Employee
-Route::prefix('employee')->middleware('auth')->group(function () {
-    Route::get('dashboard', [EmployeeCotroller::class, 'index']);
-    Route::get('employee/dashboard/data', [EmployeeCotroller::class, 'dashboardData'])->name('employee.dashboard.data');
-    Route::get('leaves', [leavesController::class, 'index'])->name('employee.leaves');
-    Route::get('leaves/apply', [leavesController::class, 'create'])->name('employee.leaves.apply');
-    Route::post('leaves/apply/store', [leavesController::class, 'store'])->name('employee.leaves.store');
-    Route::get('employee/leaves/list', [leavesController::class, 'list'])->name('employee.leaves.list');
+Route::get('/employee/login', [EmployeeAuthController::class, 'index'])->name('employee.login');
+Route::post('/employee/login', [EmployeeAuthController::class, 'store'])->name('employee.login');
+Route::get('/employee/logout', [EmployeeAuthController::class, 'logout'])->name('employee.logout');
+Route::prefix('employee')->middleware('auth:employee')->group(function () {
 
+    // Dashboard
+    Route::get('dashboard', [EmployeeController::class, 'index'])->name('employee.dashboard');
+    Route::get('dashboard/data', [EmployeeController::class, 'dashboardData'])->name('employee.dashboard.data');
 
-    Route::get('leaves/list', [AttendanceCotroller::class, 'show']);
-    Route::get('holiday/list', [AttendanceCotroller::class, 'holidayList']);
-    Route::get('performance', [PerformanceCotroller::class, 'index']);
-    Route::get('performance/review', [PerformanceReviewCotroller::class, 'index']);
-    Route::get('payslip', [PayslipCotroller::class, 'index']);
+    // Leaves
+    Route::get('leaves', [LeavesController::class, 'index'])->name('employee.leaves');
+    Route::get('leaves/apply', [LeavesController::class, 'create'])->name('employee.leaves.apply');
+    Route::post('leaves/apply/store', [LeavesController::class, 'store'])->name('employee.leaves.store');
+    Route::get('leaves/list', [LeavesController::class, 'list'])->name('employee.leaves.list');
+
+    // Attendance & Holidays
+    Route::get('attendance', [AttendanceController::class, 'show'])->name('employee.attendance');
+    Route::get('holidays', [AttendanceController::class, 'holidayList'])->name('employee.holidays');
+
+    // Performance
+    Route::get('performance', [PerformanceController::class, 'index'])->name('employee.performance');
+    Route::get('performance/review', [PerformanceReviewController::class, 'index'])->name('employee.performance.review');
+
+    // Payslip
+    Route::get('payslip', [PayslipController::class, 'index'])->name('employee.payslip');
 });
 
 Route::prefix('admin')->middleware('auth')->group(function () {
@@ -265,11 +280,7 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
 
     // Dashboard
     Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard.index');
-    // Menus
-    Route::get('menus', [MenuController::class, 'index'])->name('menus.index');
-    Route::post('store', [MenuController::class, 'store'])->name('menus.store');
-    Route::get('edit', [MenuController::class, 'index'])->name('menus.edit');
-    Route::get('destroy', [MenuController::class, 'index'])->name('menus.destroy');
+
     // map-role-permission
     Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission.index');
     Route::post('map-role-permission', [MapRolePermission::class, 'store'])->name('map-role-permission.store');

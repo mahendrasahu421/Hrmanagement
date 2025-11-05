@@ -6,16 +6,17 @@
     <!-- Meta Tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chitragupta – The HR Guardian | HRM, Payroll & CRM Dashboard</title>
+    <title>@yield('title', $title ?? 'Admin Dashboard | Chitragupta – The HR Guardian')</title>
 
     <meta name="description"
-        content="Chitragupta – The HR Guardian is a modern and responsive HRM, Payroll, and CRM admin template built with Bootstrap 5. Manage employees, payroll, attendance, recruitment, and performance efficiently with an intuitive dashboard.">
+        content="Chitragupta Employee Portal – Manage your attendance, leaves, payroll, and profile with ease. Access payslips, apply for leave, and track performance in a secure and user-friendly HRM system.">
 
     <meta name="keywords"
-        content="Chitragupta, HRM dashboard, HR management system, Payroll software, HR admin template, Bootstrap 5 dashboard, CRM template, attendance tracking, employee management, recruitment system, performance analytics, HR solution, workforce automation">
+        content="Employee dashboard, HRM employee panel, payroll management, leave tracking, attendance system, employee self service, payslip download, HR portal, profile management, Chitragupta HRMS, workforce management">
 
     <meta name="author" content="Chitragupta Team">
     <meta name="robots" content="index, follow">
+
 
 
     <!-- Apple Touch Icon -->
@@ -30,7 +31,6 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('frontent/assets/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontent/assets/css/animate.css') }}">
 
     <!-- Feather CSS -->
     <link rel="stylesheet" href="{{ asset('frontent/assets/plugins/icons/feather/feather.css') }}">
@@ -47,7 +47,6 @@
 
     <!-- Datetimepicker CSS -->
     <link rel="stylesheet" href="{{ asset('frontent/assets/css/bootstrap-datetimepicker.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontent/assets/css/dataTables.bootstrap5.min.css') }}">
 
     <!-- Bootstrap Tagsinput CSS -->
     <link rel="stylesheet" href="{{ asset('frontent/assets/plugins/bootstrap-tagsinput/bootstrap-tagsinput.css') }}">
@@ -64,11 +63,13 @@
 
     <link rel="stylesheet" href="{{ asset('frontent/assets/css/style.css') }}">
 
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/3.1.2/css/buttons.dataTables.css">
 
-    <link rel="stylesheet" href="{{ asset('datatables/dataTables.css') }}" />
-    @section('styles')
 
-    @show
+    {{-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script> --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
 </head>
 
@@ -953,8 +954,7 @@
     <script src="{{ asset('frontent/assets/js/todo.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/theme-colorpicker.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/script.js') }}"></script>
-    @section('script')
-    @show
+ @stack('after_scripts')
 </body>
 
 
