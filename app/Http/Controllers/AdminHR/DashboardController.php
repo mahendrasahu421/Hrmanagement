@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\AdminHR;
 
 use App\Http\Controllers\Controller;
+use App\Models\Designation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Department;
 class DashboardController extends Controller
 {
     /**
@@ -64,5 +66,22 @@ class DashboardController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function getDepartments($category_id)
+    {
+        $departments = Department::where('category_id', $category_id)
+            ->select('id', 'department_name')
+            ->get();
+
+        return response()->json($departments);
+    }
+    public function getDesignation($department_id)
+    {
+        $departments = Designation::where('department_id', $department_id)
+            ->select('id', 'designation_name')
+            ->get();
+
+        return response()->json($departments);
     }
 }

@@ -1,10 +1,13 @@
 <?php
 
 namespace App\Http\Controllers\Masters;
+use App\Models\Company;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use \App\Models\Employee;
+use \App\Models\Gender;
+use \App\Models\MaritalStatus;
 class AdminEmployeeController extends Controller
 {
     /**
@@ -24,6 +27,9 @@ class AdminEmployeeController extends Controller
     {
         $data['title'] = 'Employee';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        $data['gender'] = Gender::all();
+        $data['company'] = Company::all();
+        $data['MaritalStatus'] = MaritalStatus::all();
         return view('home.employee.create', $data);
     }
 
