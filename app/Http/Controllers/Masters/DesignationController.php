@@ -23,69 +23,75 @@ class DesignationController extends Controller
 
     public function list(Request $request)
     {
-        $columns = [
-            0 => 'id',
-            1 => 'designation_name',
-            2 => 'designation_code',
-            3 => 'status'
-        ];
+        try {
+            $search = $request->input('search')['value'] ?? null;
+            $limit = $request->input('length', 10);
+            $start = $request->input('start', 0);
 
-        $totalData = Designation::whereNull('deleted_at')->count();
-        $totalFiltered = $totalData;
+            // ✅ Eager load relationships
+            $query = Designation::with(['company', 'category', 'department']);
 
-        $limit = $request->input('length');
-        $start = $request->input('start');
-        $orderColumnIndex = $request->input('order.0.column');
-        $orderColumn = $columns[$orderColumnIndex] ?? 'id';
-        $orderDir = $request->input('order.0.dir') ?? 'desc';
-        $searchValue = $request->input('search.value');
-        $query = Designation::query()
-            ->whereNull('deleted_at')
-            ->with('department');
+            // ✅ Apply search filter
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%")
+                        ->orWhere('code', 'like', "%{$search}%")
+                        ->orWhereHas('company', function ($comp) use ($search) {
+                            $comp->where('name', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('category', function ($cat) use ($search) {
+                            $cat->where('name', 'like', "%{$search}%");
+                        })
+                        ->orWhereHas('department', function ($dept) use ($search) {
+                            $dept->where('department_name', 'like', "%{$search}%");
+                        });
+                });
+            }
 
-        if (!empty($searchValue)) {
-            $query->where(function ($q) use ($searchValue) {
-                $q->where('designation_name', 'like', "%{$searchValue}%")
-                    ->orWhere('designation_code', 'like', "%{$searchValue}%");
-            });
+            // ✅ Total before pagination
+            $totalRecord = $query->count();
 
-            $totalFiltered = $query->count();
+            // ✅ Apply pagination and fetch
+            $designations = $query->skip($start)->take($limit)->get();
+
+            // ✅ Prepare DataTable rows
+            $rows = [];
+            foreach ($designations as $index => $desig) {
+                $rows[] = [
+                    'DT_RowIndex' => $start + $index + 1,
+                    'company_name' => $desig->company->company_name ?? '--',
+                    'category_name' => $desig->category->name ?? '--',
+                    'department_name' => $desig->department->department_name ?? '--',
+                    'designation_name' => $desig->name ?? '--',
+                    'designation_code' => $desig->code ?? '--',
+                    'kpi_weightage' => $desig->kpi_weightage ?? '0',
+                    'competency_weight' => $desig->competency_weight ?? '0',
+                    'status' => $desig->status == 'Active'
+                        ? '<span class="badge bg-success">Active</span>'
+                        : '<span class="badge bg-danger">Inactive</span>',
+                    // 'action' => '<a href="' . route('designation.show', $desig->id) . '" class="btn btn-sm btn-primary">View</a>',
+                ];
+            }
+
+            // ✅ Return JSON for DataTable
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $totalRecord,
+                'recordsFiltered' => $totalRecord,
+                'data' => $rows,
+            ]);
+
+        } catch (\Exception $e) {
+            \Log::error('Designation List Error: ' . $e->getMessage());
+
+            return response()->json([
+                'error' => true,
+                'message' => 'Something went wrong while fetching designation records.',
+                'exception' => $e->getMessage(),
+            ], 500);
         }
-
-        $designations = $query->orderBy($orderColumn, $orderDir)
-            ->skip($start)
-            ->take($limit)
-            ->get();
-
-        $data = [];
-        foreach ($designations as $designation) {
-            $statusBadge = $designation->status == 1
-                ? '<span class="badge bg-success"><i class="ti ti-point-filled me-1"></i>Active</span>'
-                : '<span class="badge bg-danger"><i class="ti ti-point-filled me-1"></i>Inactive</span>';
-
-            $editBtn = '<a href="' . route('masters.organisation.designation.edit', $designation->id) . '" 
-            class="btn btn-sm btn-primary me-2" title="Edit"><i class="ti ti-edit"></i></a>';
-
-            $deleteBtn = '<a href="' . route('masters.organisation.designation.destroy', $designation->id) . '" 
-            class="btn btn-sm btn-danger deleteDesignation">
-                <i class="ti ti-trash"></i>
-            </a>';
-
-            $data[] = [
-                'designation_name' => e($designation->designation_name),
-                'designation_code' => e($designation->designation_code),
-                'status' => $statusBadge,
-                'action' => $editBtn . $deleteBtn,
-            ];
-        }
-
-        return response()->json([
-            "draw" => intval($request->input('draw')),
-            "recordsTotal" => intval($totalData),
-            "recordsFiltered" => intval($totalFiltered),
-            "data" => $data,
-        ]);
     }
+
 
 
     /**
@@ -105,26 +111,46 @@ class DesignationController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'company_id' => 'required',
-            'designation_name' => 'required|string|max:255',
-            'designation_code' => 'required|string|max:50|unique:designations,designation_code',
-            'status' => 'required|in:1,0',
-        ]);
+        // dd($request->all());exit;
+        try {
+            $request->validate([
+                'company_id' => 'required|integer',
+                'category_id' => 'required|integer',
+                'department_id' => 'required|integer',
+                'name' => 'required|string|max:255',
+                'designation_code' => 'required|string|max:50|unique:designations,code',
+                'kpi_weightage' => 'required|numeric',
+                'competency_weight' => 'required|numeric',
+                'status' => 'required|in:Active,Inactive',
+            ]);
 
-        Designation::create([
-            'company_id' => $request->company_id,
-            'department_id' => $request->department_id,
-            'designation_name' => $request->designation_name,
-            'designation_code' => $request->designation_code,
-            'designation_head' => $request->designation_head,
-            'status' => $request->status,
-            'description' => $request->description,
-        ]);
+            Designation::create([
+                'company_id' => $request->company_id,
+                'category_id' => $request->category_id,
+                'department_id' => $request->department_id,
+                'name' => $request->name,
+                'code' => $request->designation_code, // ✅ fixed mapping
+                'kpi_weightage' => $request->kpi_weightage,
+                'competency_weight' => $request->competency_weight,
+                'status' => $request->status === 'Active' ? 1 : 0, // ✅ convert to boolean
+            ]);
 
-        return redirect()->route('masters.organisation.designation')
-            ->with('success', 'Designation created successfully!');
+            return redirect()->route('masters.organisation.designation')
+                ->with('success', 'Designation created successfully!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        } catch (\Exception $e) {
+            \Log::error('Designation Store Error: ' . $e->getMessage());
+
+            return redirect()->back()
+                ->with('error', 'Something went wrong: ' . $e->getMessage())
+                ->withInput();
+        }
     }
+
+
 
     /**
      * Show the form for editing the specified resource.

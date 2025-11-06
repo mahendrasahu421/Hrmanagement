@@ -60,10 +60,12 @@
                                     <div class="col-md-3">
                                         <label class="form-label">Gender *</label>
                                         <select class="form-control" name="employee_gender" required>
-                                            <option value="">Select</option>
-                                            <option value="Male" selected>Male</option>
-                                            <option value="Female">Female</option>
-                                            <option value="Other">Other</option>
+                                            <option value=" ">Select Gender</option>
+                                            @foreach ($gender as $genders)
+                                                 <option value="{{ $genders->id }}">{{ $genders->name }}</option>
+                                            @endforeach
+                                           
+                                           
                                         </select>
                                     </div>
                                     <div class="col-md-3">
@@ -74,9 +76,10 @@
                                     <div class="col-md-3">
                                         <label class="form-label">Marital Status</label>
                                         <select class="form-control" name="marital_status">
-                                            <option value="Single" selected>Single</option>
-                                            <option value="Married">Married</option>
-                                            <option value="Divorced">Divorced</option>
+                                            <option value="Single" selected>Select Marital Status</option>
+                                           @foreach ($MaritalStatus as $status)
+                                               <option value="{{ $status->id }}" >{{ $status->name }}</option>
+                                           @endforeach
                                         </select>
                                     </div>
 
@@ -99,9 +102,10 @@
                                     <div class="col-md-3">
                                         <label class="form-label">Company *</label>
                                         <select class="form-control" name="company_id" required>
-                                            <option value="1" selected>Dreams Technologies Pvt. Ltd.</option>
-                                            <option value="2">TechVision Solutions</option>
-                                            <option value="3">NextGen Innovations</option>
+                                            @foreach ($company as $companys)
+                                                 <option value="{{ $companys->id }}">{{ $companys->company_name }}</option>
+                                            @endforeach
+                                          
                                         </select>
                                     </div>
                                     <div class="col-md-3">

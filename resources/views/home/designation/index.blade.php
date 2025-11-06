@@ -2,10 +2,7 @@
 @section('title', $title)
 @section('main-section')
 
-    <x-alert-modal 
-        :type="session('success') ? 'success' : (session('error') ? 'error' : '')" 
-        :message="session('success') ?? session('error')" 
-    />
+    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
     <div class="page-wrapper">
         <div class="content">
@@ -21,19 +18,33 @@
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-body p-0">
-                    <table id="designationTable" class="table table-bordered table-striped w-100">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>Sr.No</th>
-                                <th>Designation Name</th>
-                                <th>Code</th>
-                                <th>Status</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                    </table>
+                <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive mt-3">
+                                <table id="designationList" class="display table table-striped table-bordered nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Sn</th>
+                                            <th>Compney Name</th>
+                                            <th>Category Name</th>
+                                            <th>Department Name</th>
+                                            <th>Designation Name</th>
+                                            <th>Code</th>
+                                            <th>KPI</th>
+                                            <th>Compenticy</th>
+                                            <th>Status</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -62,71 +73,70 @@
 
 @endsection
 
-@section('script')
+@push('after_scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-        $(function() {
-            let table = $('#designationTable').DataTable({
+        $(document).ready(function() {
+            $('.select2').select2();
+
+            var table = $('#designationList').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('masters.organisation.designation.list') }}",
-                columns: [
-                    {
-                        data: null,
-                        render: (data, type, row, meta) => meta.row + meta.settings._iDisplayStart + 1
+                scrollX: true,
+                ajax: {
+                    url: "{{ route('masters.organisation.designation.list') }}",
+                    data: function(d) {
+
                     },
-                    { data: 'designation_name', name: 'designation_name' },
-                    { data: 'designation_code', name: 'designation_code' },
-                    { data: 'status', name: 'status', orderable: false, searchable: false },
-                    { data: 'action', name: 'action', orderable: false, searchable: false },
-                ]
-            });
-            $(document).on('click', '.deleteDesignation', function(e) {
-                e.preventDefault();
-                $('#deleteDesignationUrl').val($(this).attr('href'));
-                $('#delete_modal').modal('show');
-            });
-
-            // Confirm Delete
-            $('#confirmDeleteBtn').click(function() {
-                let url = $('#deleteDesignationUrl').val();
-
-                $.ajax({
-                    url: url,
-                    type: 'DELETE',
-                    data: { _token: '{{ csrf_token() }}' },
-                    success: function(response) {
-                        $('#delete_modal').modal('hide');
-
-                        if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Deleted!',
-                                text: response.message,
-                                timer: 1500,
-                                showConfirmButton: false
-                            });
-
-                            // ✅ Instantly remove deleted row
-                            table.ajax.reload(null, false);
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: response.message
-                            });
+                    dataSrc: function(json) {
+                        return json.data;
+                    }
+                },
+                columns: [{
+                        data: null,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    error: function(xhr) {
-                        $('#delete_modal').modal('hide');
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Server Error',
-                            text: 'Something went wrong. Please try again.'
-                        });
+                    
+                    {
+                        data: 'company_name'
+                    },
+                    {
+                        data: 'category_name'
+                    },
+                    {
+                        data: 'department_name'
+                    },
+
+                    {
+                        data: 'designation_name'
+                    },
+                    {
+                        data: 'designation_code'
+                    },
+                    {
+                        data: 'kpi_weightage'
+                    },
+                    {
+                        data: 'competency_weight'
+                    },
+                    {
+                        data: 'status'
                     }
-                });
+                ],
+                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
             });
+
+            window.fetchGenderCounts = function() {
+                table.ajax.reload();
+            };
+
         });
     </script>
-@endsection
+@endpush

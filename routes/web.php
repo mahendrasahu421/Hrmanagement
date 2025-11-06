@@ -66,6 +66,10 @@ Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('s
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard
+    Route::get('/get-departments/{category_id}', [DashboardController::class, 'getDepartments']);
+    Route::get('/get-designation/{department_id}', [DashboardController::class, 'getDesignation']);
+
+
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
     // HR Dashboard
     Route::get('/dashboard', [HumanResourceController::class, 'index'])->name('dashboard');
