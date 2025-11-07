@@ -85,6 +85,7 @@ class ShiftController extends Controller
      */
     public function store(Request $request)
     {
+        
         try {
             $request->validate([
                 'shift_name' => 'required|string|max:255',
