@@ -3,67 +3,165 @@
 namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
+use App\Models\LeaveType;
 use Illuminate\Http\Request;
 
 class LeaveTypeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Display leave type listing page.
      */
     public function index()
     {
-        $data['title'] = 'Master/ Orgnaigation / Leave type';
+        $data['title'] = 'Master / Organisation / Leave Type';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('home.leave-type.index',$data);
+
+        return view('home.leave-type.index', $data);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Return LeaveType list for DataTable (AJAX).
+     */
+    public function list(Request $request)
+    {
+        try {
+            $search = $request->input('search')['value'] ?? null;
+            $limit = $request->input('length', 10);
+            $start = $request->input('start', 0);
+            $query = LeaveType::query();
+
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('leave_name', 'like', "%{$search}%")
+                        ->orWhere('leave_code', 'like', "%{$search}%");
+                });
+            }
+
+            $totalRecord = $query->count();
+            $leaveTypes = $query->skip($start)->take($limit)->get();
+            $rows = [];
+
+            foreach ($leaveTypes as $index => $leave) {
+                $rows[] = [
+                    'id' => $leave->id,
+                    'DT_RowIndex' => $start + $index + 1,
+                    'leave_name' => $leave->leave_name,
+                    'leave_code' => $leave->leave_code,
+                    'total_leaves' => $leave->total_leaves,
+                    'carry_forward' => $leave->carry_forward ? 'Yes' : 'No',
+                    'encashable' => $leave->encashable ? 'Yes' : 'No',
+                    'applicable_for' => $leave->applicable_for,
+                    'leave_category' => $leave->leave_category,
+                    'status' => $leave->status === 'Active'
+                        ? '<span class="badge bg-success">Active</span>'
+                        : '<span class="badge bg-danger">Inactive</span>',
+                ];
+            }
+
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $totalRecord,
+                'recordsFiltered' => $totalRecord,
+                'data' => $rows,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Something went wrong while fetching leave types.',
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
+     * Show create leave type form.
      */
     public function create()
     {
-        $data['title'] = 'Master/ Orgnaigation / Leave Type';
+        $data['title'] = 'Master / Organisation / Leave Type Create';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-         return view('home.leave-type.create',$data);
+
+        return view('home.leave-type.create', $data);
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new leave type.
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'leave_name' => 'required|string|max:255',
+            'leave_code' => 'required|string|max:50|unique:leave_types,leave_code',
+            'total_leaves' => 'required|integer|min:0',
+            'carry_forward' => 'required|boolean',
+            'encashable' => 'required|boolean',
+            'applicable_for' => 'required|in:Male,Female,All',
+            'leave_category' => 'required|in:Paid,Unpaid,Special',
+            'status' => 'required|in:Active,Inactive',
+            'description' => 'nullable|string',
+        ]);
+
+        LeaveType::create($request->all());
+
+        return redirect()
+            ->route('masters.organisation.leave_type')
+            ->with('success', 'Leave Type created successfully!');
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
+     * Show edit leave type form.
      */
     public function edit(string $id)
     {
-        //
+        $data['title'] = 'Master / Organisation / Leave Type Edit';
+        $data['leaveType'] = LeaveType::findOrFail($id);
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+
+        return view('home.leave-type.edit', $data);
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update leave type.
      */
     public function update(Request $request, string $id)
     {
-        //
+        $leaveType = LeaveType::findOrFail($id);
+
+        $request->validate([
+            'leave_name' => 'required|string|max:255',
+            'leave_code' => 'required|string|max:50|unique:leave_types,leave_code,' . $leaveType->id,
+            'total_leaves' => 'required|integer|min:0',
+            'carry_forward' => 'required|boolean',
+            'encashable' => 'required|boolean',
+            'applicable_for' => 'required|in:Male,Female,All',
+            'leave_category' => 'required|in:Paid,Unpaid,Special',
+            'status' => 'required|in:Active,Inactive',
+            'description' => 'nullable|string',
+        ]);
+
+        $leaveType->update($request->all());
+
+        return redirect()
+            ->route('masters.organisation.leave_type')
+            ->with('success', 'Leave Type updated successfully!');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete leave type.
      */
     public function destroy(string $id)
     {
-        //
+        $leaveType = LeaveType::find($id);
+
+        if (!$leaveType) {
+            return response()->json(['success' => false, 'message' => 'Leave Type not found.']);
+        }
+
+        try {
+            $leaveType->delete();
+            return response()->json(['success' => true, 'message' => 'Leave Type deleted successfully!']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => 'Something went wrong.']);
+        }
     }
 }
