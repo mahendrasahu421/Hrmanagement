@@ -16,6 +16,7 @@
                                 <div class="my-auto mb-2">
                                     <h2 class="mb-1">{{ $title }}</h2>
                                 </div>
+
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
                                         <a href="{{ route('masters.organisation.shift') }}"
@@ -31,9 +32,11 @@
 
                         <div class="card-body">
 
-                            <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('masters.organisation.shift.store') }}">
+                            <form method="POST" action="{{ route('masters.organisation.shift.update', $shift->id) }}"
+                                class="needs-validation" novalidate>
+
                                 @csrf
+                                @method('PUT')
 
                                 <div class="row">
 
@@ -41,7 +44,9 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Shift Name <span class="text-danger">*</span></label>
                                         <input type="text" name="shift_name" class="form-control"
-                                            placeholder="Enter Shift Name" value="{{ old('shift_name') }}" required>
+                                            placeholder="Enter Shift Name"
+                                            value="{{ old('shift_name', $shift->shift_name) }}" required>
+
                                         @error('shift_name')
                                             <div class="text-danger small">{{ $message }}</div>
                                         @enderror
@@ -51,7 +56,9 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Shift Code <span class="text-danger">*</span></label>
                                         <input type="text" name="shift_code" class="form-control"
-                                            placeholder="Enter Shift Code" value="{{ old('shift_code') }}" required>
+                                            placeholder="Enter Shift Code"
+                                            value="{{ old('shift_code', $shift->shift_code) }}" required>
+
                                         @error('shift_code')
                                             <div class="text-danger small">{{ $message }}</div>
                                         @enderror
@@ -61,7 +68,8 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Start Time <span class="text-danger">*</span></label>
                                         <input type="time" name="start_time" class="form-control"
-                                            value="{{ old('start_time') }}" required>
+                                            value="{{ old('start_time', $shift->start_time) }}" required>
+
                                         @error('start_time')
                                             <div class="text-danger small">{{ $message }}</div>
                                         @enderror
@@ -71,7 +79,8 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">End Time <span class="text-danger">*</span></label>
                                         <input type="time" name="end_time" class="form-control"
-                                            value="{{ old('end_time') }}" required>
+                                            value="{{ old('end_time', $shift->end_time) }}" required>
+
                                         @error('end_time')
                                             <div class="text-danger small">{{ $message }}</div>
                                         @enderror
@@ -81,7 +90,9 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Break Duration (in minutes)</label>
                                         <input type="number" name="break_duration" class="form-control"
-                                            placeholder="Enter Break Time" value="{{ old('break_duration') }}">
+                                            value="{{ old('break_duration', $shift->break_duration) }}"
+                                            placeholder="Enter Break Time">
+
                                         @error('break_duration')
                                             <div class="text-danger small">{{ $message }}</div>
                                         @enderror
@@ -91,7 +102,8 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Total Working Hours</label>
                                         <input type="number" step="0.1" name="total_working_hours" class="form-control"
-                                            placeholder="Enter Total Hours" value="{{ old('total_working_hours') }}">
+                                            value="{{ old('total_working_hours', $shift->total_working_hours) }}">
+
                                         @error('total_working_hours')
                                             <div class="text-danger small">{{ $message }}</div>
                                         @enderror
@@ -101,12 +113,14 @@
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Status <span class="text-danger">*</span></label>
                                         <select name="status" class="form-control" required>
-                                            <option value="">Select Status</option>
-                                            <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active
+                                            <option value="Active"
+                                                {{ old('status', $shift->status) == 'Active' ? 'selected' : '' }}>Active
                                             </option>
-                                            <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>
+                                            <option value="Inactive"
+                                                {{ old('status', $shift->status) == 'Inactive' ? 'selected' : '' }}>
                                                 Inactive</option>
                                         </select>
+
                                         @error('status')
                                             <div class="text-danger small">{{ $message }}</div>
                                         @enderror
@@ -124,13 +138,14 @@
                                     </button>
 
                                     <button class="btn btn-primary" type="submit">
-                                        <i class="ti ti-device-floppy me-1"></i> Save Shift
+                                        <i class="ti ti-device-floppy me-1"></i> Update Shift
                                     </button>
                                 </div>
 
                             </form>
 
                         </div>
+
                     </div>
 
                 </div>

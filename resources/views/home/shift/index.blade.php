@@ -1,255 +1,174 @@
 @extends('layout.master')
 @section('title', $title)
+
 @section('main-section')
-    		<!-- Page Wrapper -->
-		<div class="page-wrapper">
-			<div class="content">
+    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
-				<!-- Breadcrumb -->
-				<div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-					<div class="my-auto mb-2">
-						<h2 class="mb-1">{{ $title }}</h2>
-						
-					</div>
-					<div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-						<div class="mb-2">
-							<a href="{{ route('masters.organisation.shift.create') }}"  class="btn btn-primary d-flex align-items-center"><i class="ti ti-circle-plus me-2"></i>Add Shift / Working Hours </a>
-						</div>
-						
-					</div>
-				</div>
-				<!-- /Breadcrumb -->
+    <div class="page-wrapper">
+        <div class="content">
 
+            <!-- Breadcrumb -->
+            <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
+                <div class="my-auto mb-2">
+                    <h2 class="mb-1">{{ $title }}</h2>
+                </div>
+                <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
+                    <div class="mb-2">
+                        <a href="{{ route('masters.organisation.shift.create') }}"
+                            class="btn btn-primary d-flex align-items-center">
+                            <i class="ti ti-circle-plus me-2"></i>Add Shift / Working Hours
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <!-- /Breadcrumb -->
 
-				<div class="card">
-					
-					<div class="card-body p-0">
-						<div class="custom-datatable-filter table-responsive">
-							<table class="table datatable">
-								<thead class="thead-light">
-									<tr>
-										<th class="no-sort">
-											<div class="form-check form-check-md">
-												<input class="form-check-input" type="checkbox" id="select-all">
-											</div>
-										</th>
-										<th>Shift Hours</th>
-										<th>Shift Code</th>
-										<th>Shift Time</th>
-										<th>Status</th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td>
-											<div class="form-check form-check-md">
-												<input class="form-check-input" type="checkbox">
-											</div>
-										</td>
-										<td>Shift Name</td>
-										<td>
-											<h6 class="fw-medium"><a href="#">DN</a></h6>
-										</td>
-										<td>Mr. XYZ</td>
-										<td>
-											<span class="badge badge-success d-inline-flex align-items-center badge-sm">
-												<i class="ti ti-point-filled me-1"></i>Active
-											</span>
-										</td>
-										<td>
-											<div class="action-icon d-inline-flex">
-												<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_holiday"><i class="ti ti-edit"></i></a>
-												<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-											</div>
-										</td>
-									</tr>
-									<tr>
-										<td>
-											<div class="form-check form-check-md">
-												<input class="form-check-input" type="checkbox">
-											</div>
-										</td>
-										<td>Shift Name</td>
-										<td>
-											<h6 class="fw-medium"><a href="#">DN</a></h6>
-										</td>
-										<td>Mr. XYZ</td>
-										<td>
-											<span class="badge badge-success d-inline-flex align-items-center badge-sm">
-												<i class="ti ti-point-filled me-1"></i>Active
-											</span>
-										</td>
-										<td>
-											<div class="action-icon d-inline-flex">
-												<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_holiday"><i class="ti ti-edit"></i></a>
-												<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-											</div>
-										</td>
-									</tr>
-                                    <tr>
-										<td>
-											<div class="form-check form-check-md">
-												<input class="form-check-input" type="checkbox">
-											</div>
-										</td>
-										<td>Shift Name</td>
-										<td>
-											<h6 class="fw-medium"><a href="#">BN</a></h6>
-										</td>
-										<td>Mr. XYZ</td>
-										<td>
-											<span class="badge badge-success d-inline-flex align-items-center badge-sm">
-												<i class="ti ti-point-filled me-1"></i>Active
-											</span>
-										</td>
-										<td>
-											<div class="action-icon d-inline-flex">
-												<a href="#" class="me-2" data-bs-toggle="modal" data-bs-target="#edit_holiday"><i class="ti ti-edit"></i></a>
-												<a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-											</div>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="shiftList" class="table table-striped table-bordered nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Sn</th>
+                                    <th>Shift Name</th>
+                                    <th>Shift Code</th>
+                                    <th>Start Time</th>
+                                    <th>End Time</th>
+                                    <th>Break Duration</th>
+                                    <th>Total Working Hours</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-			</div>
+        </div>
 
-			 <x-footer />
+        <x-footer />
+    </div>
 
-		</div>
-		<!-- /Page Wrapper -->
-
-		<!-- Add Plan -->
-		<div class="modal fade" id="add_holiday">
-			<div class="modal-dialog modal-dialog-centered modal-md">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Add Shift</h4>
-						<button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
-							<i class="ti ti-x"></i>
-						</button>
-					</div>
-					<form action="#">
-						<div class="modal-body pb-0">
-							<div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Shift Name</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Shift Code</label>
-                                        <div class="input-icon-end position-relative">
-											<input type="text" class="form-control" >
-											
-										</div>
-                                    </div>
-                                </div>
-								<div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Shift Time</label>
-                                        <input type="text" class="form-control">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Status</label>
-                                        <select class="select">
-                                            <option>Active</option>
-                                            <option>Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-							<button type="submit" class="btn btn-primary">Add Shift</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!-- /Add Plan -->
-
-		<!-- Edit Plan -->
-		<div class="modal fade" id="edit_holiday">
-			<div class="modal-dialog modal-dialog-centered modal-md">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Edit Shift</h4>
-						<button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal" aria-label="Close">
-							<i class="ti ti-x"></i>
-						</button>
-					</div>
-					<form action="#">
-						<div class="modal-body pb-0">
-							<div class="row">
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Shift Name</label>
-                                        <input type="text" class="form-control" value="New Year">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Shift Code</label>
-                                        <div class="input-icon-end position-relative">
-											<input type="text" class="form-control" value="BH">
-											
-										</div>
-                                    </div>
-                                </div>
-								<div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Shift Time</label>
-                                        <input type="text" class="form-control" value="Mr. XYZ">
-                                    </div>
-                                </div>
-                                <div class="col-md-12">
-                                    <div class="mb-3">
-                                        <label class="form-label">Status</label>
-                                        <select class="select">
-                                            <option selected>Active</option>
-                                            <option>Inactive</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
-							<button type="submit" class="btn btn-primary">Save Changes</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-		<!-- /Edit Plan -->
-
-		<!-- Delete Modal -->
-		<div class="modal fade" id="delete_modal">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-body text-center">
-						<span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
-							<i class="ti ti-trash-x fs-36"></i>
-						</span>
-						<h4 class="mb-1">Confirm Delete</h4>
-						<p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
-						<div class="d-flex justify-content-center">
-							<a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-							<a href="#" class="btn btn-danger">Yes, Delete</a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- /Delete Modal -->
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="delete_modal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
+                        <i class="ti ti-trash-x fs-36"></i>
+                    </span>
+                    <h4 class="mb-1">Confirm Delete</h4>
+                    <p class="mb-3">Are you sure you want to delete this shift? This action cannot be undone.</p>
+                    <input type="hidden" id="deleteShiftUrl">
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" id="confirmDeleteBtn" class="btn btn-danger">Yes, Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 @endsection
+
+@push('after_scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script>
+        $(document).ready(function() {
+            var table = $('#shiftList').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                scrollX: true,
+                ajax: {
+                    url: "{{ route('masters.organisation.shift.list') }}",
+                    dataSrc: function(json) {
+                        return json.data;
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'shift_name',
+                        name: 'shift_name'
+                    },
+                    {
+                        data: 'shift_code',
+                        name: 'shift_code'
+                    },
+                    {
+                        data: 'start_time',
+                        name: 'start_time'
+                    },
+                    {
+                        data: 'end_time',
+                        name: 'end_time'
+                    },
+                    {
+                        data: 'break_duration',
+                        name: 'break_duration'
+                    },
+                    {
+                        data: 'total_working_hours',
+                        name: 'total_working_hours'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'id',
+                        render: function(data, type, row) {
+                            return `
+                        <div class="action-icon d-inline-flex">
+                            <a href="{{ url('masters/organisation/shift/edit') }}/` + data + `" class="me-2"><i class="ti ti-edit"></i></a>
+                            <a href="javascript:void(0);" onclick="deleteShift(` + data + `)"><i class="ti ti-trash"></i></a>
+                        </div>
+                    `;
+                        },
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                order: [
+                    [0, 'asc']
+                ],
+                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'f>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
+            });
+        });
+
+        function deleteShift(id) {
+            $('#deleteShiftUrl').val(id);
+            $('#delete_modal').modal('show');
+        }
+
+        $('#confirmDeleteBtn').click(function() {
+            var id = $('#deleteShiftUrl').val();
+            $.ajax({
+                url: "{{ url('masters/organisation/shift/delete') }}/" + id,
+                type: 'POST',
+                data: {
+                    _method: 'DELETE',
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(res) {
+                    $('#delete_modal').modal('hide');
+                    $('#shiftList').DataTable().ajax.reload();
+                },
+                error: function(err) {
+                    console.log(err.responseJSON || err);
+                    alert(err.responseJSON?.message || 'Something went wrong!');
+                }
+            });
+        });
+    </script>
+@endpush

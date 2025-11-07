@@ -121,7 +121,11 @@ Route::middleware(['auth'])->group(function () {
     // Master/Organisation/Shift
     Route::get('masters/organisation/shift', [ShiftController::class, 'index'])->name('masters.organisation.shift');
     Route::get('masters/organisation/shift/create', [ShiftController::class, 'create'])->name('masters.organisation.shift.create');
-    Route::get('masters/organisation/shift/store', [ShiftController::class, 'store'])->name('masters.organisation.shift.store');
+    Route::post('masters/organisation/shift/store', [ShiftController::class, 'store'])->name('masters.organisation.shift.store');
+    Route::get('masters/organisation/shift/edit/{id}', [ShiftController::class, 'edit'])->name('masters.organisation.shift.edit');
+    Route::put('masters/organisation/shift/edit/{id}', [ShiftController::class, 'update'])->name('masters.organisation.shift.update');
+    Route::delete('masters/organisation/shift/delete/{id}', [ShiftController::class, 'destroy'])->name('masters.organisation.shift.destroy');
+    Route::get('masters/organisation/shift/list', [ShiftController::class, 'list'])->name('masters.organisation.shift.list');
 
     // Master/Organisation/Leave Type
     Route::get('masters/organisation/leave-type', [LeaveTypeController::class, 'index'])->name('masters.organisation.leave-type');
