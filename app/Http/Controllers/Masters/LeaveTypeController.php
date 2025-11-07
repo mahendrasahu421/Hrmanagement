@@ -104,7 +104,7 @@ class LeaveTypeController extends Controller
         LeaveType::create($request->all());
 
         return redirect()
-            ->route('masters.organisation.leave_type')
+            ->route('masters.organisation.leave-type')
             ->with('success', 'Leave Type created successfully!');
     }
 
@@ -142,7 +142,7 @@ class LeaveTypeController extends Controller
         $leaveType->update($request->all());
 
         return redirect()
-            ->route('masters.organisation.leave_type')
+            ->route('masters.organisation.leave-type')
             ->with('success', 'Leave Type updated successfully!');
     }
 
