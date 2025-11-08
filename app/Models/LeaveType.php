@@ -12,10 +12,16 @@ class LeaveType extends Model
     protected $table = 'leave_types';
 
     protected $fillable = [
-        'name',
-        'description',
-        'days',
+        'company_id',
+        'leave_name',
+        'leave_code',
+        'total_leaves',
+        'carry_forward',
+        'encashable',
+        'applicable_for',
+        'leave_category',
         'status',
+        'description',
     ];
 
     /**
@@ -23,9 +29,8 @@ class LeaveType extends Model
      */
     public function scopeActive($query)
     {
-        return $query->where('status', true);
+        return $query->where('status', 'Active');
     }
-
 
     public function company()
     {
@@ -36,6 +41,4 @@ class LeaveType extends Model
     {
         return $this->hasMany(Leave::class);
     }
-
-
 }

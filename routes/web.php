@@ -130,7 +130,11 @@ Route::middleware(['auth'])->group(function () {
     // Master/Organisation/Leave Type
     Route::get('masters/organisation/leave-type', [LeaveTypeController::class, 'index'])->name('masters.organisation.leave-type');
     Route::get('masters/organisation/leave-type/create', [LeaveTypeController::class, 'create'])->name('masters.organisation.leave-type.create');
-    Route::get('masters/organisation/leave-type/store', [LeaveTypeController::class, 'store'])->name('masters.organisation.leave-type.store');
+    Route::post('masters/organisation/leave-type/store', [LeaveTypeController::class, 'store'])->name('masters.organisation.leave-type.store');
+    Route::get('masters/organisation/leave-type/edit/{id}', [LeaveTypeController::class, 'edit'])->name('masters.organisation.leave-type.edit');
+    Route::put('masters/organisation/leave-type/edit/{id}', [LeaveTypeController::class, 'update'])->name('masters.organisation.leave-type.update');
+    Route::delete('masters/organisation/leave-type/delete/{id}', [LeaveTypeController::class, 'destroy'])->name('masters.organisation.leave-type.destroy');
+    Route::get('masters/organisation/leave-type/list', [LeaveTypeController::class, 'list'])->name('masters.organisation.leave-type.list');
 
     // Master/Organisation/Holiday
     Route::get('masters/organisation/holiday', [HolidayController::class, 'index'])->name('masters.organisation.holiday');
