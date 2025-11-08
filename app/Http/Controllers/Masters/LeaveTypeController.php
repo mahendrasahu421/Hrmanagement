@@ -139,7 +139,7 @@ class LeaveTypeController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $leaveType->update($request->all());
+        $leaveType->update($request->all()); 
 
         return redirect()
             ->route('masters.organisation.leave-type')
