@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\Country; // corrected namespace
 
@@ -22,12 +23,14 @@ class BranchController extends Controller
     /**
      * Show the form for creating a new resource.
      */
+
+
     public function create()
     {
-        $data['title'] = 'Masters/Organisation/Branch';
+        $data['title'] = 'Masters/Organisation/Branch/Create';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         $data['countries'] = Country::all();
-        $data['title'] = 'Masters/Organisation/Branch/Create';
+        $data['companies'] = Company::all();
         return view('home.branch.create', $data);
     }
 
@@ -41,15 +44,13 @@ class BranchController extends Controller
                 'company_id' => 'required|integer|exists:companies,id',
                 'branch_name' => 'required|string|max:255',
                 'branch_code' => 'required|string|max:50|unique:branches,branch_code',
-                'branch_owner_name' => 'required|string|max:255',
-                'contact_number' => 'required|string|max:20',
-                'gst_number' => 'nullable|string|max:50',
-                'country' => 'required|string|max:100',
-                'state' => 'required|string|max:100',
-                'city' => 'required|string|max:100',
-                'address_1' => 'required|string|max:255',
-                'address_2' => 'nullable|string|max:255',
-                'status' => 'required|in:Active,Inactive',
+                'contact_no' => 'required|string|max:20',
+                'email' => 'required|email|max:255',
+                'address' => 'required|string',
+                'country_id' => 'required|exists:countries,id',
+                'state_id' => 'required|exists:states,id',
+                'city_id' => 'required|exists:cities,id',
+                'status' => 'required|in:1,0',
             ]);
 
             \App\Models\Branch::create([
