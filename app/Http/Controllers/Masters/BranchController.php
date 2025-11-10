@@ -27,7 +27,7 @@ class BranchController extends Controller
         $data['title'] = 'Masters/Organisation/Branch';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         $data['countries'] = Country::all();
-         $data['title'] = 'Masters/Organisation/Branch/Create';
+        $data['title'] = 'Masters/Organisation/Branch/Create';
         return view('home.branch.create', $data);
     }
 
@@ -36,20 +36,51 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'country_id' => 'required|exists:countries,id',
-            'address' => 'nullable|string',
-        ]);
+        try {
+            $request->validate([
+                'company_id' => 'required|integer|exists:companies,id',
+                'branch_name' => 'required|string|max:255',
+                'branch_code' => 'required|string|max:50|unique:branches,branch_code',
+                'branch_owner_name' => 'required|string|max:255',
+                'contact_number' => 'required|string|max:20',
+                'gst_number' => 'nullable|string|max:50',
+                'country' => 'required|string|max:100',
+                'state' => 'required|string|max:100',
+                'city' => 'required|string|max:100',
+                'address_1' => 'required|string|max:255',
+                'address_2' => 'nullable|string|max:255',
+                'status' => 'required|in:Active,Inactive',
+            ]);
 
-        \App\Models\Branch::create([
-            'name' => $request->name,
-            'country_id' => $request->country_id,
-            'address' => $request->address,
-        ]);
+            \App\Models\Branch::create([
+                'company_id' => $request->company_id,
+                'branch_name' => $request->branch_name,
+                'branch_code' => $request->branch_code,
+                'branch_owner_name' => $request->branch_owner_name,
+                'contact_number' => $request->contact_number,
+                'gst_number' => $request->gst_number,
+                'country' => $request->country,
+                'state' => $request->state,
+                'city' => $request->city,
+                'address_1' => $request->address_1,
+                'address_2' => $request->address_2,
+                'status' => $request->status,
+            ]);
 
-        return redirect()->route('admin.branches.index')->with('success', 'Branch created successfully.');
+            return redirect()->route('masters.organisation.branch')
+                ->with('success', 'Branch created successfully!');
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return redirect()->back()
+                ->withErrors($e->errors())
+                ->withInput();
+        } catch (\Exception $e) {
+            \Log::error('Branch Store Error: ' . $e->getMessage());
+            return redirect()->back()
+                ->with('error', 'Something went wrong: ' . $e->getMessage())
+                ->withInput();
+        }
     }
+
 
     /**
      * Show the form for editing the specified resource.

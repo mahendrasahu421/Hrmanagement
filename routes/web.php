@@ -68,6 +68,8 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/get-departments/{category_id}', [DashboardController::class, 'getDepartments']);
     Route::get('/get-designation/{department_id}', [DashboardController::class, 'getDesignation']);
+   Route::get('/get-state/{country_id}', [DashboardController::class, 'getState'])->name('getState');
+Route::get('/get-city/{state_id}', [DashboardController::class, 'getCity'])->name('getCity');
 
 
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
@@ -89,7 +91,7 @@ Route::middleware(['auth'])->group(function () {
     // Master/Organisation/Branch
     Route::get('masters/organisation/branch', [BranchController::class, 'index'])->name('masters.organisation.branch');
     Route::get('masters/organisation/branch/create', [BranchController::class, 'create'])->name('masters.organisation.branch.create');
-    Route::get('masters/organisation/branch/store', [BranchController::class, 'create'])->name('masters.organisation.branch.store');
+    Route::post('masters/organisation/branch/store', [BranchController::class, 'store'])->name('masters.organisation.branch.store');
 
     // Master/Organisation/Category
     Route::get('masters/organisation/category', [CategoryController::class, 'index'])->name('masters.organisation.category');
