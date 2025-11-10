@@ -37,18 +37,26 @@
                                 action="{{ route('masters.organisation.branch.store') }}">
                                 @csrf
                                 <div class="form-row row">
-                                    <!-- Branch Name -->
+                                    <!-- Country Name -->
+
+                                    
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="company_name">Branch Name *</label>
-                                        <input type="text" class="form-control" id="company_name" name="company_name"
+                                        <label class="form-label" for="compney_name">Compney Name *</label>
+                                        <input type="text" class="form-control" id="compney_name" name="compney_name"
+                                            placeholder="Enter Compney Name" required>
+                                        <div class="invalid-feedback">Please enter Compney Name.</div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="branch_name">Branch Name *</label>
+                                        <input type="text" class="form-control" id="branch_name" name="branch_name"
                                             placeholder="Enter Branch Name" required>
                                         <div class="invalid-feedback">Please enter branch name.</div>
                                     </div>
 
                                     <!-- Branch Code -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="company_code">Branch Code *</label>
-                                        <input type="text" class="form-control" id="company_code" name="company_code"
+                                        <label class="form-label" for="branch_code">Branch Code *</label>
+                                        <input type="text" class="form-control" id="branch_code" name="branch_code"
                                             placeholder="Enter Branch Code" required>
                                         <div class="invalid-feedback">Please enter branch code.</div>
                                     </div>
@@ -88,25 +96,30 @@
 
                                 <div class="form-row row">
                                     <!-- Address -->
-                                    <div class="col-md-6 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label" for="address">Address *</label>
                                         <textarea class="form-control" id="address" name="address" rows="2" placeholder="Enter Address" required></textarea>
                                         <div class="invalid-feedback">Please enter address.</div>
                                     </div>
 
                                     <!-- Country -->
-                                    <div class="col-md-3 mb-3">
-                                        <label class="form-label" for="country">Country *</label>
-                                        <input type="text" class="form-control" id="country" name="country"
-                                            placeholder="Enter Country" required>
-                                        <div class="invalid-feedback">Please enter country.</div>
-                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="country_id">Country Name *</label>
+                                        <select class="form-control" id="country_id" name="country_id" required>
+                                            @foreach ($countries as $country)
+                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                            @endforeach
 
+                                        </select>
+                                        <div class="invalid-feedback">Please enter branch name.</div>
+                                    </div>
                                     <!-- State -->
-                                    <div class="col-md-3 mb-3">
-                                        <label class="form-label" for="state">State *</label>
-                                        <input type="text" class="form-control" id="state" name="state"
-                                            placeholder="Enter State" required>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="state_id">State *</label>
+                                        <select class="form-control select2" id="state_id" name="state_id" required>
+
+
+                                        </select>
                                         <div class="invalid-feedback">Please enter state.</div>
                                     </div>
                                 </div>
@@ -114,8 +127,12 @@
                                 <div class="form-row row">
                                     <!-- City -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="city">City *</label>
-                                        <input type="text" class="form-control" id="city" name="city"
+                                        <label class="form-label" for="city_id">City *</label>
+                                          <select class="form-control select2" id="city_id" name="city_id" required>
+
+
+                                        </select>
+                                        <input type="text" class="form-control" id="city_id" name="city_id"
                                             placeholder="Enter City" required>
                                         <div class="invalid-feedback">Please enter city.</div>
                                     </div>
@@ -172,3 +189,85 @@
 
 
 @endsection
+@push('after_scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Select2 first
+            $('#country_id').select2();
+
+            // Then bind change event
+            $('#country_id').on('change', function() {
+                let countryId = $(this).val();
+
+
+                if (countryId) {
+                    $.ajax({
+                        url: "{{ url('/get-state') }}/" + countryId,
+                        type: 'GET',
+                        dataType: 'json',
+                        beforeSend: function() {
+                            $('#state_id').html('<option>Loading...</option>');
+                        },
+                        success: function(data) {
+                            $('#state_id').empty().append(
+                                '<option value="">Select State</option>');
+                            if (data && data.length > 0) {
+                                $.each(data, function(key, value) {
+                                    $('#state_id').append('<option value="' + value.id +
+                                        '">' + value.name + '</option>');
+                                });
+                            } else {
+                                $('#state_id').append(
+                                    '<option value="">No states found</option>');
+                            }
+                        },
+                        error: function() {
+                            alert('Error fetching states.');
+                            $('#state_id').html('<option value="">Select State</option>');
+                        }
+                    });
+                } else {
+                    $('#state_id').empty().append('<option value="">Select State</option>');
+                }
+            });
+
+            $('#state_id').on('change', function() {
+                let stateId = $(this).val();
+
+
+                if (stateId) {
+                    $.ajax({
+                        url: "{{ url('/get-city') }}/" + stateId,
+                        type: 'GET',
+                        dataType: 'json',
+                        beforeSend: function() {
+                            $('#city_id').html('<option>Loading...</option>');
+                        },
+                        success: function(data) {
+                            $('#city_id').empty().append(
+                                '<option value="">Select City</option>');
+                            if (data && data.length > 0) {
+                                $.each(data, function(key, value) {
+                                    $('#city_id').append('<option value="' + value.id +
+                                        '">' + value.name + '</option>');
+                                });
+                            } else {
+                                $('#city_id').append(
+                                    '<option value="">No Citys found</option>');
+                            }
+                        },
+                        error: function() {
+                            alert('Error fetching Citys.');
+                            $('#city_id').html('<option value="">Select City</option>');
+                        }
+                    });
+                } else {
+                    $('#city_id').empty().append('<option value="">Select City</option>');
+                }
+            });
+        });
+    </script>
+@endpush
