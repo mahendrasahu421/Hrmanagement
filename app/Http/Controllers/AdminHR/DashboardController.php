@@ -87,7 +87,7 @@ class DashboardController extends Controller
         return response()->json($departments);
     }
     public function getState($country_id)
-    {
+    { 
         try {
             $states = \App\Models\CountryState::where('country_id', $country_id)
                 ->select('id', 'name')
