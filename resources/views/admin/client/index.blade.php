@@ -50,9 +50,9 @@
                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                     <div class="me-2 mb-2">
                         <div class="d-flex align-items-center border bg-white rounded p-1 me-2 icon-list">
-                            <a href="https://smarthr.co.in/demo/html/template/clients.html"
+                            <a href="#"
                                 class="btn btn-icon btn-sm me-1"><i class="ti ti-list-tree"></i></a>
-                            <a href="https://smarthr.co.in/demo/html/template/clients-grid.html"
+                            <a href="#"
                                 class="btn btn-icon btn-sm active bg-primary text-white"><i
                                     class="ti ti-layout-grid"></i></a>
                         </div>
@@ -429,11 +429,11 @@
                         <div>
                             <div class="row g-2">
                                 <div class="col-6">
-                                    <a href="https://smarthr.co.in/demo/html/template/clients.html"
+                                    <a href="#"
                                         class="btn btn-dark w-100">Back to List</a>
                                 </div>
                                 <div class="col-6">
-                                    <a href="https://smarthr.co.in/demo/html/template/client-details.html"
+                                    <a href="#"
                                         class="btn btn-primary w-100">Detail Page</a>
                                 </div>
                             </div>
@@ -457,7 +457,7 @@
                     <p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
                     <div class="d-flex justify-content-center">
                         <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-                        <a href="https://smarthr.co.in/demo/html/template/clients-grid.html" class="btn btn-danger">Yes,
+                        <a href="#" class="btn btn-danger">Yes,
                             Delete</a>
                     </div>
                 </div>

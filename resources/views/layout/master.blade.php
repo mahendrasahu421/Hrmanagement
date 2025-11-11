@@ -85,10 +85,10 @@
             <div class="main-header">
 
                 <div class="header-left">
-                    <a href="index.html" class="logo">
+                    <a href="#" class="logo">
                         <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
-                    <a href="index.html" class="dark-logo">
+                    <a href="#" class="dark-logo">
                         <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
                 </div>
@@ -131,14 +131,14 @@
                                         <div class="card-body pb-1">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <a href="contacts.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i class="ti ti-user-shield text-default me-2"></i>Contacts
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
-                                                    <a href="deals-grid.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i
@@ -146,7 +146,7 @@
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
-                                                    <a href="pipeline.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i
@@ -156,21 +156,21 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <a href="companies-grid.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i class="ti ti-building text-default me-2"></i>Companies
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
-                                                    <a href="leads-grid.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i class="ti ti-user-check text-default me-2"></i>Leads
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
-                                                    <a href="activity.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i class="ti ti-activity text-default me-2"></i>Activities
@@ -183,7 +183,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="profile-settings.html" class="btn btn-menubar">
+                            <a href="#" class="btn btn-menubar">
                                 <i class="ti ti-settings-cog"></i>
                             </a>
                         </div>
@@ -207,27 +207,27 @@
                                             <h4>Applications</h4>
                                         </div>
                                         <div class="card-body">
-                                            <a href="calendar.html" class="d-block pb-2">
+                                            <a href="#" class="d-block pb-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-calendar text-gray-9"></i></span>Calendar
                                             </a>
-                                            <a href="todo.html" class="d-block py-2">
+                                            <a href="#" class="d-block py-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-subtask text-gray-9"></i></span>To Do
                                             </a>
-                                            <a href="notes.html" class="d-block py-2">
+                                            <a href="#" class="d-block py-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-notes text-gray-9"></i></span>Notes
                                             </a>
-                                            <a href="file-manager.html" class="d-block py-2">
+                                            <a href="#" class="d-block py-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-folder text-gray-9"></i></span>File Manager
                                             </a>
-                                            <a href="kanban-view.html" class="d-block py-2">
+                                            <a href="#" class="d-block py-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-layout-kanban text-gray-9"></i></span>Kanban
                                             </a>
-                                            <a href="invoices.html" class="d-block py-2 pb-0">
+                                            <a href="#" class="d-block py-2 pb-0">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-file-invoice text-gray-9"></i></span>Invoices
                                             </a>
@@ -236,14 +236,14 @@
                                 </div>
                             </div>
                             <div class="me-1">
-                                <a href="chat.html" class="btn btn-menubar position-relative">
+                                <a href="#" class="btn btn-menubar position-relative">
                                     <i class="ti ti-brand-hipchat"></i>
                                     <span
                                         class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge">5</span>
                                 </a>
                             </div>
                             <div class="me-1">
-                                <a href="email.html" class="btn btn-menubar">
+                                <a href="#" class="btn btn-menubar">
                                     <i class="ti ti-mail"></i>
                                 </a>
                             </div>
@@ -288,7 +288,7 @@
                                     <div class="noti-content">
                                         <div class="d-flex flex-column">
                                             <div class="border-bottom mb-3 pb-3">
-                                                <a href="activity.html">
+                                                <a href="#">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
                                                             <img src="assets/img/profiles/avatar-27.jpg"
@@ -304,7 +304,7 @@
                                                 </a>
                                             </div>
                                             <div class="border-bottom mb-3 pb-3">
-                                                <a href="activity.html" class="pb-0">
+                                                <a href="#" class="pb-0">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
                                                             <img src="assets/img/profiles/avatar-23.jpg"
@@ -325,7 +325,7 @@
                                                 </a>
                                             </div>
                                             <div class="border-bottom mb-3 pb-3">
-                                                <a href="activity.html">
+                                                <a href="#">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
                                                             <img src="assets/img/profiles/avatar-25.jpg"
@@ -342,7 +342,7 @@
                                                 </a>
                                             </div>
                                             <div class="border-0 mb-3 pb-0">
-                                                <a href="activity.html">
+                                                <a href="#">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
                                                             <img src="assets/img/profiles/avatar-01.jpg"
@@ -360,7 +360,7 @@
                                     </div>
                                     <div class="d-flex p-0">
                                         <a href="#" class="btn btn-light w-100 me-2">Cancel</a>
-                                        <a href="activity.html" class="btn btn-primary w-100">View All</a>
+                                        <a href="#" class="btn btn-primary w-100">View All</a>
                                     </div>
                                 </div>
                             </div>
@@ -391,20 +391,20 @@
                                         </div>
                                         <div class="card-body">
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="profile.html">
+                                                href="#">
                                                 <i class="ti ti-user-circle me-1"></i>My Profile
                                             </a>
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="bussiness-settings.html">
+                                                href="#">
                                                 <i class="ti ti-settings me-1"></i>Settings
                                             </a>
 
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="profile-settings.html">
+                                                href="#">
                                                 <i class="ti ti-circle-arrow-up me-1"></i>My Account
                                             </a>
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="knowledgebase.html">
+                                                href="#">
                                                 <i class="ti ti-question-mark me-1"></i>Knowledge Base
                                             </a>
                                         </div>
@@ -426,9 +426,9 @@
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="profile.html">My Profile</a>
-                        <a class="dropdown-item" href="profile-settings.html">Settings</a>
-                        <a class="dropdown-item" href="login.html">Logout</a>
+                        <a class="dropdown-item" href="#">My Profile</a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="#">Logout</a>
                     </div>
                 </div>
                 <!-- /Mobile Menu -->
@@ -442,13 +442,13 @@
         <div class="sidebar" id="sidebar">
             <!-- Logo -->
             <div class="sidebar-logo">
-                <a href="index.html" class="logo logo-normal">
+                <a href="#" class="logo logo-normal">
                     <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
-                <a href="index.html" class="logo-small">
+                <a href="#" class="logo-small">
                     <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
-                <a href="index.html" class="dark-logo">
+                <a href="#" class="dark-logo">
                     <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
             </div>
@@ -465,8 +465,8 @@
                     <ul class="nav nav-tabs nav-tabs-solid nav-tabs-rounded nav-justified bg-transparent"
                         role="tablist">
                         <li class="nav-item"><a class="nav-link active border-0" href="#">Menu</a></li>
-                        <li class="nav-item"><a class="nav-link border-0" href="chat.html">Chats</a></li>
-                        <li class="nav-item"><a class="nav-link border-0" href="email.html">Inbox</a></li>
+                        <li class="nav-item"><a class="nav-link border-0" href="#">Chats</a></li>
+                        <li class="nav-item"><a class="nav-link border-0" href="#">Inbox</a></li>
                     </ul>
                 </div>
             </div>
@@ -491,25 +491,25 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-between menu-item mb-3">
                     <div class="me-3">
-                        <a href="calendar.html" class="btn btn-menubar">
+                        <a href="#" class="btn btn-menubar">
                             <i class="ti ti-layout-grid-remove"></i>
                         </a>
                     </div>
                     <div class="me-3">
-                        <a href="chat.html" class="btn btn-menubar position-relative">
+                        <a href="#" class="btn btn-menubar position-relative">
                             <i class="ti ti-brand-hipchat"></i>
                             <span
                                 class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge">5</span>
                         </a>
                     </div>
                     <div class="me-3 notification-item">
-                        <a href="activity.html" class="btn btn-menubar position-relative me-1">
+                        <a href="#" class="btn btn-menubar position-relative me-1">
                             <i class="ti ti-bell"></i>
                             <span class="notification-status-dot"></span>
                         </a>
                     </div>
                     <div class="me-0">
-                        <a href="email.html" class="btn btn-menubar">
+                        <a href="#" class="btn btn-menubar">
                             <i class="ti ti-message"></i>
                         </a>
                     </div>
@@ -791,17 +791,17 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="promotion.html">
+                                    <a href="#">
                                         <i class="ti ti-speakerphone"></i><span>Promotion</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="resignation.html">
+                                    <a href="#">
                                         <i class="ti ti-external-link"></i><span>Resignation</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="termination.html">
+                                    <a href="#">
                                         <i class="ti ti-circle-x"></i><span>Termination</span>
                                     </a>
                                 </li>
@@ -811,17 +811,17 @@
                         <li>
                             <ul>
                                 <li>
-                                    <a href="job-grid.html">
+                                    <a href="#">
                                         <i class="ti ti-timeline"></i><span>Jobs</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="candidates-grid.html">
+                                    <a href="#">
                                         <i class="ti ti-user-shield"></i><span>Candidates</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="refferals.html">
+                                    <a href="#">
                                         <i class="ti ti-ux-circle"></i><span>Referrals</span>
                                     </a>
                                 </li>
@@ -837,17 +837,17 @@
                                 <span class="menu-arrow"></span>
                             </a>
                             <ul>
-                                <li><a href="expenses-report.html">Expense Report</a></li>
-                                <li><a href="invoice-report.html">Invoice Report</a></li>
-                                <li><a href="payment-report.html">Payment Report</a></li>
-                                <li><a href="project-report.html">Project Report</a></li>
-                                <li><a href="task-report.html">Task Report</a></li>
-                                <li><a href="user-report.html">User Report</a></li>
-                                <li><a href="employee-report.html">Employee Report</a></li>
-                                <li><a href="payslip-report.html">Payslip Report</a></li>
-                                <li><a href="attendance-report.html">Attendance Report</a></li>
-                                <li><a href="leave-report.html">Leave Report</a></li>
-                                <li><a href="daily-report.html">Daily Report</a></li>
+                                <li><a href="#">Expense Report</a></li>
+                                <li><a href="#">Invoice Report</a></li>
+                                <li><a href="#">Payment Report</a></li>
+                                <li><a href="#">Project Report</a></li>
+                                <li><a href="#">Task Report</a></li>
+                                <li><a href="#">User Report</a></li>
+                                <li><a href="#">Employee Report</a></li>
+                                <li><a href="#">Payslip Report</a></li>
+                                <li><a href="#">Attendance Report</a></li>
+                                <li><a href="#">Leave Report</a></li>
+                                <li><a href="#">Daily Report</a></li>
                             </ul>
                         </li>
                         <li class="submenu">
@@ -860,10 +860,10 @@
                                     <a href="javascript:void(0);">General Settings<span
                                             class="menu-arrow inside-submenu"></span></a>
                                     <ul>
-                                        <li><a href="profile-settings.html">Profile</a></li>
-                                        <li><a href="security-settings.html">Security</a></li>
-                                        <li><a href="notification-settings.html">Notifications</a></li>
-                                        <li><a href="connected-apps.html">Connected Apps</a></li>
+                                        <li><a href="#">Profile</a></li>
+                                        <li><a href="#">Security</a></li>
+                                        <li><a href="#">Notifications</a></li>
+                                        <li><a href="#">Connected Apps</a></li>
                                     </ul>
                                 </li>
 
@@ -871,11 +871,11 @@
                                     <a href="javascript:void(0);">App Settings<span
                                             class="menu-arrow inside-submenu"></span></a>
                                     <ul>
-                                        <li><a href="salary-settings.html">Salary Settings</a></li>
-                                        <li><a href="approval-settings.html">Approval Settings</a></li>
-                                        <li><a href="invoice-settings.html">Invoice Settings</a></li>
-                                        <li><a href="leave-type.html">Leave Type</a></li>
-                                        <li><a href="custom-fields.html">Custom Fields</a></li>
+                                        <li><a href="#">Salary Settings</a></li>
+                                        <li><a href="#">Approval Settings</a></li>
+                                        <li><a href="#">Invoice Settings</a></li>
+                                        <li><a href="#">Leave Type</a></li>
+                                        <li><a href="#">Custom Fields</a></li>
                                     </ul>
                                 </li>
 
@@ -883,9 +883,9 @@
                                     <a href="javascript:void(0);">Financial Settings<span
                                             class="menu-arrow inside-submenu"></span></a>
                                     <ul>
-                                        <li><a href="payment-gateways.html">Payment Gateways</a></li>
-                                        <li><a href="tax-rates.html">Tax Rate</a></li>
-                                        <li><a href="currencies.html">Currencies</a></li>
+                                        <li><a href="#">Payment Gateways</a></li>
+                                        <li><a href="#">Tax Rate</a></li>
+                                        <li><a href="#">Currencies</a></li>
                                     </ul>
                                 </li>
 

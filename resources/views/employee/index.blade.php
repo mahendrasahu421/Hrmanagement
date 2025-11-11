@@ -419,7 +419,7 @@
                                     <h5 class="mb-1">Next Holiday</h5>
                                     <p class="text-gray-9">Diwali, 15 Sep 2025</p>
                                 </div>
-                                <a href="https://smarthr.co.in/demo/html/template/holidays.html"
+                                <a href="#"
                                     class="btn btn-white btn-sm px-3">View All</a>
                             </div>
                         </div>

@@ -90,10 +90,10 @@
             <div class="main-header">
 
                <div class="header-left">
-                    <a href="index.html" class="logo">
+                    <a href="#" class="logo">
                         <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
-                    <a href="index.html" class="dark-logo">
+                    <a href="#" class="dark-logo">
                         <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                     </a>
                 </div>
@@ -137,14 +137,14 @@
                                         <div class="card-body pb-1">
                                             <div class="row">
                                                 <div class="col-sm-6">
-                                                    <a href="https://smarthr.co.in/demo/html/template/contacts.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i class="ti ti-user-shield text-default me-2"></i>Contacts
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
-                                                    <a href="https://smarthr.co.in/demo/html/template/deals-grid.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i
@@ -152,7 +152,7 @@
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
-                                                    <a href="https://smarthr.co.in/demo/html/template/pipeline.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i
@@ -162,21 +162,21 @@
                                                     </a>
                                                 </div>
                                                 <div class="col-sm-6">
-                                                    <a href="https://smarthr.co.in/demo/html/template/companies-grid.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i class="ti ti-building text-default me-2"></i>Companies
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
-                                                    <a href="https://smarthr.co.in/demo/html/template/leads-grid.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i class="ti ti-user-check text-default me-2"></i>Leads
                                                         </span>
                                                         <i class="ti ti-arrow-right"></i>
                                                     </a>
-                                                    <a href="https://smarthr.co.in/demo/html/template/activity.html"
+                                                    <a href="#"
                                                         class="d-flex align-items-center justify-content-between p-2 crm-link mb-3">
                                                         <span class="d-flex align-items-center me-3">
                                                             <i class="ti ti-activity text-default me-2"></i>Activities
@@ -189,7 +189,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <a href="https://smarthr.co.in/demo/html/template/profile-settings.html"
+                            <a href="#"
                                 class="btn btn-menubar">
                                 <i class="ti ti-settings-cog"></i>
                             </a>
@@ -211,13 +211,13 @@
                                             <ul>
                                                 <li><a href="">Admin Dashboard</a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/employee-dashboard.html">Employee
+                                                        href="#">Employee
                                                         Dashboard</a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/deals-dashboard.html">Deals
+                                                        href="#">Deals
                                                         Dashboard</a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/leads-dashboard.html">Leads
+                                                        href="#">Leads
                                                         Dashboard</a></li>
                                             </ul>
                                         </li>
@@ -228,22 +228,22 @@
                                             </a>
                                             <ul>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/dashboard.html">Dashboard</a>
+                                                        href="#">Dashboard</a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/companies.html">Companies</a>
+                                                        href="#">Companies</a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/subscription.html">Subscriptions</a>
+                                                        href="#">Subscriptions</a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/packages.html">Packages</a>
+                                                        href="#">Packages</a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/domain.html">Domain</a>
+                                                        href="#">Domain</a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/purchase-transaction.html">Purchase
+                                                        href="#">Purchase
                                                         Transaction</a></li>
                                             </ul>
                                         </li>
@@ -254,48 +254,48 @@
                                             </a>
                                             <ul>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/chat.html">Chat</a>
+                                                        href="#">Chat</a>
                                                 </li>
                                                 <li class="submenu submenu-two">
-                                                    <a href="https://smarthr.co.in/demo/html/template/call.html">Calls<span
+                                                    <a href="#">Calls<span
                                                             class="menu-arrow inside-submenu"></span></a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/video-call.html">Voice
+                                                                href="#">Voice
                                                                 Call</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/video-call.html">Video
+                                                                href="#">Video
                                                                 Call</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/outgoing-call.html">Outgoing
+                                                                href="#">Outgoing
                                                                 Call</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/incoming-call.html">Incoming
+                                                                href="#">Incoming
                                                                 Call</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/call-history.html">Call
+                                                                href="#">Call
                                                                 History</a></li>
                                                     </ul>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/calendar.html">Calendar</a>
+                                                        href="#">Calendar</a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/email.html">Email</a>
+                                                        href="#">Email</a>
                                                 </li>
-                                                <li><a href="https://smarthr.co.in/demo/html/template/todo.html">To
+                                                <li><a href="#">To
                                                         Do</a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/notes.html">Notes</a>
+                                                        href="#">Notes</a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/file-manager.html">File
+                                                        href="#">File
                                                         Manager</a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/kanban-view.html">Kanban</a>
+                                                        href="#">Kanban</a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/invoices.html">Invoices</a>
+                                                        href="#">Invoices</a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -307,83 +307,83 @@
                                             <ul>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-horizontal.html">
+                                                        href="#">
                                                         <span>Horizontal</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-detached.html">
+                                                        href="#">
                                                         <span>Detached</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-modern.html">
+                                                        href="#">
                                                         <span>Modern</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-two-column.html">
+                                                        href="#">
                                                         <span>Two Column </span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-hovered.html">
+                                                        href="#">
                                                         <span>Hovered</span>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="https://smarthr.co.in/demo/html/template/layout-box.html">
+                                                    <a href="#">
                                                         <span>Boxed</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-horizontal-single.html">
+                                                        href="#">
                                                         <span>Horizontal Single</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-horizontal-overlay.html">
+                                                        href="#">
                                                         <span>Horizontal Overlay</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-horizontal-box.html">
+                                                        href="#">
                                                         <span>Horizontal Box</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-horizontal-sidemenu.html">
+                                                        href="#">
                                                         <span>Menu Aside</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-vertical-transparent.html">
+                                                        href="#">
                                                         <span>Transparent</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-without-header.html">
+                                                        href="#">
                                                         <span>Without Header</span>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="https://smarthr.co.in/demo/html/template/layout-rtl.html">
+                                                    <a href="#">
                                                         <span>RTL</span>
                                                     </a>
                                                 </li>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/layout-dark.html">
+                                                        href="#">
                                                         <span>Dark</span>
                                                     </a>
                                                 </li>
@@ -397,7 +397,7 @@
                                             <ul>
                                                 <li>
                                                     <a
-                                                        href="https://smarthr.co.in/demo/html/template/clients-grid.html"><span>Clients</span>
+                                                        href="#"><span>Clients</span>
                                                     </a>
                                                 </li>
                                                 <li class="submenu">
@@ -406,40 +406,40 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/projects-grid.html">Projects</a>
+                                                                href="#">Projects</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/tasks.html">Tasks</a>
+                                                                href="#">Tasks</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/task-board.html">Task
+                                                                href="#">Task
                                                                 Board</a></li>
                                                     </ul>
                                                 </li>
                                                 <li class="submenu">
-                                                    <a href="https://smarthr.co.in/demo/html/template/call.html">Crm<span
+                                                    <a href="#">Crm<span
                                                             class="menu-arrow"></span></a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/contacts-grid.html"><span>Contacts</span></a>
+                                                                href="#"><span>Contacts</span></a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/companies-grid.html"><span>Companies</span></a>
+                                                                href="#"><span>Companies</span></a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/deals-grid.html"><span>Deals</span></a>
+                                                                href="#"><span>Deals</span></a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/leads-grid.html"><span>Leads</span></a>
+                                                                href="#"><span>Leads</span></a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/pipeline.html"><span>Pipeline</span></a>
+                                                                href="#"><span>Pipeline</span></a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/analytics.html"><span>Analytics</span></a>
+                                                                href="#"><span>Analytics</span></a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/activity.html"><span>Activities</span></a>
+                                                                href="#"><span>Activities</span></a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -449,22 +449,22 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/employees.html">Employee
+                                                                href="#">Employee
                                                                 Lists</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/employees-grid.html">Employee
+                                                                href="#">Employee
                                                                 Grid</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/employee-details.html">Employee
+                                                                href="#">Employee
                                                                 Details</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/departments.html">Departments</a>
+                                                                href="#">Departments</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/designations.html">Designations</a>
+                                                                href="#">Designations</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/policy.html">Policies</a>
+                                                                href="#">Policies</a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -474,15 +474,15 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/tickets-grid.html">Tickets</a>
+                                                                href="#">Tickets</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/ticket-details.html">Ticket
+                                                                href="#">Ticket
                                                                 Details</a></li>
                                                     </ul>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/holidays.html"><span>Holidays</span></a>
+                                                        href="#"><span>Holidays</span></a>
                                                 </li>
                                                 <li class="submenu">
                                                     <a href="javascript:void(0);"><span>Attendance</span>
@@ -494,30 +494,30 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/leaves.html">Leaves
+                                                                        href="#">Leaves
                                                                         (Admin)</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/leaves-employee.html">Leave
+                                                                        href="#">Leave
                                                                         (Employee)</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/leave-settings.html">Leave
+                                                                        href="#">Leave
                                                                         Settings</a></li>
                                                             </ul>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/attendance-admin.html">Attendance
+                                                                href="#">Attendance
                                                                 (Admin)</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/attendance-employee.html">Attendance
+                                                                href="#">Attendance
                                                                 (Employee)</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/timesheets.html">Timesheets</a>
+                                                                href="#">Timesheets</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/schedule-timing.html">Shift
+                                                                href="#">Shift
                                                                 & Schedule</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/overtime.html">Overtime</a>
+                                                                href="#">Overtime</a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -527,19 +527,19 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/performance-indicator.html">Performance
+                                                                href="#">Performance
                                                                 Indicator</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/performance-review.html">Performance
+                                                                href="#">Performance
                                                                 Review</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/performance-appraisal.html">Performance
+                                                                href="#">Performance
                                                                 Appraisal</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/goal-tracking.html">Goal
+                                                                href="#">Goal
                                                                 List</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/goal-type.html">Goal
+                                                                href="#">Goal
                                                                 Type</a></li>
                                                     </ul>
                                                 </li>
@@ -549,24 +549,24 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/training.html">Training
+                                                                href="#">Training
                                                                 List</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/trainers.html">Trainers</a>
+                                                                href="#">Trainers</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/training-type.html">Training
+                                                                href="#">Training
                                                                 Type</a></li>
                                                     </ul>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/promotion.html"><span>Promotion</span></a>
+                                                        href="#"><span>Promotion</span></a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/resignation.html"><span>Resignation</span></a>
+                                                        href="#"><span>Resignation</span></a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/termination.html"><span>Termination</span></a>
+                                                        href="#"><span>Termination</span></a>
                                                 </li>
                                             </ul>
                                         </li>
@@ -582,22 +582,22 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/estimates.html">Estimates</a>
+                                                                href="#">Estimates</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/invoices.html">Invoices</a>
+                                                                href="#">Invoices</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/payments.html">Payments</a>
+                                                                href="#">Payments</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/expenses.html">Expenses</a>
+                                                                href="#">Expenses</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/provident-fund.html">Provident
+                                                                href="#">Provident
                                                                 Fund</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/taxes.html">Taxes</a>
+                                                                href="#">Taxes</a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -607,16 +607,16 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/categories.html">Categories</a>
+                                                                href="#">Categories</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/budgets.html">Budgets</a>
+                                                                href="#">Budgets</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/budget-expenses.html">Budget
+                                                                href="#">Budget
                                                                 Expenses</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/budget-revenues.html">Budget
+                                                                href="#">Budget
                                                                 Revenues</a></li>
                                                     </ul>
                                                 </li>
@@ -626,13 +626,13 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/employee-salary.html">Employee
+                                                                href="#">Employee
                                                                 Salary</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/payslip.html">Payslip</a>
+                                                                href="#">Payslip</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/payroll.html">Payroll
+                                                                href="#">Payroll
                                                                 Items</a></li>
                                                     </ul>
                                                 </li>
@@ -642,10 +642,10 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/assets.html">Assets</a>
+                                                                href="#">Assets</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/asset-categories.html">Asset
+                                                                href="#">Asset
                                                                 Categories</a></li>
                                                     </ul>
                                                 </li>
@@ -655,10 +655,10 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/knowledgebase.html">Knowledge
+                                                                href="#">Knowledge
                                                                 Base</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/activity.html">Activities</a>
+                                                                href="#">Activities</a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -668,10 +668,10 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/users.html">Users</a>
+                                                                href="#">Users</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/roles-permissions.html">Roles
+                                                                href="#">Roles
                                                                 & Permissions</a></li>
                                                     </ul>
                                                 </li>
@@ -681,37 +681,37 @@
                                                     </a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/expenses-report.html">Expense
+                                                                href="#">Expense
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/invoice-report.html">Invoice
+                                                                href="#">Invoice
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/payment-report.html">Payment
+                                                                href="#">Payment
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/project-report.html">Project
+                                                                href="#">Project
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/task-report.html">Task
+                                                                href="#">Task
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/user-report.html">User
+                                                                href="#">User
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/employee-report.html">Employee
+                                                                href="#">Employee
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/payslip-report.html">Payslip
+                                                                href="#">Payslip
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/attendance-report.html">Attendance
+                                                                href="#">Attendance
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/leave-report.html">Leave
+                                                                href="#">Leave
                                                                 Report</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/daily-report.html">Daily
+                                                                href="#">Daily
                                                                 Report</a></li>
                                                     </ul>
                                                 </li>
@@ -725,16 +725,16 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/profile-settings.html">Profile</a>
+                                                                        href="#">Profile</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/security-settings.html">Security</a>
+                                                                        href="#">Security</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/notification-settings.html">Notifications</a>
+                                                                        href="#">Notifications</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/connected-apps.html">Connected
+                                                                        href="#">Connected
                                                                         Apps</a></li>
                                                             </ul>
                                                         </li>
@@ -743,31 +743,31 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/bussiness-settings.html">Business
+                                                                        href="#">Business
                                                                         Settings</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/seo-settings.html">SEO
+                                                                        href="#">SEO
                                                                         Settings</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/localization-settings.html">Localization</a>
+                                                                        href="#">Localization</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/prefixes.html">Prefixes</a>
+                                                                        href="#">Prefixes</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/preferences.html">Preferences</a>
+                                                                        href="#">Preferences</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/performance-appraisal.html">Appearance</a>
+                                                                        href="#">Appearance</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/language.html">Language</a>
+                                                                        href="#">Language</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/authentication-settings.html">Authentication</a>
+                                                                        href="#">Authentication</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ai-settings.html">AI
+                                                                        href="#">AI
                                                                         Settings</a></li>
                                                             </ul>
                                                         </li>
@@ -776,19 +776,19 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/salary-settings.html">Salary
+                                                                        href="#">Salary
                                                                         Settings</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/approval-settings.html">Approval
+                                                                        href="#">Approval
                                                                         Settings</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/invoice-settings.html">Invoice
+                                                                        href="#">Invoice
                                                                         Settings</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/leave-type.html">Leave
+                                                                        href="#">Leave
                                                                         Type</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/custom-fields.html">Custom
+                                                                        href="#">Custom
                                                                         Fields</a></li>
                                                             </ul>
                                                         </li>
@@ -797,25 +797,25 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/email-settings.html">Email
+                                                                        href="#">Email
                                                                         Settings</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/email-template.html">Email
+                                                                        href="#">Email
                                                                         Templates</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/sms-settings.html">SMS
+                                                                        href="#">SMS
                                                                         Settings</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/sms-template.html">SMS
+                                                                        href="#">SMS
                                                                         Templates</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/otp-settings.html">OTP</a>
+                                                                        href="#">OTP</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/gdpr.html">GDPR
+                                                                        href="#">GDPR
                                                                         Cookies</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/maintenance-mode.html">Maintenance
+                                                                        href="#">Maintenance
                                                                         Mode</a></li>
                                                             </ul>
                                                         </li>
@@ -824,13 +824,13 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/payment-gateways.html">Payment
+                                                                        href="#">Payment
                                                                         Gateways</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/tax-rates.html">Tax
+                                                                        href="#">Tax
                                                                         Rate</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/currencies.html">Currencies</a>
+                                                                        href="#">Currencies</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -839,25 +839,25 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/custom-css.html">Custom
+                                                                        href="#">Custom
                                                                         CSS</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/custom-js.html">Custom
+                                                                        href="#">Custom
                                                                         JS</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/cronjob.html">Cronjob</a>
+                                                                        href="#">Cronjob</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/storage-settings.html">Storage</a>
+                                                                        href="#">Storage</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ban-ip-address.html">Ban
+                                                                        href="#-address#">Ban
                                                                         IP Address</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/backup.html">Backup</a>
+                                                                        href="#">Backup</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/clear-cache.html">Clear
+                                                                        href="#">Clear
                                                                         Cache</a></li>
                                                             </ul>
                                                         </li>
@@ -872,62 +872,62 @@
                                             </a>
                                             <ul>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/starter.html"><span>Starter</span></a>
+                                                        href="#"><span>Starter</span></a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/profile.html"><span>Profile</span></a>
+                                                        href="#"><span>Profile</span></a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/gallery.html"><span>Gallery</span></a>
+                                                        href="#"><span>Gallery</span></a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/search-result.html"><span>Search
+                                                        href="#"><span>Search
                                                             Results</span></a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/timeline.html"><span>Timeline</span></a>
+                                                        href="#"><span>Timeline</span></a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/pricing.html"><span>Pricing</span></a>
+                                                        href="#"><span>Pricing</span></a>
                                                 </li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/coming-soon.html"><span>Coming
+                                                        href="#"><span>Coming
                                                             Soon</span></a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/under-maintenance.html"><span>Under
+                                                        href="#"><span>Under
                                                             Maintenance</span></a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/under-construction.html"><span>Under
+                                                        href="#"><span>Under
                                                             Construction</span></a></li>
-                                                <li><a href="https://smarthr.co.in/demo/html/template/api-keys.html"><span>API
+                                                <li><a href="#"><span>API
                                                             Keys</span></a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/privacy-policy.html"><span>Privacy
+                                                        href="#"><span>Privacy
                                                             Policy</span></a></li>
                                                 <li><a
-                                                        href="https://smarthr.co.in/demo/html/template/terms-condition.html"><span>Terms
+                                                        href="#"><span>Terms
                                                             & Conditions</span></a></li>
                                                 <li class="submenu">
                                                     <a href="#"><span>Content</span> <span
                                                             class="menu-arrow"></span></a>
                                                     <ul>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/pages.html">Pages</a>
+                                                                href="#">Pages</a>
                                                         </li>
                                                         <li class="submenu">
                                                             <a href="javascript:void(0);">Blogs<span
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/blogs.html">All
+                                                                        href="#">All
                                                                         Blogs</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/blog-categories.html">Categories</a>
+                                                                        href="#">Categories</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/blog-comments.html">Comments</a>
+                                                                        href="#">Comments</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/blog-tags.html">Tags</a>
+                                                                        href="#">Tags</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -936,21 +936,21 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/countries.html">Countries</a>
+                                                                        href="#">Countries</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/states.html">States</a>
+                                                                        href="#">States</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/cities.html">Cities</a>
+                                                                        href="#">Cities</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/testimonials.html">Testimonials</a>
+                                                                href="#">Testimonials</a>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/faq.html">FAQ’S</a>
+                                                                href="#">FAQ’S</a>
                                                         </li>
                                                     </ul>
                                                 </li>
@@ -965,13 +965,13 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/login.html">Cover</a>
+                                                                        href="#">Cover</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/login-2.html">Illustration</a>
+                                                                        href="#">Illustration</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/login-3.html">Basic</a>
+                                                                        href="#">Basic</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -980,13 +980,13 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/register.html">Cover</a>
+                                                                        href="#">Cover</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/register-2.html">Illustration</a>
+                                                                        href="#">Illustration</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/register-3.html">Basic</a>
+                                                                        href="#">Basic</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -994,13 +994,13 @@
                                                                 Password<span class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/forgot-password.html">Cover</a>
+                                                                        href="#">Cover</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/forgot-password-2.html">Illustration</a>
+                                                                        href="#-2#">Illustration</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/forgot-password-3.html">Basic</a>
+                                                                        href="#-3#">Basic</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -1009,13 +1009,13 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/reset-password.html">Cover</a>
+                                                                        href="#">Cover</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/reset-password-2.html">Illustration</a>
+                                                                        href="#-2#">Illustration</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/reset-password-3.html">Basic</a>
+                                                                        href="#-3#">Basic</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -1024,13 +1024,13 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/email-verification.html">Cover</a>
+                                                                        href="#">Cover</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/email-verification-2.html">Illustration</a>
+                                                                        href="#-2#">Illustration</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/email-verification-3.html">Basic</a>
+                                                                        href="#-3#">Basic</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -1039,24 +1039,24 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/two-step-verification.html">Cover</a>
+                                                                        href="#-verification#">Cover</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/two-step-verification-2.html">Illustration</a>
+                                                                        href="#-verification-2#">Illustration</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/two-step-verification-3.html">Basic</a>
+                                                                        href="#-verification-3#">Basic</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/lock-screen.html">Lock
+                                                                href="#">Lock
                                                                 Screen</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/error-404.html">404
+                                                                href="#">404
                                                                 Error</a></li>
                                                         <li><a
-                                                                href="https://smarthr.co.in/demo/html/template/error-500.html">500
+                                                                href="#">500
                                                                 Error</a></li>
                                                     </ul>
                                                 </li>
@@ -1071,97 +1071,97 @@
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-alerts.html">Alerts</a>
+                                                                        href="#">Alerts</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-accordion.html">Accordion</a>
+                                                                        href="#">Accordion</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-avatar.html">Avatar</a>
+                                                                        href="#">Avatar</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-badges.html">Badges</a>
+                                                                        href="#">Badges</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-borders.html">Border</a>
+                                                                        href="#">Border</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-buttons.html">Buttons</a>
+                                                                        href="#">Buttons</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-buttons-group.html">Button
+                                                                        href="#-group#">Button
                                                                         Group</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-breadcrumb.html">Breadcrumb</a>
+                                                                        href="#">Breadcrumb</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-cards.html">Card</a>
+                                                                        href="#">Card</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-carousel.html">Carousel</a>
+                                                                        href="#">Carousel</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-colors.html">Colors</a>
+                                                                        href="#">Colors</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-dropdowns.html">Dropdowns</a>
+                                                                        href="#">Dropdowns</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-grid.html">Grid</a>
+                                                                        href="#">Grid</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-images.html">Images</a>
+                                                                        href="#">Images</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-lightbox.html">Lightbox</a>
+                                                                        href="#">Lightbox</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-media.html">Media</a>
+                                                                        href="#">Media</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-modals.html">Modals</a>
+                                                                        href="#">Modals</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-offcanvas.html">Offcanvas</a>
+                                                                        href="#">Offcanvas</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-pagination.html">Pagination</a>
+                                                                        href="#">Pagination</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-popovers.html">Popovers</a>
+                                                                        href="#">Popovers</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-progress.html">Progress</a>
+                                                                        href="#">Progress</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-placeholders.html">Placeholders</a>
+                                                                        href="#">Placeholders</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-spinner.html">Spinner</a>
+                                                                        href="#">Spinner</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-sweetalerts.html">Sweet
+                                                                        href="#">Sweet
                                                                         Alerts</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-nav-tabs.html">Tabs</a>
+                                                                        href="#-tabs#">Tabs</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-toasts.html">Toasts</a>
+                                                                        href="#">Toasts</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-tooltips.html">Tooltips</a>
+                                                                        href="#">Tooltips</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-typography.html">Typography</a>
+                                                                        href="#">Typography</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-video.html">Video</a>
+                                                                        href="#">Video</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-sortable.html">Sortable</a>
+                                                                        href="#">Sortable</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-swiperjs.html">Swiperjs</a>
+                                                                        href="#">Swiperjs</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -1171,34 +1171,34 @@
                                                             </a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-ribbon.html">Ribbon</a>
+                                                                        href="#">Ribbon</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-clipboard.html">Clipboard</a>
+                                                                        href="#">Clipboard</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-drag-drop.html">Drag
+                                                                        href="#-drop#">Drag
                                                                         & Drop</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-rangeslider.html">Range
+                                                                        href="#">Range
                                                                         Slider</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-rating.html">Rating</a>
+                                                                        href="#">Rating</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-text-editor.html">Text
+                                                                        href="#-editor#">Text
                                                                         Editor</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-counter.html">Counter</a>
+                                                                        href="#">Counter</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-scrollbar.html">Scrollbar</a>
+                                                                        href="#">Scrollbar</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-stickynote.html">Sticky
+                                                                        href="#">Sticky
                                                                         Note</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/ui-timeline.html">Timeline</a>
+                                                                        href="#">Timeline</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -1211,26 +1211,26 @@
                                                                             class="menu-arrow inside-submenu"></span></a>
                                                                     <ul>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-basic-inputs.html">Basic
+                                                                                href="#-inputs#">Basic
                                                                                 Inputs</a></li>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-checkbox-radios.html">Checkbox
+                                                                                href="#-radios#">Checkbox
                                                                                 & Radios</a>
                                                                         </li>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-input-groups.html">Input
+                                                                                href="#-groups#">Input
                                                                                 Groups</a></li>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-grid-gutters.html">Grid
+                                                                                href="#-gutters#">Grid
                                                                                 & Gutters</a></li>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-select.html">Form
+                                                                                href="#">Form
                                                                                 Select</a></li>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-mask.html">Input
+                                                                                href="#">Input
                                                                                 Masks</a></li>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-fileupload.html">File
+                                                                                href="#">File
                                                                                 Uploads</a></li>
                                                                     </ul>
                                                                 </li>
@@ -1239,30 +1239,30 @@
                                                                             class="menu-arrow inside-submenu"></span></a>
                                                                     <ul>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-horizontal.html">Horizontal
+                                                                                href="#">Horizontal
                                                                                 Form</a></li>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-vertical.html">Vertical
+                                                                                href="#">Vertical
                                                                                 Form</a></li>
                                                                         <li><a
-                                                                                href="https://smarthr.co.in/demo/html/template/form-floating-labels.html">Floating
+                                                                                href="#-labels#">Floating
                                                                                 Labels</a></li>
                                                                     </ul>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/form-validation.html">Form
+                                                                        href="#">Form
                                                                         Validation</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/form-select2.html">Select2</a>
+                                                                        href="#">Select2</a>
                                                                 </li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/form-wizard.html">Form
+                                                                        href="#">Form
                                                                         Wizard</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/form-pickers.html">Form
+                                                                        href="#">Form
                                                                         Picker</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/form-pickers.html">Form
+                                                                        href="#">Form
                                                                         Picker</a></li>
                                                             </ul>
                                                         </li>
@@ -1270,10 +1270,10 @@
                                                             <a href="javascript:void(0);" class="active">Tables<span
                                                                     class="menu-arrow"></span></a>
                                                             <ul>
-                                                                <li><a href="https://smarthr.co.in/demo/html/template/tables-basic.html"
+                                                                <li><a href="#"
                                                                         class="active">Basic Tables </a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/data-tables.html">Data
+                                                                        href="#">Data
                                                                         Table </a></li>
                                                             </ul>
                                                         </li>
@@ -1283,22 +1283,22 @@
                                                             </a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/chart-apex.html">Apex
+                                                                        href="#">Apex
                                                                         Charts</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/chart-c3.html">Chart
+                                                                        href="#">Chart
                                                                         C3</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/chart-js.html">Chart
+                                                                        href="#">Chart
                                                                         Js</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/chart-morris.html">Morris
+                                                                        href="#">Morris
                                                                         Charts</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/chart-flot.html">Flot
+                                                                        href="#">Flot
                                                                         Charts</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/chart-peity.html">Peity
+                                                                        href="#">Peity
                                                                         Charts</a></li>
                                                             </ul>
                                                         </li>
@@ -1308,43 +1308,43 @@
                                                             </a>
                                                             <ul>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-fontawesome.html">Fontawesome
+                                                                        href="#">Fontawesome
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-tabler.html">Tabler
+                                                                        href="#">Tabler
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-bootstrap.html">Bootstrap
+                                                                        href="#">Bootstrap
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-remix.html">Remix
+                                                                        href="#">Remix
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-feather.html">Feather
+                                                                        href="#">Feather
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-ionic.html">Ionic
+                                                                        href="#">Ionic
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-material.html">Material
+                                                                        href="#">Material
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-pe7.html">Pe7
+                                                                        href="#">Pe7
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-simpleline.html">Simpleline
+                                                                        href="#">Simpleline
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-themify.html">Themify
+                                                                        href="#">Themify
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-weather.html">Weather
+                                                                        href="#">Weather
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-typicon.html">Typicon
+                                                                        href="#">Typicon
                                                                         Icons</a></li>
                                                                 <li><a
-                                                                        href="https://smarthr.co.in/demo/html/template/icon-flag.html">Flag
+                                                                        href="#">Flag
                                                                         Icons</a></li>
                                                             </ul>
                                                         </li>
@@ -1356,11 +1356,11 @@
                                                             <ul>
                                                                 <li>
                                                                     <a
-                                                                        href="https://smarthr.co.in/demo/html/template/maps-vector.html">Vector</a>
+                                                                        href="#">Vector</a>
                                                                 </li>
                                                                 <li>
                                                                     <a
-                                                                        href="https://smarthr.co.in/demo/html/template/maps-leaflet.html">Leaflet</a>
+                                                                        href="#">Leaflet</a>
                                                                 </li>
                                                             </ul>
                                                         </li>
@@ -1418,32 +1418,32 @@
                                             <h4>Applications</h4>
                                         </div>
                                         <div class="card-body">
-                                            <a href="https://smarthr.co.in/demo/html/template/calendar.html"
+                                            <a href="#"
                                                 class="d-block pb-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-calendar text-gray-9"></i></span>Calendar
                                             </a>
-                                            <a href="https://smarthr.co.in/demo/html/template/todo.html"
+                                            <a href="#"
                                                 class="d-block py-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-subtask text-gray-9"></i></span>To Do
                                             </a>
-                                            <a href="https://smarthr.co.in/demo/html/template/notes.html"
+                                            <a href="#"
                                                 class="d-block py-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-notes text-gray-9"></i></span>Notes
                                             </a>
-                                            <a href="https://smarthr.co.in/demo/html/template/file-manager.html"
+                                            <a href="#"
                                                 class="d-block py-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-folder text-gray-9"></i></span>File Manager
                                             </a>
-                                            <a href="https://smarthr.co.in/demo/html/template/kanban-view.html"
+                                            <a href="#"
                                                 class="d-block py-2">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-layout-kanban text-gray-9"></i></span>Kanban
                                             </a>
-                                            <a href="https://smarthr.co.in/demo/html/template/invoices.html"
+                                            <a href="#"
                                                 class="d-block py-2 pb-0">
                                                 <span class="avatar avatar-md bg-transparent-dark me-2"><i
                                                         class="ti ti-file-invoice text-gray-9"></i></span>Invoices
@@ -1453,7 +1453,7 @@
                                 </div>
                             </div>
                             <div class="me-1">
-                                <a href="https://smarthr.co.in/demo/html/template/chat.html"
+                                <a href="#"
                                     class="btn btn-menubar position-relative">
                                     <i class="ti ti-brand-hipchat"></i>
                                     <span
@@ -1461,7 +1461,7 @@
                                 </a>
                             </div>
                             <div class="me-1">
-                                <a href="https://smarthr.co.in/demo/html/template/email.html" class="btn btn-menubar"
+                                <a href="#" class="btn btn-menubar"
                                     data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="ti ti-message"></i>
                                 </a>
@@ -1507,10 +1507,10 @@
                                     <div class="noti-content">
                                         <div class="d-flex flex-column">
                                             <div class="border-bottom mb-3 pb-3">
-                                                <a href="https://smarthr.co.in/demo/html/template/activity.html">
+                                                <a href="#">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="https://smarthr.co.in/demo/html/template/assets/img/profiles/avatar-27.jpg"
+                                                            <img src="#/profiles/avatar-27.jpg"
                                                                 alt="Profile">
                                                         </span>
                                                         <div class="flex-grow-1">
@@ -1523,11 +1523,11 @@
                                                 </a>
                                             </div>
                                             <div class="border-bottom mb-3 pb-3">
-                                                <a href="https://smarthr.co.in/demo/html/template/activity.html"
+                                                <a href="#"
                                                     class="pb-0">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="https://smarthr.co.in/demo/html/template/assets/img/profiles/avatar-23.jpg"
+                                                            <img src="#/profiles/avatar-23.jpg"
                                                                 alt="Profile">
                                                         </span>
                                                         <div class="flex-grow-1">
@@ -1545,10 +1545,10 @@
                                                 </a>
                                             </div>
                                             <div class="border-bottom mb-3 pb-3">
-                                                <a href="https://smarthr.co.in/demo/html/template/activity.html">
+                                                <a href="#">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="https://smarthr.co.in/demo/html/template/assets/img/profiles/avatar-25.jpg"
+                                                            <img src="#/profiles/avatar-25.jpg"
                                                                 alt="Profile">
                                                         </span>
                                                         <div class="flex-grow-1">
@@ -1562,10 +1562,10 @@
                                                 </a>
                                             </div>
                                             <div class="border-0 mb-3 pb-0">
-                                                <a href="https://smarthr.co.in/demo/html/template/activity.html">
+                                                <a href="#">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="https://smarthr.co.in/demo/html/template/assets/img/profiles/avatar-01.jpg"
+                                                            <img src="#/profiles/avatar-01.jpg"
                                                                 alt="Profile">
                                                         </span>
                                                         <div class="flex-grow-1">
@@ -1580,7 +1580,7 @@
                                     </div>
                                     <div class="d-flex p-0">
                                         <a href="#" class="btn btn-light w-100 me-2">Cancel</a>
-                                        <a href="https://smarthr.co.in/demo/html/template/activity.html"
+                                        <a href="#"
                                             class="btn btn-primary w-100">View All</a>
                                     </div>
                                 </div>
@@ -1589,7 +1589,7 @@
                                 <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center"
                                     data-bs-toggle="dropdown">
                                     <span class="avatar avatar-sm online">
-                                        <img src="https://smarthr.co.in/demo/html/template/assets/img/profiles/avatar-12.jpg"
+                                        <img src="#/profiles/avatar-12.jpg"
                                             alt="Img" class="img-fluid rounded-circle">
                                     </span>
                                 </a>
@@ -1598,13 +1598,13 @@
                                         <div class="card-header">
                                             <div class="d-flex align-items-center">
                                                 <span class="avatar avatar-lg me-2 avatar-rounded">
-                                                    <img src="https://smarthr.co.in/demo/html/template/assets/img/profiles/avatar-12.jpg"
+                                                    <img src="#/profiles/avatar-12.jpg"
                                                         alt="img">
                                                 </span>
                                                 <div>
                                                     <h5 class="mb-0">Kevin Larry</h5>
                                                     <p class="fs-12 fw-medium mb-0"><a
-                                                            href="https://smarthr.co.in/cdn-cgi/l/email-protection"
+                                                            href="#"
                                                             class="__cf_email__"
                                                             data-cfemail="d9aeb8ababbcb799bca1b8b4a9b5bcf7bab6b4">[email&#160;protected]</a>
                                                     </p>
@@ -1613,19 +1613,19 @@
                                         </div>
                                         <div class="card-body">
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="https://smarthr.co.in/demo/html/template/profile.html">
+                                                href="#">
                                                 <i class="ti ti-user-circle me-1"></i>My Profile
                                             </a>
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="https://smarthr.co.in/demo/html/template/bussiness-settings.html">
+                                                href="#">
                                                 <i class="ti ti-settings me-1"></i>Settings
                                             </a>
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="https://smarthr.co.in/demo/html/template/profile-settings.html">
+                                                href="#">
                                                 <i class="ti ti-circle-arrow-up me-1"></i>My Account
                                             </a>
                                             <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="https://smarthr.co.in/demo/html/template/knowledgebase.html">
+                                                href="#">
                                                 <i class="ti ti-question-mark me-1"></i>Knowledge Base
                                             </a>
                                         </div>
@@ -1646,11 +1646,11 @@
                     <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
                         aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
                     <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="https://smarthr.co.in/demo/html/template/profile.html">My
+                        <a class="dropdown-item" href="#">My
                             Profile</a>
                         <a class="dropdown-item"
-                            href="https://smarthr.co.in/demo/html/template/profile-settings.html">Settings</a>
-                        <a class="dropdown-item" href="https://smarthr.co.in/demo/html/template/login.html">Logout</a>
+                            href="#">Settings</a>
+                        <a class="dropdown-item" href="#">Logout</a>
                     </div>
                 </div>
                 <!-- /Mobile Menu -->
@@ -1664,13 +1664,13 @@
         <div class="sidebar" id="sidebar">
           <!-- Logo -->
             <div class="sidebar-logo">
-                <a href="index.html" class="logo logo-normal">
+                <a href="#" class="logo logo-normal">
                     <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
-                <a href="index.html" class="logo-small">
+                <a href="#" class="logo-small">
                     <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
-                <a href="index.html" class="dark-logo">
+                <a href="#" class="dark-logo">
                     <img src="{{ asset('frontent/assets/img/icons/logo.png') }}" alt="Logo">
                 </a>
             </div>
@@ -1678,7 +1678,7 @@
             <div class="modern-profile p-3 pb-0">
                 <div class="text-center rounded bg-light p-3 mb-4 user-profile">
                     <div class="avatar avatar-lg online mb-3">
-                        <img src="https://smarthr.co.in/demo/html/template/assets/img/profiles/avatar-02.jpg"
+                        <img src="#/profiles/avatar-02.jpg"
                             alt="Img" class="img-fluid rounded-circle">
                     </div>
                     <h6 class="fs-12 fw-normal mb-1">Adrian Herman</h6>
@@ -1689,16 +1689,16 @@
                         role="tablist">
                         <li class="nav-item"><a class="nav-link active border-0" href="#">Menu</a></li>
                         <li class="nav-item"><a class="nav-link border-0"
-                                href="https://smarthr.co.in/demo/html/template/chat.html">Chats</a></li>
+                                href="#">Chats</a></li>
                         <li class="nav-item"><a class="nav-link border-0"
-                                href="https://smarthr.co.in/demo/html/template/email.html">Inbox</a></li>
+                                href="#">Inbox</a></li>
                     </ul>
                 </div>
             </div>
             <div class="sidebar-header p-3 pb-0 pt-2">
                 <div class="text-center rounded bg-light p-2 mb-4 sidebar-profile d-flex align-items-center">
                     <div class="avatar avatar-md onlin">
-                        <img src="https://smarthr.co.in/demo/html/template/assets/img/profiles/avatar-02.jpg"
+                        <img src="#/profiles/avatar-02.jpg"
                             alt="Img" class="img-fluid rounded-circle">
                     </div>
                     <div class="text-start sidebar-profile-info ms-2">
@@ -1717,12 +1717,12 @@
                 </div>
                 <div class="d-flex align-items-center justify-content-between menu-item mb-3">
                     <div class="me-3">
-                        <a href="https://smarthr.co.in/demo/html/template/calendar.html" class="btn btn-menubar">
+                        <a href="#" class="btn btn-menubar">
                             <i class="ti ti-layout-grid-remove"></i>
                         </a>
                     </div>
                     <div class="me-3">
-                        <a href="https://smarthr.co.in/demo/html/template/chat.html"
+                        <a href="#"
                             class="btn btn-menubar position-relative">
                             <i class="ti ti-brand-hipchat"></i>
                             <span
@@ -1730,14 +1730,14 @@
                         </a>
                     </div>
                     <div class="me-3 notification-item">
-                        <a href="https://smarthr.co.in/demo/html/template/activity.html"
+                        <a href="#"
                             class="btn btn-menubar position-relative me-1">
                             <i class="ti ti-bell"></i>
                             <span class="notification-status-dot"></span>
                         </a>
                     </div>
                     <div class="me-0">
-                        <a href="https://smarthr.co.in/demo/html/template/email.html" class="btn btn-menubar">
+                        <a href="#" class="btn btn-menubar">
                             <i class="ti ti-message"></i>
                         </a>
                     </div>

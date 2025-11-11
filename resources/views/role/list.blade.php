@@ -51,7 +51,7 @@
             </div>
             <!-- /Breadcrumb -->
 
-            <div class="row">
+            <div class="row"> 
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
@@ -167,7 +167,7 @@
                     <p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
                     <div class="d-flex justify-content-center">
                         <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-                        <a href="https://smarthr.co.in/demo/html/template/categories-grid.html" class="btn btn-danger">Yes,
+                        <a href="#" class="btn btn-danger">Yes,
                             Delete</a>
                     </div>
                 </div>

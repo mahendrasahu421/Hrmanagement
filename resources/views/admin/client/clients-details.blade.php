@@ -52,13 +52,13 @@
                                     {{-- <div class="row gx-2 mt-3">
                                         <div class="col-6">
                                             <div>
-                                                <a href="voice-call.html" class="btn btn-dark w-100"><i
+                                                <a href="#" class="btn btn-dark w-100"><i
                                                         class="ti ti-phone-call me-1"></i>Call</a>
                                             </div>
                                         </div>
                                         <div class="col-6">
                                             <div>
-                                                <a href="chat.html" class="btn btn-primary w-100"><i
+                                                <a href="#" class="btn btn-primary w-100"><i
                                                         class="ti ti-message-heart me-1"></i>Message</a>
                                             </div>
                                         </div>
@@ -193,14 +193,14 @@
                                                             <div class="card-body">
                                                                 <div
                                                                     class="d-flex align-items-center pb-3 mb-3 border-bottom">
-                                                                    <a href="project-details.html"
+                                                                    <a href="#"
                                                                         class="flex-shrink-0 me-2">
                                                                         <img src="assets/img/social/project-01.svg"
                                                                             alt="Img">
                                                                     </a>
                                                                     <div>
                                                                         <h6 class="mb-1"><a
-                                                                                href="project-details.html">Hospital
+                                                                                href="#">Hospital
                                                                                 Administration</a></h6>
                                                                         <div class="d-flex align-items-center">
                                                                             <span>8 tasks</span>
@@ -274,14 +274,14 @@
                                                             <div class="card-body">
                                                                 <div
                                                                     class="d-flex align-items-center pb-3 mb-3 border-bottom">
-                                                                    <a href="project-details.html"
+                                                                    <a href="#"
                                                                         class="flex-shrink-0 me-2">
                                                                         <img src="assets/img/social/project-02.svg"
                                                                             alt="Img">
                                                                     </a>
                                                                     <div>
                                                                         <h6 class="mb-1"><a
-                                                                                href="project-details.html">Video Calling
+                                                                                href="#">Video Calling
                                                                                 App</a></h6>
                                                                         <div class="d-flex align-items-center">
                                                                             <span>22 tasks</span>
@@ -1538,14 +1538,14 @@
                                                             <div class="card-body">
                                                                 <div
                                                                     class="d-flex align-items-center pb-3 mb-3 border-bottom">
-                                                                    <a href="project-details.html"
+                                                                    <a href="#"
                                                                         class="flex-shrink-0 me-2">
                                                                         <img src="assets/img/social/project-01.svg"
                                                                             alt="Img">
                                                                     </a>
                                                                     <div>
                                                                         <h6 class="mb-1"><a
-                                                                                href="project-details.html">Hospital
+                                                                                href="#">Hospital
                                                                                 Administration</a></h6>
                                                                         <div class="d-flex align-items-center">
                                                                             <span>8 tasks</span>
@@ -1620,14 +1620,14 @@
                                                             <div class="card-body">
                                                                 <div
                                                                     class="d-flex align-items-center pb-3 mb-3 border-bottom">
-                                                                    <a href="project-details.html"
+                                                                    <a href="#"
                                                                         class="flex-shrink-0 me-2">
                                                                         <img src="assets/img/social/project-02.svg"
                                                                             alt="Img">
                                                                     </a>
                                                                     <div>
                                                                         <h6 class="mb-1"><a
-                                                                                href="project-details.html">Video Calling
+                                                                                href="#">Video Calling
                                                                                 App</a></h6>
                                                                         <div class="d-flex align-items-center">
                                                                             <span>22 tasks</span>
@@ -2966,7 +2966,7 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="clients.html">
+                <form action="#">
                     <div class="contact-grids-tab">
                         <ul class="nav nav-underline" id="myTab2" role="tablist">
                             <li class="nav-item" role="presentation">
@@ -3607,7 +3607,7 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="client-details.html">
+                <form action="#">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12">
@@ -3774,7 +3774,7 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="company-details.html">
+                <form action="#">
                     <div class="modal-body">
                         <div class="mb-3">
                             <label class="form-label">Title <span class="text-danger"> *</span></label>
@@ -3842,7 +3842,7 @@
                     <p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
                     <div class="d-flex justify-content-center">
                         <a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-                        <a href="client-details.html" class="btn btn-danger">Yes, Delete</a>
+                        <a href="#" class="btn btn-danger">Yes, Delete</a>
                     </div>
                 </div>
             </div>

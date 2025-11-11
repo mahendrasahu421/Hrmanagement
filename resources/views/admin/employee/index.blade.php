@@ -12,7 +12,7 @@
                         <nav>
                             <ol class="breadcrumb mb-0">
                                 <li class="breadcrumb-item">
-                                    <a href="index.html"><i class="ti ti-smart-home"></i></a>
+                                    <a href="#"><i class="ti ti-smart-home"></i></a>
                                 </li>
                                 <li class="breadcrumb-item">
                                     Employee
@@ -24,10 +24,10 @@
                     <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
                         <div class="me-2 mb-2">
                             <div class="d-flex align-items-center border bg-white rounded p-1 me-2 icon-list">
-                                <a href="employees.html"
+                                <a href="#"
                                     class="btn btn-icon btn-sm active bg-primary text-white me-1"><i
                                         class="ti ti-list-tree"></i></a>
-                                <a href="employees-grid.html" class="btn btn-icon btn-sm"><i
+                                <a href="#" class="btn btn-icon btn-sm"><i
                                         class="ti ti-layout-grid"></i></a>
                             </div>
                         </div>
@@ -256,15 +256,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-001</a></td>
+                                        <td><a href="#">Emp-001</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-32.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Anthony Lewis</a></p>
                                                     <span class="fs-12">Finance</span>
@@ -316,15 +316,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-002</a></td>
+                                        <td><a href="#">Emp-002</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-09.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Brian Villalobos</a></p>
                                                     <span class="fs-12">Developer</span>
@@ -376,15 +376,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-003</a></td>
+                                        <td><a href="#">Emp-003</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-01.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Harvey Smith</a></p>
                                                     <span class="fs-12">Developer</span>
@@ -436,15 +436,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-004</a></td>
+                                        <td><a href="#">Emp-004</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-33.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Stephan Peralt</a></p>
                                                     <span class="fs-12">Executive Officer</span>
@@ -496,15 +496,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-005</a></td>
+                                        <td><a href="#">Emp-005</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-33.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Doglas Martini</a></p>
                                                     <span class="fs-12">Manager</span>
@@ -556,15 +556,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-006</a></td>
+                                        <td><a href="#">Emp-006</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-02.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Linda Ray</a></p>
                                                     <span class="fs-12">Finance</span>
@@ -616,15 +616,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-007</a></td>
+                                        <td><a href="#">Emp-007</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-35.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Elliot Murray</a></p>
                                                     <span class="fs-12">Finance</span>
@@ -676,15 +676,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-008</a></td>
+                                        <td><a href="#">Emp-008</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-36.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Rebecca Smtih</a></p>
                                                     <span class="fs-12">Executive</span>
@@ -736,15 +736,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-009</a></td>
+                                        <td><a href="#">Emp-009</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-37.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Connie Waters</a></p>
                                                     <span class="fs-12">Developer</span>
@@ -796,15 +796,15 @@
                                                 <input class="form-check-input" type="checkbox">
                                             </div>
                                         </td>
-                                        <td><a href="employee-details.html">Emp-010</a></td>
+                                        <td><a href="#">Emp-010</a></td>
                                         <td>
                                             <div class="d-flex align-items-center">
-                                                <a href="employee-details.html" class="avatar avatar-md"
+                                                <a href="#" class="avatar avatar-md"
                                                     data-bs-toggle="modal" data-bs-target="#view_details"><img
                                                         src="assets/img/users/user-38.jpg"
                                                         class="img-fluid rounded-circle" alt="img"></a>
                                                 <div class="ms-2">
-                                                    <p class="text-dark mb-0"><a href="employee-details.html"
+                                                    <p class="text-dark mb-0"><a href="#"
                                                             data-bs-toggle="modal"
                                                             data-bs-target="#view_details">Lori Broaddus</a></p>
                                                     <span class="fs-12">Finance</span>
@@ -876,7 +876,7 @@
                             <i class="ti ti-x"></i>
                         </button>
                     </div>
-                    <form action="employees.html">
+                    <form action="#">
                         <div class="contact-grids-tab">
                             <ul class="nav nav-underline" id="myTab" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -1575,7 +1575,7 @@
                             <i class="ti ti-x"></i>
                         </button>
                     </div>
-                    <form action="employees.html">
+                    <form action="#">
                         <div class="contact-grids-tab">
                             <ul class="nav nav-underline" id="myTab2" role="tablist">
                                 <li class="nav-item" role="presentation">
@@ -2278,10 +2278,10 @@
                             <div>
                                 <div class="row g-2">
                                     <div class="col-6">
-                                        <a href="employees.html" class="btn btn-dark w-100">Back to List</a>
+                                        <a href="#" class="btn btn-dark w-100">Back to List</a>
                                     </div>
                                     <div class="col-6">
-                                        <a href="employee-details.html" class="btn btn-primary w-100">Detail
+                                        <a href="#" class="btn btn-primary w-100">Detail
                                             Page</a>
                                     </div>
                                 </div>
@@ -2307,7 +2307,7 @@
                         <div class="d-flex justify-content-center">
                             <a href="javascript:void(0);" class="btn btn-light me-3"
                                 data-bs-dismiss="modal">Cancel</a>
-                            <a href="employees.html" class="btn btn-danger">Yes, Delete</a>
+                            <a href="#" class="btn btn-danger">Yes, Delete</a>
                         </div>
                     </div>
                 </div>

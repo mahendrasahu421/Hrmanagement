@@ -225,7 +225,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/leaves.html">
+					<form action="#">
 						<div class="contact-grids-tab">
 							<ul class="nav nav-underline" id="myTab" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -567,7 +567,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/leaves.html">
+					<form action="#">
 						<div class="contact-grids-tab">
 							<ul class="nav nav-underline" id="myTab6" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -861,7 +861,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/leaves.html">
+					<form action="#">
 						<div class="contact-grids-tab">
 							<ul class="nav nav-underline" id="myTab2" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -1155,7 +1155,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/leaves.html">
+					<form action="#">
 						<div class="contact-grids-tab">
 							<ul class="nav nav-underline" id="myTab3" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -1449,7 +1449,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/leaves.html">
+					<form action="#">
 						<div class="contact-grids-tab">
 							<ul class="nav nav-underline" id="myTab4" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -1743,7 +1743,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/leaves.html">
+					<form action="#">
 						<div class="contact-grids-tab">
 							<ul class="nav nav-underline" id="myTab5" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -2195,7 +2195,7 @@
 						<p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
 						<div class="d-flex justify-content-center">
 							<a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-							<a href="https://smarthr.co.in/demo/html/template/leave-settings.html" class="btn btn-danger">Yes, Delete</a>
+							<a href="#" class="btn btn-danger">Yes, Delete</a>
 						</div>
 					</div>
 				</div>
