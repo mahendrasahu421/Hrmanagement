@@ -14,7 +14,7 @@
 						<nav>
 							<ol class="breadcrumb mb-0">
 								<li class="breadcrumb-item">
-									<a href="https://smarthr.co.in/demo/html/template/index.html"><i class="ti ti-smart-home"></i></a>
+									<a href="#"><i class="ti ti-smart-home"></i></a>
 								</li>
 								<li class="breadcrumb-item">
 									Employee
@@ -26,9 +26,9 @@
 					<div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
 						<div class="me-2 mb-2">
 							<div class="d-flex align-items-center border bg-white rounded p-1 me-2 icon-list">
-								<a href="https://smarthr.co.in/demo/html/template/attendance-employee.html" class="btn btn-icon btn-sm  me-1"><i
+								<a href="#" class="btn btn-icon btn-sm  me-1"><i
 										class="ti ti-brand-days-counter"></i></a>
-								<a href="https://smarthr.co.in/demo/html/template/attendance-admin.html" class="btn btn-icon btn-sm active bg-primary text-white"><i
+								<a href="#" class="btn btn-icon btn-sm active bg-primary text-white"><i
 										class="ti ti-calendar-event"></i></a>
 							</div>
 						</div>
@@ -660,7 +660,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/attendance-admin.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="row">
 								<div class="col-md-12">

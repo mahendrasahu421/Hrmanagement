@@ -85,7 +85,7 @@
 											</div>
 											<div class="col-6">
 												<div>
-													<a href="https://smarthr.co.in/demo/html/template/chat.html" class="btn btn-primary w-100"><i class="ti ti-message-heart me-1"></i>Message</a>
+													<a href="#" class="btn btn-primary w-100"><i class="ti ti-message-heart me-1"></i>Message</a>
 												</div>
 											</div>
 										</div>
@@ -468,11 +468,11 @@
 																<div class="card flex-fill mb-4 mb-md-0">
 																	<div class="card-body">
 																		<div class="d-flex align-items-center pb-3 mb-3 border-bottom">
-																			<a href="https://smarthr.co.in/demo/html/template/project-details.html" class="flex-shrink-0 me-2">
+																			<a href="#" class="flex-shrink-0 me-2">
 																				<img src="https://smarthr.co.in/demo/html/template/assets/img/social/project-03.svg" alt="Img">
 																			</a>
 																			<div>
-																				<h6 class="mb-1"><a href="https://smarthr.co.in/demo/html/template/project-details.html">World Health</a></h6>
+																				<h6 class="mb-1"><a href="#">World Health</a></h6>
 																				<div class="d-flex align-items-center">
 																					<p class="mb-0 fs-13">8 tasks</p>
 																					<p class="fs-13"><span class="mx-1"><i class="ti ti-point-filled text-primary"></i></span>15 Completed</p>
@@ -503,11 +503,11 @@
 																<div class="card flex-fill mb-0">
 																	<div class="card-body">
 																		<div class="d-flex align-items-center pb-3 mb-3 border-bottom">
-																			<a href="https://smarthr.co.in/demo/html/template/project-details.html" class="flex-shrink-0 me-2">
+																			<a href="#" class="flex-shrink-0 me-2">
 																				<img src="https://smarthr.co.in/demo/html/template/assets/img/social/project-01.svg" alt="Img">
 																			</a>
 																			<div>
-																				<h6 class="mb-1 text-truncate"><a href="https://smarthr.co.in/demo/html/template/project-details.html">Hospital Administration</a></h6>
+																				<h6 class="mb-1 text-truncate"><a href="#">Hospital Administration</a></h6>
 																				<div class="d-flex align-items-center">
 																					<p class="mb-0 fs-13">8 tasks</p>
 																					<p class="fs-13"><span class="mx-1"><i class="ti ti-point-filled text-primary"></i></span>15 Completed</p>
@@ -544,11 +544,11 @@
 																		<div class="row align-items-center">
 																			<div class="col-md-8">
 																				<div class="d-flex align-items-center">
-																					<a href="https://smarthr.co.in/demo/html/template/project-details.html" class="flex-shrink-0 me-2">
+																					<a href="#" class="flex-shrink-0 me-2">
 																						<img src="https://smarthr.co.in/demo/html/template/assets/img/products/product-05.jpg" class="img-fluid rounded-circle" alt="img">
 																					</a>
 																					<div>
-																						<h6 class="mb-1"><a href="https://smarthr.co.in/demo/html/template/project-details.html">Dell Laptop - #343556656</a></h6>
+																						<h6 class="mb-1"><a href="#">Dell Laptop - #343556656</a></h6>
 																						<div class="d-flex align-items-center">
 																								<p><span class="text-primary">AST - 001<i class="ti ti-point-filled text-primary mx-1"></i></span>Assigned on 22 Nov, 2022 10:32AM </p>
 																						</div>
@@ -589,11 +589,11 @@
 																		<div class="row align-items-center">
 																			<div class="col-md-8">
 																				<div class="d-flex align-items-center">
-																					<a href="https://smarthr.co.in/demo/html/template/project-details.html" class="flex-shrink-0 me-2">
-																						<img src="https://smarthr.co.in/demo/html/template/assets/img/products/product-06.jpg" class="img-fluid rounded-circle" alt="img">
+																					<a href="#" class="flex-shrink-0 me-2">
+																						<img src="#" class="img-fluid rounded-circle" alt="img">
 																					</a>
 																					<div>
-																						<h6 class="mb-1"><a href="https://smarthr.co.in/demo/html/template/project-details.html">Bluetooth Mouse  - #478878</a></h6>
+																						<h6 class="mb-1"><a href="#">Bluetooth Mouse  - #478878</a></h6>
 																						<div class="d-flex align-items-center">
 																								<p><span class="text-primary">AST - 001<i class="ti ti-point-filled text-primary mx-1"></i></span>Assigned on 22 Nov, 2022 10:32AM </p>
 																						</div>
@@ -604,7 +604,7 @@
 																				<div>
 																					<span class="mb-1 d-block">Assigned by</span>
 																					<a href="#" class="fw-normal d-flex align-items-center">
-																						<img class="avatar avatar-sm rounded-circle me-2" src="https://smarthr.co.in/demo/html/template/assets/img/profiles/avatar-01.jpg" alt="Img">
+																						<img class="avatar avatar-sm rounded-circle me-2" src="#" alt="Img">
 																						Andrew Symon
 																					</a>
 																				</div>
@@ -656,7 +656,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/employees-grid.html">
+					<form action="#">
 						<div class="contact-grids-tab">
 							<ul class="nav nav-underline" id="myTab2" role="tablist">
 								<li class="nav-item" role="presentation">
@@ -1314,7 +1314,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/employee-details.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="row">
 								<div class="col-md-6">
@@ -1390,7 +1390,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/employee-details.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="border-bottom mb-3 ">
 								<div class="row">
@@ -1469,7 +1469,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/employee-details.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="row">
 								<div class="col-md-12">
@@ -1518,7 +1518,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/employee-details.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="row">
 								<div class="col-md-12">
@@ -1572,7 +1572,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/employee-details.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="row">
 								<div class="col-md-6">
@@ -1631,7 +1631,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/employee-details.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="row">
 								<div class="col-md-6">
@@ -1701,10 +1701,10 @@
 							<div>
 								<div class="row g-2">
 									<div class="col-6">
-										<a href="https://smarthr.co.in/demo/html/template/employees.html" class="btn btn-dark w-100">Back to List</a>
+										<a href="#" class="btn btn-dark w-100">Back to List</a>
 									</div>
 									<div class="col-6">
-										<a href="https://smarthr.co.in/demo/html/template/employee-details.html" class="btn btn-primary w-100">Detail Page</a>
+										<a href="#" class="btn btn-primary w-100">Detail Page</a>
 									</div>
 								</div>
 							</div>
@@ -1725,7 +1725,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/employee-details.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="border-bottom mb-4">
 								<h5 class="mb-3">Basic Salary Information</h5>
@@ -1953,7 +1953,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/employee-details.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="row">
 								<div class="col-md-12">
@@ -1986,7 +1986,7 @@
 						<p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
 						<div class="d-flex justify-content-center">
 							<a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-							<a href="https://smarthr.co.in/demo/html/template/employee-details.html" class="btn btn-danger">Yes, Delete</a>
+							<a href="#" class="btn btn-danger">Yes, Delete</a>
 						</div>
 					</div>
 				</div>

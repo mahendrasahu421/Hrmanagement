@@ -13,7 +13,7 @@
                     <nav>
                         <ol class="breadcrumb mb-0">
                             {{-- <li class="breadcrumb-item">
-                                <a href="index.html"><i class="ti ti-smart-home"></i></a>
+                                <a href="#"><i class="ti ti-smart-home"></i></a>
                             </li> --}}
                             <li class="breadcrumb-item">
                                 Dashboard
@@ -102,7 +102,7 @@
                                     <h6 class="fs-13 fw-medium text-default mb-1">Attendance Overview</h6>
                                     <h3 class="mb-3">120/154 <span class="fs-12 fw-medium text-success"><i
                                                 class="fa-solid fa-caret-up me-1"></i>+2.1%</span></h3>
-                                    <a href="attendance-employee.html" class="link-default">View Details</a>
+                                    <a href="#" class="link-default">View Details</a>
                                 </div>
                             </div>
                         </div>
@@ -115,7 +115,7 @@
                                     <h6 class="fs-13 fw-medium text-default mb-1">Total No of Project's</h6>
                                     <h3 class="mb-3">90/125 <span class="fs-12 fw-medium text-danger"><i
                                                 class="fa-solid fa-caret-down me-1"></i>-2.1%</span></h3>
-                                    <a href="projects.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -128,7 +128,7 @@
                                     <h6 class="fs-13 fw-medium text-default mb-1">Total No of Clients</h6>
                                     <h3 class="mb-3">69/86 <span class="fs-12 fw-medium text-danger"><i
                                                 class="fa-solid fa-caret-down me-1"></i>-11.2%</span></h3>
-                                    <a href="clients.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +141,7 @@
                                     <h6 class="fs-13 fw-medium text-default mb-1">Total No of Tasks</h6>
                                     <h3 class="mb-3">225/28 <span class="fs-12 fw-medium text-success"><i
                                                 class="fa-solid fa-caret-down me-1"></i>+11.2%</span></h3>
-                                    <a href="tasks.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -154,7 +154,7 @@
                                     <h6 class="fs-13 fw-medium text-default mb-1">Earnings</h6>
                                     <h3 class="mb-3">$21445 <span class="fs-12 fw-medium text-success"><i
                                                 class="fa-solid fa-caret-up me-1"></i>+10.2%</span></h3>
-                                    <a href="expenses.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -167,7 +167,7 @@
                                     <h6 class="fs-13 fw-medium text-default mb-1">Profit This Week</h6>
                                     <h3 class="mb-3">$5,544 <span class="fs-12 fw-medium text-success"><i
                                                 class="fa-solid fa-caret-up me-1"></i>+2.1%</span></h3>
-                                    <a href="purchase-transaction.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -180,7 +180,7 @@
                                     <h6 class="fs-13 fw-medium text-default mb-1">Job Applicants</h6>
                                     <h3 class="mb-3">98 <span class="fs-12 fw-medium text-success"><i
                                                 class="fa-solid fa-caret-up me-1"></i>+2.1%</span></h3>
-                                    <a href="job-list.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -193,7 +193,7 @@
                                     <h6 class="fs-13 fw-medium text-default mb-1">New Hire</h6>
                                     <h3 class="mb-3">45/48 <span class="fs-12 fw-medium text-danger"><i
                                                 class="fa-solid fa-caret-down me-1"></i>-11.2%</span></h3>
-                                    <a href="candidates.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -330,13 +330,13 @@
                                     <span class="me-2">
                                         <i class="ti ti-award-filled text-primary fs-24"></i>
                                     </span>
-                                    <a href="employee-details.html" class="avatar avatar-md me-2">
+                                    <a href="#" class="avatar avatar-md me-2">
                                         <img src="assets/img/profiles/avatar-24.jpg"
                                             class="rounded-circle border border-white" alt="img">
                                     </a>
                                     <div>
                                         <h6 class="text-truncate mb-1 fs-14 fw-medium"><a
-                                                href="employee-details.html">Daniel Esbella</a></h6>
+                                                href="#">Daniel Esbella</a></h6>
                                         <p class="fs-13">IOS Developer</p>
                                     </div>
                                 </div>
@@ -345,7 +345,7 @@
                                     <h5 class="text-primary">99%</h5>
                                 </div>
                             </div>
-                            <a href="employees.html" class="btn btn-light btn-md w-100">View All Employees</a>
+                            <a href="#" class="btn btn-light btn-md w-100">View All Employees</a>
                         </div>
                     </div>
                 </div>
@@ -425,7 +425,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <a href="leaves.html" class="fs-13 link-primary text-decoration-underline mb-2">View
+                                <a href="#" class="fs-13 link-primary text-decoration-underline mb-2">View
                                     Details</a>
                             </div>
                         </div>
@@ -580,7 +580,7 @@
                                             class="ti ti-circle-filled fs-5 me-1"></i>08:35</span>
                                 </div>
                             </div>
-                            <a href="attendance-report.html" class="btn btn-light btn-md w-100">View All Attendance</a>
+                            <a href="#" class="btn btn-light btn-md w-100">View All Attendance</a>
                         </div>
                     </div>
                 </div>
@@ -595,7 +595,7 @@
                     <div class="card flex-fill">
                         <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
                             <h5 class="mb-2">Jobs Applicants</h5>
-                            <a href="job-list.html" class="btn btn-light btn-md mb-2">View All</a>
+                            <a href="#" class="btn btn-light btn-md mb-2">View All</a>
                         </div>
                         <div class="card-body">
                             <ul class="nav nav-tabs tab-style-1 nav-justified d-sm-flex d-block p-0 mb-4" role="tablist">
@@ -750,7 +750,7 @@
                     <div class="card flex-fill">
                         <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
                             <h5 class="mb-2">Employees</h5>
-                            <a href="employees.html" class="btn btn-light btn-md mb-2">View All</a>
+                            <a href="#" class="btn btn-light btn-md mb-2">View All</a>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -1038,12 +1038,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#" class="avatar">
                                                         <img src="assets/img/users/user-39.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Redesign
+                                                        <h6 class="fw-medium"><a href="#">Redesign
                                                                 Website</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO2<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>Logistics</span>
@@ -1063,12 +1063,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#" class="avatar">
                                                         <img src="assets/img/users/user-40.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Module
+                                                        <h6 class="fw-medium"><a href="#">Module
                                                                 Completion</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO5<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>Yip
@@ -1089,12 +1089,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#" class="avatar">
                                                         <img src="assets/img/users/user-55.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Change on Emp
+                                                        <h6 class="fw-medium"><a href="#">Change on Emp
                                                                 Module</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO3<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>Ignis
@@ -1115,12 +1115,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#" class="avatar">
                                                         <img src="assets/img/users/user-42.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Changes on
+                                                        <h6 class="fw-medium"><a href="#">Changes on
                                                                 the Board</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO2<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>Ignis
@@ -1141,12 +1141,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#" class="avatar">
                                                         <img src="assets/img/users/user-44.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Hospital
+                                                        <h6 class="fw-medium"><a href="#">Hospital
                                                                 Management</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO6<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>HCL
@@ -1155,7 +1155,7 @@
                                                 </div>
                                             </td>
                                             <td>
-                                                <p class="fs-13 mb-1">Payment</p>
+                                                <p class="fs-13 mb-1">invoice.htmlPayment</p>
                                                 <h6 class="fw-medium">$6458</h6>
                                             </td>
                                             <td class="px-0 text-end">
@@ -1167,7 +1167,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <a href="invoice.html" class="btn btn-light btn-md w-100 mt-2">View All</a>
+                            <a href="#" class="btn btn-light btn-md w-100 mt-2">View All</a>
                         </div>
                     </div>
                 </div>
@@ -1218,9 +1218,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-001</a></td>
+                                            <td><a href="#" class="link-default">PRO-001</a></td>
                                             <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Office Management
+                                                <h6 class="fw-medium"><a href="#">Office Management
                                                         App</a></h6>
                                             </td>
                                             <td>
@@ -1254,9 +1254,9 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-002</a></td>
+                                            <td><a href="#" class="link-default">PRO-002</a></td>
                                             <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Clinic Management
+                                                <h6 class="fw-medium"><a href="#">Clinic Management
                                                     </a></h6>
                                             </td>
                                             <td>
@@ -1295,9 +1295,9 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-003</a></td>
+                                            <td><a href="#" class="link-default">PRO-003</a></td>
                                             <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Educational
+                                                <h6 class="fw-medium"><a href="#">Educational
                                                         Platform</a></h6>
                                             </td>
                                             <td>
@@ -1331,9 +1331,9 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-004</a></td>
+                                            <td><a href="#" class="link-default">PRO-004</a></td>
                                             <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Chat & Call Mobile
+                                                <h6 class="fw-medium"><a href="#">Chat & Call Mobile
                                                         App</a></h6>
                                             </td>
                                             <td>
@@ -1368,9 +1368,9 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-005</a></td>
+                                            <td><a href="#" class="link-default">PRO-005</a></td>
                                             <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Travel Planning
+                                                <h6 class="fw-medium"><a href="#">Travel Planning
                                                         Website</a></h6>
                                             </td>
                                             <td>
@@ -1404,9 +1404,9 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td><a href="project-details.html" class="link-default">PRO-006</a></td>
+                                            <td><a href="#" class="link-default">PRO-006</a></td>
                                             <td>
-                                                <h6 class="fw-medium"><a href="project-details.html">Service Booking
+                                                <h6 class="fw-medium"><a href="#">Service Booking
                                                         Software</a></h6>
                                             </td>
                                             <td>
@@ -1441,10 +1441,10 @@
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td class="border-0"><a href="project-details.html"
+                                            <td class="border-0"><a href="#"
                                                     class="link-default">PRO-008</a></td>
                                             <td class="border-0">
-                                                <h6 class="fw-medium"><a href="project-details.html">Travel Planning
+                                                <h6 class="fw-medium"><a href="#">Travel Planning
                                                         Website</a></h6>
                                             </td>
                                             <td class="border-0">
@@ -1550,7 +1550,7 @@
                                     <h4 class="text-success">389/689 hrs</h4>
                                     <p class="fs-13 mb-0">Spent on Overall Tasks This Week</p>
                                 </div>
-                                <a href="tasks.html" class="btn btn-sm btn-light mb-2 text-nowrap">View All</a>
+                                <a href="#" class="btn btn-sm btn-light mb-2 text-nowrap">View All</a>
                             </div>
                         </div>
                     </div>
@@ -1566,7 +1566,7 @@
                     <div class="card flex-fill">
                         <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
                             <h5 class="mb-2">Schedules</h5>
-                            <a href="candidates.html" class="btn btn-light btn-md mb-2">View All</a>
+                            <a href="#" class="btn btn-light btn-md mb-2">View All</a>
                         </div>
                         <div class="card-body">
                             <div class="bg-light p-3 br-5 mb-4">
@@ -1657,7 +1657,7 @@
                     <div class="card flex-fill">
                         <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
                             <h5 class="mb-2">Recent Activities</h5>
-                            <a href="activity.html" class="btn btn-light btn-md mb-2">View All</a>
+                            <a href="#" class="btn btn-light btn-md mb-2">View All</a>
                         </div>
                         <div class="card-body">
                             <div class="recent-item">
@@ -1874,7 +1874,7 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="https://smarthr.co.in/demo/html/template/index.html">
+                <form action="https://smarthr.co.in/demo/html/template/#">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12">
@@ -1974,7 +1974,7 @@
                         </ul>
                     </div>
                     <fieldset id="first-field-file">
-                        <form action="https://smarthr.co.in/demo/html/template/projects.html">
+                        <form action="#">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -2100,7 +2100,7 @@
                         </form>
                     </fieldset>
                     <fieldset>
-                        <form action="https://smarthr.co.in/demo/html/template/projects.html">
+                        <form action="#">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -2176,7 +2176,7 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="https://smarthr.co.in/demo/html/template/index.html">
+                <form action="https://smarthr.co.in/demo/html/template/#">
                     <div class="modal-body pb-0">
                         <div class="row">
                             <div class="col-md-12">

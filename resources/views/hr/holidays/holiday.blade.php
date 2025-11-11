@@ -426,7 +426,7 @@
 						<p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
 						<div class="d-flex justify-content-center">
 							<a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-							<a href="https://smarthr.co.in/demo/html/template/holidays.html" class="btn btn-danger">Yes, Delete</a>
+							<a href="#" class="btn btn-danger">Yes, Delete</a>
 						</div>
 					</div>
 				</div>

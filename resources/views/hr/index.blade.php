@@ -101,7 +101,7 @@
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Attendance Overview</h6>
                                     <h3 class="mb-3">120/154 </h3>
-                                    <a href="attendance-employee.html" class="link-default">View Details</a>
+                                    <a href="#" class="link-default">View Details</a>
                                 </div>
                             </div>
                         </div>
@@ -113,7 +113,7 @@
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Total No of Project's</h6>
                                     <h3 class="mb-3">90/125 </h3>
-                                    <a href="projects.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -125,7 +125,7 @@
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Total No of Clients</h6>
                                     <h3 class="mb-3">69/86 </h3>
-                                    <a href="clients.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -137,7 +137,7 @@
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Total No of Tasks</h6>
                                     <h3 class="mb-3">225/28 </h3>
-                                    <a href="tasks.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -149,7 +149,7 @@
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Earnings</h6>
                                     <h3 class="mb-3">$21445 </h3>
-                                    <a href="expenses.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -161,7 +161,7 @@
                                     </span>
                                     <h6 class="fs-13 fw-medium text-default mb-1">Profit This Week</h6>
                                     <h3 class="mb-3">$5,544 </h3>
-                                    <a href="purchase-transaction.html" class="link-default">View All</a>
+                                    <a href="#" class="link-default">View All</a>
                                 </div>
                             </div>
                         </div>
@@ -322,13 +322,13 @@
                                     <span class="me-2">
                                         <i class="ti ti-award-filled text-primary fs-24"></i>
                                     </span>
-                                    <a href="employee-details.html" class="avatar avatar-md me-2">
+                                    <a href="#" class="avatar avatar-md me-2">
                                         <img src="assets/img/profiles/avatar-24.jpg"
                                             class="rounded-circle border border-white" alt="img">
                                     </a>
                                     <div>
                                         <h6 class="text-truncate mb-1 fs-14 fw-medium"><a
-                                                href="employee-details.html">Daniel Esbella</a></h6>
+                                                href="#">Daniel Esbella</a></h6>
                                         <p class="fs-13">IOS Developer</p>
                                     </div>
                                 </div>
@@ -337,7 +337,7 @@
                                     <h5 class="text-primary">99%</h5>
                                 </div>
                             </div>
-                            <a href="employees.html" class="btn btn-light btn-md w-100">View All Employees</a>
+                            <a href="#" class="btn btn-light btn-md w-100">View All Employees</a>
                         </div>
                     </div>
                 </div>
@@ -417,7 +417,7 @@
                                         </a>
                                     </div>
                                 </div>
-                                <a href="leaves.html" class="fs-13 link-primary text-decoration-underline mb-2">View
+                                <a href="#" class="fs-13 link-primary text-decoration-underline mb-2">View
                                     Details</a>
                             </div>
                         </div>
@@ -572,7 +572,7 @@
                                             class="ti ti-circle-filled fs-5 me-1"></i>08:35</span>
                                 </div>
                             </div>
-                            <a href="attendance-report.html" class="btn btn-light btn-md w-100">View All Attendance</a>
+                            <a href="#" class="btn btn-light btn-md w-100">View All Attendance</a>
                         </div>
                     </div>
                 </div>
@@ -587,7 +587,7 @@
                     <div class="card flex-fill">
                         <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
                             <h5 class="mb-2">Jobs Applicants</h5>
-                            <a href="job-list.html" class="btn btn-light btn-md mb-2">View All</a>
+                            <a href="#" class="btn btn-light btn-md mb-2">View All</a>
                         </div>
                         <div class="card-body">
                             <ul class="nav nav-tabs tab-style-1 nav-justified d-sm-flex d-block p-0 mb-4" role="tablist">
@@ -742,7 +742,7 @@
                     <div class="card flex-fill">
                         <div class="card-header pb-2 d-flex align-items-center justify-content-between flex-wrap">
                             <h5 class="mb-2">Employees</h5>
-                            <a href="employees.html" class="btn btn-light btn-md mb-2">View All</a>
+                            <a href="#" class="btn btn-light btn-md mb-2">View All</a>
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -1030,12 +1030,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#l" class="avatar">
                                                         <img src="assets/img/users/user-39.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Redesign
+                                                        <h6 class="fw-medium"><a href="#">Redesign
                                                                 Website</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO2<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>Logistics</span>
@@ -1055,12 +1055,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#" class="avatar">
                                                         <img src="assets/img/users/user-40.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Module
+                                                        <h6 class="fw-medium"><a href="#">Module
                                                                 Completion</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO5<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>Yip
@@ -1081,12 +1081,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#" class="avatar">
                                                         <img src="assets/img/users/user-55.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Change on Emp
+                                                        <h6 class="fw-medium"><a href="#">Change on Emp
                                                                 Module</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO3<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>Ignis
@@ -1107,12 +1107,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#" class="avatar">
                                                         <img src="assets/img/users/user-42.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Changes on
+                                                        <h6 class="fw-medium"><a href="#">Changes on
                                                                 the Board</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO2<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>Ignis
@@ -1133,12 +1133,12 @@
                                         <tr>
                                             <td class="px-0">
                                                 <div class="d-flex align-items-center">
-                                                    <a href="invoice-details.html" class="avatar">
+                                                    <a href="#" class="avatar">
                                                         <img src="assets/img/users/user-44.jpg"
                                                             class="img-fluid rounded-circle" alt="img">
                                                     </a>
                                                     <div class="ms-2">
-                                                        <h6 class="fw-medium"><a href="invoice-details.html">Hospital
+                                                        <h6 class="fw-medium"><a href="#">Hospital
                                                                 Management</a></h6>
                                                         <span class="fs-13 d-inline-flex align-items-center">#INVOO6<i
                                                                 class="ti ti-circle-filled fs-4 mx-1 text-primary"></i>HCL
@@ -1159,7 +1159,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <a href="invoice.html" class="btn btn-light btn-md w-100 mt-2">View All</a>
+                            <a href="#" class="btn btn-light btn-md w-100 mt-2">View All</a>
                         </div>
                     </div>
                 </div>
@@ -1189,7 +1189,7 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="https://smarthr.co.in/demo/html/template/index.html">
+                <form action="#">
                     <div class="modal-body">
                         <div class="row">
                             <div class="col-12">
@@ -1289,7 +1289,7 @@
                         </ul>
                     </div>
                     <fieldset id="first-field-file">
-                        <form action="https://smarthr.co.in/demo/html/template/projects.html">
+                        <form action="#">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -1414,7 +1414,7 @@
                         </form>
                     </fieldset>
                     <fieldset>
-                        <form action="https://smarthr.co.in/demo/html/template/projects.html">
+                        <form action="#">
                             <div class="modal-body">
                                 <div class="row">
                                     <div class="col-md-12">
@@ -1490,7 +1490,7 @@
                         <i class="ti ti-x"></i>
                     </button>
                 </div>
-                <form action="https://smarthr.co.in/demo/html/template/index.html">
+                <form action="#">
                     <div class="modal-body pb-0">
                         <div class="row">
                             <div class="col-md-12">

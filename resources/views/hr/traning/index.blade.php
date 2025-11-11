@@ -16,7 +16,7 @@
 						<nav>
 							<ol class="breadcrumb mb-0">
 								<li class="breadcrumb-item">
-									<a href="https://smarthr.co.in/demo/html/template/index.html"><i class="ti ti-smart-home"></i></a>
+									<a href="#"><i class="ti ti-smart-home"></i></a>
 								</li>
 								<li class="breadcrumb-item">
 									Performance
@@ -418,7 +418,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/training.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="row">
 								<div class="col-md-6">
@@ -519,7 +519,7 @@
 							<i class="ti ti-x"></i>
 						</button>
 					</div>
-					<form action="https://smarthr.co.in/demo/html/template/training.html">
+					<form action="#">
 						<div class="modal-body pb-0">
 							<div class="row">
 								<div class="col-md-6">
@@ -622,7 +622,7 @@
 						<p class="mb-3">You want to delete all the marked items, this cant be undone once you delete.</p>
 						<div class="d-flex justify-content-center">
 							<a href="javascript:void(0);" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</a>
-							<a href="https://smarthr.co.in/demo/html/template/training.html" class="btn btn-danger">Yes, Delete</a>
+							<a href="#" class="btn btn-danger">Yes, Delete</a>
 						</div>
 					</div>
 				</div>
