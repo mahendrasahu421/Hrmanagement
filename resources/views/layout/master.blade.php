@@ -550,7 +550,8 @@
                                                 </li>
                                                 <li><a href="{{ route('masters.organisation.branch') }}">Branch</a>
                                                 </li>
-                                                <li><a href="{{ route('masters.organisation.category') }}">Category</a>
+                                                <li><a
+                                                        href="{{ route('masters.organisation.category') }}">Category</a>
                                                 </li>
                                                 <li><a href="{{ route('masters.organisation.department') }}">Department
                                                     </a></li>
@@ -636,6 +637,17 @@
                         <li class="menu-title"><span>HRM</span></li>
                         <li>
                             <ul>
+
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-timeline"></i><span>Recruitment</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
+                                        <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
+                                    </ul>
+                                </li>
                                 <li class="submenu">
                                     <a href="javascript:void(0);">
                                         <i class="ti ti-users"></i><span>Employees</span>
@@ -807,14 +819,8 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="menu-title"><span>RECRUITMENT</span></li>
                         <li>
                             <ul>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti ti-timeline"></i><span>Jobs</span>
-                                    </a>
-                                </li>
                                 <li>
                                     <a href="#">
                                         <i class="ti ti-user-shield"></i><span>Candidates</span>
@@ -957,7 +963,7 @@
     <script src="{{ asset('frontent/assets/js/todo.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/theme-colorpicker.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/script.js') }}"></script>
- @stack('after_scripts')
+    @stack('after_scripts')
 </body>
 
 

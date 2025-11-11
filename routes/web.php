@@ -8,7 +8,6 @@ use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Employee\EmployeeCotroller;
 use App\Http\Controllers\Admin\Clients\ClientsController;
 use App\Http\Controllers\Hr\HumanResourceController;
-use App\Http\Controllers\Hr\JobsController;
 use App\Http\Controllers\Hr\JobCategoryController;
 use App\Http\Controllers\Hr\hrEmployeeController;
 use App\Http\Controllers\Hr\hrEmployeeLeaveController;
@@ -51,12 +50,13 @@ use App\Http\Controllers\Masters\PaymentFrequencyController;
 use App\Http\Controllers\Masters\PaymentModeController;
 use App\Http\Controllers\Masters\VisibilityControlController;
 use App\Http\Controllers\Masters\AdminEmployeeController;
+use App\Http\Controllers\Masters\JobsController;
 use App\Http\Controllers\Attendance\AttendanceDashboardController;
 use App\Http\Controllers\Attendance\AttendanceOrgReportController;
 use App\Http\Controllers\Attendance\ConsistentAttendeesController;
 use App\Http\Controllers\EmployeeAuthController;
 use App\Http\Controllers\Employee\EmployeeController;
-
+use App\Http\Controllers\Masters\JobsController as MastersJobsController;
 
 Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
 Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('skills.search');
@@ -68,8 +68,8 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/get-departments/{category_id}', [DashboardController::class, 'getDepartments']);
     Route::get('/get-designation/{department_id}', [DashboardController::class, 'getDesignation']);
-   Route::get('/get-state/{country_id}', [DashboardController::class, 'getState'])->name('getState');
-Route::get('/get-city/{state_id}', [DashboardController::class, 'getCity'])->name('getCity');
+    Route::get('/get-state/{country_id}', [DashboardController::class, 'getState'])->name('getState');
+    Route::get('/get-city/{state_id}', [DashboardController::class, 'getCity'])->name('getCity');
 
 
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
@@ -78,10 +78,10 @@ Route::get('/get-city/{state_id}', [DashboardController::class, 'getCity'])->nam
     // Job Categories
     Route::resource('categories', JobCategoryController::class);
     // Jobs
-    Route::get('jobs', [JobsController::class, 'index'])->name('jobs.index');
-    Route::get('jobs/create', [JobsController::class, 'create'])->name('jobs.create');
-    Route::post('jobs/store', [JobsController::class, 'store'])->name('jobs.store');
-    Route::get('jobs/list', [JobsController::class, 'list'])->name('jobs.list');
+    // Route::get('jobs', [JobsController::class, 'index'])->name('jobs.index');
+    // Route::get('jobs/create', [JobsController::class, 'create'])->name('jobs.create');
+    // Route::post('jobs/store', [JobsController::class, 'store'])->name('jobs.store');
+    // Route::get('jobs/list', [JobsController::class, 'list'])->name('jobs.list');
 
     // Master/Organisation/Compney
     Route::get('masters/organisation/company', [CompanyController::class, 'index'])->name('masters.organisation.company');
@@ -147,6 +147,10 @@ Route::get('/get-city/{state_id}', [DashboardController::class, 'getCity'])->nam
     Route::get('masters/organisation/policy', [PolicyController::class, 'index'])->name('masters.organisation.policy');
     Route::get('masters/organisation/policy/create', [PolicyController::class, 'create'])->name('masters.organisation.policy.create');
     Route::get('masters/organisation/policy/store', [PolicyController::class, 'store'])->name('masters.organisation.policy.store');
+
+    // Master/Jobs
+    Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
+    Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
 
     // Master/Payroll/salary-component
     Route::get('masters/payroll/salary-component', [SalaryComponentController::class, 'index'])->name('masters.payroll.salary-component');
