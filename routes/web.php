@@ -57,6 +57,7 @@ use App\Http\Controllers\Attendance\ConsistentAttendeesController;
 use App\Http\Controllers\EmployeeAuthController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
+use App\Http\Controllers\Masters\OnboardingController;
 
 Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
 Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('skills.search');
@@ -148,9 +149,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/policy/create', [PolicyController::class, 'create'])->name('masters.organisation.policy.create');
     Route::get('masters/organisation/policy/store', [PolicyController::class, 'store'])->name('masters.organisation.policy.store');
 
-    // Master/Jobs
+    // Master/Recruitment/Jobs
     Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
     Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
+
+    // Employee/Onboarding
+    Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
+
+
+
 
     // Master/Payroll/salary-component
     Route::get('masters/payroll/salary-component', [SalaryComponentController::class, 'index'])->name('masters.payroll.salary-component');
