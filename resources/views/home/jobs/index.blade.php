@@ -146,11 +146,12 @@
                                             <th>Location</th>
                                             <th>Experience</th>
                                             <th>Status</th>
-                                            <th></th>
+                                            <th>More</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
+
                                         <tr>
                                             <td>
                                                 <div class="form-check form-check-md"><input class="form-check-input"
@@ -164,10 +165,9 @@
                                                     class="badge badge-success d-inline-flex align-items-center badge-sm"><i
                                                         class="ti ti-point-filled me-1"></i>Active</span></td>
                                             <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
+                                                <div class="d-inline-flex">
+                                                    <a href="{{ route('employee.onboarding') }}"
+                                                        class="btn btn-sm btn-primary">Onboarding</a>
                                                 </div>
                                             </td>
                                         </tr>
@@ -185,283 +185,9 @@
                                                     class="badge badge-danger d-inline-flex align-items-center badge-sm"><i
                                                         class="ti ti-point-filled me-1"></i>Inactive</span></td>
                                             <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Project Manager</td>
-                                            <td>Management</td>
-                                            <td>Bangalore</td>
-                                            <td>5-7 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Business Analyst</td>
-                                            <td>IT / Software</td>
-                                            <td>Hyderabad</td>
-                                            <td>3-6 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Quality Analyst</td>
-                                            <td>IT / Software</td>
-                                            <td>Chennai</td>
-                                            <td>1-3 Years</td>
-                                            <td><span
-                                                    class="badge badge-danger d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Inactive</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>HR Manager</td>
-                                            <td>Human Resources</td>
-                                            <td>Delhi</td>
-                                            <td>4-6 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Content Writer</td>
-                                            <td>Marketing</td>
-                                            <td>Kolkata</td>
-                                            <td>2-4 Years</td>
-                                            <td><span
-                                                    class="badge badge-danger d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Inactive</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Software Tester</td>
-                                            <td>IT / Software</td>
-                                            <td>Chennai</td>
-                                            <td>1-3 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Frontend Developer</td>
-                                            <td>IT / Software</td>
-                                            <td>Bangalore</td>
-                                            <td>2-5 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Backend Developer</td>
-                                            <td>IT / Software</td>
-                                            <td>Mumbai</td>
-                                            <td>3-5 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Data Analyst</td>
-                                            <td>IT / Software</td>
-                                            <td>Hyderabad</td>
-                                            <td>2-4 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Mobile App Developer</td>
-                                            <td>IT / Software</td>
-                                            <td>Pune</td>
-                                            <td>1-3 Years</td>
-                                            <td><span
-                                                    class="badge badge-danger d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Inactive</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>DevOps Engineer</td>
-                                            <td>IT / Software</td>
-                                            <td>Bangalore</td>
-                                            <td>3-6 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Marketing Manager</td>
-                                            <td>Marketing</td>
-                                            <td>Delhi</td>
-                                            <td>5-7 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                                </div>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
-                                            <td>Graphic Designer</td>
-                                            <td>Design</td>
-                                            <td>Kolkata</td>
-                                            <td>2-5 Years</td>
-                                            <td><span
-                                                    class="badge badge-danger d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Inactive</span></td>
-                                            <td>
-                                                <div class="action-icon d-inline-flex">
-                                                    <a href="#" class="me-2"><i class="ti ti-edit"></i></a>
-                                                    <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                        data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
+                                                <div class="d-inline-flex">
+                                                    <a href="{{ route('employee.onboarding') }}"
+                                                        class="btn btn-sm btn-primary">Onboarding</a>
                                                 </div>
                                             </td>
                                         </tr>
