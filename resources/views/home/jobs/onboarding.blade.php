@@ -14,7 +14,9 @@
             transition: transform 0.4s, box-shadow 0.4s;
             flex-wrap: wrap;
         }
-
+        .dataTables_paginate{
+            margin-bottom: 15px;
+        }
         .candidate-left {
             flex: 0 0 150px;
             display: flex;
@@ -100,8 +102,15 @@
         }
 
         @keyframes badgePulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
         }
 
         .workflow {
@@ -201,7 +210,7 @@
             transition: all 0.3s;
         }
 
-        .workflow-step input[type="radio"]:checked + label::after {
+        .workflow-step input[type="radio"]:checked+label::after {
             content: "";
             position: absolute;
             left: 5px;
@@ -217,8 +226,13 @@
             background: #ff6b00 !important;
             border: 1px solid #ff6b00 !important;
         }
-        .completed{
+
+        .completed {
             margin-top: 15px !important;
+        }
+
+        table.table.dataTable>tbody>tr td {
+            padding: 5px !important;
         }
 
         @media (max-width: 768px) {
@@ -334,6 +348,121 @@
                     <p>Placed</p>
                 </div>
             </div>
+
+
+            <div class="row mt-5">
+                <div class="col-sm-12">
+                    <div class="card">
+
+                        <div class="card-header">
+                            <div class="d-flex align-items-center">
+                                <h4 class="card-title">Interview Schedule</h4>
+                            </div>
+                        </div>
+
+                        <div class="card-body p-0">
+
+                            <!-- SCROLLER WRAPPER -->
+                            <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
+
+                                <table class="table datatable" style="min-width: 1500px;">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th class="no-sort">
+                                                <div class="form-check form-check-md">
+                                                    <input class="form-check-input" type="checkbox" id="select-all">
+                                                </div>
+                                            </th>
+                                            <th>Round</th>
+                                            <th>Mode</th>
+                                            <th>Date</th>
+                                            <th>Time</th>
+                                            <th>Venue</th>
+                                            <th>Description</th>
+                                            <th>Status</th>
+                                            <th>Comments</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+
+                                        <tr>
+                                            <td>
+                                                <div class="form-check form-check-md">
+                                                    <input class="form-check-input" type="checkbox">
+                                                </div>
+                                            </td>
+
+                                            <td>R1</td>
+
+                                            <td>
+                                                <select class="form-control">
+                                                    <option>On Call</option>
+                                                    <option>Online</option>
+                                                    <option>Offline</option>
+                                                </select>
+                                            </td>
+
+                                            <td>
+                                                <input type="date" class="form-control" value="2025-11-29">
+                                            </td>
+
+                                            <td>
+                                                <input type="time" class="form-control" value="12:00">
+                                            </td>
+
+                                            <td>
+                                                <textarea class="form-control" rows="2">City: Kanpur State: Uttar Pradesh</textarea>
+                                            </td>
+
+                                            <td>
+                                                <textarea class="form-control" rows="2">Hello</textarea>
+                                            </td>
+
+                                            <td>
+                                                <select class="form-control">
+                                                    <option>Scheduled</option>
+                                                    <option>Scheduled</option>
+                                                    <option>Completed</option>
+                                                    <option>Cancelled</option>
+                                                </select>
+                                            </td>
+
+                                            <td>
+                                                <textarea class="form-control" rows="2"></textarea>
+                                            </td>
+
+                                            <td>
+                                                <div class="d-inline-flex gap-1">
+
+                                                    <button class="btn btn-primary btn-sm" title="Save">
+                                                        <i class="fa fa-save"></i>
+                                                    </button>
+
+                                                    <button class="btn btn-info btn-sm" title="Send Mail">
+                                                        <i class="fa fa-paper-plane"></i>
+                                                    </button>
+
+                                                </div>
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+                            </div>
+                            <!-- END SCROLLER -->
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
         </div>
 
         <x-footer />
@@ -362,44 +491,45 @@
 @endsection
 
 @push('after_scripts')
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const shortlistRadio = document.getElementById('shortlisted');
-        const notShortlistRadio = document.getElementById('not-shortlisted');
-        const shortlistModal = new bootstrap.Modal(document.getElementById('shortlist_modal'));
-        const shortlistMessage = document.getElementById('shortlistMessage');
-        const shortlistStatus = document.getElementById('shortlistStatus');
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const shortlistRadio = document.getElementById('shortlisted');
+            const notShortlistRadio = document.getElementById('not-shortlisted');
+            const shortlistModal = new bootstrap.Modal(document.getElementById('shortlist_modal'));
+            const shortlistMessage = document.getElementById('shortlistMessage');
+            const shortlistStatus = document.getElementById('shortlistStatus');
 
-        let selectedRadio = null;
+            let selectedRadio = null;
 
-        shortlistRadio.addEventListener('click', function(e) {
-            e.preventDefault();
-            selectedRadio = shortlistRadio;
-            shortlistMessage.textContent = "Are you sure you want to shortlist this candidate?";
-            shortlistStatus.value = "shortlisted";
-            shortlistModal.show();
+            shortlistRadio.addEventListener('click', function(e) {
+                e.preventDefault();
+                selectedRadio = shortlistRadio;
+                shortlistMessage.textContent = "Are you sure you want to shortlist this candidate?";
+                shortlistStatus.value = "shortlisted";
+                shortlistModal.show();
+            });
+
+            notShortlistRadio.addEventListener('click', function(e) {
+                e.preventDefault();
+                selectedRadio = notShortlistRadio;
+                shortlistMessage.textContent =
+                    "Are you sure you want to mark this candidate as not shortlisted?";
+                shortlistStatus.value = "not_shortlisted";
+                shortlistModal.show();
+            });
+
+            document.getElementById('confirmShortlistBtn').addEventListener('click', function() {
+                const status = shortlistStatus.value;
+
+                if (selectedRadio) selectedRadio.checked = true;
+
+                const stepIcon = document.querySelector('.workflow-step.active .step-icon');
+                stepIcon.classList.add('completed');
+
+                console.log("Candidate status:", status);
+
+                shortlistModal.hide();
+            });
         });
-
-        notShortlistRadio.addEventListener('click', function(e) {
-            e.preventDefault();
-            selectedRadio = notShortlistRadio;
-            shortlistMessage.textContent = "Are you sure you want to mark this candidate as not shortlisted?";
-            shortlistStatus.value = "not_shortlisted";
-            shortlistModal.show();
-        });
-
-        document.getElementById('confirmShortlistBtn').addEventListener('click', function() {
-            const status = shortlistStatus.value;
-
-            if (selectedRadio) selectedRadio.checked = true;
-
-            const stepIcon = document.querySelector('.workflow-step.active .step-icon');
-            stepIcon.classList.add('completed');
-
-            console.log("Candidate status:", status);
-
-            shortlistModal.hide();
-        });
-    });
-</script>
+    </script>
 @endpush
