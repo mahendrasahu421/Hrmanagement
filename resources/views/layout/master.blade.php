@@ -645,6 +645,7 @@
                                     </a>
                                     <ul>
                                         <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
+                                        <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a></li>
                                         <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
                                     </ul>
                                 </li>

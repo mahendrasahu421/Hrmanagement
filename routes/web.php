@@ -56,6 +56,7 @@ use App\Http\Controllers\Attendance\AttendanceOrgReportController;
 use App\Http\Controllers\Attendance\ConsistentAttendeesController;
 use App\Http\Controllers\EmployeeAuthController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Masters\JafController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
 use App\Http\Controllers\Masters\OnboardingController;
 
@@ -155,6 +156,8 @@ Route::middleware(['auth'])->group(function () {
 
     // Employee/Onboarding
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
+
+    Route::get('create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
 
 
 
