@@ -10,7 +10,6 @@
 
         .card {
             border: none;
-            border-radius: 16px;
             overflow: hidden;
         }
         .btn-submit {
@@ -31,7 +30,6 @@
         .page-breadcrumb {
             background: #fff;
             padding: 15px 20px;
-            border-radius: 12px;
             box-shadow: 0 1px 6px rgba(0, 0, 0, 0.05);
         }
 
@@ -55,7 +53,6 @@
         }
 
         .table {
-            border-radius: 12px;
             overflow: hidden;
         }
 
@@ -129,11 +126,11 @@
             <!-- Breadcrumb -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-4">
                 <div class="my-auto">
-                    <h2 class="mb-1">🧾 {{ $title }}</h2>
+                    <h2 class="mb-1">{{ $title }}</h2>
                     <p class="text-muted mb-0">Create and manage your job-specific questions.</p>
                 </div>
                 <div>
-                    <a href="#" class="btn btn-primary d-flex align-items-center shadow-sm">
+                    <a href="{{ route('recruitment.jobs.create') }}" class="btn btn-primary d-flex align-items-center shadow-sm">
                         <i class="fa-solid fa-plus me-2"></i> Add Job
                     </a>
                 </div>
