@@ -292,18 +292,8 @@ Route::prefix('admin')->middleware('auth')->group(function () {
 
 Route::prefix('admin')->middleware('auth')->group(function () {
     Route::get('dashboard', [AdminController::class, 'index']);
-    // Permission
-    Route::get('permissions', [PermissionController::class, 'index'])->name('permission.index');
-    Route::get('permissions/create', [PermissionController::class, 'create'])->name('permission.create');
-    Route::post('permissions/store', [PermissionController::class, 'store'])->name('permission.store');
-    Route::get('permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
-    Route::get('permissions/destroy', [PermissionController::class, 'destroy'])->name('permissions.destroy');
-    // Roles
-    Route::get('roles', [RoleController::class, 'index'])->name('role.index');
-    Route::get('roles/create', [RoleController::class, 'create'])->name('role.create');
-    Route::post('roles/store', [RoleController::class, 'store'])->name('role.store');
-    Route::get('roles/edit', [RoleController::class, 'edit'])->name('roles.edit');
-    Route::get('roles/destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+
 
     // Clients
     Route::get('clients', [ClientsController::class, 'index'])->name('admin.clients');

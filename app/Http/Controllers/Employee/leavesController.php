@@ -16,11 +16,11 @@ class leavesController extends Controller
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
         $employeeId = auth('employee')->id();
-         $companyId = 1;
-          $leaveTypes = LeaveType::with([
+        $companyId = 1;
+        $leaveTypes = LeaveType::with([
             'leaves' => function ($q) use ($employeeId) {
                 $q->where('employee_id', $employeeId)
-                    ->where('status', 'Approved')
+                    ->where('status', 'APPROVED')
                     ->whereYear('from_date', Carbon::now()->year);
             }
         ])
@@ -118,7 +118,8 @@ class leavesController extends Controller
             // ✅ Redirect on success
             return redirect()
                 ->route('employee.leaves')
-                ->with('success', 'Leave applied successfully!')->withInput();;
+                ->with('success', 'Leave applied successfully!')->withInput();
+            ;
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             // ⚠️ Handle validation errors separately
