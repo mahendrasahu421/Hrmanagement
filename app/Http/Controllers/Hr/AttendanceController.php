@@ -64,4 +64,10 @@ class AttendanceController extends Controller
     {
         //
     }
+
+    public function holidayList(){
+         $data['title'] = 'Holiday List';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('employee.holiday.index',$data);
+    }
 }
