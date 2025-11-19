@@ -1,7 +1,32 @@
 @extends('employee.layout.layout')
 @section('title', $title)
 @section('main-section')
-    
+
+    <style>
+        .holiday-event {
+            background: #ffe7e7 !important;
+            color: #d80000 !important;
+            border-radius: 6px !important;
+            padding: 3px 6px !important;
+            font-size: 12px !important;
+            border: none !important;
+            font-weight: 500;
+        }
+        .fc-event-title {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .fc-daygrid-event {
+            margin: 2px 0 !important;
+        }
+
+        .fc-daygrid-event-harness a {
+            text-decoration: none !important;
+        }
+    </style>
+
     <div class="page-wrapper">
         <div class="content">
             <x-alert-modal />
@@ -188,60 +213,21 @@
 
 @endsection
 @push('after_scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
 
     <script>
-        $(document).ready(function() {
-            $('.select2').select2();
+        document.addEventListener("DOMContentLoaded", function() {
 
-            var table = $('#tableexample').DataTable({
-                responsive: true,
-                processing: true,
-                serverSide: true,
-                scrollX: true,
-                ajax: {
-                    url: "{{ route('employee.leaves.list') }}",
-                    data: function(d) {
+            var calendarEl = document.getElementById('calendar');
 
-                    },
-                    dataSrc: function(json) {
-                        return json.data;
-                    }
-                },
-                columns: [{
-                        data: null,
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        data: 'leave_type'
-                    },
-                    {
-                        data: 'from_date'
-                    },
-                    {
-                        data: 'to_date'
-                    },
-                    {
-                        data: 'reason'
-                    },
-
-                    {
-                        data: 'status'
-                    }
-                ],
-                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
-                    "<'row'<'col-md-12'tr>>" +
-                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: "dayGridMonth",
+                height: "auto",
+                displayEventTime: false,
+                events: @json($events),
             });
 
-            window.fetchGenderCounts = function() {
-                table.ajax.reload();
-            };
-
+            calendar.render();
         });
     </script>
 @endpush
