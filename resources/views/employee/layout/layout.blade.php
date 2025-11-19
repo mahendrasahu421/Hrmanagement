@@ -543,7 +543,7 @@
                                             </a></li>
                                         <li><a href="{{ route('employee.leaves') }}">Leaves List
                                             </a></li>
-                                        <li><a href="#">Holiday List
+                                        <li><a href="{{ route('employee.holidays') }}">Holiday List
                                             </a></li>
 
                                     </ul>
