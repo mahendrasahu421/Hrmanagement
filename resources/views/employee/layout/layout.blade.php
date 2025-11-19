@@ -551,9 +551,16 @@
 
                             </ul>
                         </li>
+                        <li>
+                            <ul>
+                                <li>
+                                    <a href="{{ route('employee.self.appraisal') }}">
+                                        <i class="fas fa-file-signature"></i><span>Self Appraisal</span>
+                                    </a>
+                                </li>
 
-
-
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
