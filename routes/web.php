@@ -59,6 +59,7 @@ use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Masters\JafController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
 use App\Http\Controllers\Masters\OnboardingController;
+use App\Http\Controllers\PMT\SelfAppraisalController;
 
 Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
 Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('skills.search');
@@ -210,6 +211,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('employee/store', [AdminEmployeeController::class, 'store'])->name('employee.store');
     Route::get('employee/list', [AdminEmployeeController::class, 'list'])->name('employee.list');
 
+
     // Summary
     Route::get('attendance/attendance-dashboard/summary', [AttendanceDashboardController::class, 'index'])->name('attendance.attendance-dashboard.summary');
     Route::get('attendance/attendance-dashboard/summary/create', [AttendanceDashboardController::class, 'create'])->name('attendance.attendance-dashboard.summary.create');
@@ -253,6 +255,10 @@ Route::get('/employee/login', [EmployeeAuthController::class, 'index'])->name('e
 Route::post('/employee/login', [EmployeeAuthController::class, 'store'])->name('employee.login');
 Route::get('/employee/logout', [EmployeeAuthController::class, 'logout'])->name('employee.logout');
 Route::prefix('employee')->middleware('auth:employee')->group(function () {
+
+    // Self Appraisal
+    Route::get('self-appraisal', [SelfAppraisalController::class, 'index'])->name('employee.self.appraisal');
+    Route::get('competencies', [SelfAppraisalController::class, 'competencies'])->name('employee.competencies');
 
     // Dashboard
     Route::get('dashboard', [EmployeeController::class, 'index'])->name('employee.dashboard');
