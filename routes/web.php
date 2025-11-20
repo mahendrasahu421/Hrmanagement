@@ -97,14 +97,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/branch/create', [BranchController::class, 'create'])->name('masters.organisation.branch.create');
     Route::post('masters/organisation/branch/store', [BranchController::class, 'store'])->name('masters.organisation.branch.store');
 
-    // Master/Organisation/Category
-    Route::get('masters/organisation/category', [CategoryController::class, 'index'])->name('masters.organisation.category');
-    Route::get('masters/organisation/category/create', [CategoryController::class, 'create'])->name('masters.organisation.category.create');
-    Route::post('masters/organisation/category/store', [CategoryController::class, 'store'])->name('masters.organisation.category.store');
-    Route::get('masters/organisation/category/edit/{id}', [CategoryController::class, 'edit'])->name('masters.organisation.category.edit');
-    Route::put('masters/organisation/category/edit/{id}', [CategoryController::class, 'update'])->name('masters.organisation.category.update');
-    Route::delete('masters/organisation/category/delete/{id}', [CategoryController::class, 'destroy'])->name('masters.organisation.category.destroy');
-    Route::get('masters/organisation/category/list', [CategoryController::class, 'list'])->name('masters.organisation.category.list');
+    
 
     // Master/Organisation/Department
     Route::get('masters/organisation/department', [DepartmentController::class, 'index'])->name('masters.organisation.department');
@@ -243,6 +236,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('settings', [SettingController::class,'index'])->name('masters.settings.email-templates');
     Route::get('settings/email-template/create', [SettingController::class,'create'])->name('masters.settings.create');
+
+    // Master/Organisation/Category
+    Route::get('settings/category', [CategoryController::class, 'index'])->name('settings.category');
+    Route::get('settings/category/create', [CategoryController::class, 'create'])->name('settings.category.create');
+    Route::post('settings/category/store', [CategoryController::class, 'store'])->name('settings.category.store');
+    Route::get('settings/category/edit/{id}', [CategoryController::class, 'edit'])->name('settings.category.edit');
+    Route::put('settings/category/edit/{id}', [CategoryController::class, 'update'])->name('settings.category.update');
+    Route::delete('settings/category/delete/{id}', [CategoryController::class, 'destroy'])->name('settings.category.destroy');
+    Route::get('settings/category/list', [CategoryController::class, 'list'])->name('settings.category.list');
 });
 
 

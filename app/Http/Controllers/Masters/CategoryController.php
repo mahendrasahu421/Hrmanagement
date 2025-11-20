@@ -12,7 +12,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Master/ Orgnaigation / Category';
+        $data['title'] = 'Settings / Category';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.category.index', $data);
     }
@@ -22,7 +22,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        $data['title'] = 'Master/ Orgnaigation / Category';
+        $data['title'] = 'Settings / Category';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.category.create', $data);
     }
@@ -51,7 +51,7 @@ class CategoryController extends Controller
             ]);
 
             // ✅ Success Toast
-            return redirect()->route('masters.organisation.category')->with('success', 'Category created successfully!');
+            return redirect()->route('settings.category')->with('success', 'Category created successfully!');
         } catch (\Illuminate\Validation\ValidationException $e) {
             // ❌ Validation error — show first message as toast
             $errorMessage = collect($e->errors())->flatten()->first();
