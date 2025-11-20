@@ -257,8 +257,14 @@ Route::get('/employee/logout', [EmployeeAuthController::class, 'logout'])->name(
 Route::prefix('employee')->middleware('auth:employee')->group(function () {
 
     // Self Appraisal
-    Route::get('self-appraisal', [SelfAppraisalController::class, 'index'])->name('employee.self.appraisal');
-    Route::get('competencies', [SelfAppraisalController::class, 'competencies'])->name('employee.competencies');
+    Route::prefix('self-appraisal')->group(function () {
+
+        Route::get('/', [SelfAppraisalController::class, 'index'])->name('employee.self.appraisal');
+        Route::get('/competencies', [SelfAppraisalController::class, 'competencies'])->name('employee.competencies');
+        Route::get('/kpiAssessment', [SelfAppraisalController::class, 'kpiAssessment'])->name('employee.kpiAssessment');
+        Route::get('/form-c', [SelfAppraisalController::class, 'formC'])->name('employee.form-c');
+        
+    });
 
     // Dashboard
     Route::get('dashboard', [EmployeeController::class, 'index'])->name('employee.dashboard');
