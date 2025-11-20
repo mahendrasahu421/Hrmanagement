@@ -11,7 +11,9 @@ class SettingController extends Controller
      */
     public function index()
     {
-        return view('admin.setting.index');
+        $data['title'] = 'Email Templates';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('home.setting.index', $data);
     }
 
     /**
@@ -19,7 +21,9 @@ class SettingController extends Controller
      */
     public function create()
     {
-        //
+        $data['title'] = 'Create Email Templates';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('home.setting.create', $data);
     }
 
     /**
