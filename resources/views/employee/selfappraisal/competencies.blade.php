@@ -565,7 +565,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-lg-4 col-md-6 mb-3"> 
+                        <div class="col-lg-4 col-md-6 mb-3">
                             <div class="card border-primary h-100">
                                 <div class="card-body">
                                     <input type="radio">
@@ -584,6 +584,15 @@
                 </div>
             </div>
 
+            <div class="text-center mt-5 mb-5">
+                <a href="{{ url('dashboard') }}" class="btn btn-secondary btn-lg px-4 py-2">
+                    Go to Dashboard
+                </a>
+
+                <a href="{{ route('employee.kpiAssessment') }}" class="btn btn-primary btn-lg px-4 py-2 me-3">
+                    Go to KPI
+                </a>
+            </div>
 
         </div>
 

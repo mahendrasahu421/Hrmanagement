@@ -7,12 +7,28 @@ use Illuminate\Http\Request;
 
 class SelfAppraisalController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $data['title'] = 'Self Appraisal';
-        return view('employee.selfappraisal.index',$data);
+        return view('employee.selfappraisal.index', $data);
     }
-    public function competencies(){
+
+    public function competencies()
+    {
         $data['title'] = 'competencies';
-        return view('employee.selfappraisal.competencies',$data);
+        return view('employee.selfappraisal.competencies', $data);
+    }
+
+    public function kpiAssessment()
+    {
+        $data['title'] = 'Kpi Assessment';
+        return view('employee.selfappraisal.kpiAssessment', $data);
+    }
+
+
+    public function formC()
+    {
+        $data['title'] = 'Form C';
+        return view('employee.selfappraisal.form-c', $data);
     }
 }

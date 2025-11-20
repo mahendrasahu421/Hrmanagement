@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Hr;
 
 use App\Http\Controllers\Controller;
+use App\Models\Holiday;
 use Illuminate\Http\Request;
 
 class AttendanceController extends Controller
@@ -14,7 +15,7 @@ class AttendanceController extends Controller
     {
         $data['title'] = 'Employee List';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('hr.attendance.index',$data);
+        return view('hr.attendance.index', $data);
     }
 
     /**
@@ -65,9 +66,24 @@ class AttendanceController extends Controller
         //
     }
 
-    public function holidayList(){
-         $data['title'] = 'Holiday List';
-        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('employee.holiday.index',$data);
+    public function holidayList()
+    {
+        $data['title'] = 'Holiday List';
+
+        $holidays = Holiday::where('status', 'active')->get();
+
+        $events = [];
+        foreach ($holidays as $h) {
+            $events[] = [
+                'title'       => $h->holiday_name,
+                'start'       => $h->holiday_date,
+                'className'   => 'holiday-event', 
+                'display'     => 'block'
+            ];
+        }
+
+        $data['events'] = $events;
+
+        return view('employee.holiday.index', $data);
     }
 }
