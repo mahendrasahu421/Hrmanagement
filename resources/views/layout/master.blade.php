@@ -421,17 +421,7 @@
                     </div>
                 </div>
 
-                <!-- Mobile Menu -->
-                <div class="dropdown mobile-user-menu">
-                    <a href="javascript:void(0);" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="#">My Profile</a>
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <a class="dropdown-item" href="#">Logout</a>
-                    </div>
-                </div>
-                <!-- /Mobile Menu -->
+
 
             </div>
 
@@ -532,8 +522,27 @@
 
                             </ul>
                         </li>
+                        @if (Auth::user()->role_id == 2)
+                            <li class="menu-title"><span>Settings</span></li>
+                            <li>
+                                <ul>
+                                    <li class="submenu">
+                                        <a href="javascript:void(0);">
+                                            <i class="ti ti-settings"></i><span>Settings</span>
+                                            <span class="menu-arrow"></span>
+                                        </a>
+                                        <ul>
+                                            <li><a href="{{ route('masters.settings.email-templates') }}">Email
+                                                    Templte</a>
+                                            </li>
 
-                        <li class="menu-title"><span>ADMINISTRATION</span></li>
+                                        </ul>
+                                    </li>
+
+
+                                </ul>
+                            </li>
+                              <li class="menu-title"><span>ADMINISTRATION</span></li>
                         <li>
                             <ul>
                                 <li class="submenu">
@@ -634,6 +643,195 @@
 
                             </ul>
                         </li>
+                         <li class="menu-title"><span>HRM</span></li>
+                        <li>
+                            <ul>
+
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-timeline"></i><span>Recruitment</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
+                                        <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a></li>
+                                        <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
+                                    </ul>
+                                </li>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-users"></i><span>Employees</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        <li><a href="{{ route('employee.create') }}">New Employee</a></li>
+                                        <li><a href="{{ route('employee') }}">Employee Lists</a></li>
+                                    </ul>
+                                </li>
+
+
+                                <li class="submenu">
+                                    <a href="javascript:void(0);" class="subdrop">
+                                        <i class="ti ti-file-time"></i><span>Attendance</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        <li class="submenu submenu-two">
+                                            <a href="javascript:void(0);" class="subdrop">Dashboard<span
+                                                    class="menu-arrow inside-submenu"></span></a>
+                                            <ul>
+                                                <li><a href="{{ route('attendance.attendance-dashboard.summary') }}"
+                                                        class="">Summary
+                                                    </a></li>
+                                                <li><a
+                                                        href="{{ route('attendance.attendance-dashboard.org-reports') }}">Reports</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="submenu submenu-two">
+                                            <a href="javascript:void(0);" class="subdrop"> Daily Attendance <span
+                                                    class="menu-arrow inside-submenu"></span></a>
+                                            <ul>
+                                                <li><a href="{{ route('attendance.daily-attendance.consistent-attendees') }}"
+                                                        class="">Consistent
+                                                        Attendees
+                                                    </a></li>
+                                                <li><a href="{{ url('leave.setting.index') }}">Tracking</a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Geo-Fencing </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Biometric Tracking
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="submenu submenu-two">
+                                            <a href="javascript:void(0);" class="subdrop"> Request<span
+                                                    class="menu-arrow inside-submenu"></span></a>
+                                            <ul>
+                                                <li><a href="{{ url('leave.index') }}" class="">Leave Requests
+
+                                                    </a></li>
+                                                <li><a href="{{ url('leave.index') }}" class="">Missed Punch
+                                                        Requests
+                                                    </a></li>
+                                                <li><a href="{{ url('leave.setting.index') }}">Comp-Off Requests</a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Overtime Requests</a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> WFH Requests
+                                                    </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Optional Holiday
+                                                        Requests
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="submenu submenu-two">
+                                            <a href="javascript:void(0);" class="subdrop"> Work Schedule <span
+                                                    class="menu-arrow inside-submenu"></span></a>
+                                            <ul>
+                                                <li><a href="{{ url('leave.index') }}" class=""> Work Shifts
+
+                                                    </a></li>
+                                                <li><a href="{{ url('leave.index') }}" class=""> Shift
+                                                        Allowance
+                                                    </a></li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Shift Rotation </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Shift Roster </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Week-Offs
+                                                    </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Block leaves
+                                                    </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Dynamic Week-Off
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url('leave.setting.index') }}">
+                                                Overtime
+                                            </a>
+                                        </li>
+                                        <li class="submenu submenu-two">
+                                            <a href="javascript:void(0);" class="subdrop"> Leave <span
+                                                    class="menu-arrow inside-submenu"></span></a>
+                                            <ul>
+                                                <li><a href="{{ url('leave.index') }}" class=""> Leave Types
+
+                                                    </a></li>
+                                                <li><a href="{{ url('leave.index') }}" class=""> Shift
+                                                        Allowance
+                                                    </a></li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Shift Rotation </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Shift Roster </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Week-Offs
+                                                    </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Block leaves
+                                                    </a>
+                                                </li>
+                                                <li><a href="{{ url('leave.setting.index') }}"> Dynamic Week-Off
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-school"></i><span>Performance</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        <li><a href="{{ url('performance-indicator.index') }}">Performance
+                                                Indicator</a></li>
+                                        <li><a href="{{ url('performance-review.index') }}">Performance
+                                                Review</a></li>
+                                        <li><a href="{{ url('performance-appraisal.index') }}">Performance
+                                                Appraisal</a></li>
+                                        <li><a href="{{ url('goal-tracking.index') }}">Goal List</a></li>
+                                        <li><a href="{{ url('goal-type.goal-type') }}">Goal Type</a></li>
+                                    </ul>
+                                </li>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-edit"></i><span>Training</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        <li><a href="{{ url('training.index') }}">Training List</a></li>
+                                        <li><a href="{{ url('trainers.index') }}">Trainers</a></li>
+                                        <li><a href="{{ url('training-type.index') }}">Training Type</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti ti-speakerphone"></i><span>Promotion</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti ti-external-link"></i><span>Resignation</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        <i class="ti ti-circle-x"></i><span>Termination</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        @endif
+                      
+                      @if(Auth::user()->role_id == 3)
                         <li class="menu-title"><span>HRM</span></li>
                         <li>
                             <ul>
@@ -820,84 +1018,11 @@
                                 </li>
                             </ul>
                         </li>
-                        <li>
-                            <ul>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti ti-user-shield"></i><span>Candidates</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ti ti-ux-circle"></i><span>Referrals</span>
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        @endif
 
 
-                        <li class="menu-title"><span>CONTENT</span></li>
-
-                        <li class="submenu">
-                            <a href="javascript:void(0);">
-                                <i class="ti ti-user-star"></i><span>Reports</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul>
-                                <li><a href="#">Expense Report</a></li>
-                                <li><a href="#">Invoice Report</a></li>
-                                <li><a href="#">Payment Report</a></li>
-                                <li><a href="#">Project Report</a></li>
-                                <li><a href="#">Task Report</a></li>
-                                <li><a href="#">User Report</a></li>
-                                <li><a href="#">Employee Report</a></li>
-                                <li><a href="#">Payslip Report</a></li>
-                                <li><a href="#">Attendance Report</a></li>
-                                <li><a href="#">Leave Report</a></li>
-                                <li><a href="#">Daily Report</a></li>
-                            </ul>
-                        </li>
-                        <li class="submenu">
-                            <a href="javascript:void(0);">
-                                <i class="ti ti-settings"></i><span>Settings</span>
-                                <span class="menu-arrow"></span>
-                            </a>
-                            <ul>
-                                <li class="submenu submenu-two">
-                                    <a href="javascript:void(0);">General Settings<span
-                                            class="menu-arrow inside-submenu"></span></a>
-                                    <ul>
-                                        <li><a href="#">Profile</a></li>
-                                        <li><a href="#">Security</a></li>
-                                        <li><a href="#">Notifications</a></li>
-                                        <li><a href="#">Connected Apps</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="submenu submenu-two">
-                                    <a href="javascript:void(0);">App Settings<span
-                                            class="menu-arrow inside-submenu"></span></a>
-                                    <ul>
-                                        <li><a href="#">Salary Settings</a></li>
-                                        <li><a href="#">Approval Settings</a></li>
-                                        <li><a href="#">Invoice Settings</a></li>
-                                        <li><a href="#">Leave Type</a></li>
-                                        <li><a href="#">Custom Fields</a></li>
-                                    </ul>
-                                </li>
-
-                                <li class="submenu submenu-two">
-                                    <a href="javascript:void(0);">Financial Settings<span
-                                            class="menu-arrow inside-submenu"></span></a>
-                                    <ul>
-                                        <li><a href="#">Payment Gateways</a></li>
-                                        <li><a href="#">Tax Rate</a></li>
-                                        <li><a href="#">Currencies</a></li>
-                                    </ul>
-                                </li>
-
-                            </ul>
-                        </li>
+                 
+                    
 
 
 

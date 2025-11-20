@@ -60,6 +60,7 @@ use App\Http\Controllers\Masters\JafController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
 use App\Http\Controllers\Masters\OnboardingController;
 use App\Http\Controllers\PMT\SelfAppraisalController;
+use App\Http\Controllers\SettingController;
 
 Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
 Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('skills.search');
@@ -239,6 +240,9 @@ Route::middleware(['auth'])->group(function () {
     // map-role-permission
     Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission');
     Route::get('map-role-permission/store', [MapRolePermission::class, 'index'])->name('map-role-permission.store');
+
+    Route::get('settings', [SettingController::class,'index'])->name('masters.settings.email-templates');
+    Route::get('settings/email-template/create', [SettingController::class,'create'])->name('masters.settings.create');
 });
 
 
@@ -270,7 +274,7 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::post('leaves/apply/store', [LeavesController::class, 'store'])->name('employee.leaves.store');
     Route::get('leaves/list', [LeavesController::class, 'list'])->name('employee.leaves.list');
 
-    // Attendance & Holidays
+    // Attendance & Holidayssettings
     Route::get('attendance', [AttendanceController::class, 'show'])->name('employee.attendance');
     Route::get('holidays', [AttendanceController::class, 'holidayList'])->name('employee.holidays');
 
@@ -282,56 +286,6 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::get('payslip', [PayslipController::class, 'index'])->name('employee.payslip');
 });
 
-Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-    // Permission
-    Route::get('clients', [ClientsController::class, 'index'])->name('admin.clients');
-    Route::post('clients/create', [ClientsController::class, 'create'])->name('admin.clients.create');
-    Route::get('clients/{id}/client-details', [ClientsController::class, 'show'])->name('admin.clients.details');
-
-    // Branch
-    Route::get('branch', [BranchController::class, 'index'])->name('admin.branch');
-    // Employee
-    Route::get('/employee', [EmployeeController::class, 'index'])->name('admin.employee');
-});
-
-
-Route::prefix('admin')->middleware('auth')->group(function () {
-    Route::get('dashboard', [AdminController::class, 'index']);
 
 
 
-    // Clients
-    Route::get('clients', [ClientsController::class, 'index'])->name('admin.clients');
-    Route::post('clients/create', [ClientsController::class, 'create'])->name('admin.clients.create');
-    Route::get('clients/{id}/client-details', [ClientsController::class, 'show'])->name('admin.clients.details');
-
-    // Branch
-    Route::get('branch', [BranchController::class, 'index'])->name('admin.branch');
-    // Employee
-    Route::get('/employee', [EmployeeController::class, 'index'])->name('admin.employee');
-});
-
-
-
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
-
-    // Dashboard
-    Route::get('dashboard', [AdminController::class, 'index'])->name('dashboard.index');
-
-    // map-role-permission
-    Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission.index');
-    Route::post('map-role-permission', [MapRolePermission::class, 'store'])->name('map-role-permission.store');
-
-
-    // Resource Controllers (CRUD automatically handled)
-    Route::resource('permissions', PermissionController::class, ['as' => 'admin']);
-
-    Route::resource('clients', ClientsController::class, ['as' => 'admin']);
-    Route::resource('branches', BranchController::class);
-
-    Route::resource('roles', RoleController::class);
-    Route::resource('permission', PermissionController::class);
-    Route::resource('settings', SettingController::class);
-    Route::resource('employee', EmployeeController::class, ['as' => 'admin']);
-});
