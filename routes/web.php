@@ -59,6 +59,7 @@ use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Masters\JafController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
 use App\Http\Controllers\Masters\OnboardingController;
+use App\Http\Controllers\PMT\ReviewEmployeeController;
 use App\Http\Controllers\PMT\SelfAppraisalController;
 use App\Http\Controllers\SettingController;
 
@@ -265,9 +266,15 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
 
         Route::get('/', [SelfAppraisalController::class, 'index'])->name('employee.self.appraisal');
         Route::get('/competencies', [SelfAppraisalController::class, 'competencies'])->name('employee.competencies');
-        Route::get('/kpiAssessment', [SelfAppraisalController::class, 'kpiAssessment'])->name('employee.kpiAssessment');
+        Route::get('/kpi-assessment', [SelfAppraisalController::class, 'kpiAssessment'])->name('employee.kpi.assessment');
         Route::get('/form-c', [SelfAppraisalController::class, 'formC'])->name('employee.form-c');
         
+    });
+
+    // Review your Employee
+
+    Route::prefix('review-employee')->group(function (){
+        Route::get('/',[ReviewEmployeeController::class, 'index'])->name('employee.review.employee');
     });
 
     // Dashboard

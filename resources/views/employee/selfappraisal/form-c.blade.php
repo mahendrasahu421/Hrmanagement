@@ -2,10 +2,79 @@
 @section('title', $title)
 @section('main-section')
 
+    <style>
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            position: relative;
+            padding: 0 40px;
+        }
+
+        .progress-container::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 100px;
+            right: 50px;
+            height: 3px;
+            background: #f16529;
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .circle {
+            width: 35px;
+            height: 35px;
+            background: #f16529;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 8px auto;
+            font-size: 16px;
+        }
+
+        .step p {
+            font-size: 14px;
+            color: #f16529;
+            font-weight: 600;
+        }
+    </style>
     <x-alert-modal />
 
     <div class="page-wrapper" style="min-height: 428px;">
         <div class="content">
+
+            <div class="progress-container">
+                <div class="step active">
+                    <div class="circle"><i class="fas fa-check"></i></div>
+                    <p>Self Appraisal</p>
+                </div>
+
+                <div class="step active">
+                    <div class="circle"><i class="fas fa-check"></i></div>
+                    <p>Competencies</p>
+                </div>
+
+                <div class="step active">
+                    <div class="circle"><i class="fas fa-check"></i></div>
+                    <p>KPI</p>
+                </div>
+
+                <div class="step active">
+                    <div class="circle"><i class="fas fa-check"></i></div>
+                    <p>Form-C</p>
+                </div>
+            </div>
 
             <!-- Page Header -->
             <div class="mb-4">
@@ -120,6 +189,21 @@
                             <li><a class="dropdown-item training-item" href="#">View All</a></li>
                             <li><a class="dropdown-item training-item" href="#">Export</a></li>
                         </ul>
+                    </div>
+                    <div class="card-footer text-end" style="background:#f8f9fa;">
+
+                        <a href="{{ url('dashboard') }}" class="btn btn-primary ms-2">
+                            Go to Dashboard
+                        </a>
+
+                        <a href="#" class="btn btn-primary">
+                            Save as Draft
+                        </a>
+                        
+                        <a href="#" class="btn btn-primary">
+                            Save
+                        </a>
+
                     </div>
                 </div>
             </div>

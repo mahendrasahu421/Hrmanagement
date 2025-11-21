@@ -59,7 +59,7 @@
                             <div class="custom-card">
                                 <img src="{{ asset('frontent/assets/img/ControlingReview.png') }}" class="card-icon"
                                     alt="">
-                                <a href="#" class="custom-btn">Review your Employee</a>
+                                <a href="{{route('employee.review.employee')}}" class="custom-btn">Review your Employee</a>
                             </div>
                         </div>
 
@@ -103,11 +103,6 @@
                         <table class="table datatable">
                             <thead class="thead-light">
                                 <tr>
-                                    <th class="no-sort">
-                                        <div class="form-check form-check-md">
-                                            <input class="form-check-input" type="checkbox" id="select-all">
-                                        </div>
-                                    </th>
                                     <th>S.No.</th>
                                     <th>FY</th>
                                     <th>CO Name</th>
@@ -119,11 +114,6 @@
 
                             <tbody>
                                 <tr>
-                                    <td>
-                                        <div class="form-check form-check-md">
-                                            <input class="form-check-input" type="checkbox">
-                                        </div>
-                                    </td>
                                     <td>1</td>
                                     <td>2023–24</td>
                                     <td>
@@ -139,11 +129,6 @@
                                 </tr>
 
                                 <tr>
-                                    <td>
-                                        <div class="form-check form-check-md">
-                                            <input class="form-check-input" type="checkbox">
-                                        </div>
-                                    </td>
                                     <td>2</td>
                                     <td>2022–23</td>
                                     <td>
