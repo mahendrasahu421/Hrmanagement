@@ -126,7 +126,7 @@
                 if (selectedJob === "" || jobTitle === selectedJob) {
                     $(this).show();
                 } else { 
-                    $(this).hide();
+                    $(this).hide(); 
                 }
             });
         });
