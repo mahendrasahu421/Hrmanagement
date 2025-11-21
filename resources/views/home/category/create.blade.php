@@ -17,7 +17,7 @@
                                 </div>
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
-                                        <a href="{{ route('masters.organisation.category') }}"
+                                        <a href="{{ route('settings.category') }}"
                                             class="btn btn-primary d-flex align-items-center">
                                             <i class="ti ti-circle-plus me-2"></i>Category List
                                         </a>
@@ -29,7 +29,7 @@
                         <x-alert-modal />
                         <div class="card-body">
                             <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('masters.organisation.category.store') }}">
+                                action="{{ route('settings.category.store') }}">
                                 @csrf
                                 <div class="form-row row">
                                     <!-- Category Name -->
@@ -59,14 +59,14 @@
 
                                 <!-- Action Buttons -->
                                 <div class="d-flex justify-content-end mt-3">
-                                    <a href="{{ route('masters.organisation.company') }}" class="btn btn-light me-2">
+                                    <a href="{{ route('settings.category') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
                                     </a>
                                     <button type="reset" class="btn btn-secondary me-2">
                                         <i class="ti ti-x me-1"></i> Cancel
                                     </button>
                                     <button class="btn btn-primary" type="submit">
-                                        <i class="ti ti-device-floppy me-1"></i> Save Company
+                                        <i class="ti ti-device-floppy me-1"></i> Save Category
                                     </button>
                                 </div>
                             </form>

@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
-                                        <a href="{{ route('masters.organisation.leave-type') }}"
+                                        <a href="{{ route('settings.leave-type') }}"
                                             class="btn btn-primary d-flex align-items-center">
                                             <i class="ti ti-list-details me-2"></i> Leave Type List
                                         </a>
@@ -27,7 +27,7 @@
 
                         <div class="card-body">
                             <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('masters.organisation.leave-type.store') }}">
+                                action="{{ route('settings.leave-type.store') }}">
                                 @csrf
 
                                 <div class="row">
@@ -149,7 +149,7 @@
 
                                 <!-- Action Buttons -->
                                 <div class="d-flex justify-content-end mt-3">
-                                    <a href="{{ route('masters.organisation.leave-type') }}" class="btn btn-light me-2">
+                                    <a href="{{ route('settings.leave-type') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
                                     </a>
                                     <button type="reset" class="btn btn-secondary me-2">

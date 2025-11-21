@@ -99,55 +99,48 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/branch/create', [BranchController::class, 'create'])->name('masters.organisation.branch.create');
     Route::post('masters/organisation/branch/store', [BranchController::class, 'store'])->name('masters.organisation.branch.store');
 
-    // Master/Organisation/Category
-    Route::get('masters/organisation/category', [CategoryController::class, 'index'])->name('masters.organisation.category');
-    Route::get('masters/organisation/category/create', [CategoryController::class, 'create'])->name('masters.organisation.category.create');
-    Route::post('masters/organisation/category/store', [CategoryController::class, 'store'])->name('masters.organisation.category.store');
-    Route::get('masters/organisation/category/edit/{id}', [CategoryController::class, 'edit'])->name('masters.organisation.category.edit');
-    Route::put('masters/organisation/category/edit/{id}', [CategoryController::class, 'update'])->name('masters.organisation.category.update');
-    Route::delete('masters/organisation/category/delete/{id}', [CategoryController::class, 'destroy'])->name('masters.organisation.category.destroy');
-    Route::get('masters/organisation/category/list', [CategoryController::class, 'list'])->name('masters.organisation.category.list');
+    
 
     // Master/Organisation/Department
-    Route::get('masters/organisation/department', [DepartmentController::class, 'index'])->name('masters.organisation.department');
-    Route::get('masters/organisation/department/create', [DepartmentController::class, 'create'])->name('masters.organisation.department.create');
-    Route::post('masters/organisation/department/store', [DepartmentController::class, 'store'])->name('masters.organisation.department.store');
-    Route::get('masters/organisation/department/edit/{id}', [DepartmentController::class, 'edit'])->name('masters.organisation.department.edit');
-    Route::put('masters/organisation/department/edit/{id}', [DepartmentController::class, 'update'])->name('masters.organisation.department.update');
-    Route::delete('masters/organisation/department/delete/{id}', [DepartmentController::class, 'destroy'])->name('masters.organisation.department.destroy');
-    Route::get('masters/organisation/department/list', [DepartmentController::class, 'list'])->name('masters.organisation.department.list');
+    Route::get('settings/department', [DepartmentController::class, 'index'])->name('settings.department');
+    Route::get('settings/department/create', [DepartmentController::class, 'create'])->name('settings.department.create');
+    Route::post('settings/department/store', [DepartmentController::class, 'store'])->name('settings.department.store');
+    Route::get('settings/department/edit/{id}', [DepartmentController::class, 'edit'])->name('settings.department.edit');
+    Route::put('settings/department/edit/{id}', [DepartmentController::class, 'update'])->name('settings.department.update');
+    Route::delete('settings/department/delete/{id}', [DepartmentController::class, 'destroy'])->name('settings.department.destroy');
+    Route::get('settings/department/list', [DepartmentController::class, 'list'])->name('settings.department.list');
 
     // Master/Organisation/Designation
-    Route::get('masters/organisation/designation', [DesignationController::class, 'index'])->name('masters.organisation.designation');
-    Route::get('masters/organisation/designation/create', [DesignationController::class, 'create'])->name('masters.organisation.designation.create');
-    Route::post('masters/organisation/designation/store', [DesignationController::class, 'store'])->name('masters.organisation.designation.store');
-    Route::get('masters/organisation/designation/edit/{id}', [DesignationController::class, 'edit'])->name('masters.organisation.designation.edit');
-    Route::put('masters/organisation/designation/edit/{id}', [DesignationController::class, 'update'])->name('masters.organisation.designation.update');
-    Route::delete('masters/organisation/designation/delete/{id}', [DesignationController::class, 'destroy'])->name('masters.organisation.designation.destroy');
-    Route::get('masters/organisation/designation/list', [DesignationController::class, 'list'])->name('masters.organisation.designation.list');
+    Route::get('settings/designation', [DesignationController::class, 'index'])->name('settings.designation');
+    Route::get('settings/designation/create', [DesignationController::class, 'create'])->name('settings.designation.create');
+    Route::post('settings/designation/store', [DesignationController::class, 'store'])->name('settings.designation.store');
+    Route::get('settings/designation/edit/{id}', [DesignationController::class, 'edit'])->name('settings.designation.edit');
+    Route::put('settings/designation/edit/{id}', [DesignationController::class, 'update'])->name('settings.designation.update');
+    Route::delete('settings/designation/delete/{id}', [DesignationController::class, 'destroy'])->name('settings.designation.destroy');
+    Route::get('settings/designation/list', [DesignationController::class, 'list'])->name('settings.designation.list');
 
     // Master/Organisation/Shift
-    Route::get('masters/organisation/shift', [ShiftController::class, 'index'])->name('masters.organisation.shift');
-    Route::get('masters/organisation/shift/create', [ShiftController::class, 'create'])->name('masters.organisation.shift.create');
-    Route::post('masters/organisation/shift/store', [ShiftController::class, 'store'])->name('masters.organisation.shift.store');
-    Route::get('masters/organisation/shift/edit/{id}', [ShiftController::class, 'edit'])->name('masters.organisation.shift.edit');
-    Route::put('masters/organisation/shift/edit/{id}', [ShiftController::class, 'update'])->name('masters.organisation.shift.update');
-    Route::delete('masters/organisation/shift/delete/{id}', [ShiftController::class, 'destroy'])->name('masters.organisation.shift.destroy');
-    Route::get('masters/organisation/shift/list', [ShiftController::class, 'list'])->name('masters.organisation.shift.list');
+    Route::get('settings/shift', [ShiftController::class, 'index'])->name('settings.shift');
+    Route::get('settings/shift/create', [ShiftController::class, 'create'])->name('settings.shift.create');
+    Route::post('settings/shift/store', [ShiftController::class, 'store'])->name('settings.shift.store');
+    Route::get('settings/shift/edit/{id}', [ShiftController::class, 'edit'])->name('settings.shift.edit');
+    Route::put('settings/shift/edit/{id}', [ShiftController::class, 'update'])->name('settings.shift.update');
+    Route::delete('settings/shift/delete/{id}', [ShiftController::class, 'destroy'])->name('settings.shift.destroy');
+    Route::get('settings/shift/list', [ShiftController::class, 'list'])->name('settings.shift.list');
 
     // Master/Organisation/Leave Type
-    Route::get('masters/organisation/leave-type', [LeaveTypeController::class, 'index'])->name('masters.organisation.leave-type');
-    Route::get('masters/organisation/leave-type/create', [LeaveTypeController::class, 'create'])->name('masters.organisation.leave-type.create');
-    Route::post('masters/organisation/leave-type/store', [LeaveTypeController::class, 'store'])->name('masters.organisation.leave-type.store');
-    Route::get('masters/organisation/leave-type/edit/{id}', [LeaveTypeController::class, 'edit'])->name('masters.organisation.leave-type.edit');
-    Route::put('masters/organisation/leave-type/edit/{id}', [LeaveTypeController::class, 'update'])->name('masters.organisation.leave-type.update');
-    Route::delete('masters/organisation/leave-type/delete/{id}', [LeaveTypeController::class, 'destroy'])->name('masters.organisation.leave-type.destroy');
-    Route::get('masters/organisation/leave-type/list', [LeaveTypeController::class, 'list'])->name('masters.organisation.leave-type.list');
+    Route::get('settings/leave-type', [LeaveTypeController::class, 'index'])->name('settings.leave-type');
+    Route::get('settings/leave-type/create', [LeaveTypeController::class, 'create'])->name('settings.leave-type.create');
+    Route::post('settings/leave-type/store', [LeaveTypeController::class, 'store'])->name('settings.leave-type.store');
+    Route::get('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'edit'])->name('settings.leave-type.edit');
+    Route::put('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'update'])->name('settings.leave-type.update');
+    Route::delete('settings/leave-type/delete/{id}', [LeaveTypeController::class, 'destroy'])->name('settings.leave-type.destroy');
+    Route::get('settings/leave-type/list', [LeaveTypeController::class, 'list'])->name('settings.leave-type.list');
 
     // Master/Organisation/Holiday
-    Route::get('masters/organisation/holiday', [HolidayController::class, 'index'])->name('masters.organisation.holiday');
-    Route::get('masters/organisation/holiday/create', [HolidayController::class, 'create'])->name('masters.organisation.holiday.create');
-    Route::get('masters/organisation/holiday/store', [HolidayController::class, 'store'])->name('masters.organisation.holiday.store');
+    Route::get('settings/holiday', [HolidayController::class, 'index'])->name('settings.holiday');
+    Route::get('settings/holiday/create', [HolidayController::class, 'create'])->name('settings.holiday.create');
+    Route::get('settings/holiday/store', [HolidayController::class, 'store'])->name('settings.holiday.store');
 
     // Master/Organisation/Policy
     Route::get('masters/organisation/policy', [PolicyController::class, 'index'])->name('masters.organisation.policy');
@@ -245,8 +238,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission');
     Route::get('map-role-permission/store', [MapRolePermission::class, 'index'])->name('map-role-permission.store');
 
-    Route::get('settings', [SettingController::class,'index'])->name('masters.settings.email-templates');
-    Route::get('settings/email-template/create', [SettingController::class,'create'])->name('masters.settings.create');
+    Route::get('settings', [SettingController::class,'index'])->name('settings.email-templates');
+    Route::get('settings/email-template/create', [SettingController::class,'create'])->name('settings.create');
+
+    // Master/Organisation/Category
+    Route::get('settings/category', [CategoryController::class, 'index'])->name('settings.category');
+    Route::get('settings/category/create', [CategoryController::class, 'create'])->name('settings.category.create');
+    Route::post('settings/category/store', [CategoryController::class, 'store'])->name('settings.category.store');
+    Route::get('settings/category/edit/{id}', [CategoryController::class, 'edit'])->name('settings.category.edit');
+    Route::put('settings/category/edit/{id}', [CategoryController::class, 'update'])->name('settings.category.update');
+    Route::delete('settings/category/delete/{id}', [CategoryController::class, 'destroy'])->name('settings.category.destroy');
+    Route::get('settings/category/list', [CategoryController::class, 'list'])->name('settings.category.list');
 });
 
 

@@ -14,7 +14,7 @@
                 </div>
                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                     <div class="mb-2">
-                        <a href="{{ route('masters.organisation.shift.create') }}"
+                        <a href="{{ route('settings.shift.create') }}"
                             class="btn btn-primary d-flex align-items-center">
                             <i class="ti ti-circle-plus me-2"></i>Add Shift / Working Hours
                         </a>
@@ -84,7 +84,7 @@
                 serverSide: true,
                 scrollX: true,
                 ajax: {
-                    url: "{{ route('masters.organisation.shift.list') }}",
+                    url: "{{ route('settings.shift.list') }}",
                     dataSrc: function(json) {
                         return json.data;
                     }
