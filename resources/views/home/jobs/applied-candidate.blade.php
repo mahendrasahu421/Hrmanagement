@@ -113,7 +113,7 @@
         <x-footer />
 
     </div>
-@endsection
+@endsection  
 
 @push('after_scripts')
     <script>
