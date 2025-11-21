@@ -653,6 +653,7 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul>
+                                        <li><a href="{{route('recruitment.jobs.applied-candidate')}}">Applied Candidate</a></li>
                                         <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
                                         <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a></li>
                                         <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
@@ -664,6 +665,7 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul>
+                                        
                                         <li><a href="{{ route('employee.create') }}">New Employee</a></li>
                                         <li><a href="{{ route('employee') }}">Employee Lists</a></li>
                                     </ul>
@@ -842,6 +844,7 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul>
+                                        <li><a href="{{route('recruitment.jobs.applied-candidate')}}">Applied Candidate</a></li>
                                         <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
                                         <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a></li>
                                         <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
@@ -853,6 +856,7 @@
                                         <span class="menu-arrow"></span>
                                     </a>
                                     <ul>
+                                        
                                         <li><a href="{{ route('employee.create') }}">New Employee</a></li>
                                         <li><a href="{{ route('employee') }}">Employee Lists</a></li>
                                     </ul>

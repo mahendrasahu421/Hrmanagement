@@ -213,6 +213,10 @@
                 transform: translateX(-50%);
             }
         }
+
+        tbody>tr td {
+            padding: 5px !important;
+        }
     </style>
 
     <div class="page-wrapper">
@@ -288,7 +292,7 @@
                     <small>Date: 11-12-2025</small>
                 </div>
 
-                <div class="workflow-step active">
+                <div class="workflow-step mt-3">
                     <div class="step-icon"><i class="fa-solid fa-check"></i></div>
                     <p>Shortlist</p>
                     <div style="display: flex; gap: 20px; justify-content: center; margin-top: 5px;">
@@ -335,11 +339,7 @@
 
                                     <thead class="thead-light">
                                         <tr>
-                                            <th class="no-sort">
-                                                <div class="form-check form-check-md">
-                                                    <input class="form-check-input" type="checkbox" id="select-all">
-                                                </div>
-                                            </th>
+
                                             <th>Round</th>
                                             <th>Mode</th>
                                             <th>Date</th>
@@ -355,7 +355,6 @@
                                     <tbody>
 
                                         <tr>
-                                            <td><input class="form-check-input" type="checkbox"></td>
                                             <td>R1</td>
 
                                             <td>
@@ -378,10 +377,10 @@
 
                                             <td>
                                                 <select class="form-control">
-                                                    <option>Scheduled</option>
-                                                    <option>Scheduled</option>
-                                                    <option>Completed</option>
-                                                    <option>Cancelled</option>
+                                                    <option>Select Status</option>
+                                                    <option>Cleared</option>
+                                                    <option>Rejected</option>
+                                                    <option>Postponed</option>
                                                 </select>
                                             </td>
 
@@ -390,7 +389,6 @@
                                             </td>
 
                                             <td>
-                                                <button class="btn btn-primary btn-sm"><i class="fa fa-save"></i></button>
                                                 <button class="btn btn-info btn-sm"><i
                                                         class="fa fa-paper-plane"></i></button>
                                             </td>

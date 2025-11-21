@@ -56,6 +56,7 @@ use App\Http\Controllers\Attendance\AttendanceOrgReportController;
 use App\Http\Controllers\Attendance\ConsistentAttendeesController;
 use App\Http\Controllers\EmployeeAuthController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Hr\JobsController as HrJobsController;
 use App\Http\Controllers\Masters\JafController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
 use App\Http\Controllers\Masters\OnboardingController;
@@ -154,7 +155,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/policy/store', [PolicyController::class, 'store'])->name('masters.organisation.policy.store');
 
     // Master/Recruitment/Jobs
+    
     Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
+    Route::get('recruitment/job/applied-candidate',[JobsController::class,'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
     Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
 
     // Employee/Onboarding
