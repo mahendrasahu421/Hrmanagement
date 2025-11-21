@@ -11,7 +11,7 @@
                     <h2 class="mb-1">{{ $title }}</h2>
                 </div>
                 <div class="mb-2">
-                    <a href="{{ route('masters.organisation.category.create') }}"
+                    <a href="{{ route('settings.category.create') }}"
                         class="btn btn-primary d-flex align-items-center">
                         <i class="ti ti-circle-plus me-2"></i>Add category
                     </a>
@@ -82,7 +82,7 @@
                 serverSide: true,
                 scrollX: true,
                 ajax: {
-                    url: "{{ route('masters.organisation.category.list') }}",
+                    url: "{{ route('settings.category.list') }}",
                     data: function(d) {
 
                     },

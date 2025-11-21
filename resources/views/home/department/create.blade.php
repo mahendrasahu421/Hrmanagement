@@ -26,7 +26,7 @@
                                 </div>
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
-                                        <a href="{{ route('masters.organisation.department') }}"
+                                        <a href="{{ route('settings.department') }}"
                                             class="btn btn-primary d-flex align-items-center">
                                             <i class="ti ti-list me-2"></i> Department List
                                         </a>
@@ -37,7 +37,7 @@
                         </div>
 
                         <div class="card-body">
-                            <form method="POST" action="{{ route('masters.organisation.department.store') }}">
+                            <form method="POST" action="{{ route('settings.department.store') }}">
                                 @csrf
 
                                 <div class="row">
@@ -114,7 +114,7 @@
                                 </div>
                                 <!-- Action Buttons -->
                                 <div class="d-flex justify-content-end mt-3">
-                                    <a href="{{ route('masters.organisation.department') }}" class="btn btn-light me-2">
+                                    <a href="{{ route('settings.department') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
                                     </a>
                                     <button type="reset" class="btn btn-secondary me-2">

@@ -14,7 +14,7 @@
                 </div>
                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                     <div class="mb-2">
-                        <a href="{{ route('masters.settings.create') }}"
+                        <a href="{{ route('settings.create') }}"
                             class="btn btn-primary d-flex align-items-center">
                             <i class="ti ti-circle-plus me-2"></i> Add Email Template
                         </a>
@@ -82,7 +82,7 @@
             var table = $('#leaveTypeList').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('masters.organisation.leave-type.list') }}",
+                ajax: "{{ url('organisation.leave-type.list') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'

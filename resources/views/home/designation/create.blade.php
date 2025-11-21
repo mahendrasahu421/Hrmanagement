@@ -15,7 +15,7 @@
                                 </div>
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
-                                        <a href="{{ route(name: 'masters.organisation.designation') }}"
+                                        <a href="{{ route(name: 'settings.designation') }}"
                                             class="btn btn-primary d-flex align-items-center">
                                             <i class="ti ti-list-details me-2"></i> Designation List
                                         </a>
@@ -26,7 +26,7 @@
 
                         <div class="card-body">
                             <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('masters.organisation.designation.store') }}">
+                                action="{{ route('settings.designation.store') }}">
                                 @csrf
 
                                 <div class="form-row row">
@@ -128,7 +128,7 @@
 
                                 <!-- Action Buttons -->
                                 <div class="d-flex justify-content-end mt-3">
-                                    <a href="{{ route('masters.organisation.designation') }}" class="btn btn-light me-2">
+                                    <a href="{{ route('settings.designation') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
                                     </a>
                                     <button type="reset" class="btn btn-secondary me-2">
