@@ -2,10 +2,80 @@
 @section('title', $title)
 @section('main-section')
 
+    <style>
+        .progress-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 10px;
+            position: relative;
+            padding: 0 40px;
+        }
+
+        .progress-container::before {
+            content: "";
+            position: absolute;
+            top: 20px;
+            left: 100px;
+            right: 50px;
+            height: 3px;
+            background: #f16529;
+            z-index: 1;
+        }
+
+        .step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .circle {
+            width: 35px;
+            height: 35px;
+            background: #f16529;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 8px auto;
+            font-size: 16px;
+        }
+
+        .step p {
+            font-size: 14px;
+            color: #f16529;
+            font-weight: 600;
+        }
+    </style>
     <x-alert-modal />
 
     <div class="page-wrapper" style="min-height: 428px;">
         <div class="content">
+
+            <div class="progress-container">
+                <div class="step active">
+                    <div class="circle"><i class="fas fa-check"></i></div>
+                    <p>Self Appraisal</p>
+                </div>
+
+                <div class="step active">
+                    <div class="circle"><i class="fas fa-check"></i></div>
+                    <p>Competencies</p>
+                </div>
+
+                <div class="step active">
+                    <div class="circle"><i class="fas fa-check"></i></div>
+                    <p>KPI</p>
+                </div>
+
+                <div class="step active">
+                    <div class="circle"><i class="fas fa-check"></i></div>
+                    <p>Form-C</p>
+                </div>
+            </div>
+
             <!-- Page Header -->
             <div class="mb-4">
                 <h4 class="mb-2">Competency Form</h4>
@@ -585,11 +655,11 @@
             </div>
 
             <div class="text-center mt-5 mb-5">
-                <a href="{{ url('dashboard') }}" class="btn btn-secondary btn-lg px-4 py-2">
+                <a href="{{ url('dashboard') }}" class="btn btn-primary btn-lg px-4 py-2">
                     Go to Dashboard
                 </a>
 
-                <a href="{{ route('employee.kpiAssessment') }}" class="btn btn-primary btn-lg px-4 py-2 me-3">
+                <a href="{{ route('employee.kpi.assessment') }}" class="btn btn-primary btn-lg px-4 py-2 me-3">
                     Go to KPI
                 </a>
             </div>
