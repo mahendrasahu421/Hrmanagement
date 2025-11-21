@@ -29,6 +29,14 @@ class JobsController extends Controller
         return view('home.jobs.create', $data);
     }
 
+    public function appliedCandidate(Request $request)
+    {
+        $data['title'] = 'Recruitment / Jobs / Applied Candidate';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+
+        return view('home.jobs.applied-candidate', $data);
+    }
+
     /**
      * Store a newly created resource in storage.
      */

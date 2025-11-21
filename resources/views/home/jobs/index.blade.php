@@ -146,7 +146,6 @@
                                             <th>Location</th>
                                             <th>Experience</th>
                                             <th>Status</th>
-                                            <th>More</th>
                                         </tr>
                                     </thead>
 
@@ -164,12 +163,6 @@
                                             <td><span
                                                     class="badge badge-success d-inline-flex align-items-center badge-sm"><i
                                                         class="ti ti-point-filled me-1"></i>Active</span></td>
-                                            <td>
-                                                <div class="d-inline-flex">
-                                                    <a href="{{ route('employee.onboarding') }}"
-                                                        class="btn btn-sm btn-primary">Onboarding</a>
-                                                </div>
-                                            </td>
                                         </tr>
 
                                         <tr>
@@ -184,12 +177,6 @@
                                             <td><span
                                                     class="badge badge-danger d-inline-flex align-items-center badge-sm"><i
                                                         class="ti ti-point-filled me-1"></i>Inactive</span></td>
-                                            <td>
-                                                <div class="d-inline-flex">
-                                                    <a href="{{ route('employee.onboarding') }}"
-                                                        class="btn btn-sm btn-primary">Onboarding</a>
-                                                </div>
-                                            </td>
                                         </tr>
 
                                     </tbody>

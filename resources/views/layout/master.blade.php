@@ -653,28 +653,29 @@
                             <li>
                                 <ul>
 
-                                    <li class="submenu">
-                                        <a href="javascript:void(0);">
-                                            <i class="ti ti-timeline"></i><span>Recruitment</span>
-                                            <span class="menu-arrow"></span>
-                                        </a>
-                                        <ul>
-                                            <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
-                                            <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a>
-                                            </li>
-                                            <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="submenu">
-                                        <a href="javascript:void(0);">
-                                            <i class="ti ti-users"></i><span>Employees</span>
-                                            <span class="menu-arrow"></span>
-                                        </a>
-                                        <ul>
-                                            <li><a href="{{ route('employee.create') }}">New Employee</a></li>
-                                            <li><a href="{{ route('employee') }}">Employee Lists</a></li>
-                                        </ul>
-                                    </li>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-timeline"></i><span>Recruitment</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        <li><a href="{{route('recruitment.jobs.applied-candidate')}}">Applied Candidate</a></li>
+                                        <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
+                                        <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a></li>
+                                        <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
+                                    </ul>
+                                </li>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-users"></i><span>Employees</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        
+                                        <li><a href="{{ route('employee.create') }}">New Employee</a></li>
+                                        <li><a href="{{ route('employee') }}">Employee Lists</a></li>
+                                    </ul>
+                                </li>
 
 
                                     <li class="submenu">
@@ -846,10 +847,29 @@
                             </li>
                         @endif
 
-                        @if (Auth::user()->role_id == 3)
-                            <li class="menu-title"><span>HRM</span></li>
-                            <li>
-                                <ul>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-timeline"></i><span>Recruitment</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        <li><a href="{{route('recruitment.jobs.applied-candidate')}}">Applied Candidate</a></li>
+                                        <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
+                                        <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a></li>
+                                        <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
+                                    </ul>
+                                </li>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-users"></i><span>Employees</span>
+                                        <span class="menu-arrow"></span>
+                                    </a>
+                                    <ul>
+                                        
+                                        <li><a href="{{ route('employee.create') }}">New Employee</a></li>
+                                        <li><a href="{{ route('employee') }}">Employee Lists</a></li>
+                                    </ul>
+                                </li>
 
                                     <li class="submenu">
                                         <a href="javascript:void(0);">
