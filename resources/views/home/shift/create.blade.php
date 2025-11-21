@@ -18,7 +18,7 @@
                                 </div>
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
-                                        <a href="{{ route('masters.organisation.shift') }}"
+                                        <a href="{{ route('settings.shift') }}"
                                             class="btn btn-primary d-flex align-items-center">
                                             <i class="ti ti-list-details me-2"></i> Shift List
                                         </a>
@@ -32,7 +32,7 @@
                         <div class="card-body">
 
                             <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('masters.organisation.shift.store') }}">
+                                action="{{ route('settings.shift.store') }}">
                                 @csrf
 
                                 <div class="row">
@@ -115,7 +115,7 @@
                                 </div>
 
                                 <div class="d-flex justify-content-end mt-3">
-                                    <a href="{{ route('masters.organisation.shift') }}" class="btn btn-light me-2">
+                                    <a href="{{ route('settings.shift') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
                                     </a>
 

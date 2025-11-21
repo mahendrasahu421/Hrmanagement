@@ -534,10 +534,24 @@
                                         <ul>
                                             <li><a href="{{ route('settings.category') }}">Category</a>
                                             </li>
-                                            <li><a href="{{ route('masters.settings.email-templates') }}">Email
+
+                                            <li><a href="{{ route('settings.department') }}">Department
+                                                </a></li>
+                                            <li><a href="{{ route('settings.designation') }}">Designation
+                                                </a></li>
+
+                                            <li><a href="{{ route('settings.shift') }}">Shift /
+                                                    Working Hours </a>
+                                            </li>
+                                            <li><a href="{{ route('settings.leave-type') }}">Leave
+                                                    Type
+                                                </a></li>
+                                            <li><a href="{{ route('settings.holiday') }}">Holiday
+                                                </a>
+                                            </li>
+                                            <li><a href="{{ route('settings.email-templates') }}">Email
                                                     Templte</a>
                                             </li>
-
 
                                         </ul>
                                     </li>
@@ -565,20 +579,6 @@
                                                             href="{{ route('masters.organisation.branch') }}">Branch</a>
                                                     </li>
 
-                                                    <li><a href="{{ route('masters.organisation.department') }}">Department
-                                                        </a></li>
-                                                    <li><a href="{{ route('masters.organisation.designation') }}">Designation
-                                                        </a></li>
-
-                                                    <li><a href="{{ route('masters.organisation.shift') }}">Shift /
-                                                            Working Hours </a>
-                                                    </li>
-                                                    <li><a href="{{ route('masters.organisation.leave-type') }}">Leave
-                                                            Type
-                                                        </a></li>
-                                                    <li><a href="{{ route('masters.organisation.holiday') }}">Holiday
-                                                        </a>
-                                                    </li>
                                                     <li><a href="{{ route('masters.organisation.policy') }}">Policy
                                                         </a>
                                                     </li>

@@ -11,7 +11,7 @@
                     <h2 class="mb-1">{{ $title }}</h2>
                 </div>
                 <div class="mb-2">
-                    <a href="{{ route('masters.organisation.designation.create') }}"
+                    <a href="{{ route('settings.designation.create') }}"
                         class="btn btn-primary d-flex align-items-center">
                         <i class="ti ti-circle-plus me-2"></i>Add Designation
                     </a>
@@ -87,7 +87,7 @@
                 serverSide: true,
                 scrollX: true,
                 ajax: {
-                    url: "{{ route('masters.organisation.designation.list') }}",
+                    url: "{{ route('settings.designation.list') }}",
                     data: function(d) {
 
                     },
