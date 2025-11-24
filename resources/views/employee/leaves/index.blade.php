@@ -1,7 +1,7 @@
 @extends('employee.layout.layout')
 @section('title', $title)
 @section('main-section')
-    <x-alert-modal/>
+    <x-alert-modal />
     <div class="page-wrapper" style="min-height: 428px;">
         <div class="content">
 
@@ -108,9 +108,9 @@
                                                 <th>Leave Type</th>
                                                 <th>From Date</th>
                                                 <th>To Date</th>
+                                                <th>Total Leaves</th>
                                                 <th>reason</th>
                                                 <th>status</th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -171,12 +171,26 @@
                         data: 'to_date'
                     },
                     {
+                        data: null,
+                        render: function(data, type, row) {
+                            let fromDate = new Date(row.from_date);
+                            let toDate = new Date(row.to_date);
+
+                            if (fromDate && toDate && toDate >= fromDate) {
+                                let diffTime = toDate - fromDate;
+                                let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                                return diffDays;
+                            }
+                            return 0;
+                        }
+                    },
+                    {
                         data: 'reason'
                     },
-
                     {
                         data: 'status'
-                    }
+                    },
+                    
                 ],
                 dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
                     "<'row'<'col-md-12'tr>>" +

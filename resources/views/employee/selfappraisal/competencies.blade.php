@@ -77,11 +77,10 @@
             </div>
 
             <!-- Page Header -->
-            <div class="mb-4">
-                <h4 class="mb-2">Competency Form</h4>
-                <h5 class="mb-3 text-muted">योग्यता प्रपत्र</h5>
-            </div>
+                <h4 class="mb-3">Competency Form / 
+                <span class="text-muted">योग्यता प्रपत्र</span></h4>
 
+                
             <!-- Competency Section -->
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
@@ -655,7 +654,7 @@
             </div>
 
             <div class="text-center mt-5 mb-5">
-                <a href="{{ url('dashboard') }}" class="btn btn-primary btn-lg px-4 py-2">
+                <a href="{{ route('employee.dashboard') }}" class="btn btn-primary btn-lg px-4 py-2">
                     Go to Dashboard
                 </a>
 
