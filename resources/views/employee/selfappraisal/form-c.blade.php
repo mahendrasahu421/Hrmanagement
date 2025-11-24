@@ -77,17 +77,15 @@
             </div>
 
             <!-- Page Header -->
-            <div class="mb-4">
-                <h4 class="mb-2">Form C</h4>
-                <h5 class="mb-3 text-muted">फॉर्म सी</h5>
-            </div>
+                <h4 class="my-4">Form C / <span class="text-muted">फॉर्म सी</span></h4>
+                
 
             <!-- Achievements Section -->
             <div class="card mb-4 shadow-sm">
                 <div class="card-body">
                     <div class="btn-primary p-2">
-                        <h5 class="mb-2 text-white">1. Top 3 Achievements during performance assessment year</h5>
-                        <h6 class="text-white">1. प्रदर्शन मूल्यांकन वर्ष के दौरान शीर्ष 3 उपलब्धियाँ</h6>
+                        <h5 class=" text-white">1. Top 3 Achievements during performance assessment year 
+                        <span>/ प्रदर्शन मूल्यांकन वर्ष के दौरान शीर्ष 3 उपलब्धियाँ</span></h5>
                     </div>
 
                     <!-- Achievement 1 -->
@@ -115,8 +113,8 @@
 
                 <div class="card-body">
                     <div class="btn-primary p-2">
-                        <h5 class="mb-2 text-white">2.What I could have done better during performance assessment year</h5>
-                        <h6 class="text-white">प्रदर्शन मूल्यांकन वर्ष के दौरान मैं क्या बेहतर कर सकता था</h6>
+                        <h5 class=" text-white">2.What I could have done better during performance assessment year / <span> प्रदर्शन मूल्यांकन वर्ष के दौरान मैं क्या बेहतर कर सकता था</span></h5>
+                        
                     </div>
 
                     <!-- Activity 1 -->
@@ -144,8 +142,8 @@
 
                 <div class="card-body">
                     <div class="btn-primary p-2">
-                        <h5 class="mb-2 text-white">3.My improvement goals for next year</h5>
-                        <h6 class="text-white">अगले वर्ष के लिए मेरे सुधार लक्ष्य</h6>
+                        <h5 class=" text-white">3.My improvement goals for next year / <span>अगले वर्ष के लिए मेरे सुधार लक्ष्य</span></h5>
+                        
                     </div>
 
                     <!-- Goal 1 -->
@@ -173,7 +171,7 @@
 
                 <div class="card-body">
                     <div class="btn-primary p-2">
-                        <h5 class="mb-2 text-white">Training</h5>
+                        <h5 class="text-white">Training</h5>
                     </div>
 
                     <div class="dropdown w-100 position-relative">
