@@ -60,8 +60,10 @@ use App\Http\Controllers\Hr\JobsController as HrJobsController;
 use App\Http\Controllers\Masters\JafController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
 use App\Http\Controllers\Masters\OnboardingController;
+use App\Http\Controllers\PMT\FeedbackController;
 use App\Http\Controllers\PMT\ReviewEmployeeController;
 use App\Http\Controllers\PMT\SelfAppraisalController;
+use App\Http\Controllers\PMT\ViewFeedbackController;
 use App\Http\Controllers\SettingController;
 
 Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
@@ -281,6 +283,10 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::prefix('review-employee')->group(function (){
         Route::get('/',[ReviewEmployeeController::class, 'index'])->name('employee.review.employee');
     });
+
+
+    Route::get('/feedback',[FeedbackController::class, 'index'])->name('employee.feedback');
+    Route::get('/view-feedback',[ViewFeedbackController::class, 'index'])->name('employee.view-feedback');
 
     // Dashboard
     Route::get('dashboard', [EmployeeController::class, 'index'])->name('employee.dashboard');
