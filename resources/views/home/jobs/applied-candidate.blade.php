@@ -58,16 +58,11 @@
                             </div>
                         </div>
 
-                        <div class="card-body p-0">
+                        <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table datatable" id="candidateTable">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th>
-                                                <div class="form-check form-check-md">
-                                                    <input class="form-check-input" type="checkbox" id="select-all">
-                                                </div>
-                                            </th>
                                             <th>Job Title</th>
                                             <th>City</th>
                                             <th>Profile</th>
@@ -79,7 +74,6 @@
 
                                     <tbody>
                                         <tr>
-                                            <td><div class="form-check form-check-md"><input class="form-check-input" type="checkbox"></div></td>
                                             <td>Senior Developer</td>
                                             <td>Mumbai</td>
                                             <td>IT / Software</td>
@@ -89,7 +83,6 @@
                                         </tr>
 
                                         <tr>
-                                            <td><div class="form-check form-check-md"><input class="form-check-input" type="checkbox"></div></td>
                                             <td>UI/UX Designer</td>
                                             <td>Pune</td>
                                             <td>Design</td>
@@ -121,7 +114,7 @@
             var selectedJob = $(this).val().toLowerCase();
 
             $('#candidateTable tbody tr').filter(function() {
-                var jobTitle = $(this).find('td:nth-child(2)').text().toLowerCase();
+                var jobTitle = $(this).find('td:nth-child(1)').text().toLowerCase();
 
                 if (selectedJob === "" || jobTitle === selectedJob) {
                     $(this).show();
