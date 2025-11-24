@@ -192,7 +192,7 @@
                     </div>
                     <div class="card-footer text-end" style="background:#f8f9fa;">
 
-                        <a href="{{ url('dashboard') }}" class="btn btn-primary ms-2">
+                        <a href="{{ route('employee.dashboard') }}" class="btn btn-primary ms-2">
                             Go to Dashboard
                         </a>
 
