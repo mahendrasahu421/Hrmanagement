@@ -235,18 +235,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="me-1">
-                                <a href="#" class="btn btn-menubar position-relative">
-                                    <i class="ti ti-brand-hipchat"></i>
-                                    <span
-                                        class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge">5</span>
-                                </a>
-                            </div>
-                            <div class="me-1">
-                                <a href="#" class="btn btn-menubar">
-                                    <i class="ti ti-mail"></i>
-                                </a>
-                            </div>
                             <div class="me-1 notification_item">
                                 <a href="#" class="btn btn-menubar position-relative me-1"
                                     id="notification_popup" data-bs-toggle="dropdown">
@@ -291,7 +279,7 @@
                                                 <a href="#">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-27.jpg"
+                                                            <img src="{{ asset('frontent/assets/img/profiles/avatar-27.jpg') }}"
                                                                 alt="Profile">
                                                         </span>
                                                         <div class="flex-grow-1">
@@ -307,7 +295,7 @@
                                                 <a href="#" class="pb-0">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-23.jpg"
+                                                            <img src="{{ asset('frontent/assets/img/profiles/avatar-23.jpg') }}"
                                                                 alt="Profile">
                                                         </span>
                                                         <div class="flex-grow-1">
@@ -328,7 +316,7 @@
                                                 <a href="#">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-25.jpg"
+                                                            <img src="{{ asset('frontent/assets/img/profiles/avatar-25.jpg') }}"
                                                                 alt="Profile">
                                                         </span>
                                                         <div class="flex-grow-1">
@@ -345,7 +333,7 @@
                                                 <a href="#">
                                                     <div class="d-flex">
                                                         <span class="avatar avatar-lg me-2 flex-shrink-0">
-                                                            <img src="assets/img/profiles/avatar-01.jpg"
+                                                            <img src="{{ asset('frontent/assets/img/profiles/avatar-01.jpg') }}"
                                                                 alt="Profile">
                                                         </span>
                                                         <div class="flex-grow-1">
@@ -368,8 +356,8 @@
                                 <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center"
                                     data-bs-toggle="dropdown">
                                     <span class="avatar avatar-sm online">
-                                        <img src="assets/img/profiles/avatar-12.jpg" alt="Img"
-                                            class="img-fluid rounded-circle">
+                                        <img src="{{ asset('frontent/assets/img/profiles/avatar-12.jpg') }}"
+                                            alt="Img" class="img-fluid rounded-circle">
                                     </span>
                                 </a>
                                 <div class="dropdown-menu shadow-none">
@@ -377,7 +365,8 @@
                                         <div class="card-header">
                                             <div class="d-flex align-items-center">
                                                 <span class="avatar avatar-lg me-2 avatar-rounded">
-                                                    <img src="assets/img/profiles/avatar-12.jpg" alt="img">
+                                                    <img src="{{ asset('frontent/assets/img/profiles/avatar-12.jpg') }}"
+                                                        alt="img">
                                                 </span>
                                                 <div>
                                                     <h5 class="mb-0">Kevin Larry</h5>
@@ -446,7 +435,8 @@
             <div class="modern-profile p-3 pb-0">
                 <div class="text-center rounded bg-light p-3 mb-4 user-profile">
                     <div class="avatar avatar-lg online mb-3">
-                        <img src="assets/img/profiles/avatar-02.jpg" alt="Img" class="img-fluid rounded-circle">
+                        <img src="{{ asset('frontent/assets/img/profiles/avatar-02.jpg') }}" alt="Img"
+                            class="img-fluid rounded-circle">
                     </div>
                     <h6 class="fs-12 fw-normal mb-1">Adrian Herman</h6>
                     <p class="fs-10">System Admin</p>
@@ -463,7 +453,7 @@
             <div class="sidebar-header p-3 pb-0 pt-2">
                 <div class="text-center rounded bg-light p-2 mb-4 sidebar-profile d-flex align-items-center">
                     <div class="avatar avatar-md onlin">
-                        <img src="assets/img/profiles/avatar-02.jpg" alt="Img" class="img-fluid rounded-circle">
+                        <img src="{{ asset('frontent/assets/img/profiles/avatar-02.jpg') }}" alt="Img" class="img-fluid rounded-circle">
                     </div>
                     <div class="text-start sidebar-profile-info ms-2">
                         <h6 class="fs-12 fw-normal mb-1">Adrian Herman</h6>
@@ -653,230 +643,14 @@
                             <li>
                                 <ul>
 
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-timeline"></i><span>Recruitment</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="{{route('recruitment.jobs.applied-candidate')}}">Applied Candidate</a></li>
-                                        <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
-                                        <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a></li>
-                                        <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
-                                    </ul>
-                                </li>
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-users"></i><span>Employees</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        
-                                        <li><a href="{{ route('employee.create') }}">New Employee</a></li>
-                                        <li><a href="{{ route('employee') }}">Employee Lists</a></li>
-                                    </ul>
-                                </li>
-
-
-                                    <li class="submenu">
-                                        <a href="javascript:void(0);" class="subdrop">
-                                            <i class="ti ti-file-time"></i><span>Attendance</span>
-                                            <span class="menu-arrow"></span>
-                                        </a>
-                                        <ul>
-                                            <li class="submenu submenu-two">
-                                                <a href="javascript:void(0);" class="subdrop">Dashboard<span
-                                                        class="menu-arrow inside-submenu"></span></a>
-                                                <ul>
-                                                    <li><a href="{{ route('attendance.attendance-dashboard.summary') }}"
-                                                            class="">Summary
-                                                        </a></li>
-                                                    <li><a
-                                                            href="{{ route('attendance.attendance-dashboard.org-reports') }}">Reports</a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="submenu submenu-two">
-                                                <a href="javascript:void(0);" class="subdrop"> Daily Attendance <span
-                                                        class="menu-arrow inside-submenu"></span></a>
-                                                <ul>
-                                                    <li><a href="{{ route('attendance.daily-attendance.consistent-attendees') }}"
-                                                            class="">Consistent
-                                                            Attendees
-                                                        </a></li>
-                                                    <li><a href="{{ url('leave.setting.index') }}">Tracking</a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Geo-Fencing </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Biometric Tracking
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="submenu submenu-two">
-                                                <a href="javascript:void(0);" class="subdrop"> Request<span
-                                                        class="menu-arrow inside-submenu"></span></a>
-                                                <ul>
-                                                    <li><a href="{{ url('leave.index') }}" class="">Leave
-                                                            Requests
-
-                                                        </a></li>
-                                                    <li><a href="{{ url('leave.index') }}" class="">Missed
-                                                            Punch
-                                                            Requests
-                                                        </a></li>
-                                                    <li><a href="{{ url('leave.setting.index') }}">Comp-Off
-                                                            Requests</a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Overtime
-                                                            Requests</a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> WFH Requests
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Optional Holiday
-                                                            Requests
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li class="submenu submenu-two">
-                                                <a href="javascript:void(0);" class="subdrop"> Work Schedule <span
-                                                        class="menu-arrow inside-submenu"></span></a>
-                                                <ul>
-                                                    <li><a href="{{ url('leave.index') }}" class=""> Work
-                                                            Shifts
-
-                                                        </a></li>
-                                                    <li><a href="{{ url('leave.index') }}" class=""> Shift
-                                                            Allowance
-                                                        </a></li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Shift Rotation
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Shift Roster </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Week-Offs
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Block leaves
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Dynamic Week-Off
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                            <li>
-                                                <a href="{{ url('leave.setting.index') }}">
-                                                    Overtime
-                                                </a>
-                                            </li>
-                                            <li class="submenu submenu-two">
-                                                <a href="javascript:void(0);" class="subdrop"> Leave <span
-                                                        class="menu-arrow inside-submenu"></span></a>
-                                                <ul>
-                                                    <li><a href="{{ url('leave.index') }}" class=""> Leave
-                                                            Types
-
-                                                        </a></li>
-                                                    <li><a href="{{ url('leave.index') }}" class=""> Shift
-                                                            Allowance
-                                                        </a></li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Shift Rotation
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Shift Roster </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Week-Offs
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Block leaves
-                                                        </a>
-                                                    </li>
-                                                    <li><a href="{{ url('leave.setting.index') }}"> Dynamic Week-Off
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="submenu">
-                                        <a href="javascript:void(0);">
-                                            <i class="ti ti-school"></i><span>Performance</span>
-                                            <span class="menu-arrow"></span>
-                                        </a>
-                                        <ul>
-                                            <li><a href="{{ url('performance-indicator.index') }}">Performance
-                                                    Indicator</a></li>
-                                            <li><a href="{{ url('performance-review.index') }}">Performance
-                                                    Review</a></li>
-                                            <li><a href="{{ url('performance-appraisal.index') }}">Performance
-                                                    Appraisal</a></li>
-                                            <li><a href="{{ url('goal-tracking.index') }}">Goal List</a></li>
-                                            <li><a href="{{ url('goal-type.goal-type') }}">Goal Type</a></li>
-                                        </ul>
-                                    </li>
-                                    <li class="submenu">
-                                        <a href="javascript:void(0);">
-                                            <i class="ti ti-edit"></i><span>Training</span>
-                                            <span class="menu-arrow"></span>
-                                        </a>
-                                        <ul>
-                                            <li><a href="{{ url('training.index') }}">Training List</a></li>
-                                            <li><a href="{{ url('trainers.index') }}">Trainers</a></li>
-                                            <li><a href="{{ url('training-type.index') }}">Training Type</a></li>
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="ti ti-speakerphone"></i><span>Promotion</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="ti ti-external-link"></i><span>Resignation</span>
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#">
-                                            <i class="ti ti-circle-x"></i><span>Termination</span>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        @endif
-
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-timeline"></i><span>Recruitment</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        <li><a href="{{route('recruitment.jobs.applied-candidate')}}">Applied Candidate</a></li>
-                                        <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
-                                        <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a></li>
-                                        <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
-                                    </ul>
-                                </li>
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-users"></i><span>Employees</span>
-                                        <span class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
-                                        
-                                        <li><a href="{{ route('employee.create') }}">New Employee</a></li>
-                                        <li><a href="{{ route('employee') }}">Employee Lists</a></li>
-                                    </ul>
-                                </li>
-
                                     <li class="submenu">
                                         <a href="javascript:void(0);">
                                             <i class="ti ti-timeline"></i><span>Recruitment</span>
                                             <span class="menu-arrow"></span>
                                         </a>
                                         <ul>
+                                            <li><a href="{{ route('recruitment.jobs.applied-candidate') }}">Applied
+                                                    Candidate</a></li>
                                             <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
                                             <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a>
                                             </li>
@@ -889,6 +663,7 @@
                                             <span class="menu-arrow"></span>
                                         </a>
                                         <ul>
+
                                             <li><a href="{{ route('employee.create') }}">New Employee</a></li>
                                             <li><a href="{{ route('employee') }}">Employee Lists</a></li>
                                         </ul>
@@ -1062,7 +837,225 @@
                                     </li>
                                 </ul>
                             </li>
-                       
+                        @endif
+
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-timeline"></i><span>Recruitment</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li><a href="{{ route('recruitment.jobs.applied-candidate') }}">Applied Candidate</a>
+                                </li>
+                                <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
+                                <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a></li>
+                                <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-users"></i><span>Employees</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+
+                                <li><a href="{{ route('employee.create') }}">New Employee</a></li>
+                                <li><a href="{{ route('employee') }}">Employee Lists</a></li>
+                            </ul>
+                        </li>
+
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-timeline"></i><span>Recruitment</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
+                                <li><a href="{{ route('create-job-questionaire') }}"> Customize JAF</a>
+                                </li>
+                                <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-users"></i><span>Employees</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li><a href="{{ route('employee.create') }}">New Employee</a></li>
+                                <li><a href="{{ route('employee') }}">Employee Lists</a></li>
+                            </ul>
+                        </li>
+
+
+                        <li class="submenu">
+                            <a href="javascript:void(0);" class="subdrop">
+                                <i class="ti ti-file-time"></i><span>Attendance</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li class="submenu submenu-two">
+                                    <a href="javascript:void(0);" class="subdrop">Dashboard<span
+                                            class="menu-arrow inside-submenu"></span></a>
+                                    <ul>
+                                        <li><a href="{{ route('attendance.attendance-dashboard.summary') }}"
+                                                class="">Summary
+                                            </a></li>
+                                        <li><a
+                                                href="{{ route('attendance.attendance-dashboard.org-reports') }}">Reports</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="submenu submenu-two">
+                                    <a href="javascript:void(0);" class="subdrop"> Daily Attendance <span
+                                            class="menu-arrow inside-submenu"></span></a>
+                                    <ul>
+                                        <li><a href="{{ route('attendance.daily-attendance.consistent-attendees') }}"
+                                                class="">Consistent
+                                                Attendees
+                                            </a></li>
+                                        <li><a href="{{ url('leave.setting.index') }}">Tracking</a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Geo-Fencing </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Biometric Tracking
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="submenu submenu-two">
+                                    <a href="javascript:void(0);" class="subdrop"> Request<span
+                                            class="menu-arrow inside-submenu"></span></a>
+                                    <ul>
+                                        <li><a href="{{ url('leave.index') }}" class="">Leave
+                                                Requests
+
+                                            </a></li>
+                                        <li><a href="{{ url('leave.index') }}" class="">Missed
+                                                Punch
+                                                Requests
+                                            </a></li>
+                                        <li><a href="{{ url('leave.setting.index') }}">Comp-Off
+                                                Requests</a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Overtime
+                                                Requests</a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> WFH Requests
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Optional Holiday
+                                                Requests
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="submenu submenu-two">
+                                    <a href="javascript:void(0);" class="subdrop"> Work Schedule <span
+                                            class="menu-arrow inside-submenu"></span></a>
+                                    <ul>
+                                        <li><a href="{{ url('leave.index') }}" class=""> Work
+                                                Shifts
+
+                                            </a></li>
+                                        <li><a href="{{ url('leave.index') }}" class=""> Shift
+                                                Allowance
+                                            </a></li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Shift Rotation
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Shift Roster </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Week-Offs
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Block leaves
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Dynamic Week-Off
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="{{ url('leave.setting.index') }}">
+                                        Overtime
+                                    </a>
+                                </li>
+                                <li class="submenu submenu-two">
+                                    <a href="javascript:void(0);" class="subdrop"> Leave <span
+                                            class="menu-arrow inside-submenu"></span></a>
+                                    <ul>
+                                        <li><a href="{{ url('leave.index') }}" class=""> Leave
+                                                Types
+
+                                            </a></li>
+                                        <li><a href="{{ url('leave.index') }}" class=""> Shift
+                                                Allowance
+                                            </a></li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Shift Rotation
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Shift Roster </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Week-Offs
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Block leaves
+                                            </a>
+                                        </li>
+                                        <li><a href="{{ url('leave.setting.index') }}"> Dynamic Week-Off
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-school"></i><span>Performance</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li><a href="{{ url('performance-indicator.index') }}">Performance
+                                        Indicator</a></li>
+                                <li><a href="{{ url('performance-review.index') }}">Performance
+                                        Review</a></li>
+                                <li><a href="{{ url('performance-appraisal.index') }}">Performance
+                                        Appraisal</a></li>
+                                <li><a href="{{ url('goal-tracking.index') }}">Goal List</a></li>
+                                <li><a href="{{ url('goal-type.goal-type') }}">Goal Type</a></li>
+                            </ul>
+                        </li>
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-edit"></i><span>Training</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li><a href="{{ url('training.index') }}">Training List</a></li>
+                                <li><a href="{{ url('trainers.index') }}">Trainers</a></li>
+                                <li><a href="{{ url('training-type.index') }}">Training Type</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ti ti-speakerphone"></i><span>Promotion</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ti ti-external-link"></i><span>Resignation</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                <i class="ti ti-circle-x"></i><span>Termination</span>
+                            </a>
+                        </li>
+                    </ul>
+                    </li>
+
 
                     </ul>
 
