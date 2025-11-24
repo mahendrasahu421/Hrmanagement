@@ -68,7 +68,7 @@
                             <div class="custom-card">
                                 <img src="{{ asset('frontent/assets/img/GiveFeedback.png') }}" class="card-icon"
                                     alt="">
-                                <a href="#" class="custom-btn">View your CO Feedback</a>
+                                <a href="{{route('employee.view-feedback')}}" class="custom-btn">View your CO Feedback</a>
                             </div>
                         </div>
 
@@ -77,7 +77,7 @@
                             <div class="custom-card">
                                 <img src="{{ asset('frontent/assets/img/SubmitFeedback.png') }}" class="card-icon"
                                     alt="">
-                                <a href="#" class="custom-btn">Submit your Feedback</a>
+                                <a href="{{route('employee.feedback')}}" class="custom-btn">Submit your Feedback</a>
                             </div>
                         </div>
 
