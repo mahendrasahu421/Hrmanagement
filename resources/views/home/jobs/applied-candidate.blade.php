@@ -23,7 +23,7 @@
                 <div class="my-auto mb-2">
                     <h2 class="mb-1">{{ $title }}</h2>
                 </div>
-            </div>
+            </div> 
             <!-- /Breadcrumb -->
 
             <div class="card mb-3">
