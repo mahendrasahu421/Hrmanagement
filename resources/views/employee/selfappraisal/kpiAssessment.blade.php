@@ -92,10 +92,9 @@
                 </div>
             </div>
 
-            <div class="mb-4">
-                <h4 class="mb-2">KPI Assessment</h4>
-                <h5 class="mb-3 text-muted">केपीआई मूल्यांकन</h5>
-            </div>
+            <h4 class="mb-3">KPI Assessment /
+                <span class="text-muted">केपीआई मूल्यांकन</span>
+            </h4>
 
             <div class="card mt-3">
                 <div class="card-body p-0">
@@ -278,7 +277,7 @@
             });
         });
 
-        
+
         document.querySelectorAll(".self-remarks").forEach(function(textarea) {
             const charCount = textarea.nextElementSibling;
             const maxLength = 500;
