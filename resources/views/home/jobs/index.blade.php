@@ -136,50 +136,55 @@
                                 <table class="table datatable">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th class="no-sort">
-                                                <div class="form-check form-check-md">
-                                                    <input class="form-check-input" type="checkbox" id="select-all">
-                                                </div>
-                                            </th>
+                                            <th>Date of Publish</th>
                                             <th>Job Title</th>
                                             <th>Functional Area</th>
-                                            <th>Location</th>
+                                            <th>State</th>
+                                            <th>City</th>
                                             <th>Experience</th>
                                             <th>Status</th>
+                                            <th>Share</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
 
                                         <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
+                                            <td>12 Nov 2025</td>
                                             <td>Senior Developer</td>
                                             <td>IT / Software</td>
+                                            <td>Maharashtra</td>
                                             <td>Mumbai</td>
                                             <td>3-5 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
+                                            <td>
+                                                <span class="badge badge-success d-inline-flex align-items-center badge-sm">
+                                                    <i class="ti ti-point-filled me-1"></i>Active
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn btn-sm btn-primary"><i class="ti ti-share-2"></i></a>
+                                            </td>
                                         </tr>
 
                                         <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
+                                            <td>10 Nov 2025</td>
                                             <td>UI/UX Designer</td>
                                             <td>Design</td>
+                                            <td>Maharashtra</td>
                                             <td>Pune</td>
                                             <td>2-4 Years</td>
-                                            <td><span
-                                                    class="badge badge-danger d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Inactive</span></td>
+                                            <td>
+                                                <span class="badge badge-danger d-inline-flex align-items-center badge-sm">
+                                                    <i class="ti ti-point-filled me-1"></i>Inactive
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn btn-sm btn-primary"><i class="ti ti-share-2"></i></a>
+                                            </td>
                                         </tr>
 
                                     </tbody>
+
 
 
                                 </table>

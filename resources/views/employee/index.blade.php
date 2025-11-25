@@ -2,12 +2,112 @@
 @section('title', $title)
 
 @section('main-section')
-   
-    <x-alert-modal/>
+
+    <x-alert-modal />
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content">
 
+
+            <!-- Reviewing Officer Modal -->
+            <div class="modal fade" id="reviewingOfficerModal" tabindex="-1" aria-labelledby="reviewingOfficerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary text-white">
+                            <h5 class="modal-title text-white" id="reviewingOfficerModalLabel">Reviewing Officer Details
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Name:</strong> John Doe</p>
+                            <p><strong>Designation:</strong> Senior Manager</p>
+                            <p><strong>Email:</strong> john.doe@example.com</p>
+                            <p><strong>Phone:</strong> +91 9876543210</p>
+                            <p><strong>Location:</strong> Patna, Bihar</p>
+                            <p><strong>Join Date:</strong> 01-Jan-2018</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controller Officer Modal -->
+            <div class="modal fade" id="controllerOfficerModal" tabindex="-1" aria-labelledby="controllerOfficerModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary ">
+                            <h5 class="modal-title text-white" id="controllerOfficerModalLabel">Controller Officer Details
+                            </h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Name:</strong> Jane Smith</p>
+                            <p><strong>Designation:</strong> Controller Officer</p>
+                            <p><strong>Email:</strong> jane.smith@example.com</p>
+                            <p><strong>Phone:</strong> +91 9123456780</p>
+                            <p><strong>Location:</strong> Patna, Bihar</p>
+                            <p><strong>Join Date:</strong> 01-Mar-2019</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Employee Edit Modal -->
+            <div class="modal fade" id="employeeEditModal" tabindex="-1" aria-labelledby="employeeEditModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-primary">
+                            <h5 class="modal-title text-white" id="employeeEditModalLabel">Edit Employee Details</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="employeeEditForm">
+                                <div class="mb-3">
+                                    <label for="employeeName" class="form-label">Name</label>
+                                    <input type="text" class="form-control" id="employeeName"
+                                        value="{{ Auth::guard('employee')->user()->employee_name }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="employeeEmail" class="form-label">Email</label>
+                                    <input type="email" class="form-control" id="employeeEmail"
+                                        value="{{ Auth::guard('employee')->user()->employee_email }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="employeeMobile" class="form-label">Phone Number</label>
+                                    <input type="text" class="form-control" id="employeeMobile"
+                                        value="{{ Auth::guard('employee')->user()->employee_mobile }}">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="employeeLocation" class="form-label">State & City</label>
+                                    <input type="text" class="form-control" id="employeeLocation" value="Bihar, Patna">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="employeeJoinDate" class="form-label">Join Date</label>
+                                    <input type="text" class="form-control" id="employeeJoinDate" value="01-Jan-2020">
+                                </div>
+                                <div class="text-end">
+                                    <button type="button" class="btn btn-secondary me-2"
+                                        data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <div class="alert bg-secondary-transparent alert-dismissible fade show mb-4">
+                Your Leave Request on“24th April 2024”has been Approved!!!
+                <button type="button" class="btn-close fs-14" data-bs-dismiss="alert" aria-label="Close"><i
+                        class="ti ti-x"></i></button>
+            </div>
             <!-- Breadcrumb -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                 <div class="my-auto mb-2">
@@ -22,47 +122,10 @@
                         </ol>
                     </nav>
                 </div>
-                <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                    <div class="me-2 mb-2">
-                        <div class="dropdown">
-                            <a href="javascript:void(0);"
-                                class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
-                                data-bs-toggle="dropdown">
-                                <i class="ti ti-file-export me-1"></i>Export
-                            </a>
-                            <ul class="dropdown-menu  dropdown-menu-end p-3">
-                                <li>
-                                    <a href="javascript:void(0);" class="dropdown-item rounded-1"><i
-                                            class="ti ti-file-type-pdf me-1"></i>Export as PDF</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="dropdown-item rounded-1"><i
-                                            class="ti ti-file-type-xls me-1"></i>Export as Excel </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="input-icon w-120 position-relative mb-2">
-                        <span class="input-icon-addon">
-                            <i class="ti ti-calendar text-gray-9"></i>
-                        </span>
-                        <input type="text" class="form-control datetimepicker" value="15 Apr 2025">
-                    </div>
-                    <div class="ms-2 head-icons">
-                        <a href="javascript:void(0);" class="" data-bs-toggle="tooltip" data-bs-placement="top"
-                            data-bs-original-title="Collapse" id="collapse-header">
-                            <i class="ti ti-chevrons-up"></i>
-                        </a>
-                    </div>
-                </div>
             </div>
             <!-- /Breadcrumb -->
 
-            <div class="alert bg-secondary-transparent alert-dismissible fade show mb-4">
-                Your Leave Request on“24th April 2024”has been Approved!!!
-                <button type="button" class="btn-close fs-14" data-bs-dismiss="alert" aria-label="Close"><i
-                        class="ti ti-x"></i></button>
-            </div>
+
             <div class="row">
                 <div class="col-xl-4 d-flex">
                     <div class="card position-relative flex-fill">
@@ -86,12 +149,14 @@
                                             @endauth
 
                                         </span>
-                                        <p class="fs-12">Designation</p>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#" class="btn btn-icon btn-sm text-white rounded-circle edit-top"><i
-                                    class="ti ti-edit"></i></a>
+                            <a href="javascript:void(0);" class="btn btn-icon btn-sm text-white rounded-circle edit-top"
+                                data-bs-toggle="modal" data-bs-target="#employeeEditModal">
+                                <i class="ti ti-edit"></i>
+                            </a>
+
                         </div>
                         <div class="card-body">
                             <div class="mb-3">
@@ -107,15 +172,29 @@
                                 </p>
                             </div>
                             <div class="mb-3">
-                                <span class="d-block mb-1 fs-13">Report Office</span>
-                                <p class="text-gray-9">Patna</p>
+                                <span class="d-block mb-1 fs-13">State & City</span>
+                                <p class="text-gray-9">Bihar, Patna</p>
                             </div>
                             <div>
-                                <span class="d-block mb-1 fs-13">Joined on</span>
-                                <p class="text-gray-9">
-
-                                </p>
+                                <span class="d-block mb-1 fs-13">Join Date & Total Years Served</span>
+                                <p class="text-gray-9">01-Jan-2020 (4 years)</p>
                             </div>
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <span class="fs-13 text-gray-9">Reviewing Officer: <strong>John Doe</strong></span>
+                                <a href="javascript:void(0);" class="text-gray-9" data-bs-toggle="modal"
+                                    data-bs-target="#reviewingOfficerModal">
+                                    <i class="ti ti-eye"></i>
+                                </a>
+                            </div>
+
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <span class="fs-13 text-gray-9">Controller Officer: <strong>Jane Smith</strong></span>
+                                <a href="javascript:void(0);" class="text-gray-9" data-bs-toggle="modal"
+                                    data-bs-target="#controllerOfficerModal">
+                                    <i class="ti ti-eye"></i>
+                                </a>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -419,8 +498,7 @@
                                     <h5 class="mb-1">Next Holiday</h5>
                                     <p class="text-gray-9">Diwali, 15 Sep 2025</p>
                                 </div>
-                                <a href="#"
-                                    class="btn btn-white btn-sm px-3">View All</a>
+                                <a href="#" class="btn btn-white btn-sm px-3">View All</a>
                             </div>
                         </div>
                     </div>
