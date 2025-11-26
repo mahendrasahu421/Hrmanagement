@@ -552,12 +552,25 @@
 
                             </ul>
                         </li>
+
+                        <li class="menu-title"><span>Appraisal</span></li>
                         <li>
                             <ul>
-                                <li>
-                                    <a href="{{ route('employee.self.appraisal') }}">
-                                        <i class="fas fa-file-signature"></i><span>Self Appraisal</span>
+                                <li class="submenu">
+                                    <a href="javascript:void(0);">
+                                        <i class="ti ti-smart-home"></i><span>Appraisal</span><span
+                                            class="menu-arrow"></span>
                                     </a>
+                                    <ul>
+
+                                        <li><a href="{{ route('employee.self.appraisal') }}">Self Appraisal
+                                            </a></li>
+                                        <li><a href="{{ route('employee.competencies') }}">KPI
+                                            </a></li>
+                                        <li><a href="{{ route('employee.form-c') }}">Form C
+                                            </a></li>
+
+                                    </ul>
                                 </li>
 
                             </ul>
