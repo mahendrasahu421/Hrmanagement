@@ -195,6 +195,42 @@
         });
     </script>
 
+    <!-- Security -->
+
+    {{-- <script>
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('paste', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) e.preventDefault();
+            if (e.ctrlKey && e.key === 'U') e.preventDefault();
+            if (e.key === 'F12') e.preventDefault();
+            if (e.ctrlKey && e.key === 'C') e.preventDefault();
+        });
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('mousedown', function(e) {
+            if (e.detail > 1) e.preventDefault();
+        });
+    </script> --}}
+
+    <!-- Security -->
+
+
     <!-- jQuery -->
     <script src="{{ asset('frontent/assets/js/jquery-3.7.1.min.js') }}"></script>
 
