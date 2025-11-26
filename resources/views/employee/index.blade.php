@@ -2,106 +2,171 @@
 @section('title', $title)
 
 @section('main-section')
+    <style>
+        .info-icon {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
 
+        .info-icon i {
+            font-size: 16px;
+            color: #000;
+            transition: 0.2s ease;
+        }
+
+        .info-icon:hover i {
+            transform: scale(1.15);
+        }
+
+        .info-tooltip {
+            visibility: hidden;
+            opacity: 0;
+            min-width: 220px;
+            background: #f26522;
+            color: #fff;
+            text-align: left;
+            padding: 12px 14px;
+            border-radius: 8px;
+            position: absolute;
+            z-index: 20;
+            top: -5px;
+            left: 32px;
+            font-size: 13px;
+            line-height: 1.45;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+            transition: all 0.28s ease;
+            transform: translateY(6px) scale(0.95);
+        }
+
+        .info-tooltip::before {
+            content: "";
+            position: absolute;
+            top: 12px;
+            left: -8px;
+            border-width: 8px;
+            border-style: solid;
+            border-color: transparent #f26522 transparent transparent;
+        }
+
+        .info-icon:hover .info-tooltip {
+            visibility: visible;
+            opacity: 1;
+            transform: translateY(0px) scale(1);
+        }
+         .modal-content {
+            border-radius: 12px !important;
+        }
+
+        .form-control-lg {
+            padding: 10px 14px;
+            border-radius: 8px;
+        }
+
+        .form-label {
+            font-size: 14px;
+        }
+
+        .modal-header {
+            border-bottom: none;
+        }
+
+        .modal-body {
+            background: #f9fafb;
+            border-radius: 0 0 12px 12px;
+        }
+
+        .btn-primary {
+            border-radius: 8px;
+        }
+
+        .btn-outline-secondary {
+            border-radius: 8px;
+        }
+
+        .phone-mask {
+            cursor: pointer;
+            user-select: none;
+        }
+    </style>
     <x-alert-modal />
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content">
 
 
-            <!-- Reviewing Officer Modal -->
-            <div class="modal fade" id="reviewingOfficerModal" tabindex="-1" aria-labelledby="reviewingOfficerModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary text-white">
-                            <h5 class="modal-title text-white" id="reviewingOfficerModalLabel">Reviewing Officer Details
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p><strong>Name:</strong> John Doe</p>
-                            <p><strong>Designation:</strong> Senior Manager</p>
-                            <p><strong>Email:</strong> john.doe@example.com</p>
-                            <p><strong>Phone:</strong> +91 9876543210</p>
-                            <p><strong>Location:</strong> Patna, Bihar</p>
-                            <p><strong>Join Date:</strong> 01-Jan-2018</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Controller Officer Modal -->
-            <div class="modal fade" id="controllerOfficerModal" tabindex="-1" aria-labelledby="controllerOfficerModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary ">
-                            <h5 class="modal-title text-white" id="controllerOfficerModalLabel">Controller Officer Details
-                            </h5>
-                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <p><strong>Name:</strong> Jane Smith</p>
-                            <p><strong>Designation:</strong> Controller Officer</p>
-                            <p><strong>Email:</strong> jane.smith@example.com</p>
-                            <p><strong>Phone:</strong> +91 9123456780</p>
-                            <p><strong>Location:</strong> Patna, Bihar</p>
-                            <p><strong>Join Date:</strong> 01-Mar-2019</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Employee Edit Modal -->
+            <!-- Employee Modal -->
             <div class="modal fade" id="employeeEditModal" tabindex="-1" aria-labelledby="employeeEditModalLabel"
                 aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-                        <div class="modal-header bg-primary">
-                            <h5 class="modal-title text-white" id="employeeEditModalLabel">Edit Employee Details</h5>
+                    <div class="modal-content shadow-lg border-0 rounded-3">
+
+                        <!-- Header -->
+                        <div class="modal-header bg-primary py-3 rounded-top">
+                            <h5 class="modal-title fw-semibold text-white" id="employeeEditModalLabel">
+                                <i class="ti ti-user-edit me-1"></i> Edit Employee Details
+                            </h5>
                             <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                 aria-label="Close"></button>
                         </div>
-                        <div class="modal-body">
-                            <form id="employeeEditForm">
-                                <div class="mb-3">
-                                    <label for="employeeName" class="form-label">Name</label>
-                                    <input type="text" class="form-control" id="employeeName"
+
+                        <!-- Body -->
+                        <div class="modal-body px-4 py-4">
+
+                            <form id="employeeEditForm" class="row g-3">
+
+                                <!-- Name -->
+                                <div class="col-12">
+                                    <label for="employeeName" class="form-label fw-semibold">Full Name</label>
+                                    <input type="text" class="form-control form-control-lg" id="employeeName"
                                         value="{{ Auth::guard('employee')->user()->employee_name }}">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="employeeEmail" class="form-label">Email</label>
-                                    <input type="email" class="form-control" id="employeeEmail"
+
+                                <!-- Email -->
+                                <div class="col-12">
+                                    <label for="employeeEmail" class="form-label fw-semibold">Email Address</label>
+                                    <input type="email" class="form-control form-control-lg" id="employeeEmail"
                                         value="{{ Auth::guard('employee')->user()->employee_email }}">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="employeeMobile" class="form-label">Phone Number</label>
-                                    <input type="text" class="form-control" id="employeeMobile"
+
+                                <!-- Phone -->
+                                <div class="col-12">
+                                    <label for="employeeMobile" class="form-label fw-semibold">Phone Number</label>
+                                    <input type="text" class="form-control form-control-lg" id="employeeMobile"
                                         value="{{ Auth::guard('employee')->user()->employee_mobile }}">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="employeeLocation" class="form-label">State & City</label>
-                                    <input type="text" class="form-control" id="employeeLocation" value="Bihar, Patna">
+
+                                <!-- Location -->
+                                <div class="col-12">
+                                    <label for="employeeLocation" class="form-label fw-semibold">State & City</label>
+                                    <input type="text" class="form-control form-control-lg" id="employeeLocation"
+                                        value="Bihar, Patna">
                                 </div>
-                                <div class="mb-3">
-                                    <label for="employeeJoinDate" class="form-label">Join Date</label>
-                                    <input type="text" class="form-control" id="employeeJoinDate" value="01-Jan-2020">
+
+                                <!-- Joining Date -->
+                                <div class="col-12">
+                                    <label for="employeeJoinDate" class="form-label fw-semibold">Joining Date</label>
+                                    <input type="text" class="form-control form-control-lg" id="employeeJoinDate"
+                                        value="01-Jan-2020">
                                 </div>
-                                <div class="text-end">
-                                    <button type="button" class="btn btn-secondary me-2"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+
+                                <!-- Buttons -->
+                                <div class="col-12 text-end mt-2">
+                                    <button type="button" class="btn btn-outline-secondary px-4 me-2"
+                                        data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                    <button type="submit" class="btn btn-primary px-4">
+                                        <i class="ti ti-device-floppy me-1"></i> Save Changes
+                                    </button>
                                 </div>
+
                             </form>
                         </div>
+
                     </div>
                 </div>
             </div>
-
-
 
             <div class="alert bg-secondary-transparent alert-dismissible fade show mb-4">
                 Your Leave Request on“24th April 2024”has been Approved!!!
@@ -161,7 +226,16 @@
                         <div class="card-body">
                             <div class="mb-3">
                                 <span class="d-block mb-1 fs-13">Phone Number</span>
-                                <p class="text-gray-9">{{ Auth::guard('employee')->user()->employee_mobile }}
+                                <p class="text-gray-9">@php
+                                    $mobile = Auth::guard('employee')->user()->employee_mobile;
+                                    $maskedMobile = substr($mobile, 0, -4) . '****';
+                                @endphp
+
+                                <p class="text-gray-9 phone-mask mb-0" data-full="{{ $mobile }}"
+                                    data-masked="{{ $maskedMobile }}">
+                                    {{ $maskedMobile }}
+                                </p>
+
                                 </p>
                             </div>
                             <div class="mb-3">
@@ -176,24 +250,54 @@
                                 <p class="text-gray-9">Bihar, Patna</p>
                             </div>
                             <div>
-                                <span class="d-block mb-1 fs-13">Join Date & Total Years Served</span>
-                                <p class="text-gray-9">01-Jan-2020 (4 years)</p>
+                                <p class="d-block mb-1 fs-13">Join Date & Total Duration</p>
+
+                                <div class="d-flex justify-content-between">
+                                    <div>
+                                        <p class="text-gray-9 mb-0">01-Jan-2020</p>
+                                    </div>
+                                    <div>
+                                        <p class="text-gray-9 mb-0">4 years, 2 months</p>
+                                    </div>
+                                </div>
                             </div>
+
                             <div class="d-flex justify-content-between align-items-center mt-3">
-                                <span class="fs-13 text-gray-9">Reviewing Officer: <strong>John Doe</strong></span>
-                                <a href="javascript:void(0);" class="text-gray-9" data-bs-toggle="modal"
-                                    data-bs-target="#reviewingOfficerModal">
-                                    <i class="ti ti-eye"></i>
-                                </a>
+                                <span class="fs-13 text-gray-9">
+                                    Reviewing Officer: <strong>John Doe</strong>
+                                </span>
+
+                                <div class="info-icon text-gray-9">
+                                    <i class="ti ti-info-circle"></i>
+
+                                    <div class="info-tooltip">
+                                        <strong>Reviewing Officer</strong><br>
+                                        Name: John Doe <br>
+                                        Department: HR Department <br>
+                                        Email: john@example.com <br>
+                                        Contact: +91 9876543210
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="d-flex justify-content-between align-items-center mt-2">
-                                <span class="fs-13 text-gray-9">Controller Officer: <strong>Jane Smith</strong></span>
-                                <a href="javascript:void(0);" class="text-gray-9" data-bs-toggle="modal"
-                                    data-bs-target="#controllerOfficerModal">
-                                    <i class="ti ti-eye"></i>
-                                </a>
+                                <span class="fs-13 text-gray-9">
+                                    Controller Officer: <strong>Jane Smith</strong>
+                                </span>
+
+                                <div class="info-icon text-gray-9">
+                                    <i class="ti ti-info-circle"></i>
+
+                                    <div class="info-tooltip">
+                                        <strong>Controller Officer</strong><br>
+                                        Name: Jane Smith <br>
+                                        Department: Finance Department <br>
+                                        Email: jane@example.com <br>
+                                        Contact: +91 9123456780
+                                    </div>
+                                </div>
                             </div>
+
 
                         </div>
                     </div>
@@ -855,6 +959,20 @@
 @endsection
 @push('after_scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const phoneElement = document.querySelector(".phone-mask");
+
+            phoneElement.addEventListener("click", function() {
+                if (phoneElement.textContent === phoneElement.dataset.masked) {
+                    phoneElement.textContent = phoneElement.dataset.full;
+                } else {
+                    phoneElement.textContent = phoneElement.dataset.masked;
+                }
+            });
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
             $.ajax({
