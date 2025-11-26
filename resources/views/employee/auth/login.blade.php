@@ -129,7 +129,7 @@
                                                     <input type="text" value="{{ old('patId') }}" name="patId"
                                                         class="form-control border-end-0">
                                                     <span class="input-group-text border-start-0">
-                                                        <i class="ti ti-mail"></i>
+                                                        <i class="ti ti-user"></i>
                                                     </span>
                                                 </div>
                                             </div>
