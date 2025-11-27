@@ -113,7 +113,7 @@
                                     @csrf
                                     <div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
                                         <div class="logo-text mx-auto mb-5 text-center">
-                                            <img src="{{ asset('frontent/assets/img/icons/logo.png') }}"
+                                            <img src="{{ asset('frontent/assets/img/icons/logo_1.png') }}"
                                                 alt="Img">
                                         </div>
 

@@ -106,8 +106,7 @@
             </div>
 
             <div>
-                <h5 class="mb-2">Previous years details</h5>
-                <h6 class="text-muted">पिछले वर्षों का विवरण</h6>
+                <h5 class="mb-2">Previous years details / <span class="text-muted">पिछले वर्षों का विवरण</span> </h5>
             </div>
 
             <div class="card mt-3">
