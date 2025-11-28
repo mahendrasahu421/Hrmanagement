@@ -56,6 +56,29 @@
 
     <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
+    <!-- Confirmation Modal -->
+    <div class="modal fade" id="copyConfirmModal" tabindex="-1" aria-labelledby="copyConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="copyConfirmModalLabel">Confirm Copy</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to duplicate this job? A copy of this job will be created.
+                    <div id="rowPreview" class="mt-2 text-muted" style="font-size: 0.9em;"></div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-sm me-2" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm me-2" id="reviewRow">Review</button>
+                    <button type="button" class="btn btn-outline-primary btn-sm me-2" id="confirmCopy">Yes</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
     <div class="page-wrapper">
         <div class="content">
 
@@ -136,50 +159,58 @@
                                 <table class="table datatable">
                                     <thead class="thead-light">
                                         <tr>
-                                            <th class="no-sort">
-                                                <div class="form-check form-check-md">
-                                                    <input class="form-check-input" type="checkbox" id="select-all">
-                                                </div>
-                                            </th>
+                                            <th>Date of Publish</th>
                                             <th>Job Title</th>
                                             <th>Functional Area</th>
-                                            <th>Location</th>
+                                            <th>State</th>
+                                            <th>City</th>
                                             <th>Experience</th>
                                             <th>Status</th>
+                                            <th>Share</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
-
                                         <tr>
-                                            <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
-                                            </td>
+                                            <td>12 Nov 2025</td>
                                             <td>Senior Developer</td>
                                             <td>IT / Software</td>
+                                            <td>Maharashtra</td>
                                             <td>Mumbai</td>
                                             <td>3-5 Years</td>
-                                            <td><span
-                                                    class="badge badge-success d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Active</span></td>
-                                        </tr>
-
-                                        <tr>
                                             <td>
-                                                <div class="form-check form-check-md"><input class="form-check-input"
-                                                        type="checkbox"></div>
+                                                <span class="badge badge-success d-inline-flex align-items-center badge-sm">
+                                                    <i class="ti ti-point-filled me-1"></i>Active
+                                                </span>
                                             </td>
+                                            <td>
+                                                <a href="#" class="btn btn-sm btn-primary"><i
+                                                        class="ti ti-share-2"></i></a>
+                                                <button class="btn btn-sm btn-primary copy-btn"><i class="ti ti-copy"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>10 Nov 2025</td>
                                             <td>UI/UX Designer</td>
                                             <td>Design</td>
+                                            <td>Maharashtra</td>
                                             <td>Pune</td>
                                             <td>2-4 Years</td>
-                                            <td><span
-                                                    class="badge badge-danger d-inline-flex align-items-center badge-sm"><i
-                                                        class="ti ti-point-filled me-1"></i>Inactive</span></td>
+                                            <td>
+                                                <span class="badge badge-danger d-inline-flex align-items-center badge-sm">
+                                                    <i class="ti ti-point-filled me-1"></i>Inactive
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <a href="#" class="btn btn-sm btn-primary"><i
+                                                        class="ti ti-share-2"></i></a>
+                                                <button class="btn btn-sm btn-warning copy-btn"><i class="ti ti-copy"></i>
+                                                </button>
+                                            </td>
                                         </tr>
-
                                     </tbody>
+
 
 
                                 </table>
@@ -199,4 +230,37 @@
 @endsection
 
 @push('after_scripts')
+    <script>
+        let rowToCopy = null;
+
+        document.querySelectorAll('.copy-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                rowToCopy = this.closest('tr'); // Store the row reference
+                const copyModal = new bootstrap.Modal(document.getElementById('copyConfirmModal'));
+                copyModal.show();
+            });
+        });
+
+        document.getElementById('confirmCopy').addEventListener('click', function() {
+            if (rowToCopy) {
+                let rowData = Array.from(rowToCopy.querySelectorAll('td'))
+                    .slice(0, -1) // exclude actions column
+                    .map(td => td.innerText.trim())
+                    .join('\t'); // tab-separated
+
+                navigator.clipboard.writeText(rowData)
+                    .then(() => {
+                        alert('Row data copied to clipboard!');
+                    })
+                    .catch(err => {
+                        alert('Failed to copy: ' + err);
+                    });
+
+                rowToCopy = null;
+                const copyModalEl = document.getElementById('copyConfirmModal');
+                const copyModal = bootstrap.Modal.getInstance(copyModalEl);
+                copyModal.hide();
+            }
+        });
+    </script>
 @endpush

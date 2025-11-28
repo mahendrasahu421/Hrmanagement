@@ -54,17 +54,6 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="from_date">From Date *</label>
                                         <input type="date" class="form-control" id="from_date" name="from_date" required>
-
-                                        <script>
-                                            document.addEventListener("DOMContentLoaded", function() {
-                                                let today = new Date().toISOString().split('T')[0];
-                                                let fromDate = document.getElementById("from_date");
-                                                fromDate.value = today; // 👈 Set current date selected
-                                                fromDate.min = today; // 👈 Disable past dates
-                                            });
-                                        </script>
-
-
                                         <div class="invalid-feedback">Please select a start date.</div>
                                     </div>
 
@@ -72,15 +61,6 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="to_date">To Date *</label>
                                         <input type="date" class="form-control" id="to_date" name="to_date" required>
-                                        <script>
-                                            document.addEventListener("DOMContentLoaded", function() {
-                                                let today = new Date().toISOString().split('T')[0];
-                                                let fromDate = document.getElementById("to_date");
-                                                fromDate.value = today; // 👈 Set current date selected
-                                                fromDate.min = today; // 👈 Disable past dates
-                                            });
-                                        </script>
-
                                         <div class="invalid-feedback">Please select an end date.</div>
                                     </div>
                                 </div>
@@ -101,8 +81,15 @@
                                             <option value="DRAFT" selected>Draft</option>
                                             <option value="SENT">Sent</option>
                                         </select>
-
                                         <div class="invalid-feedback">Please select status.</div>
+                                    </div>
+                                </div>
+
+                                <div class="form-row row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Total Leaves</label>
+                                        <input type="text" class="form-control" id="total_leaves" readonly
+                                            placeholder="0">
                                     </div>
                                 </div>
 
@@ -121,7 +108,6 @@
                             </form>
 
                             <script>
-                                // Bootstrap client-side validation
                                 (function() {
                                     'use strict'
                                     var forms = document.querySelectorAll('.needs-validation')
@@ -136,31 +122,58 @@
                                     })
                                 })()
                             </script>
-
                         </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
+
         <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
-
         <x-footer />
-
     </div>
 
+    <!-- Scripts -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let today = new Date().toISOString().split('T')[0];
+            $('#from_date').val(today).attr('min', today);
+            $('#to_date').val(today).attr('min', today);
 
+            function calculateLeaves() {
+                let fromVal = $('#from_date').val();
+                let toVal = $('#to_date').val();
+
+                if (fromVal && toVal) {
+                    let fromDate = new Date(fromVal);
+                    let toDate = new Date(toVal);
+
+                    if (toDate >= fromDate) {
+                        let diffTime = toDate - fromDate;
+                        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                        $('#total_leaves').val(diffDays);
+                    } else {
+                        $('#total_leaves').val(0);
+                    }
+                } else {
+                    $('#total_leaves').val(0);
+                }
+            }
+
+            $('#from_date, #to_date').on('change', function() {
+                if ($('#to_date').val() < $('#from_date').val()) {
+                    $('#to_date').val($('#from_date').val());
+                }
+                calculateLeaves();
+            });
+
+            calculateLeaves();
+            var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+            toastElList.map(function(toastEl) {
+                var toast = new bootstrap.Toast(toastEl, {
+                    delay: 30000
+                });
+                toast.show();
+            });
+        });
+    </script>
 @endsection
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-        toastElList.map(function(toastEl) {
-            var toast = new bootstrap.Toast(toastEl, {
-                delay: 2000
-            }); // 4 sec
-            toast.show();
-        })
-    });
-</script>

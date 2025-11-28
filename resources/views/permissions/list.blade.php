@@ -160,7 +160,7 @@
         var toastElList = [].slice.call(document.querySelectorAll('.toast'))
         toastElList.map(function(toastEl) {
             var toast = new bootstrap.Toast(toastEl, {
-                delay: 2000
+                delay: 30000
             }); // 4 sec
             toast.show();
         })

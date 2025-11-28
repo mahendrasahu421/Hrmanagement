@@ -107,29 +107,29 @@
                     <div class="col-lg-7 col-md-12 col-sm-12">
                         <div class="row justify-content-center align-items-center vh-100 overflow-auto flex-wrap">
                             <div class="col-md-7 mx-auto vh-100">
-                              <x-alert-modal/>
+                                <x-alert-modal />
 
                                 <form action="{{ route('employee.login') }}" class="vh-100" method="post">
                                     @csrf
                                     <div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
                                         <div class="logo-text mx-auto mb-5 text-center">
-                                           <img src="{{ asset('frontent/assets/img/icons/logo.png') }}"
-                                          alt="Img">
+                                            <img src="{{ asset('frontent/assets/img/icons/logo_1.png') }}"
+                                                alt="Img">
                                         </div>
 
 
                                         <div class="">
                                             <div class="text-center mb-3">
-                                                <h2 class="mb-2">Sign In</h2>
-                                                <p class="mb-0">Please enter your details to sign in</p>
+                                                <h2 class="mb-2">Login Here</h2>
+                                                <p class="mb-0">Please enter your details to access the dashboard</p>
                                             </div>
                                             <div class="mb-3">
-                                                <label class="form-label">Employee ID</label>
+                                                <label class="form-label">Employee ID / Email / Phone No.</label>
                                                 <div class="input-group">
                                                     <input type="text" value="{{ old('patId') }}" name="patId"
                                                         class="form-control border-end-0">
                                                     <span class="input-group-text border-start-0">
-                                                        <i class="ti ti-mail"></i>
+                                                        <i class="ti ti-user"></i>
                                                     </span>
                                                 </div>
                                             </div>
@@ -146,8 +146,7 @@
                                                     <div class="form-check form-check-md mb-0">
                                                         <input class="form-check-input" id="remember_me"
                                                             name="remember_me" type="checkbox">
-                                                        <label for="remember_me"
-                                                            class="form-check-label mt-0">Remember
+                                                        <label for="remember_me" class="form-check-label mt-0">Remember
                                                             Me</label>
                                                     </div>
                                                 </div>
@@ -158,18 +157,21 @@
                                             <div class="mb-3">
                                                 <button type="submit" class="btn btn-primary w-100">Sign In</button>
                                             </div>
-                                            <div class="text-center">
-                                                <h6 class="fw-normal text-dark mb-0">Don’t have an account?
-                                                    <a href="#" class="hover-a"> Create Account</a>
-                                                </h6>
-                                            </div>
-                                           
+
 
                                         </div>
                                         <div class="mt-5 pb-4 text-center">
-                                            <p class="mb-0 text-gray-9">Copyright &copy; 2026 - Chitragupta – The HR Guardian
-</p>
+                                            <p class="mb-0 text-gray-9">Copyright &copy; 2026 - Chitragupta – The HR
+                                                Guardian
+                                            </p>
                                         </div>
+                                        <div class="mt-1 pb-2 text-center">
+                                            <p class="mb-0 text-gray-9">
+                                                Powered by <strong><a href="https://www.neuralinfo.in/"
+                                                        target="_blank">Neural Info Solution</a></strong>
+                                            </p>
+                                        </div>
+
                                     </div>
                                 </form>
                             </div>
@@ -186,12 +188,48 @@
             var toastElList = [].slice.call(document.querySelectorAll('.toast'));
             var toastList = toastElList.map(function(toastEl) {
                 return new bootstrap.Toast(toastEl, {
-                    delay: 2000
+                    delay: 30000
                 });
             });
             toastList.forEach(toast => toast.show());
         });
     </script>
+
+    <!-- Security -->
+
+    {{-- <script>
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('copy', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('cut', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('paste', function(e) {
+            e.preventDefault();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) e.preventDefault();
+            if (e.ctrlKey && e.key === 'U') e.preventDefault();
+            if (e.key === 'F12') e.preventDefault();
+            if (e.ctrlKey && e.key === 'C') e.preventDefault();
+        });
+        document.addEventListener('selectstart', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('dragstart', function(e) {
+            e.preventDefault();
+        });
+        document.addEventListener('mousedown', function(e) {
+            if (e.detail > 1) e.preventDefault();
+        });
+    </script> --}}
+
+    <!-- Security -->
+
 
     <!-- jQuery -->
     <script src="{{ asset('frontent/assets/js/jquery-3.7.1.min.js') }}"></script>

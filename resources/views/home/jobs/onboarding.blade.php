@@ -332,7 +332,7 @@
                             <h4 class="card-title">Interview Schedule</h4>
                         </div>
 
-                        <div class="card-body p-0">
+                        <div class="card-body">
 
                             <div class="table-responsive">
                                 <table class="table datatable w-100">

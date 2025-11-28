@@ -370,7 +370,8 @@
                                 <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center"
                                     data-bs-toggle="dropdown">
                                     <span class="avatar avatar-sm online">
-                                        <img src="#/profiles/avatar-12.jpg" alt="Img"
+                                        
+                                        <img src="{{ asset('frontent/assets/img/profiles/avatar-12.jpg') }}" alt="Img"
                                             class="img-fluid rounded-circle">
                                     </span>
                                 </a>
@@ -379,7 +380,7 @@
                                         <div class="card-header">
                                             <div class="d-flex align-items-center">
                                                 <span class="avatar avatar-lg me-2 avatar-rounded">
-                                                    <img src="#/profiles/avatar-12.jpg" alt="img">
+                                                    <img src="{{ asset('frontent/assets/img/profiles/avatar-12.jpg') }}" alt="img">
                                                 </span>
                                                 <div>
                                                     <h5 class="mb-0">Kevin Larry</h5>
