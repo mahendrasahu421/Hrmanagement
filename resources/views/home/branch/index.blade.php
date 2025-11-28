@@ -3,6 +3,7 @@
 @section('title', $title)
 
 @section('main-section')
+    <x-alert-modal />
     <div class="page-wrapper">
         <div class="content">
 
@@ -27,115 +28,40 @@
 
 
 
-            <div class="card">
+          <div class="row">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive mt-3">
+                                    <table id="comnayList" class="display table table-striped table-bordered nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>Sn</th>
+                                                <th>Company Name</th>
+                                                <th>Branch Name</th>
+                                                <th>Branch Code</th>
+                                                <th>Branch owner Name</th>
+                                                <th>Contact No</th>
+                                                <th>Email</th>
 
-                <div class="card-body p-0">
-                    <div class="custom-datatable-filter table-responsive">
-                        <table class="table datatable">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th class="no-sort">
-                                        <div class="form-check form-check-md">
-                                            <input class="form-check-input" type="checkbox" id="select-all">
-                                        </div>
-                                    </th>
-                                    <th>Name</th>
-                                    <th>Code</th>
-                                    <th>Address</th>
-                                    <th>Contact Person</th>
-                                    <th>Status</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="form-check form-check-md">
-                                            <input class="form-check-input" type="checkbox">
-                                        </div>
-                                    </td>
-                                    <td>Branch Name</td>
-                                    <td>
-                                        <h6 class="fw-medium"><a href="#">BN</a></h6>
-                                    </td>
-                                    <td>Kanpur</td>
-                                    <td>Mr. XYZ</td>
-                                    <td>
-                                        <span class="badge badge-success d-inline-flex align-items-center badge-sm">
-                                            <i class="ti ti-point-filled me-1"></i>Active
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="action-icon d-inline-flex">
-                                            <a href="#" class="me-2" data-bs-toggle="modal"
-                                                data-bs-target="#edit_holiday"><i class="ti ti-edit"></i></a>
-                                            <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check form-check-md">
-                                            <input class="form-check-input" type="checkbox">
-                                        </div>
-                                    </td>
-                                    <td>Branch Name</td>
-                                    <td>
-                                        <h6 class="fw-medium"><a href="#">BN</a></h6>
-                                    </td>
-                                    <td>Kanpur</td>
-                                    <td>Mr. XYZ</td>
-                                    <td>
-                                        <span class="badge badge-success d-inline-flex align-items-center badge-sm">
-                                            <i class="ti ti-point-filled me-1"></i>Active
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="action-icon d-inline-flex">
-                                            <a href="#" class="me-2" data-bs-toggle="modal"
-                                                data-bs-target="#edit_holiday"><i class="ti ti-edit"></i></a>
-                                            <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="form-check form-check-md">
-                                            <input class="form-check-input" type="checkbox">
-                                        </div>
-                                    </td>
-                                    <td>Branch Name</td>
-                                    <td>
-                                        <h6 class="fw-medium"><a href="#">BN</a></h6>
-                                    </td>
-                                    <td>Kanpur</td>
-                                    <td>Mr. XYZ</td>
-                                    <td>
-                                        <span class="badge badge-success d-inline-flex align-items-center badge-sm">
-                                            <i class="ti ti-point-filled me-1"></i>Active
-                                        </span>
-                                    </td>
-                                    <td>
-                                        <div class="action-icon d-inline-flex">
-                                            <a href="#" class="me-2" data-bs-toggle="modal"
-                                                data-bs-target="#edit_holiday"><i class="ti ti-edit"></i></a>
-                                            <a href="javascript:void(0);" data-bs-toggle="modal"
-                                                data-bs-target="#delete_modal"><i class="ti ti-trash"></i></a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                                                <th>Status</th>
+
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
 
 
         </div>
- <x-footer />
+        <x-footer />
     </div>
     <!-- /Page Wrapper -->
 
@@ -149,16 +75,67 @@
 
 
 @push('after_scripts')
+  @push('after_scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var toastElList = [].slice.call(document.querySelectorAll('.toast'))
-            toastElList.map(function(toastEl) {
-                var toast = new bootstrap.Toast(toastEl, {
-                    delay: 4000
-                }); // 4 sec
-                toast.show();
-            })
+        $(document).ready(function() {
+
+
+            var table = $('#comnayList').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                scrollX: true,
+                ajax: {
+                    url: "{{ route('masters.organisation.branch.list') }}",
+                    data: function(d) {
+
+                    },
+                    dataSrc: function(json) {
+                        return json.data;
+                    }
+                },
+                columns: [{
+                        data: null,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'company_name'
+                    },
+                    {
+                        data: 'branch_name'
+                    },
+                    {
+                        data: 'branch_code'
+                    },
+                    {
+                        data: 'branch_owner_name'
+                    },
+                    {
+                        data: 'contact_number'
+                    },
+                   
+                    {
+                        data: 'email'
+                    },
+                    {
+                        data: 'status'
+                    }
+                ],
+                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
+            });
+
+            window.fetchGenderCounts = function() {
+                table.ajax.reload();
+            };
+
         });
     </script>
+@endpush
 @endpush

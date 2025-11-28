@@ -1,6 +1,7 @@
 @extends('layout.master')
 @section('title', $title)
 @section('main-section')
+    <x-alert-modal />
     <!-- Page Wrapper -->
     <div class="page-wrapper">
         <div class="content">
@@ -34,10 +35,16 @@
 
                         <div class="card-body">
                             <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('masters.organisation.company.store') }}">
+                                action="{{ route('masters.organisation.company.store') }}" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-row row">
-                                    <!-- Company Name -->
+                                    <!-- Company Logo (Optional) -->
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="company_logo">Company Logo</label>
+                                        <input type="file" class="form-control" id="company_logo" name="company_logo">
+                                    </div>
+
+                                    <!-- Company Name (Required) -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="company_name">Company Name *</label>
                                         <input type="text" class="form-control" id="company_name" name="company_name"
@@ -45,95 +52,112 @@
                                         <div class="invalid-feedback">Please enter company name.</div>
                                     </div>
 
-                                    <!-- Company Code -->
+                                    <!-- Company Code (Optional) -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="company_code">Company Code *</label>
+                                        <label class="form-label" for="company_code">Company Code</label>
                                         <input type="text" class="form-control" id="company_code" name="company_code"
-                                            placeholder="Enter Company Code" required>
-                                        <div class="invalid-feedback">Please enter company code.</div>
+                                            placeholder="Enter Company Code">
                                     </div>
 
-                                    <!-- Contact Number -->
+                                    <!-- Contact Number (Required) -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="contact_no">Contact Number *</label>
                                         <input type="text" class="form-control" id="contact_no" name="contact_no"
                                             placeholder="Enter Contact Number" required>
                                         <div class="invalid-feedback">Please enter contact number.</div>
                                     </div>
-                                </div>
 
-                                <div class="form-row row">
-                                    <!-- Email -->
+                                    <!-- Landline (Optional) -->
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="landline_no">Landline Number</label>
+                                        <input type="text" class="form-control" id="landline_no" name="landline_no"
+                                            placeholder="Enter Landline Number">
+                                    </div>
+
+                                    <!-- Email (Required) -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="email">Email *</label>
                                         <input type="email" class="form-control" id="email" name="email"
                                             placeholder="Enter Company Email" required>
-                                        <div class="invalid-feedback">Please enter valid email.</div>
+                                        <div class="invalid-feedback">Please enter a valid email.</div>
                                     </div>
 
-                                    <!-- GST Number -->
+                                    <!-- GST, PAN, CIN, IEC (Optional) -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="gst_no">GST Number</label>
                                         <input type="text" class="form-control" id="gst_no" name="gst_no"
                                             placeholder="Enter GST Number">
                                     </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="pan_no">PAN Number</label>
+                                        <input type="text" class="form-control" id="pan_no" name="pan_no"
+                                            placeholder="Enter PAN Number">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="cin_no">CIN Number</label>
+                                        <input type="text" class="form-control" id="cin_no" name="cin_no"
+                                            placeholder="Enter CIN Number">
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="iec">IEC Number</label>
+                                        <input type="text" class="form-control" id="iec" name="iec"
+                                            placeholder="Enter IEC Number">
+                                    </div>
 
-                                    <!-- Website -->
+                                    <!-- Website (Optional) -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="website">Website</label>
                                         <input type="text" class="form-control" id="website" name="website"
-                                            placeholder="Enter Website route">
+                                            placeholder="Enter Website URL">
                                     </div>
-                                </div>
 
-                                <div class="form-row row">
-                                    <!-- Address -->
-                                    <div class="col-md-6 mb-3">
+                                    <!-- Address (Required) -->
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label" for="address">Address *</label>
                                         <textarea class="form-control" id="address" name="address" rows="2" placeholder="Enter Address" required></textarea>
                                         <div class="invalid-feedback">Please enter address.</div>
                                     </div>
 
-                                    <!-- Country -->
-                                    <div class="col-md-3 mb-3">
+                                    <!-- Country / State / City (Required) -->
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label" for="country">Country *</label>
-                                        <input type="text" class="form-control" id="country" name="country"
-                                            placeholder="Enter Country" required>
-                                        <div class="invalid-feedback">Please enter country.</div>
+                                        <select class="form-control select2" id="country" name="country" required>
+                                            <option value="">Select Country</option>
+                                            @foreach ($country as $countrys)
+                                                <option value="{{ $countrys->id }}">{{ $countrys->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">Please select country.</div>
                                     </div>
-
-                                    <!-- State -->
-                                    <div class="col-md-3 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label" for="state">State *</label>
-                                        <input type="text" class="form-control" id="state" name="state"
-                                            placeholder="Enter State" required>
-                                        <div class="invalid-feedback">Please enter state.</div>
+                                        <select class="form-control select2" id="state" name="state" required>
+                                            <option value="">Select State</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select state.</div>
                                     </div>
-                                </div>
-
-                                <div class="form-row row">
-                                    <!-- City -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="city">City *</label>
-                                        <input type="text" class="form-control" id="city" name="city"
-                                            placeholder="Enter City" required>
-                                        <div class="invalid-feedback">Please enter city.</div>
+                                        <select class="form-control select2" id="city" name="city" required>
+                                            <option value="">Select City</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select city.</div>
                                     </div>
 
                                     <!-- Pin Code -->
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label class="form-label" for="pincode">Pin Code *</label>
                                         <input type="text" class="form-control" id="pincode" name="pincode"
                                             placeholder="Enter Pin Code" required>
-                                        <div class="invalid-feedback">Please enter pincode.</div>
+                                        <div class="invalid-feedback">Please enter pin code.</div>
                                     </div>
 
                                     <!-- Status -->
-                                    <div class="col-md-4 mb-3">
+                                    <div class="col-md-6 mb-3">
                                         <label class="form-label" for="status">Status *</label>
-                                        <select class="form-control" id="status" name="status" required>
-                                            <option value="1">Active</option>
-                                            <option value="0">Inactive</option>
+                                        <select class="form-control select2" id="status" name="status" required>
+                                            <option value="Active">Active</option>
+                                            <option value="Inactive">Inactive</option>
                                         </select>
                                         <div class="invalid-feedback">Please select status.</div>
                                     </div>
@@ -141,8 +165,7 @@
 
                                 <!-- Action Buttons -->
                                 <div class="d-flex justify-content-end mt-3">
-                                    <a href="{{ route('masters.organisation.company') }}"
-                                        class="btn btn-light me-2">
+                                    <a href="{{ route('masters.organisation.company') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
                                     </a>
                                     <button type="reset" class="btn btn-secondary me-2">
@@ -153,6 +176,7 @@
                                     </button>
                                 </div>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -166,9 +190,85 @@
     </div>
     <!-- /Page Wrapper -->
 
-
-
-
-
-
 @endsection
+@push('after_scripts')
+    <script>
+        $(document).ready(function() {
+            // On page load, if country is already selected, fetch states
+            let selectedCountry = $('#country').val();
+            let selectedState = "{{ $selected_state ?? '' }}";
+
+            if (selectedCountry) {
+                fetchStates(selectedCountry, selectedState);
+            }
+
+            // On change country
+            $('#country').on('change', function() {
+                let country_id = $(this).val();
+                fetchStates(country_id, '');
+            });
+
+            function fetchStates(country_id, selectedState = '') {
+                if (country_id) {
+                    $.ajax({
+                        url: '/get-state/' + country_id,
+                        type: 'GET',
+                        success: function(data) {
+                            let stateDropdown = $('#state');
+                            stateDropdown.empty();
+                            stateDropdown.append('<option value="">Select State</option>');
+                            $.each(data, function(key, value) {
+                                let selected = (value.id == selectedState) ? 'selected' : '';
+                                stateDropdown.append('<option value="' + value.id + '" ' +
+                                    selected + '>' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#state').empty().append('<option value="">Select State</option>');
+                }
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            // Existing country → state code remains
+
+            let selectedState = $('#state').val();
+            let selectedCity = "{{ $selected_city ?? '' }}";
+
+            // Page load: fetch cities if state already selected
+            if (selectedState) {
+                fetchCities(selectedState, selectedCity);
+            }
+
+            // On change state
+            $('#state').on('change', function() {
+                let state_id = $(this).val();
+                fetchCities(state_id, '');
+            });
+
+            function fetchCities(state_id, selectedCity = '') {
+                if (state_id) {
+                    $.ajax({
+                        url: '/get-cities/' + state_id,
+                        type: 'GET',
+                        success: function(data) {
+                            let cityDropdown = $('#city');
+                            cityDropdown.empty();
+                            cityDropdown.append('<option value="">Select City</option>');
+                            $.each(data, function(key, value) {
+                                let selected = (value.id == selectedCity) ? 'selected' : '';
+                                cityDropdown.append('<option value="' + value.id + '" ' +
+                                    selected + '>' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#city').empty().append('<option value="">Select City</option>');
+                }
+            }
+        });
+    </script>
+@endpush

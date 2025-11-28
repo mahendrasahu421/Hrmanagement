@@ -76,8 +76,8 @@ Route::middleware(['auth'])->group(function () {
     // Dashboard
     Route::get('/get-departments/{category_id}', [DashboardController::class, 'getDepartments']);
     Route::get('/get-designation/{department_id}', [DashboardController::class, 'getDesignation']);
-    Route::get('/get-state/{country_id}', [DashboardController::class, 'getState'])->name('getState');
-    Route::get('/get-city/{state_id}', [DashboardController::class, 'getCity'])->name('getCity');
+    Route::get('/get-state/{country_id}', [DashboardController::class, 'getStates'])->name('getStates');
+    Route::get('/get-cities/{state_id}', [DashboardController::class, 'getCities'])->name('getCities');
 
 
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
@@ -94,14 +94,18 @@ Route::middleware(['auth'])->group(function () {
     // Master/Organisation/Compney
     Route::get('masters/organisation/company', [CompanyController::class, 'index'])->name('masters.organisation.company');
     Route::get('masters/organisation/company/create', [CompanyController::class, 'create'])->name('masters.organisation.company.create');
-    Route::get('masters/organisation/company/store', [CompanyController::class, 'create'])->name('masters.organisation.company.store');
+    Route::post('masters/organisation/company/store', [CompanyController::class, 'store'])->name('masters.organisation.company.store');
+    Route::get('masters/organisation/company/list', [CompanyController::class, 'list'])->name('masters.organisation.company.list');
+    Route::get('masters/organisation/company/edit', [CompanyController::class, 'edit'])->name('masters.organisation.company.edit');
 
     // Master/Organisation/Branch
     Route::get('masters/organisation/branch', [BranchController::class, 'index'])->name('masters.organisation.branch');
     Route::get('masters/organisation/branch/create', [BranchController::class, 'create'])->name('masters.organisation.branch.create');
     Route::post('masters/organisation/branch/store', [BranchController::class, 'store'])->name('masters.organisation.branch.store');
+    Route::get('masters/organisation/branch/list', [BranchController::class, 'list'])->name('masters.organisation.branch.list');
+    Route::get('masters/organisation/branch/edit', [BranchController::class, 'edit'])->name('masters.organisation.branch.edit');
 
-    
+
 
     // Master/Organisation/Department
     Route::get('settings/department', [DepartmentController::class, 'index'])->name('settings.department');
@@ -150,9 +154,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/policy/store', [PolicyController::class, 'store'])->name('masters.organisation.policy.store');
 
     // Master/Recruitment/Jobs
-    
+
     Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
-    Route::get('recruitment/job/applied-candidate',[JobsController::class,'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
+    Route::get('recruitment/job/applied-candidate', [JobsController::class, 'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
     Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
 
     // Employee/Onboarding
@@ -224,24 +228,28 @@ Route::middleware(['auth'])->group(function () {
     // Org-Reports
     Route::get('attendance/daily-attendance/consistent-attendees', [ConsistentAttendeesController::class, 'index'])->name('attendance.daily-attendance.consistent-attendees');
 
-    Route::get('permissions', [PermissionController::class, 'index'])->name('permission');
-    Route::get('permissions/create', [PermissionController::class, 'create'])->name('permission.create');
-    Route::post('permissions/store', [PermissionController::class, 'store'])->name('permission.store');
-    Route::get('permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
-    Route::get('permissions/destroy', [PermissionController::class, 'destroy'])->name('permissions.destroy');
+    Route::get('masters/user-management/permissions', [PermissionController::class, 'index'])->name('permission');
+    Route::get('masters/user-management/permissions/create', [PermissionController::class, 'create'])->name('permission.create');
+    Route::post('masters/user-management/permissions/store', [PermissionController::class, 'store'])->name('permission.store');
+    Route::get('masters/user-management/permissions/edit', [PermissionController::class, 'edit'])->name('permissions.edit');
+    Route::get('masters/user-management/permissions/destroy', [PermissionController::class, 'destroy'])->name('permissions.destroy');
     // Roles
-    Route::get('roles', [RoleController::class, 'index'])->name('role');
-    Route::get('roles/create', [RoleController::class, 'create'])->name('role.create');
-    Route::post('roles/store', [RoleController::class, 'store'])->name('role.store');
-    Route::get('roles/edit', [RoleController::class, 'edit'])->name('roles.edit');
-    Route::get('roles/destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
+    Route::get('masters/user-management/roles', [RoleController::class, 'index'])->name('role');
+    Route::get('masters/user-management/roles/create', [RoleController::class, 'create'])->name('role.create');
+    Route::post('masters/user-management/roles/store', [RoleController::class, 'store'])->name('role.store');
+    Route::get('masters/user-management/roles/edit', [RoleController::class, 'edit'])->name('roles.edit');
+    Route::get('masters/user-management/roles/destroy', [RoleController::class, 'destroy'])->name('roles.destroy');
 
     // map-role-permission
     Route::get('map-role-permission', [MapRolePermission::class, 'index'])->name('map-role-permission');
     Route::get('map-role-permission/store', [MapRolePermission::class, 'index'])->name('map-role-permission.store');
 
-    Route::get('settings', [SettingController::class,'index'])->name('settings.email-templates');
-    Route::get('settings/email-template/create', [SettingController::class,'create'])->name('settings.create');
+    Route::get('settings/email-template', [SettingController::class, 'index'])->name('settings.email-templates');
+    Route::get('settings/email-template/create', [SettingController::class, 'create'])->name('settings.email-templates.create');
+    Route::post('settings/email-template/store', [SettingController::class, 'store'])->name('settings.email-template.store');
+    Route::get('settings/email-template/list', [SettingController::class, 'list'])->name('settings.email-template.list');
+    Route::get('settings/email-template/preview/{id}', [SettingController::class, 'preview'])->name('settings.email-template.preview');
+
 
     // Master/Organisation/Category
     Route::get('settings/category', [CategoryController::class, 'index'])->name('settings.category');
@@ -251,6 +259,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('settings/category/edit/{id}', [CategoryController::class, 'update'])->name('settings.category.update');
     Route::delete('settings/category/delete/{id}', [CategoryController::class, 'destroy'])->name('settings.category.destroy');
     Route::get('settings/category/list', [CategoryController::class, 'list'])->name('settings.category.list');
+
+    Route::get('attendance/leave/request', [AttendanceController::class, 'index'])->name('attendance.leave.request');
+    Route::get('attendance/leave/list', [AttendanceController::class, 'list'])->name('leaves.list');
 });
 
 
@@ -275,13 +286,13 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
         Route::get('/competencies', [SelfAppraisalController::class, 'competencies'])->name('employee.competencies');
         Route::get('/kpi-assessment', [SelfAppraisalController::class, 'kpiAssessment'])->name('employee.kpi.assessment');
         Route::get('/form-c', [SelfAppraisalController::class, 'formC'])->name('employee.form-c');
-        
+
     });
 
     // Review your Employee
 
-    Route::prefix('review-employee')->group(function (){
-        Route::get('/',[ReviewEmployeeController::class, 'index'])->name('employee.review.employee');
+    Route::prefix('review-employee')->group(function () {
+        Route::get('/', [ReviewEmployeeController::class, 'index'])->name('employee.review.employee');
     });
 
 

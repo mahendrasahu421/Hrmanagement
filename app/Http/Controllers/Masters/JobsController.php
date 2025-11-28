@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Designation;
 class JobsController extends Controller
 {
     /**
@@ -24,6 +24,7 @@ class JobsController extends Controller
     public function create()
     {
         $data['title'] = 'Recruitment / Jobs Create ';
+        $data['designation'] = Designation::all();
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
         return view('home.jobs.create', $data);

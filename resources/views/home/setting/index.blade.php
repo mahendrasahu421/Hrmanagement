@@ -14,7 +14,7 @@
                 </div>
                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                     <div class="mb-2">
-                        <a href="{{ route('settings.create') }}"
+                        <a href="{{ route('settings.email-templates.create') }}"
                             class="btn btn-primary d-flex align-items-center">
                             <i class="ti ti-circle-plus me-2"></i> Add Email Template
                         </a>
@@ -23,27 +23,28 @@
             </div>
             <!-- /Breadcrumb -->
 
-            <div class="card">
-                <div class="card-body p-0">
-                    <div class="table-responsive">
-                        <table id="leaveTypeList" class="table table-striped table-bordered nowrap">
-                            <thead>
-                                <tr>
-                                    <th>Sn</th>
-                                    <th>Leave Type</th>
-                                    <th>Leave Code</th>
-                                    <th>Allowed Days</th>
-                                    <th>Carry Forward</th>
-                                    <th>Encashable</th>
-                                    <th>Applicable For</th>
-                                    <th>Leave Category</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="table-responsive mt-3">
+                                <table id="EmailTemplateList" class="display table table-striped table-bordered nowrap">
+                                    <thead>
+                                        <tr>
+                                            <th>Sn</th>
+                                            <th>Name</th>
+                                            <th>Status</th>
+                                            <th>Preview</th>
+                                            <th>Action</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -77,58 +78,51 @@
 @push('after_scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            var table = $('#leaveTypeList').DataTable({
+            var table = $('#EmailTemplateList').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ url('organisation.leave-type.list') }}",
+                ajax: "{{ route('settings.email-template.list') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
-                    },
+                    }, // Sn
                     {
-                        data: 'leave_name',
-                        name: 'leave_name'
-                    },
+                        data: 'template_key',
+                        name: 'template_key'
+                    }, // Template Name
                     {
-                        data: 'leave_code',
-                        name: 'leave_code'
-                    },
-                    {
-                        data: 'total_leaves',
-                        name: 'total_leaves'
-                    },
-                    {
-                        data: 'carry_forward',
-                        name: 'carry_forward'
-                    },
-                    {
-                        data: 'encashable',
-                        name: 'encashable'
-                    },
-                    {
-                        data: 'applicable_for',
-                        name: 'applicable_for'
-                    },
-                    {
-                        data: 'leave_category',
-                        name: 'leave_category'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
+                        data: 'subject',
+                        name: 'subject'
+                    }, // Subject
+
+                    // Preview Column
                     {
                         data: 'id',
                         render: function(data) {
                             return `
-                        <div class="action-icon d-inline-flex">
-                            <a href="{{ url('masters/organisation/leave-type/edit') }}/` + data + `" class="me-2"><i class="ti ti-edit"></i></a>
-                            <a href="javascript:void(0);" onclick="deleteLeave(` + data + `)"><i class="ti ti-trash"></i></a>
-                        </div>
+                        <a href="{{ url('settings/email-template/preview') }}/` + data + `" class="btn btn-sm btn-info" target="_blank">
+                            Preview
+                        </a>
+                    `;
+                        },
+                        orderable: false,
+                        searchable: false
+                    },
+
+                    // Action Column (Edit / Delete)
+                    {
+                        data: 'id',
+                        render: function(data) {
+                            return `
+                        <a href="{{ url('settings/email-template/edit') }}/` + data + `" class="btn btn-sm btn-primary me-2">
+                            Edit
+                        </a>
+                        <a href="javascript:void(0);" onclick="deleteTemplate(` + data + `)" class="btn btn-sm btn-danger">
+                            Delete
+                        </a>
                     `;
                         },
                         orderable: false,
@@ -141,7 +135,7 @@
             });
         });
 
-        function deleteLeave(id) {
+        function deleteTemplate(id) {
             $('#deleteLeaveUrl').val(id);
             $('#delete_modal').modal('show');
         }
@@ -149,7 +143,7 @@
         $('#confirmDeleteBtn').click(function() {
             var id = $('#deleteLeaveUrl').val();
             $.ajax({
-                url: "{{ url('masters/organisation/leave-type/delete') }}/" + id,
+                url: "{{ url('settings/email-template/delete') }}/" + id,
                 type: 'POST',
                 data: {
                     _method: 'DELETE',
@@ -157,7 +151,7 @@
                 },
                 success: function(res) {
                     $('#delete_modal').modal('hide');
-                    $('#leaveTypeList').DataTable().ajax.reload();
+                    $('#EmailTemplateList').DataTable().ajax.reload();
                 },
                 error: function(err) {
                     alert(err.responseJSON?.message || 'Something went wrong!');
