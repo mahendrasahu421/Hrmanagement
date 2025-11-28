@@ -1,6 +1,7 @@
 @extends('layout.master')
 @section('title', $title)
 @section('main-section')
+<x-alert-modal/>
     <div class="page-wrapper">
         <div class="content">
             <div class="row">
@@ -61,13 +62,16 @@
                                             placeholder="Enter Branch Code" required>
                                         <div class="invalid-feedback">Please enter branch code.</div>
                                     </div>
-                                </div>
-
-                                <div class="form-row row">
-                                    <!-- Contact Number -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="contact_no">Contact Number *</label>
-                                        <input type="text" class="form-control" id="contact_no" name="contact_no"
+                                        <label class="form-label" for="branch_owner_name">Branch Owner Name *</label>
+                                        <input type="text" class="form-control" id="branch_owner_name" name="branch_owner_name"
+                                            placeholder="Enter Branch Owner Name" required>
+                                        <div class="invalid-feedback">Please enter Branch Owner Name</div>
+                                    </div>
+                                     <!-- Contact Number -->
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="contact_number">Contact Number *</label>
+                                        <input type="text" class="form-control" id="contact_number" name="contact_number"
                                             placeholder="Enter Contact Number" required>
                                         <div class="invalid-feedback">Please enter contact number.</div>
                                     </div>
@@ -80,61 +84,56 @@
                                         <div class="invalid-feedback">Please enter valid email.</div>
                                     </div>
 
-                                    <!-- GST -->
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="gst_no">GST Number</label>
-                                        <input type="text" class="form-control" id="gst_no" name="gst_no"
-                                            placeholder="Enter GST Number">
+                                     <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="address_1">Address 1 *</label>
+                                        <textarea class="form-control" id="address_1" name="address_1" rows="2" placeholder="Enter Address" required></textarea>
+                                        <div class="invalid-feedback">Please enter address_1.</div>
                                     </div>
-                                </div>
-
-                                <div class="form-row row">
-                                    <!-- Website -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="website">Website</label>
-                                        <input type="text" class="form-control" id="website" name="website"
-                                            placeholder="Enter Website URL">
-                                    </div>
-
-                                    <!-- Address -->
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="address">Address *</label>
-                                        <textarea class="form-control" id="address" name="address" rows="2" placeholder="Enter Address" required></textarea>
-                                        <div class="invalid-feedback">Please enter address.</div>
-                                    </div>
-
-                                    <!-- Country -->
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="country_id">Country *</label>
-                                        <select class="form-control select2" id="country_id" name="country_id" required>
+                                        <label class="form-label" for="country">Country *</label>
+                                        <select class="form-control select2" id="country" name="country" required>
                                             <option value="">Select Country</option>
-                                            @foreach ($countries as $country)
-                                                <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                            @foreach ($country as $countrys)
+                                                <option value="{{ $countrys->id }}"
+                                                    {{ isset($selected_country) && $selected_country == $countrys->id ? 'selected' : '' }}>
+                                                    {{ $countrys->name }}
+                                                </option>
                                             @endforeach
                                         </select>
-                                        <div class="invalid-feedback">Please select country.</div>
+                                        <div class="invalid-feedback">Please enter country.</div>
                                     </div>
-                                </div>
 
-                                <div class="form-row row">
                                     <!-- State -->
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="state_id">State *</label>
-                                        <select class="form-control select2" id="state_id" name="state_id" required>
+                                     <div class="col-md-4 mb-3">
+                                        <label class="form-label" for="state">State *</label>
+                                        <select class="form-control select2" id="state" name="state" required>
                                             <option value="">Select State</option>
+                                            @if (isset($states))
+                                                @foreach ($states as $state)
+                                                    <option value="{{ $state->id }}"
+                                                        {{ isset($selected_state) && $selected_state == $state->id ? 'selected' : '' }}>
+                                                        {{ $state->name }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
                                         </select>
-                                        <div class="invalid-feedback">Please select state.</div>
+                                        <div class="invalid-feedback">Please enter state.</div>
                                     </div>
-
-                                    <!-- City -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="city_id">City *</label>
-                                        <select class="form-control select2" id="city_id" name="city_id" required>
+                                        <label class="form-label" for="city">City *</label>
+                                        <select class="form-control select2" id="city" name="city" required>
                                             <option value="">Select City</option>
+                                            @if (isset($cities))
+                                                @foreach ($cities as $city)
+                                                    <option value="{{ $city->id }}"
+                                                        {{ isset($selected_city) && $selected_city == $city->id ? 'selected' : '' }}>
+                                                        {{ $city->name }}
+                                                    </option>
+                                                @endforeach
+                                            @endif
                                         </select>
-                                        <div class="invalid-feedback">Please select city.</div>
+                                        <div class="invalid-feedback">Please enter city.</div>
                                     </div>
-
                                     <!-- Pin Code -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="pincode">Pin Code *</label>
@@ -142,11 +141,7 @@
                                             placeholder="Enter Pin Code" required>
                                         <div class="invalid-feedback">Please enter pincode.</div>
                                     </div>
-                                </div>
-
-                                <div class="form-row row">
-                                    <!-- Status -->
-                                    <div class="col-md-4 mb-3">
+                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="status">Status *</label>
                                         <select class="form-control" id="status" name="status" required>
                                             <option value="1">Active</option>
@@ -156,6 +151,8 @@
                                     </div>
                                 </div>
 
+
+                                
                                 <!-- Action Buttons -->
                                 <div class="d-flex justify-content-end mt-3">
                                     <a href="{{ route('masters.organisation.branch') }}" class="btn btn-light me-2">
@@ -179,62 +176,83 @@
 @endsection
 
 @push('after_scripts')
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-
     <script>
         $(document).ready(function() {
-            $('#company_id, #country_id, #state_id, #city_id').each(function() {
-                if ($(this).hasClass("select2-hidden-accessible")) {
-                    $(this).select2('destroy');
-                }
-                $(this).select2({
-                    placeholder: 'Select an option',
-                    allowClear: true,
-                    width: '100%'
-                });
+            // On page load, if country is already selected, fetch states
+            let selectedCountry = $('#country').val();
+            let selectedState = "{{ $selected_state ?? '' }}";
+
+            if (selectedCountry) {
+                fetchStates(selectedCountry, selectedState);
+            }
+
+            // On change country
+            $('#country').on('change', function() {
+                let country_id = $(this).val();
+                fetchStates(country_id, '');
             });
 
-            // Country -> State AJAX
-            $('#country_id').on('change', function() {
-                let countryId = $(this).val();
-                $('#state_id').empty().append('<option value="">Loading...</option>').trigger('change');
-                $('#city_id').empty().append('<option value="">Select City</option>').trigger('change');
-
-                if (countryId) {
-                    $.getJSON("{{ url('/get-state') }}/" + countryId, function(states) {
-                        $('#state_id').empty().append('<option value="">Select State</option>');
-                        $.each(states, function(i, state) {
-                            $('#state_id').append('<option value="' + state.id + '">' +
-                                state.name + '</option>');
-                        });
-                        $('#state_id').trigger('change');
+            function fetchStates(country_id, selectedState = '') {
+                if (country_id) {
+                    $.ajax({
+                        url: '/get-state/' + country_id,
+                        type: 'GET',
+                        success: function(data) {
+                            let stateDropdown = $('#state');
+                            stateDropdown.empty();
+                            stateDropdown.append('<option value="">Select State</option>');
+                            $.each(data, function(key, value) {
+                                let selected = (value.id == selectedState) ? 'selected' : '';
+                                stateDropdown.append('<option value="' + value.id + '" ' +
+                                    selected + '>' + value.name + '</option>');
+                            });
+                        }
                     });
                 } else {
-                    $('#state_id').empty().append('<option value="">Select State</option>').trigger(
-                        'change');
+                    $('#state').empty().append('<option value="">Select State</option>');
                 }
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            // Existing country → state code remains
+
+            let selectedState = $('#state').val();
+            let selectedCity = "{{ $selected_city ?? '' }}";
+
+            // Page load: fetch cities if state already selected
+            if (selectedState) {
+                fetchCities(selectedState, selectedCity);
+            }
+
+            // On change state
+            $('#state').on('change', function() {
+                let state_id = $(this).val();
+                fetchCities(state_id, '');
             });
 
-            // State -> City AJAX
-            $('#state_id').on('change', function() {
-                let stateId = $(this).val();
-                $('#city_id').empty().append('<option value="">Loading...</option>').trigger('change');
-
-                if (stateId) {
-                    $.getJSON("{{ url('/get-city') }}/" + stateId, function(cities) {
-                        $('#city_id').empty().append('<option value="">Select City</option>');
-                        $.each(cities, function(i, city) {
-                            $('#city_id').append('<option value="' + city.id + '">' + city
-                                .name + '</option>');
-                        });
-                        $('#city_id').trigger('change');
+            function fetchCities(state_id, selectedCity = '') {
+                if (state_id) {
+                    $.ajax({
+                        url: '/get-cities/' + state_id,
+                        type: 'GET',
+                        success: function(data) {
+                            let cityDropdown = $('#city');
+                            cityDropdown.empty();
+                            cityDropdown.append('<option value="">Select City</option>');
+                            $.each(data, function(key, value) {
+                                let selected = (value.id == selectedCity) ? 'selected' : '';
+                                cityDropdown.append('<option value="' + value.id + '" ' +
+                                    selected + '>' + value.name + '</option>');
+                            });
+                        }
                     });
                 } else {
-                    $('#city_id').empty().append('<option value="">Select City</option>').trigger('change');
+                    $('#city').empty().append('<option value="">Select City</option>');
                 }
-            });
-
+            }
         });
     </script>
 @endpush

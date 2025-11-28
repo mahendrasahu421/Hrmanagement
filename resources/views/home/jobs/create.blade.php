@@ -47,16 +47,16 @@
                                         <div class="invalid-feedback">Please enter job title.</div>
                                     </div>
 
-                                    <!-- Functional Area -->
+                                    <!-- Designations -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">Functional Area *</label>
-                                        <select class="form-control" name="functional_area" required>
-                                            <option value="">Select Functional Area</option>
+                                        <label class="form-label">Designations *</label>
+                                        <select class="form-select " name="functional_area" required>
+                                            <option value="">Select Designations</option>
                                             <option value="IT">IT</option>
                                             <option value="HR">Human Resource</option>
                                             <option value="Marketing">Marketing</option>
                                         </select>
-                                        <div class="invalid-feedback">Please select functional area.</div>
+                                        <div class="invalid-feedback">Please select Designations.</div>
                                     </div>
 
                                     <!-- Test Skills -->
@@ -66,21 +66,18 @@
                                             placeholder="Enter Test Skills" required>
                                         <div class="invalid-feedback">Please enter test skills.</div>
                                     </div>
-                                </div>
-
-                                <div class="row">
-                                    <!-- No of Positions -->
+                                      <!-- No of Positions -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label">No of Position *</label>
+                                        <label class="form-label">No. of Positions *</label>
                                         <input type="number" class="form-control" name="positions"
-                                            placeholder="Enter Number of Positions" required>
-                                        <div class="invalid-feedback">Please enter no. of positions.</div>
+                                            placeholder="Enter Number of Positions" required min="1">
+                                        <div class="invalid-feedback">Please enter number of positions.</div>
                                     </div>
 
                                     <!-- Job Type -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Job Type *</label>
-                                        <select class="form-control" name="job_type" required>
+                                        <select class="form-select select2" name="job_type" required>
                                             <option value="">Select Job Type</option>
                                             <option value="Full-Time">Full-Time</option>
                                             <option value="Part-Time">Part-Time</option>
@@ -97,6 +94,7 @@
                                     </div>
                                 </div>
 
+                             
                                 <div class="row">
                                     <!-- CTC To -->
                                     <div class="col-md-4 mb-3">
@@ -108,7 +106,7 @@
                                     <!-- Min Experience -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Min Experience *</label>
-                                        <select class="form-control" name="min_exp" required>
+                                        <select class="form-select select2" name="min_exp" required>
                                             <option value="">Select Min Experience</option>
                                             @for ($i = 0; $i <= 20; $i++)
                                                 <option value="{{ $i }}">{{ $i }} Years</option>
@@ -120,7 +118,7 @@
                                     <!-- Max Experience -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Max Experience *</label>
-                                        <select class="form-control" name="max_exp" required>
+                                        <select class="form-select select2" name="max_exp" required>
                                             <option value="">Select Max Experience</option>
                                             @for ($i = 0; $i <= 20; $i++)
                                                 <option value="{{ $i }}">{{ $i }} Years</option>
@@ -128,16 +126,9 @@
                                         </select>
                                         <div class="invalid-feedback">Please select maximum experience.</div>
                                     </div>
-                                </div>
-
-                                <hr>
-
-                                <!-- Select Locations -->
-                                <div class="row">
-                                    <div class="col-md-12 mb-3">
+                                      <div class="col-md-4 mb-3">
                                         <label class="form-label">Select Locations *</label>
-                                        <select class="form-control" name="location" required>
-                                            <option value="">Select Locations</option>
+                                        <select class="form-select select2" name="location[]" multiple required>
                                             <option value="Delhi">Delhi</option>
                                             <option value="Mumbai">Mumbai</option>
                                             <option value="Bangalore">Bangalore</option>
@@ -145,11 +136,30 @@
                                             <option value="Chennai">Chennai</option>
                                             <option value="Pune">Pune</option>
                                         </select>
-                                        <div class="invalid-feedback">Please select job type.</div>
+                                        <small class="text-muted">Hold CTRL to select multiple locations</small>
+                                        <div class="invalid-feedback">Please select at least one location.</div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Select Qualification *</label>
+                                        <select class="form-select select2" name="qualification[]" multiple required>
+                                            <option value="Bsc">Bsc</option>
+                                            <option value="Msc">Msc</option>
+                                            <option value="Bcom">Bcom</option>
+                                            <option value="Mcom">Mcom</option>
+                                            <option value="High Scool">High Scool</option>
+                                            <option value="Graducation / inter">Graducation / inter</option>
+                                        </select>
+                                        <small class="text-muted">Hold CTRL to select multiple Qualification</small>
+                                        <div class="invalid-feedback">Please select at least one Qualification.</div>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Keywords</label>
+                                        <input type="text" class="form-control" name="keywords"
+                                            placeholder="Enter Keywords">
                                     </div>
                                 </div>
 
-
+                                <hr>
 
                                 <!-- Job Description -->
                                 <div class="row">
@@ -157,19 +167,10 @@
                                         <label class="form-label">Job Description *</label>
                                         <textarea id="job_description" class="form-control" name="job_description" rows="4" required
                                             placeholder="Enter Job Description"></textarea>
-
                                         <div class="invalid-feedback">Please enter job description.</div>
                                     </div>
                                 </div>
 
-                                <!-- Keywords -->
-                                <div class="row">
-                                    <div class="col-md-12 mb-3">
-                                        <label class="form-label">Keywords</label>
-                                        <input type="text" class="form-control" name="keywords"
-                                            placeholder="Enter Keywords">
-                                    </div>
-                                </div>
 
                                 <!-- Action Buttons -->
                                 <div class="d-flex justify-content-end mt-3">
@@ -185,6 +186,7 @@
                                 </div>
 
                             </form>
+
                         </div>
 
                     </div>

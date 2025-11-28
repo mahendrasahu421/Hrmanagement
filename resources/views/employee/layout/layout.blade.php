@@ -515,55 +515,47 @@
                     </div>
                 </div>
             </div>
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li class="menu-title"><span>Dashboard</span></li>
-                        <li>
-                            <ul>
-                                <li>
-                                    <a href="{{ url('dashboard') }}">
-                                        <i class="ti ti-layout-navbar"></i><span>Dashboard</span>
-                                    </a>
-                                </li>
+           <div class="sidebar-inner slimscroll">
+    <div id="sidebar-menu" class="sidebar-menu">
+        <ul>
 
-                            </ul>
-                        </li>
-                        <li class="menu-title"><span>Leave Management</span></li>
-                        <li>
-                            <ul>
-                                <li class="submenu">
-                                    <a href="javascript:void(0);">
-                                        <i class="ti ti-smart-home"></i><span>Leave Management</span><span
-                                            class="menu-arrow"></span>
-                                    </a>
-                                    <ul>
+            <!-- Dashboard -->
+            <li class="menu-title"><span>Dashboard</span></li>
+            <li>
+                <a href="{{ url('dashboard') }}">
+                    <i class="ti ti-layout-navbar"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
 
-                                        <li><a href="{{ route('employee.leaves.apply') }}">Apply Leaves
-                                            </a></li>
-                                        <li><a href="{{ route('employee.leaves') }}">Leaves List
-                                            </a></li>
-                                        <li><a href="{{ route('employee.holidays') }}">Holiday List
-                                            </a></li>
+            <!-- Leave Management -->
+            <li class="menu-title"><span>Leave Management</span></li>
 
-                                    </ul>
-                                </li>
+            <li class="submenu">
+                <a href="javascript:void(0);">
+                    <i class="ti ti-smart-home"></i>
+                    <span>Leave Management</span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <ul>
+                    <li><a href="{{ route('employee.leaves.apply') }}">Apply Leaves</a></li>
+                    <li><a href="{{ route('employee.leaves') }}">Leaves List</a></li>
+                    <li><a href="{{ route('employee.holidays') }}">Holiday List</a></li>
+                </ul>
+            </li>
 
-                            </ul>
-                        </li>
-                        <li>
-                            <ul>
-                                <li>
-                                    <a href="{{ route('employee.self.appraisal') }}">
-                                        <i class="fas fa-file-signature"></i><span>Self Appraisal</span>
-                                    </a>
-                                </li>
+            <!-- Self Appraisal -->
+            <li>
+                <a href="{{ route('employee.self.appraisal') }}">
+                    <i class="fas fa-file-signature"></i>
+                    <span>Self Appraisal</span>
+                </a>
+            </li>
 
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+        </ul>
+    </div>
+</div>
+
         </div>
         <!-- /Sidebar -->
 

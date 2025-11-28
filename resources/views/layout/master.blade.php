@@ -717,7 +717,7 @@
                                                 <a href="javascript:void(0);" class="subdrop"> Request<span
                                                         class="menu-arrow inside-submenu"></span></a>
                                                 <ul>
-                                                    <li><a href="{{ url('leave.index') }}" class="">Leave
+                                                    <li><a href="{{ route('attendance.leave.request') }}" class="">Leave
                                                             Requests
 
                                                         </a></li>

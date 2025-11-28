@@ -3,10 +3,6 @@
 @endphp
 <!DOCTYPE html>
 <html lang="en">
-
-
-
-
 <head>
 
     <!-- Meta Tags -->

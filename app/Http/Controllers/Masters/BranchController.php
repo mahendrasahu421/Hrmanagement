@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
 use App\Models\Company;
+use App\Models\Branch;
 use Illuminate\Http\Request;
 use App\Models\Country; // corrected namespace
-
+use Illuminate\Support\Facades\DB;
 class BranchController extends Controller
 {
     /**
@@ -29,7 +30,7 @@ class BranchController extends Controller
     {
         $data['title'] = 'Masters/Organisation/Branch/Create';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        $data['countries'] = Country::all();
+        $data['country'] = Country::where('id', 101)->get();
         $data['companies'] = Company::all();
         return view('home.branch.create', $data);
     }
@@ -39,48 +40,128 @@ class BranchController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'company_id' => 'required|integer|exists:companies,id',
-                'branch_name' => 'required|string|max:255',
-                'branch_code' => 'required|string|max:50|unique:branches,branch_code',
-                'contact_no' => 'required|string|max:20',
-                'email' => 'required|email|max:255',
-                'address' => 'required|string',
-                'country_id' => 'required|exists:countries,id',
-                'state_id' => 'required|exists:states,id',
-                'city_id' => 'required|exists:cities,id',
-                'status' => 'required|in:1,0',
-            ]);
+        $request->validate([
+            'company_id' => 'required|exists:companies,id',
+            'branch_name' => 'required|string|max:255',
+            'branch_code' => 'required',
+            'branch_owner_name' => 'required|string|max:255',
+            'contact_number' => 'required|string|max:20',
+            'email' => 'required|email|unique:branches,email',
+            'address_1' => 'required|string',
+            'country' => 'required|integer',
+            'state' => 'required|integer',
+            'city' => 'required|integer',
+            'pincode' => 'required|string|max:10',
+            'status' => 'required|boolean',
+        ]);
 
-            \App\Models\Branch::create([
+        try {
+            DB::beginTransaction();
+
+            Branch::create([
                 'company_id' => $request->company_id,
                 'branch_name' => $request->branch_name,
                 'branch_code' => $request->branch_code,
                 'branch_owner_name' => $request->branch_owner_name,
                 'contact_number' => $request->contact_number,
-                'gst_number' => $request->gst_number,
+                'email' => $request->email,
+                'address_1' => $request->address_1,
+
+                // 🔹 Ye dono fields form me nahi hai → default NA
+                'gst_number' => 'NA',
+                'address_2' => 'NA',
+
                 'country' => $request->country,
                 'state' => $request->state,
                 'city' => $request->city,
-                'address_1' => $request->address_1,
-                'address_2' => $request->address_2,
+                'pincode' => $request->pincode,
                 'status' => $request->status,
             ]);
 
-            return redirect()->route('masters.organisation.branch')
+            DB::commit();
+
+            return redirect()
+                ->route('masters.organisation.branch')
                 ->with('success', 'Branch created successfully!');
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            return redirect()->back()
-                ->withErrors($e->errors())
-                ->withInput();
+
         } catch (\Exception $e) {
-            \Log::error('Branch Store Error: ' . $e->getMessage());
+
+            DB::rollBack();
+
             return redirect()->back()
-                ->with('error', 'Something went wrong: ' . $e->getMessage())
-                ->withInput();
+                ->with('error', 'Error: ' . $e->getMessage());
         }
     }
+
+    public function list(Request $request)
+    {
+        try {
+            $search = $request->input('search')['value'] ?? null;
+            $limit = $request->input('length', 10);
+            $start = $request->input('start', 0);
+
+            // 🔹 Load Relations
+            $query = Branch::with(['company', 'countryData', 'stateData', 'cityData']);
+
+            // 🔹 Search
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('branch_name', 'like', "%{$search}%")
+                        ->orWhere('branch_code', 'like', "%{$search}%")
+                        ->orWhere('branch_owner_name', 'like', "%{$search}%")
+                        ->orWhere('contact_number', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            }
+
+            // 🔹 Total count
+            $totalRecord = $query->count();
+
+            // 🔹 Pagination
+            $branches = $query->skip($start)->take($limit)->get();
+
+            // 🔹 Rows for DataTable
+            $rows = [];
+            foreach ($branches as $index => $branch) {
+                $rows[] = [
+                    'DT_RowIndex' => $start + $index + 1,
+                    'company_name' => $branch->company->company_name ?? '--',
+                    'branch_name' => $branch->branch_name ?? '--',
+                    'branch_code' => $branch->branch_code ?? '--',
+                    'branch_owner_name' => $branch->branch_owner_name ?? '--',
+                    'contact_number' => $branch->contact_number ?? '--',
+                    'email' => $branch->email ?? '--',
+
+                    // 🔹 Country / State / City in name format
+                    'country_name' => $branch->countryData->name ?? '--',
+                    'state_name' => $branch->stateData->name ?? '--',
+                    'city_name' => $branch->cityData->name ?? '--',
+
+                    'status' => $branch->status == 'Active'
+                        ? '<span class="badge bg-success">Active</span>'
+                        : '<span class="badge bg-danger">Inactive</span>',
+
+                    'action' => '<a href="' . route('masters.organisation.branch.edit', $branch->id) . '" class="btn btn-sm btn-primary">Edit</a>',
+                ];
+            }
+
+            // 🔹 Datatable Output
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $totalRecord,
+                'recordsFiltered' => $totalRecord,
+                'data' => $rows,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Error fetching branch list.',
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
 
 
     /**

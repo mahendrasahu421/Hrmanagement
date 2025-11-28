@@ -4,11 +4,13 @@ namespace App\Http\Controllers\AdminHR;
 
 use App\Http\Controllers\Controller;
 use App\Models\Designation;
+use App\Models\StateCity;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Department;
 use App\Models\CountryState;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
+
 class DashboardController extends Controller
 {
     /**
@@ -86,39 +88,15 @@ class DashboardController extends Controller
 
         return response()->json($departments);
     }
-    public function getState($country_id)
-    { 
-        try {
-            $states = \App\Models\CountryState::where('country_id', $country_id)
-                ->select('id', 'name')
-                ->orderBy('name', 'asc')
-                ->get();
-
-            if ($states->isEmpty()) {
-                return response()->json([]);
-            }
-
-            return response()->json($states);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Something went wrong.'], 500);
-        }
-    }
-    public function getcity($state_id)
+    public function getStates($country_id)
     {
-        try {
-            $states = \App\Models\StateCity::where('state_id', $state_id)
-                ->select('id', 'name')
-                ->orderBy('name', 'asc')
-                ->get();
-
-            if ($states->isEmpty()) {
-                return response()->json([]);
-            }
-
-            return response()->json($states);
-        } catch (\Exception $e) {
-            return response()->json(['error' => 'Something went wrong.'], 500);
-        }
+        $states = CountryState::where('country_id', $country_id)->get();
+        return response()->json($states);
+    }
+   public function getCities($state_id)
+    {
+        $cities = StateCity::where('state_id', $state_id)->get();
+        return response()->json($cities);
     }
 
 

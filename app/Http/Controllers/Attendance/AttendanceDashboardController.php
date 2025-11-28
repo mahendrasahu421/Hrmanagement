@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Attendance;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use Illuminate\Http\Request;
 
 class AttendanceDashboardController extends Controller
@@ -12,6 +13,7 @@ class AttendanceDashboardController extends Controller
      */
     public function index()
     {
+        $data['depatment'] = Department::all();
         $data['title'] = 'Masters/Organisation/Attendance Summary';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.attendance.index', $data);
