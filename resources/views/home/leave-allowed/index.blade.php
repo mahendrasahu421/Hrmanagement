@@ -14,9 +14,9 @@
                 </div>
                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                     <div class="mb-2">
-                        <a href="{{ route('settings.leave-type.create') }}"
+                        <a href="{{ route('settings.leave-allow.create') }}"
                             class="btn btn-primary d-flex align-items-center">
-                            <i class="ti ti-circle-plus me-2"></i> Add Leave Type
+                            <i class="ti ti-circle-plus me-2"></i> Add Leave Allow
                         </a>
                     </div>
                 </div>

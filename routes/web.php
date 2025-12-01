@@ -58,6 +58,7 @@ use App\Http\Controllers\EmployeeAuthController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Hr\JobsController as HrJobsController;
 use App\Http\Controllers\Masters\JafController;
+use App\Http\Controllers\Masters\LeaveMappingController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
 use App\Http\Controllers\Masters\OnboardingController;
 use App\Http\Controllers\PMT\FeedbackController;
@@ -78,6 +79,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/get-designation/{department_id}', [DashboardController::class, 'getDesignation']);
     Route::get('/get-state/{country_id}', [DashboardController::class, 'getStates'])->name('getStates');
     Route::get('/get-cities/{state_id}', [DashboardController::class, 'getCities'])->name('getCities');
+    Route::get('/leave-type/get-days/{id}', [LeaveMappingController::class, 'getDays']);
 
 
     Route::get('/home', [DashboardController::class, 'index'])->name('home');
@@ -142,6 +144,16 @@ Route::middleware(['auth'])->group(function () {
     Route::put('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'update'])->name('settings.leave-type.update');
     Route::delete('settings/leave-type/delete/{id}', [LeaveTypeController::class, 'destroy'])->name('settings.leave-type.destroy');
     Route::get('settings/leave-type/list', [LeaveTypeController::class, 'list'])->name('settings.leave-type.list');
+    // Master/Organisation/Leave Allow
+    Route::get('settings/leave-allow', [LeaveMappingController::class, 'index'])->name('settings.leave-allow');
+    Route::get('settings/leave-allow/create', [LeaveMappingController::class, 'create'])->name('settings.leave-allow.create');
+    Route::post('settings/leave-mapping/store', [LeaveMappingController::class, 'store'])->name('settings.leave.mapping.store');
+
+    // Route::post('settings/leave-type/store', [LeaveTypeController::class, 'store'])->name('settings.leave-type.store');
+    // Route::get('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'edit'])->name('settings.leave-type.edit');
+    // Route::put('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'update'])->name('settings.leave-type.update');
+    // Route::delete('settings/leave-type/delete/{id}', [LeaveTypeController::class, 'destroy'])->name('settings.leave-type.destroy');
+    // Route::get('settings/leave-type/list', [LeaveTypeController::class, 'list'])->name('settings.leave-type.list');
 
     // Master/Organisation/Holiday
     Route::get('settings/holiday', [HolidayController::class, 'index'])->name('settings.holiday');
@@ -262,6 +274,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('attendance/leave/request', [AttendanceController::class, 'index'])->name('attendance.leave.request');
     Route::get('attendance/leave/list', [AttendanceController::class, 'list'])->name('leaves.list');
+    Route::post('attendance/leave/updateStatus', [AttendanceController::class, 'updateStatus'])->name('leave.updateStatus');
 });
 
 
@@ -296,8 +309,8 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     });
 
 
-    Route::get('/feedback',[FeedbackController::class, 'index'])->name('employee.feedback');
-    Route::get('/view-feedback',[ViewFeedbackController::class, 'index'])->name('employee.view-feedback');
+    Route::get('/feedback', [FeedbackController::class, 'index'])->name('employee.feedback');
+    Route::get('/view-feedback', [ViewFeedbackController::class, 'index'])->name('employee.view-feedback');
 
     // Dashboard
     Route::get('dashboard', [EmployeeController::class, 'index'])->name('employee.dashboard');
@@ -318,7 +331,7 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::get('performance/review', [PerformanceReviewController::class, 'index'])->name('employee.performance.review');
 
     // Payslip
-    Route::get('payslip', [PayslipController::class, 'index'])->name('employee.payslip');
+    // Route::get('payslip', [PayslipController::class, 'index'])->name('employee.payslip');
 });
 
 
