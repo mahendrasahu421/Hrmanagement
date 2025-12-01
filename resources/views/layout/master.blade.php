@@ -536,6 +536,8 @@
                                             <li><a href="{{ route('settings.leave-type') }}">Leave
                                                     Type
                                                 </a></li>
+                                            <li><a href="{{ route('settings.leave-allow') }}">Leave Allow
+                                                </a></li>
                                             <li><a href="{{ route('settings.holiday') }}">Holiday
                                                 </a>
                                             </li>
@@ -835,7 +837,7 @@
                                     </li>
                                 </ul>
                             </li>
-                        @endif
+                       
 
                                 <li class="submenu">
                                     <a href="javascript:void(0);">

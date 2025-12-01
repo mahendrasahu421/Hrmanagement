@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Hr;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Holiday;
+use App\Models\Designation;
 use App\Models\Leave;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -14,32 +15,40 @@ class AttendanceController extends Controller
     /**
      * Display a listing of the resource.
      */
-   public function index()
-{
-    $data['title'] = 'Leave Request';
-    $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-    $today = date('Y-m-d');
-    $data['daily_leave_count'] = Leave::whereDate('created_at', $today)->count();
-    $data['onleave'] = Leave::count();
-    $data['depatment'] = Department::all();
+    public function index()
+    {
+        $data['title'] = 'Leave Request';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        $today = date('Y-m-d');
+        $data['daily_leave_count'] = Leave::whereDate('created_at', $today)->count();
+        $data['onleave'] = Leave::count();
+        $data['designation'] = Designation::all();
 
-    return view('home.attendance.index', $data);
-}
+        return view('home.attendance.index', $data);
+    }
+
+
+
+
 
 
     public function list(Request $request)
     {
         try {
-            $departmentId = $request->department_id;
+            $designationId = $request->designation_id;
 
-            $query = Leave::with(['leaveType', 'employee']);
+            // Base query (Today's leaves)
+            $query = Leave::with(['leaveType', 'employee'])
+                ->whereDate('created_at', Carbon::today());
 
-            if (!empty($departmentId)) {
-                $query->whereHas('employee', function ($q) use ($departmentId) {
-                    $q->where('department_id', $departmentId);
+            // Filter: Designation
+            if (!empty($designationId)) {
+                $query->whereHas('employee', function ($q) use ($designationId) {
+                    $q->where('designation_id', $designationId);
                 });
             }
 
+            // Search filter
             $search = $request->input('search.value');
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
@@ -53,45 +62,82 @@ class AttendanceController extends Controller
                 });
             }
 
-            $total = $query->count();
+            $recordsFiltered = $query->count();
 
-            $leaves = $query->skip($request->start)
-                ->take($request->length)
-                ->get();
+            // Pagination
+            $start = $request->start ?? 0;
+            $length = $request->length ?? 10;
+            $leaves = $query->skip($start)->take($length)->get();
 
             $data = [];
-            foreach ($leaves as $index => $leave) {
+
+            foreach ($leaves as $leave) {
+
+                $from = Carbon::parse($leave->from_date);
+                $to = Carbon::parse($leave->to_date);
+                $days = $from->diffInDays($to) + 1;
+
+                // Status badge
+                $statusLower = strtolower($leave->status);
+                $statusBadge = match ($statusLower) {
+                    'approved' => '<span class="badge bg-success">Approved</span>',
+                    'rejected' => '<span class="badge bg-danger">Rejected</span>',
+                    'sent' => '<span class="badge bg-primary">Pending</span>',
+                    default => '<span class="badge bg-warning">Pending</span>',
+                };
+
+                // Action buttons: only if status is 'Sent'
+                if ($statusLower === 'sent') {
+                    $actionButtons = '
+            <button class="btn btn-success btn-sm openModal" data-id="' . $leave->id . '" data-status="Approved">Accept</button>
+            <button class="btn btn-danger btn-sm openModal" data-id="' . $leave->id . '" data-status="Rejected">Reject</button>
+        ';
+                } else {
+                    // Otherwise show status badge as action
+                    $actionButtons = $statusBadge;
+                }
+
                 $data[] = [
                     'employee' => $leave->employee->employee_name ?? '--',
                     'leave_type' => $leave->leaveType->leave_name ?? '--',
-                    'days' => $leave->duration,
+                    'days' => $days,
                     'from_date' => $leave->from_date,
                     'to_date' => $leave->to_date,
                     'reason' => $leave->reason,
-                    'status' => ucfirst($leave->status),
+                    'status' => $statusBadge,
+                    'action' => $actionButtons,
                 ];
             }
 
-            // ⭐ NEW → Department-wise leave count
-            $departmentSummary = Leave::with('employee')
-                ->selectRaw('employees.department_id, COUNT(leaves.id) as total_leave')
-                ->join('employees', 'employees.employee_id', '=', 'leaves.employee_id')
-                ->groupBy('employees.department_id')
-                ->get();
+
 
             return response()->json([
                 'draw' => intval($request->draw),
-                'recordsTotal' => $total,
-                'recordsFiltered' => $total,
+                'recordsTotal' => $recordsFiltered,
+                'recordsFiltered' => $recordsFiltered,
                 'data' => $data,
-
-                // ⭐ This will give department-wise leave count
-                'departmentSummary' => $departmentSummary,
             ]);
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+
+
+    public function updateStatus(Request $request)
+    {
+
+        $leave = Leave::find($request->leave_id);
+
+        if (!$leave) {
+            return response()->json(['error' => 'Leave not found'], 404);
+        }
+
+        $leave->status = $request->new_status;
+        $leave->save();
+
+        return response()->json(['success' => true]);
     }
 
 

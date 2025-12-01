@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\LeaveType;
 use App\Models\Leave;
+use App\Models\Employee;
+use App\Models\LeaveMapping;
 use Carbon\Carbon;
 
 class leavesController extends Controller
@@ -16,41 +18,50 @@ class leavesController extends Controller
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
         $employeeId = auth('employee')->id();
-        $companyId = 1;
-        $leaveTypes = LeaveType::with([
-            'leaves' => function ($q) use ($employeeId) {
-                $q->where('employee_id', $employeeId)
-                    ->where('status', 'APPROVED')
-                    ->whereYear('from_date', Carbon::now()->year);
-            }
-        ])
-            ->where('company_id', $companyId)
-            ->where('status', 'Active')
+        $employee = Employee::find($employeeId);
+
+        if (!$employee) {
+            abort(404, 'Employee not found');
+        }
+
+        $designationId = $employee->designation_id; // Employee ki designation
+        $companyId = $employee->company_id; // Employee ki company
+
+        // Fetch leave mappings for this designation
+        $leaveMappings = LeaveMapping::with('leaveType')
+            ->where('designation_id', $designationId)
             ->get();
 
         $totalAllotted = 0;
         $totalUsed = 0;
         $leaveSummary = [];
 
-        foreach ($leaveTypes as $type) {
-            // ✅ Calculate used days from relationship
-            $used = $type->leaves->sum(function ($leave) {
-                $from = Carbon::parse($leave->from_date);
-                $to = Carbon::parse($leave->to_date);
-                return $from->diffInDays($to) + 1;
-            });
+        foreach ($leaveMappings as $mapping) {
+            $leaveType = $mapping->leaveType;
 
-            $remaining = max($type->total_leaves - $used, 0);
-            $totalAllotted += $type->total_leaves;
+            // Employee ne kitni leaves use ki hai
+            $used = Leave::where('employee_id', $employeeId)
+                ->where('leave_type_id', $leaveType->id)
+                ->where('status', 'APPROVED')
+                ->whereYear('from_date', Carbon::now()->year)
+                ->get()
+                ->sum(function ($leave) {
+                    return Carbon::parse($leave->from_date)
+                        ->diffInDays(Carbon::parse($leave->to_date)) + 1;
+                });
+
+            $remaining = max($mapping->allow_days - $used, 0);
+
+            $totalAllotted += $mapping->allow_days;
             $totalUsed += $used;
 
             $leaveSummary[] = [
-                'name' => $type->leave_name,
-                'total_leaves' => $type->total_leaves,
+                'name' => $leaveType->leave_name,
+                'total_leaves' => $mapping->allow_days,
                 'used' => $used,
                 'remaining' => $remaining,
-                'icon' => $this->getLeaveIcon($type->leave_name),
-                'color' => $this->getLeaveColor($type->leave_name),
+                'icon' => $this->getLeaveIcon($leaveType->leave_name),
+                'color' => $this->getLeaveColor($leaveType->leave_name),
             ];
         }
 
@@ -61,6 +72,7 @@ class leavesController extends Controller
 
         return view('employee.leaves.index', $data);
     }
+
 
 
 
@@ -94,7 +106,6 @@ class leavesController extends Controller
     }
     public function store(Request $request)
     {
-        // dd($request->all());
         try {
             // ✅ Validate input
             $request->validate([
@@ -102,12 +113,37 @@ class leavesController extends Controller
                 'from_date' => 'required|date',
                 'to_date' => 'required|date|after_or_equal:from_date',
                 'reason' => 'required|string|max:255',
-                'status' => 'required|string'
+                'status' => 'required',
             ]);
 
-            // ✅ Create leave entry
+            $employeeId = auth('employee')->id();
+            $employee = Employee::find($employeeId);
+
+            if (!$employee) {
+                return back()->with('error', 'Employee not found')->withInput();
+            }
+
+            // ✅ Check leave mapping for this employee's designation
+            $leaveMapping = LeaveMapping::where('designation_id', $employee->designation_id)
+                ->where('leave_type_id', $request->leave_type_id)
+                ->first();
+
+            if (!$leaveMapping) {
+                return back()->with('error', 'You are not allowed to apply for this leave type')->withInput();
+            }
+
+            // ✅ Calculate requested days
+            $from = Carbon::parse($request->from_date);
+            $to = Carbon::parse($request->to_date);
+            $daysRequested = $from->diffInDays($to) + 1;
+
+            if ($daysRequested > $leaveMapping->allow_days) {
+                return back()->with('error', 'You are requesting more days than allowed')->withInput();
+            }
+
+            // ✅ Create leave entry with PENDING status
             Leave::create([
-                'employee_id' => auth('employee')->id(),
+                'employee_id' => $employeeId,
                 'leave_type_id' => $request->leave_type_id,
                 'from_date' => $request->from_date,
                 'to_date' => $request->to_date,
@@ -115,23 +151,21 @@ class leavesController extends Controller
                 'status' => $request->status,
             ]);
 
-            // ✅ Redirect on success
             return redirect()
                 ->route('employee.leaves')
-                ->with('success', 'Leave applied successfully!')->withInput();
-            ;
+                ->with('success', 'Leave applied successfully!');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // ⚠️ Handle validation errors separately
             return back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
-
-            // ❌ Catch all other exceptions
+            // ❌ Show real error message
             \Log::error('Leave Apply Error: ' . $e->getMessage());
-            return back()->with('error', 'Something went wrong !')->withInput();
+            return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
         }
     }
+
+
 
 
     public function list(Request $request)

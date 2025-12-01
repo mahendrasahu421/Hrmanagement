@@ -41,4 +41,9 @@ class LeaveType extends Model
     {
         return $this->hasMany(Leave::class);
     }
+    public function designations()
+{
+    return $this->belongsToMany(Designation::class, 'leave_mappings', 'leave_type_id', 'designation_id');
+}
+
 }

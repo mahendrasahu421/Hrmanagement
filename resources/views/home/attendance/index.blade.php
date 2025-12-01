@@ -81,10 +81,10 @@
 
                         <div class="col-md-3">
 
-                            <select id="department" class="form-select">
-                                <option>All Departments</option>
-                                @foreach ($depatment as $depatments)
-                                    <option value="{{ $depatments->id }}">{{ $depatments->department_name }}</option>
+                            <select id="designation" class="form-select select2" name="designation">
+                                <option value="">All Designations</option>
+                                @foreach ($designation as $designations)
+                                    <option value="{{ $designations->id }}">{{ $designations->name }}</option>
                                 @endforeach
 
                             </select>
@@ -95,9 +95,9 @@
                                 <i class="ti ti-search me-1"></i> Filter
                             </button>
                         </div>
-                        <div id="deptSummary">
+                        {{-- <div id="deptSummary">
                             <!-- Data will load via Ajax -->
-                        </div>
+                        </div> --}}
                     </form>
                 </div>
             </div>
@@ -113,11 +113,12 @@
                                     <th>Sn</th>
                                     <th>Employee Name</th>
                                     <th>Leave Type</th>
-                                    <th>days</th>
+                                    <th>Days</th>
                                     <th>From Date</th>
                                     <th>To Date</th>
-                                    <th>reason</th>
-                                    <th>status</th>
+                                    <th>Reason</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
 
                                 </tr>
                             </thead>
@@ -131,6 +132,34 @@
             <!-- /Attendance Summary Table -->
 
         </div>
+        <!-- Add Goal Tracking -->
+        <div class="modal fade" id="statusModal">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Confirm Leave Status</h4>
+                        <button type="button" class="btn-close custom-btn-close" data-bs-dismiss="modal"
+                            aria-label="Close">
+                            <i class="ti ti-x"></i>
+                        </button>
+                    </div>
+                    <form id="statusForm">
+                        @csrf
+                        <input type="hidden" name="leave_id" id="leave_id">
+                        <input type="hidden" name="new_status" id="new_status">
+                        <div class="modal-body pb-0">
+                            <p>Are you sure you want to change the leave status to <b id="statusText"></b>?</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-light me-2" data-bs-dismiss="modal">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Yes, Confirm</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- /Add Goal Tracking -->
 
         <!-- Footer -->
         <x-footer />
@@ -143,7 +172,62 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
 
+            // CSRF FIX
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            // Open Modal
+            $(document).on("click", ".openModal", function() {
+
+                let leaveId = $(this).data("id");
+
+                let newStatus = $(this).data("status");
+
+                $("#leave_id").val(leaveId);
+                $("#new_status").val(newStatus);
+                $("#statusText").text(newStatus);
+
+                $("#statusModal").modal("show");
+            });
+
+            // Submit Modal Form
+            // Submit Modal Form
+            $("#statusForm").on("submit", function(e) {
+                console.log('working');
+                e.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('leave.updateStatus') }}",
+                    type: "POST",
+                    data: $(this).serialize(),
+                    success: function(response) {
+
+                        $("#statusModal").modal("hide");
+
+                        Swal.fire({
+                            icon: "success",
+                            title: "Status Updated!",
+                            timer: 1500,
+                            showConfirmButton: false
+                        });
+
+                        $("#tableexample").DataTable().ajax.reload(null, false); // ← FIXED ID
+                    },
+                    error: function(xhr) {
+                        Swal.fire("Error", "Something went wrong", "error");
+                    }
+                });
+            });
+
+
+        });
+    </script>
     <script>
         $(document).ready(function() {
 
@@ -155,7 +239,7 @@
                 ajax: {
                     url: "{{ route('leaves.list') }}",
                     data: function(d) {
-                        d.department_id = $('#department').val(); // 👉 Filter Send
+                        d.designation_id = $('#designation').val();
                     },
                     dataSrc: function(json) {
                         return json.data;
@@ -187,33 +271,35 @@
                     },
                     {
                         data: 'status'
+                    },
+                    {
+                        data: 'action'
                     }
                 ]
             });
 
-            // 👉 Filter button click
-            $('button[type="submit"]').click(function(e) {
-                e.preventDefault();
+            // Filter button
+            $('#filterBtn').click(function() {
                 table.ajax.reload();
                 showFilterNote();
             });
 
             function showFilterNote() {
-                let dept = $("#department option:selected").text();
-
+                let dept = $("#designation option:selected").text() || 'All';
                 if ($("#filter-note").length === 0) {
                     $(".page-breadcrumb").append(`
                 <p id="filter-note" class="text-primary small mt-1">
-                    Showing daily leave list — Filter applied: <b>${dept}</b>
+                    Showing leave list — Filter applied: <b>${dept}</b>
                 </p>
             `);
                 } else {
                     $("#filter-note").html(
-                        `Showing daily leave list — Filter applied: <b>${dept}</b>`
+                        `Showing leave list — Filter applied: <b>${dept}</b>`
                     );
                 }
             }
 
+            showFilterNote(); // only note, no reload
         });
     </script>
 @endpush

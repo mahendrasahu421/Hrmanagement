@@ -41,7 +41,7 @@
                                     <!-- Leave Type -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="leave_type_id">Leave Type *</label>
-                                        <select class="form-control" id="leave_type_id" name="leave_type_id" required>
+                                        <select class="form-control select2" id="leave_type_id" name="leave_type_id" required>
                                             <option value="">-- Select Leave Type --</option>
                                             @foreach ($leaveTypes as $leave)
                                                 <option value="{{ $leave->id }}">{{ $leave->leave_name }}</option>
@@ -77,7 +77,7 @@
                                     <!-- Status -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="status">Status *</label>
-                                        <select class="form-control" id="status" name="status" required>
+                                        <select class="form-control select2" id="status" name="status" required>
                                             <option value="DRAFT" selected>Draft</option>
                                             <option value="SENT">Sent</option>
                                         </select>
