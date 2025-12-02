@@ -21,7 +21,7 @@ class AttendanceController extends Controller
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         $today = date('Y-m-d');
         $data['daily_leave_count'] = Leave::whereDate('created_at', $today)->count();
-        $data['onleave'] = Leave::count();
+        $data['onleave'] = Leave::whereDate('created_at', Carbon::today())->count();
         $data['designation'] = Designation::all();
 
         return view('home.attendance.index', $data);
