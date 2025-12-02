@@ -1058,7 +1058,7 @@
                                 </ul>
                             </li>
                         @endif
-
+                        @if(Auth::user()->role_id==3)
                         <li class="submenu">
                             <a href="javascript:void(0);">
                                 <i class="ti ti-timeline"></i><span>Recruitment</span>
@@ -1273,6 +1273,7 @@
                                 <i class="ti ti-circle-x"></i><span>Termination</span>
                             </a>
                         </li>
+                         @endif
                     </ul>
                     </li>
 
