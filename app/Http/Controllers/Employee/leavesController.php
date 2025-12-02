@@ -15,6 +15,7 @@ class leavesController extends Controller
     public function index()
     {
         $data['title'] = 'Leaves';
+        $data['titleRoute'] = 'Leave Management / Leaves List';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
         $employeeId = auth('employee')->id();
@@ -24,8 +25,7 @@ class leavesController extends Controller
             abort(404, 'Employee not found');
         }
 
-        $designationId = $employee->designation_id; // Employee ki designation
-        $companyId = $employee->company_id; // Employee ki company
+        $designationId = $employee->designation_id;
 
         // Fetch leave mappings for this designation
         $leaveMappings = LeaveMapping::with('leaveType')
@@ -37,9 +37,15 @@ class leavesController extends Controller
         $leaveSummary = [];
 
         foreach ($leaveMappings as $mapping) {
+
             $leaveType = $mapping->leaveType;
 
-            // Employee ne kitni leaves use ki hai
+            // ❌ Not applicable? Skip
+            if (!$this->isLeaveApplicable($employee, $leaveType)) {
+                continue;
+            }
+
+            // Used leaves calculation
             $used = Leave::where('employee_id', $employeeId)
                 ->where('leave_type_id', $leaveType->id)
                 ->where('status', 'APPROVED')
@@ -56,6 +62,7 @@ class leavesController extends Controller
             $totalUsed += $used;
 
             $leaveSummary[] = [
+                'id' => $leaveType->id,
                 'name' => $leaveType->leave_name,
                 'total_leaves' => $mapping->allow_days,
                 'used' => $used,
@@ -73,6 +80,26 @@ class leavesController extends Controller
         return view('employee.leaves.index', $data);
     }
 
+
+    private function isLeaveApplicable($employee, $leaveType)
+    {
+        // ✔ Gender-based applicability
+        if ($leaveType->applicable_for !== 'All') {
+            if (strtoupper($leaveType->applicable_for) !== strtoupper($employee->employee_gender)) {
+                return false;
+            }
+        }
+
+        // ✔ New employee restriction: joining date < 2 months
+        $joinDate = Carbon::parse($employee->joining_date);
+        $monthsWorked = $joinDate->diffInMonths(Carbon::now());
+
+        if ($monthsWorked < 2) {
+            return false; // Employee ne 2 months complete nahi kiye → leave allowed nahi
+        }
+
+        return true;
+    }
 
 
 
@@ -98,12 +125,41 @@ class leavesController extends Controller
     }
     public function create()
     {
-        $data['title'] = 'Leaves Apply';
-        $data['leaveTypes'] = LeaveType::all();
+        $data['title'] = 'Leaves';
+        $data['titleRoute'] = 'Leave Management / Leaves Apply';
+
+        $employeeId = auth('employee')->id();
+        $employee = Employee::find($employeeId);
+
+        if (!$employee) {
+            abort(404, 'Employee not found');
+        }
+
+        $employeeGender = strtoupper($employee->gender);
+
+        // 🔹 Current date
+        $today = Carbon::now();
+
+        // 🔹 Months since joining
+        $monthsWorked = Carbon::parse($employee->joining_date)->diffInMonths($today);
+
+        // 👉 Filter leave types based on gender AND minimum service (2 months)
+        $data['leaveTypes'] = LeaveType::where(function ($q) use ($employeeGender) {
+            $q->where('applicable_for', 'ALL')
+                ->orWhere('applicable_for', $employeeGender);
+        })
+            ->when($monthsWorked < 2, function ($q) {
+                // 🔹 If employee is new (<2 months), exclude all leave types except "Leave Without Pay"
+                $q->where('leave_name', 'Leave Without Pay');
+            })
+            ->get();
 
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+
         return view('employee.leaves.create', $data);
     }
+
+
     public function store(Request $request)
     {
         try {
@@ -178,9 +234,15 @@ class leavesController extends Controller
             // ✅ Authenticated employee ID
             $employeeId = auth('employee')->id();
 
-            // ✅ Query for employee's leave records
+            // ✅ Base query for employee's leave records
             $query = Leave::with('leaveType')
                 ->where('employee_id', $employeeId);
+
+            // 🔹 Filter by selected leave type
+            $leaveTypeId = $request->input('leave_type'); // from DataTable ajax
+            if ($leaveTypeId) {
+                $query->where('leave_type_id', $leaveTypeId);
+            }
 
             // ✅ Apply search filter
             if ($search) {
@@ -193,6 +255,8 @@ class leavesController extends Controller
             }
 
             $totalRecord = $query->count();
+
+            // ✅ Fetch paginated data
             $leaves = $query->skip($start)->take($limit)->get();
 
             $rows = [];
@@ -206,19 +270,17 @@ class leavesController extends Controller
                     'reason' => $leave->reason ?? '--',
                     'status' => match (strtolower($leave->status)) {
                         'approved' => '<span class="badge badge-success d-inline-flex align-items-center badge-xs">
-                        <i class="ti ti-point-filled me-1"></i>Approved
-                   </span>',
-                        'pending' => '<span class="badge badge-warning d-inline-flex align-items-center badge-xs">
-                        <i class="ti ti-point-filled me-1"></i>Pending
-                  </span>',
+                                        <i class="ti ti-point-filled me-1"></i>Approved
+                                   </span>',
+                        'sent' => '<span class="badge badge-warning d-inline-flex align-items-center badge-xs">
+                                        <i class="ti ti-point-filled me-1"></i>Approval Pending
+                                   </span>',
                         'rejected' => '<span class="badge badge-danger d-inline-flex align-items-center badge-xs">
-                        <i class="ti ti-point-filled me-1"></i>Rejected
-                   </span>',
+                                        <i class="ti ti-point-filled me-1"></i>Rejected
+                                   </span>',
                         default => '<span class="badge badge-secondary d-inline-flex align-items-center badge-xs">
-                        <i class="ti ti-point-filled me-1"></i>--
-                 </span>',
+                                        <i class="ti ti-point-filled me-1"></i>--</span>',
                     },
-
                     'created_at' => $leave->created_at->format('d M Y'),
                     'action' => '<a href="#" class="btn btn-sm btn-primary">View</a>',
                 ];
@@ -241,5 +303,68 @@ class leavesController extends Controller
             ], 500);
         }
     }
+
+
+    public function getLeaveBalance($leaveTypeId)
+    {
+        $employeeId = auth('employee')->id();
+        $leaveType = LeaveType::find($leaveTypeId);
+
+        if (!$leaveType) {
+            return response()->json([
+                'allotted' => 0,
+                'used' => 0,
+                'remaining' => 0,
+                'leave_name' => ''
+            ]);
+        }
+
+        // ⭐ Leave Without Pay Handling
+        if ($leaveType->leave_name === "Leave Without Pay") {
+
+            return response()->json([
+                'allotted' => "Unlimited",
+                'used' => "-",
+                'remaining' => "Unlimited",
+                'leave_name' => "Leave Without Pay"
+            ]);
+        }
+
+        // Paid leave mapping
+        $mapping = LeaveMapping::where('designation_id', auth('employee')->user()->designation_id)
+            ->where('leave_type_id', $leaveTypeId)
+            ->first();
+
+        if (!$mapping) {
+            return response()->json([
+                'allotted' => 0,
+                'used' => 0,
+                'remaining' => 0,
+                'leave_name' => $leaveType->leave_name
+            ]);
+        }
+
+        // Used leaves
+        $used = Leave::where('employee_id', $employeeId)
+            ->where('leave_type_id', $leaveTypeId)
+            ->where('status', 'APPROVED')
+            ->whereYear('from_date', Carbon::now()->year)
+            ->get()
+            ->sum(function ($leave) {
+                return Carbon::parse($leave->from_date)
+                    ->diffInDays(Carbon::parse($leave->to_date)) + 1;
+            });
+
+        $remaining = max($mapping->allow_days - $used, 0);
+
+        return response()->json([
+            'allotted' => $mapping->allow_days,
+            'used' => $used,
+            'remaining' => $remaining,
+            'leave_name' => $leaveType->leave_name
+        ]);
+    }
+
+
 
 }

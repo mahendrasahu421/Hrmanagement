@@ -8,12 +8,10 @@
             <!-- Breadcrumb -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                 <div class="my-auto mb-2">
-                    <h2 class="mb-1">Leaves</h2>
+                    <h2 class="mb-1">{{ $title }}</h2>
                     <nav>
                         <ol class="breadcrumb mb-0">
-
-
-                            <li class="breadcrumb-item active" aria-current="page">Leaves</li>
+                            <li class="breadcrumb-item active" aria-current="page">{{ $titleRoute }}</li>
                         </ol>
                     </nav>
                 </div>
@@ -21,7 +19,7 @@
 
                     <div class="mb-2">
                         <a href="{{ route('employee.leaves.apply') }}" class="btn btn-primary d-flex align-items-center"><i
-                                class="ti ti-circle-plus me-2"></i>Add
+                                class="ti ti-circle-plus me-2"></i>Apply for
                             Leave</a>
                     </div>
 
@@ -35,26 +33,37 @@
                     <div class="col-xl-3 col-md-6">
                         <div class="card {{ $leave['color'] }}">
                             <div class="card-body">
-                                <div class="d-flex align-items-center justify-content-between">
-                                    <div class="text-start">
-                                        <p class="mb-1">{{ $leave['name'] }}</p>
-                                        <h4>{{ $leave['total_leaves'] }}</h4>
+
+                                @if (isset($leave['empty']))
+                                    <div class="text-center py-4 text-muted">
+                                        <i class="fa fa-ban fs-32"></i>
+                                        <p class="mb-0">Not Applicable</p>
                                     </div>
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-2">
-                                            <span class="avatar avatar-md d-flex">
-                                                <i class="{{ $leave['icon'] }} fs-32"></i>
-                                            </span>
+                                @else
+                                    <div class="d-flex align-items-center justify-content-between">
+                                        <div class="text-start">
+                                            <p class="mb-1">{{ $leave['name'] }}</p>
+                                            <h4>{{ $leave['total_leaves'] }}</h4>
+                                        </div>
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 me-2">
+                                                <span class="avatar avatar-md d-flex">
+                                                    <i class="{{ $leave['icon'] }} fs-32"></i>
+                                                </span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <span class="badge bg-secondary-transparent">
-                                    Remaining Leaves : {{ $leave['remaining'] }}
-                                </span>
+
+                                    <span class="badge bg-secondary-transparent mt-2">
+                                        Remaining Leaves : {{ $leave['remaining'] }}
+                                    </span>
+                                @endif
+
                             </div>
                         </div>
                     </div>
                 @endforeach
+
             </div>
             <!-- /Leaves Info -->
 
@@ -69,29 +78,23 @@
                     </div>
                     <div class="d-flex my-xl-auto right-content align-items-center flex-wrap row-gap-3">
                         <div class="me-3">
-
-                        </div>
-                        <div class="dropdown me-3">
-                            <a href="javascript:void(0);"
-                                class="dropdown-toggle btn btn-sm btn-white d-inline-flex align-items-center"
-                                data-bs-toggle="dropdown">
-                                Leave Type
-                            </a>
-                            <ul class="dropdown-menu  dropdown-menu-end p-3">
-                                <li>
-                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Medical Leave</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Casual Leave</a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0);" class="dropdown-item rounded-1">Annual Leave</a>
-                                </li>
-                            </ul>
+                            <!-- koi aur content -->
                         </div>
 
+                        <div class="me-3">
+                            <label for="leave_type_filter" class="form-label">Leave Type</label>
+                            <select id="leave_type_filter" class="form-control">
+                                <option value="">All Leave Types</option>
+                                @foreach ($leaveSummary as $leave)
+                                    @if (!isset($leave['empty']))
+                                        <option value="{{ $leave['id'] }}">{{ $leave['name'] }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
 
                     </div>
+
 
                 </div>
                 <div class="row">
@@ -137,70 +140,57 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('.select2').select2();
+ <script>
+$(document).ready(function() {
+    $('.select2').select2();
 
-            var table = $('#tableexample').DataTable({
-                responsive: true,
-                processing: true,
-                serverSide: true,
-                scrollX: true,
-                ajax: {
-                    url: "{{ route('employee.leaves.list') }}",
-                    data: function(d) {
+    // 🔹 Initialize DataTable
+    var table = $('#tableexample').DataTable({
+        responsive: true,
+        processing: true,
+        serverSide: true,
+        scrollX: true,
+        ajax: {
+            url: "{{ route('employee.leaves.list') }}",
+            data: function(d) {
+                d.leave_type = $('#leave_type_filter').val(); // send selected leave type
+            },
+            dataSrc: function(json) {
+                return json.data;
+            }
+        },
+        columns: [
+            { data: null, render: function(data, type, row, meta) { return meta.row + meta.settings._iDisplayStart + 1; } },
+            { data: 'leave_type' },
+            { data: 'from_date' },
+            { data: 'to_date' },
+            { data: null, render: function(data, type, row) {
+                let fromDate = new Date(row.from_date);
+                let toDate = new Date(row.to_date);
+                if (fromDate && toDate && toDate >= fromDate) {
+                    let diffTime = toDate - fromDate;
+                    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                    return diffDays;
+                }
+                return 0;
+            }},
+            { data: 'reason' },
+            { data: 'status' }
+        ],
+        dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
+             "<'row'<'col-md-12'tr>>" +
+             "<'row mt-2'<'col-md-5'i><'col-md-7'p>>"
+    });
 
-                    },
-                    dataSrc: function(json) {
-                        return json.data;
-                    }
-                },
-                columns: [{
-                        data: null,
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
-                    },
-                    {
-                        data: 'leave_type'
-                    },
-                    {
-                        data: 'from_date'
-                    },
-                    {
-                        data: 'to_date'
-                    },
-                    {
-                        data: null,
-                        render: function(data, type, row) {
-                            let fromDate = new Date(row.from_date);
-                            let toDate = new Date(row.to_date);
+    // 🔹 Filter on change
+    $('#leave_type_filter').on('change', function() {
+        table.ajax.reload();
+    });
 
-                            if (fromDate && toDate && toDate >= fromDate) {
-                                let diffTime = toDate - fromDate;
-                                let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-                                return diffDays;
-                            }
-                            return 0;
-                        }
-                    },
-                    {
-                        data: 'reason'
-                    },
-                    {
-                        data: 'status'
-                    },
-                    
-                ],
-                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
-                    "<'row'<'col-md-12'tr>>" +
-                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
-            });
+    window.fetchGenderCounts = function() {
+        table.ajax.reload();
+    };
+});
+</script>
 
-            window.fetchGenderCounts = function() {
-                table.ajax.reload();
-            };
-
-        });
-    </script>
 @endpush

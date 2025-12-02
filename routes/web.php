@@ -177,9 +177,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
 
-
-
-
     // Master/Payroll/salary-component
     Route::get('masters/payroll/salary-component', [SalaryComponentController::class, 'index'])->name('masters.payroll.salary-component');
     Route::get('masters/payroll/salary-component/create', [SalaryComponentController::class, 'create'])->name('masters.payroll.salary-component.create');
@@ -322,6 +319,8 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::get('leaves/apply', [LeavesController::class, 'create'])->name('employee.leaves.apply');
     Route::post('leaves/apply/store', [LeavesController::class, 'store'])->name('employee.leaves.store');
     Route::get('leaves/list', [LeavesController::class, 'list'])->name('employee.leaves.list');
+    Route::get('leave/balance/{leaveTypeId}', [LeavesController::class, 'getLeaveBalance'])->name('leave.balance')
+        ;
 
     // Attendance & Holidayssettings
     Route::get('attendance', [AttendanceController::class, 'show'])->name('employee.attendance');
