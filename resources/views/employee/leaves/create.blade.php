@@ -15,7 +15,7 @@
                                     <nav>
                                         <ol class="breadcrumb mb-0">
                                             <li class="breadcrumb-item" aria-current="page">
-                                                Employee / Leave Management / leave / Apply
+                                                {{ $titleRoute }}
                                             </li>
                                         </ol>
                                     </nav>
@@ -32,23 +32,70 @@
                             <!-- /Breadcrumb -->
                         </div>
 
+
                         <div class="card-body">
+                            <div id="leaveInfo" style="display:none;">
+                                <div class="row mt-3 g-3">
+
+                                    <div class="col-md-4">
+                                        <div class="card text-center shadow-sm border-primary rounded-3 bg-light">
+                                            <div class="card-body py-3">
+                                                <h6 class="text-primary fw-medium mb-2">Total Leaves</h6>
+                                                <h3 class="text-primary mb-0 fw-bold" id="totalLeaves">0</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card text-center shadow-sm border-warning rounded-3 bg-light">
+                                            <div class="card-body py-3">
+                                                <h6 class="text-warning fw-medium mb-2">Used Leaves</h6>
+                                                <h3 class="text-warning mb-0 fw-bold" id="usedLeaves">0</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="card text-center shadow-sm border-success rounded-3 bg-light">
+                                            <div class="card-body py-3">
+                                                <h6 class="text-success fw-medium mb-2">Remaining</h6>
+                                                <h3 class="text-success mb-0 fw-bold" id="remainingLeaves">0</h3>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
                             <form class="needs-validation" novalidate method="POST"
                                 action="{{ route('employee.leaves.store') }}">
                                 @csrf
 
                                 <div class="form-row row">
+                                    <div id="leaveLimitMsg" class="text-danger"
+                                            style="display:none;">
+                                            <small>
+                                                You have used all available leaves for <span class="leaveName"></span>.
+                                                <br>
+                                                <span style="color:#b30000;">Please select another leave type.</span>
+                                            </small>
+                                        </div>
+
                                     <!-- Leave Type -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="leave_type_id">Leave Type *</label>
-                                        <select class="form-control select2" id="leave_type_id" name="leave_type_id" required>
+                                        <select class="form-control select2" id="leave_type_id" name="leave_type_id"
+                                            required>
                                             <option value="">-- Select Leave Type --</option>
                                             @foreach ($leaveTypes as $leave)
                                                 <option value="{{ $leave->id }}">{{ $leave->leave_name }}</option>
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please select a leave type.</div>
+                                        
+
                                     </div>
+
 
                                     <!-- From Date -->
                                     <div class="col-md-4 mb-3">
@@ -66,8 +113,13 @@
                                 </div>
 
                                 <div class="form-row row">
+                                    <div class="col-md-4 mb-3">
+                                        <label class="form-label">Total Leaves</label>
+                                        <input type="text" class="form-control" id="total_leaves" readonly
+                                            placeholder="0">
+                                    </div>
                                     <!-- Reason -->
-                                    <div class="col-md-8 mb-3">
+                                    <div class="col-md-4 mb-3">
                                         <label class="form-label" for="reason">Reason *</label>
                                         <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="Enter reason for leave"
                                             required></textarea>
@@ -85,27 +137,22 @@
                                     </div>
                                 </div>
 
-                                <div class="form-row row">
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label">Total Leaves</label>
-                                        <input type="text" class="form-control" id="total_leaves" readonly
-                                            placeholder="0">
-                                    </div>
-                                </div>
+
 
                                 <!-- Submit -->
                                 <div class="d-flex justify-content-end mt-3">
-                                    <a href="{{ route('employee.leaves.list') }}" class="btn btn-light me-2">
+                                    <a href="{{ route('employee.leaves') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
                                     </a>
                                     <button type="reset" class="btn btn-secondary me-2">
                                         <i class="ti ti-x me-1"></i> Cancel
                                     </button>
-                                    <button class="btn btn-primary" type="submit">
+                                    <button class="btn btn-primary" id="submitBtn" type="submit">
                                         <i class="ti ti-device-floppy me-1"></i> Apply Leave
                                     </button>
                                 </div>
                             </form>
+
 
                             <script>
                                 (function() {
@@ -133,6 +180,78 @@
     </div>
 
     <!-- Scripts -->
+
+@endsection
+@push('after_scripts')
+    <script>
+        $(document).ready(function() {
+
+            $('select[name="leave_type_id"]').on('change', function() {
+
+                let leaveTypeId = $(this).val();
+
+                if (leaveTypeId) {
+
+                    let url = "{{ route('leave.balance', ['leaveTypeId' => ':id']) }}";
+                    url = url.replace(':id', leaveTypeId);
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function(data) {
+
+                            // ⭐ Set leave name in message
+                            $("#leaveLimitMsg span.leaveName").text(data.leave_name);
+
+                            // 🔹 Handle Unlimited leave
+                            if (data.allotted === "Unlimited") {
+                                $("#submitBtn").prop("disabled", false);
+                                $("#leaveLimitMsg").hide();
+                                $("#leaveInfo").hide(); // Hide leave info for unlimited
+                            } else {
+                                // Show leave info
+                                $("#leaveInfo").show();
+                                $("#totalLeaves").text(data.allotted);
+                                $("#usedLeaves").text(data.used);
+                                $("#remainingLeaves").text(data.remaining);
+
+                                if (data.allotted == data.used) {
+                                    $("#submitBtn").prop("disabled", true);
+                                    $("#leaveLimitMsg").show();
+                                } else {
+                                    $("#submitBtn").prop("disabled", false);
+                                    $("#leaveLimitMsg").hide();
+                                }
+                            }
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
+
+
+
+
+
+    <script>
+        if (data.allotted === "Unlimited") {
+            // Unlimited leave → always enable submit, hide message
+            $("#submitBtn").prop("disabled", false);
+            $("#leaveLimitMsg").hide();
+        } else {
+            // Limited leave → check used vs allotted
+            if (data.allotted == data.used) {
+                $("#submitBtn").prop("disabled", true);
+                $("#leaveLimitMsg").show();
+            } else {
+                $("#submitBtn").prop("disabled", false);
+                $("#leaveLimitMsg").hide();
+            }
+        }
+    </script>
+
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let today = new Date().toISOString().split('T')[0];
@@ -176,4 +295,4 @@
             });
         });
     </script>
-@endsection
+@endpush

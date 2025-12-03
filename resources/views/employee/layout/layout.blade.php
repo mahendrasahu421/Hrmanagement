@@ -240,19 +240,19 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="me-1">
+                            {{-- <div class="me-1">
                                 <a href="#" class="btn btn-menubar position-relative">
                                     <i class="ti ti-brand-hipchat"></i>
                                     <span
                                         class="badge bg-info rounded-pill d-flex align-items-center justify-content-center header-badge">5</span>
                                 </a>
-                            </div>
-                            <div class="me-1">
+                            </div> --}}
+                            {{-- <div class="me-1">
                                 <a href="#" class="btn btn-menubar" data-bs-toggle="dropdown"
                                     aria-expanded="false">
                                     <i class="ti ti-message"></i>
                                 </a>
-                            </div>
+                            </div> --}}
                             <div class="me-1 notification_item">
                                 <a href="#" class="btn btn-menubar position-relative me-1"
                                     id="notification_popup" data-bs-toggle="dropdown">
@@ -365,29 +365,33 @@
                                         <a href="#" class="btn btn-primary w-100">View All</a>
                                     </div>
                                 </div>
+                                
                             </div>
+                           
                             <div class="dropdown profile-dropdown">
+                                
                                 <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center"
                                     data-bs-toggle="dropdown">
                                     <span class="avatar avatar-sm online">
-                                        
-                                        <img src="{{ asset('frontent/assets/img/profiles/avatar-12.jpg') }}" alt="Img"
-                                            class="img-fluid rounded-circle">
+
+                                        <img src="{{ asset('frontent/assets/img/profiles/avatar-12.jpg') }}"
+                                            alt="Img" class="img-fluid rounded-circle">
                                     </span>
                                 </a>
+                                
                                 <div class="dropdown-menu shadow-none">
                                     <div class="card mb-0">
                                         <div class="card-header">
                                             <div class="d-flex align-items-center">
                                                 <span class="avatar avatar-lg me-2 avatar-rounded">
-                                                    <img src="{{ asset('frontent/assets/img/profiles/avatar-12.jpg') }}" alt="img">
+                                                    <img src="{{ asset('frontent/assets/img/profiles/avatar-12.jpg') }}"
+                                                        alt="img">
                                                 </span>
                                                 <div>
-                                                    <h5 class="mb-0">Kevin Larry</h5>
-                                                    <p class="fs-12 fw-medium mb-0"><a href="#"
-                                                            class="__cf_email__"
-                                                            data-cfemail="d9aeb8ababbcb799bca1b8b4a9b5bcf7bab6b4">[email&#160;protected]</a>
-                                                    </p>
+                                                    <h5 class="mb-0">{{ Auth::guard('employee')->user()->employee_name }}
+
+                                                    </h5>
+                                                   
                                                 </div>
                                             </div>
                                         </div>
@@ -516,46 +520,46 @@
                     </div>
                 </div>
             </div>
-           <div class="sidebar-inner slimscroll">
-    <div id="sidebar-menu" class="sidebar-menu">
-        <ul>
+            <div class="sidebar-inner slimscroll">
+                <div id="sidebar-menu" class="sidebar-menu">
+                    <ul>
 
-            <!-- Dashboard -->
-            <li class="menu-title"><span>Dashboard</span></li>
-            <li>
-                <a href="{{ url('dashboard') }}">
-                    <i class="ti ti-layout-navbar"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
+                        <!-- Dashboard -->
+                        <li class="menu-title"><span>Dashboard</span></li>
+                        <li>
+                            <a href="{{ url('dashboard') }}">
+                                <i class="ti ti-layout-navbar"></i>
+                                <span>Dashboard</span>
+                            </a>
+                        </li>
 
-            <!-- Leave Management -->
-            <li class="menu-title"><span>Leave Management</span></li>
+                        <!-- Leave Management -->
+                        <li class="menu-title"><span>Leave Management</span></li>
 
-            <li class="submenu">
-                <a href="javascript:void(0);">
-                    <i class="ti ti-smart-home"></i>
-                    <span>Leave Management</span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <ul>
-                    <li><a href="{{ route('employee.leaves.apply') }}">Apply Leaves</a></li>
-                    <li><a href="{{ route('employee.leaves') }}">Leaves List</a></li>
-                    <li><a href="{{ route('employee.holidays') }}">Holiday List</a></li>
-                </ul>
-            </li>
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-smart-home"></i>
+                                <span>Leave Management</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li><a href="{{ route('employee.leaves.apply') }}">Apply Leaves</a></li>
+                                <li><a href="{{ route('employee.leaves') }}">Leaves List</a></li>
+                                <li><a href="{{ route('employee.holidays') }}">Holiday List</a></li>
+                            </ul>
+                        </li>
 
-            <!-- Self Appraisal -->
-            <li>
-                <a href="{{ route('employee.self.appraisal') }}">
-                    <i class="fas fa-file-signature"></i>
-                    <span>Self Appraisal</span>
-                </a>
-            </li>
+                        <!-- Self Appraisal -->
+                        <li>
+                            <a href="{{ route('employee.self.appraisal') }}">
+                                <i class="fas fa-file-signature"></i>
+                                <span>Self Appraisal</span>
+                            </a>
+                        </li>
 
-        </ul>
-    </div>
-</div>
+                    </ul>
+                </div>
+            </div>
 
         </div>
         <!-- /Sidebar -->
