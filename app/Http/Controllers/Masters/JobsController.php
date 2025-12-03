@@ -10,7 +10,9 @@ use App\Models\JobCategory;
 use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\AcflJobs;
+use App\Models\City;
 use Illuminate\Support\Facades\DB;
+
 class JobsController extends Controller
 {
     /**
@@ -20,7 +22,9 @@ class JobsController extends Controller
     {
         $data['title'] = 'Recruitment / Jobs ';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-
+        $data['jobs'] = AcflJobs::with(['designation', 'state'])
+            ->orderBy('id', 'DESC')
+            ->get();
         return view('home.jobs.index', $data);
     }
 
@@ -53,60 +57,59 @@ class JobsController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-        // Validation
+        // Validation (names now match your form)
         $request->validate([
-            'branch' => 'required|exists:branches,id',
+            'branch_id' => 'required|exists:branches,id',
             'job_title' => 'required|string|max:255',
-            'designation' => 'required|exists:designations,id',
+            'designation_id' => 'required|exists:designations,id',
             'test_skills' => 'required|string',
             'positions' => 'required|integer|min:1',
-            'job_type' => 'required|exists:job_categories,id',
+            'job_type_id' => 'required|exists:job_categories,id',
+            'ctc_from' => 'nullable|numeric',
+            'ctc_to' => 'nullable|numeric',
             'min_exp' => 'required|integer|min:0',
             'max_exp' => 'required|integer|min:0',
-            'state' => 'required|exists:states,id',
-            'city' => 'required|array',
+            'state_id' => 'required|exists:country_states,id',
+            'city_ids' => 'required|array',
             'job_description' => 'required|string',
-            'qualification' => 'required|array',
+            'qualifications' => 'required|array',
+            'keywords' => 'nullable|string',
+            'interview_date' => 'nullable|date',
             'status' => 'required|in:DRAFT,PUBLISHED',
         ]);
 
         try {
-            DB::beginTransaction(); // Start transaction
+            DB::beginTransaction();
 
             $job = new AcflJobs();
-            $job->branch_id = $request->branch;
+            $job->branch_id = $request->branch_id;
             $job->job_title = $request->job_title;
-            $job->designation_id = $request->designation;
+            $job->designation_id = $request->designation_id;
             $job->test_skills = $request->test_skills;
             $job->positions = $request->positions;
-            $job->job_type_id = $request->job_type;
+            $job->job_type_id = $request->job_type_id;
             $job->ctc_from = $request->ctc_from;
             $job->ctc_to = $request->ctc_to;
             $job->min_exp = $request->min_exp;
             $job->max_exp = $request->max_exp;
-            $job->state_id = $request->state;
-            $job->city_ids = json_encode($request->city);
+            $job->state_id = $request->state_id;
+            $job->city_ids = json_encode($request->city_ids);
             $job->job_description = $request->job_description;
-            $job->qualifications = json_encode($request->qualification);
+            $job->qualifications = json_encode($request->qualifications);
             $job->keywords = $request->keywords;
             $job->interview_date = $request->interview_date;
             $job->status = $request->status;
             $job->save();
 
-            DB::commit(); // Commit transaction
+            DB::commit();
 
             return redirect()->route('recruitment.jobs')
                 ->with('success', 'Job posted successfully!');
-
         } catch (\Exception $e) {
-             dd($e->getMessage());
-            DB::rollBack(); // Rollback transaction if error occurs
-
-            \Log::error('Job Posting Error: ' . $e->getMessage());
+            DB::rollBack();
 
             return redirect()->back()
-                ->with('error', 'Something went wrong while posting the job. Please try again.')
+                ->with('error', 'Something went wrong while posting the job.')
                 ->withInput();
         }
     }

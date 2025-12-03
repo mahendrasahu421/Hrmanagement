@@ -69,7 +69,8 @@
                     <div id="rowPreview" class="mt-2 text-muted" style="font-size: 0.9em;"></div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary btn-sm me-2" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm me-2"
+                        data-bs-dismiss="modal">Cancel</button>
                     <button type="button" class="btn btn-outline-primary btn-sm me-2" id="reviewRow">Review</button>
                     <button type="button" class="btn btn-outline-primary btn-sm me-2" id="confirmCopy">Yes</button>
                 </div>
@@ -171,44 +172,51 @@
                                     </thead>
 
                                     <tbody>
-                                        <tr>
-                                            <td>12 Nov 2025</td>
-                                            <td>Senior Developer</td>
-                                            <td>IT / Software</td>
-                                            <td>Maharashtra</td>
-                                            <td>Mumbai</td>
-                                            <td>3-5 Years</td>
-                                            <td>
-                                                <span class="badge badge-success d-inline-flex align-items-center badge-sm">
-                                                    <i class="ti ti-point-filled me-1"></i>Active
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-primary"><i
-                                                        class="ti ti-share-2"></i></a>
-                                                <button class="btn btn-sm btn-primary copy-btn"><i class="ti ti-copy"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>10 Nov 2025</td>
-                                            <td>UI/UX Designer</td>
-                                            <td>Design</td>
-                                            <td>Maharashtra</td>
-                                            <td>Pune</td>
-                                            <td>2-4 Years</td>
-                                            <td>
-                                                <span class="badge badge-danger d-inline-flex align-items-center badge-sm">
-                                                    <i class="ti ti-point-filled me-1"></i>Inactive
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <a href="#" class="btn btn-sm btn-primary"><i
-                                                        class="ti ti-share-2"></i></a>
-                                                <button class="btn btn-sm btn-warning copy-btn"><i class="ti ti-copy"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
+                                        @foreach ($jobs as $job)
+                                            <tr>
+                                                <td>{{ \Carbon\Carbon::parse($job->created_at)->format('d M Y') }}</td>
+
+                                                <td>{{ $job->job_title }}</td>
+
+                                                <td>{{ $job->designation->name ?? 'N/A' }}</td>
+
+                                                <td>{{ $job->state->name ?? 'N/A' }}</td>
+
+                                                <td>
+                                                    @php
+                                                    $cityIds = json_decode($job->city_ids, true);
+                                                        $cityNames = \App\Models\StateCity::whereIn('id', $cityIds)
+                                                            ->pluck('name')
+                                                            ->toArray();
+                                                    @endphp
+                                                    {{ !empty($cityNames) ? implode(', ', $cityNames) : 'N/A' }}
+                                                </td>
+
+                                                <td>{{ $job->min_exp }} - {{ $job->max_exp }} Years</td>
+
+                                                <td>
+                                                    @if ($job->status == 'PUBLISHED')
+                                                        <span class="badge badge-success">
+                                                            <i class="ti ti-point-filled me-1"></i> Active
+                                                        </span>
+                                                    @else
+                                                        <span class="badge badge-danger">
+                                                            <i class="ti ti-point-filled me-1"></i> Inactive
+                                                        </span>
+                                                    @endif
+                                                </td>
+
+                                                <td>
+                                                    <a href="#" class="btn btn-sm btn-primary">
+                                                        <i class="ti ti-share-2"></i>
+                                                    </a>
+
+                                                    <button class="btn btn-sm btn-warning copy-btn">
+                                                        <i class="ti ti-copy"></i>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
 
 

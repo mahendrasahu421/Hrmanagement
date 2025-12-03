@@ -55,4 +55,6 @@ class AcflJobs extends Model
     {
         return $this->belongsTo(CountryState::class, 'state_id');
     }
+
+
 }
