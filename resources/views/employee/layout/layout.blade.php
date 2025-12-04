@@ -527,7 +527,7 @@
                         <!-- Dashboard -->
                         <li class="menu-title"><span>Dashboard</span></li>
                         <li>
-                            <a href="{{ url('dashboard') }}">
+                            <a href="{{ route('employee.dashboard') }}">
                                 <i class="ti ti-layout-navbar"></i>
                                 <span>Dashboard</span>
                             </a>
@@ -550,12 +550,29 @@
                         </li>
 
                         <!-- Self Appraisal -->
-                        <li>
+
+
+                        <li class="menu-title"><span>Self Appraisal</span></li>
+
+                        <li class="submenu">
+                            <a href="javascript:void(0);">
+                                <i class="ti ti-smart-home"></i>
+                                <span>Appraisal</span>
+                                <span class="menu-arrow"></span>
+                            </a>
+                            <ul>
+                                <li><a href="{{ route('employee.self.appraisal') }}">Self Appraisal</a></li>
+                                <li><a href="{{ route('employee.competencies') }}">Competencies</a></li>
+                                <li><a href="{{ route('employee.kpi.assessment') }}">KPI</a></li>
+                                <li><a href="{{ route('employee.form-c') }}">Form C</a></li>
+                            </ul>
+                        </li>
+                        {{-- <li>
                             <a href="{{ route('employee.self.appraisal') }}">
                                 <i class="fas fa-file-signature"></i>
                                 <span>Self Appraisal</span>
                             </a>
-                        </li>
+                        </li> --}}
 
                     </ul>
                 </div>
