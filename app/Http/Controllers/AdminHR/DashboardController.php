@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Department;
 use App\Models\CountryState;
+use App\Models\Leave;
+use Carbon\Carbon;
 use NunoMaduro\Collision\Adapters\Phpunit\State;
 
 class DashboardController extends Controller
@@ -16,11 +18,17 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
         $data['role'] = Auth::user()->name;
         $data['title'] = $data['role'] . ' ' . 'Dashboard';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+
+        // 👉 आज की Leave Count
+        $data['todayLeaves'] = Leave::whereDate('created_at', Carbon::today())->count();
+
         return view('home.dashboard.index', $data);
     }
 
@@ -93,7 +101,7 @@ class DashboardController extends Controller
         $states = CountryState::where('country_id', $country_id)->get();
         return response()->json($states);
     }
-   public function getCities($state_id)
+    public function getCities($state_id)
     {
         $cities = StateCity::where('state_id', $state_id)->get();
         return response()->json($cities);

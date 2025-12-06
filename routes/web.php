@@ -281,9 +281,6 @@ Route::get('/login', [AuthController::class, 'login'])->name('login');
 
 Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
-
-
-
 // // Employee
 Route::get('/employee/login', [EmployeeAuthController::class, 'index'])->name('employee.login');
 Route::post('/employee/login', [EmployeeAuthController::class, 'store'])->name('employee.login');
@@ -320,7 +317,7 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::post('leaves/apply/store', [LeavesController::class, 'store'])->name('employee.leaves.store');
     Route::get('leaves/list', [LeavesController::class, 'list'])->name('employee.leaves.list');
     Route::get('leave/balance/{leaveTypeId}', [LeavesController::class, 'getLeaveBalance'])->name('leave.balance')
-        ;
+    ;
 
     // Attendance & Holidayssettings
     Route::get('attendance', [AttendanceController::class, 'show'])->name('employee.attendance');

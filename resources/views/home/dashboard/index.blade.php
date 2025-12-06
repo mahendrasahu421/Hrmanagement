@@ -8,22 +8,22 @@
 
             <!-- Breadcrumb -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
-                <div class="my-auto mb-2">
-                    <h2 class="mb-1">{{ $title }}</h2>
-                    <nav>
-                        <ol class="breadcrumb mb-0">
+                {{-- <div class="my-auto mb-2"> --}}
+                    {{-- <h2 class="mb-1">{{ $title }}</h2> --}}
+                    {{-- <nav> --}}
+                        {{-- <ol class="breadcrumb mb-0"> --}}
                             {{-- <li class="breadcrumb-item">
                                 <a href="#"><i class="ti ti-smart-home"></i></a>
                             </li> --}}
-                            <li class="breadcrumb-item">
+                            {{-- <li class="breadcrumb-item">
                                 Dashboard
-                            </li>
+                            </li> --}}
 
-                        </ol>
-                    </nav>
-                </div>
+                        {{-- </ol> --}}
+                    {{-- </nav> --}}
+                {{-- </div> --}}
                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap ">
-                    <div class="me-2 mb-2">
+                    {{-- <div class="me-2 mb-2">
                         <div class="dropdown">
                             <a href="javascript:void(0);"
                                 class="dropdown-toggle btn btn-white d-inline-flex align-items-center"
@@ -41,21 +41,21 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <div class="mb-2">
+                    </div> --}}
+                    {{-- <div class="mb-2">
                         <div class="input-icon w-120 position-relative">
                             <span class="input-icon-addon">
                                 <i class="ti ti-calendar text-gray-9"></i>
                             </span>
                             <input type="text" class="form-control yearpicker" value="2025">
                         </div>
-                    </div>
-                    <div class="ms-2 head-icons">
+                    </div> --}}
+                    {{-- <div class="ms-2 head-icons">
                         <a href="javascript:void(0);" class="" data-bs-toggle="tooltip" data-bs-placement="top"
                             data-bs-original-title="Collapse" id="collapse-header">
                             <i class="ti ti-chevrons-up"></i>
                         </a>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
             <!-- /Breadcrumb -->
@@ -73,9 +73,12 @@
                                 @endauth
                                 <a href="javascript:void(0);" class="edit-icon"><i class="ti ti-edit fs-14"></i></a>
                             </h3>
-                            <p>You have <span class="text-primary text-decoration-underline">21</span> Pending Approvals &
-                                <span class="text-primary text-decoration-underline">14</span> Leave Requests
+                            <p>
+                                You have
+                                <span class="text-primary text-decoration-underline">{{ $todayLeaves }}</span>
+                                Leave Requests Today
                             </p>
+
                         </div>
                     </div>
                     <div class="d-flex align-items-center flex-wrap mb-1">
@@ -327,8 +330,8 @@
                                             class="rounded-circle border border-white" alt="img">
                                     </a>
                                     <div>
-                                        <h6 class="text-truncate mb-1 fs-14 fw-medium"><a
-                                                href="#">Daniel Esbella</a></h6>
+                                        <h6 class="text-truncate mb-1 fs-14 fw-medium"><a href="#">Daniel
+                                                Esbella</a></h6>
                                         <p class="fs-13">IOS Developer</p>
                                     </div>
                                 </div>

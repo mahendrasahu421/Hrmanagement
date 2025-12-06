@@ -168,11 +168,18 @@
                 </div>
             </div>
 
-            <div class="alert bg-secondary-transparent alert-dismissible fade show mb-4">
-                Your Leave Request on“24th April 2024”has been Approved!!!
-                <button type="button" class="btn-close fs-14" data-bs-dismiss="alert" aria-label="Close"><i
-                        class="ti ti-x"></i></button>
-            </div>
+            @if($approved_notification)
+<div class="alert bg-secondary-transparent alert-dismissible fade show mb-4">
+    Your Leave Request on 
+    “{{ \Carbon\Carbon::parse($approved_notification->start_date)->format('d M Y') }}”
+    has been <b>Approved</b> !!!
+    
+    <button type="button" class="btn-close fs-14" data-bs-dismiss="alert" aria-label="Close">
+        <i class="ti ti-x"></i>
+    </button>
+</div>
+@endif
+
             <!-- Breadcrumb -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                 <div class="my-auto mb-2">
