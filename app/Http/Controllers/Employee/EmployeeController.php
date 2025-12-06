@@ -49,16 +49,26 @@ class EmployeeController extends Controller
             'loss_of_pay' => $lossOfPay,
         ]);
     }
-
     public function index()
     {
         $data['role'] = Auth::user()->name;
-        $data['title'] = $data['role'] . ' ' . 'Dashboard';
+        $data['title'] = $data['role'] . ' Dashboard';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+
+        $employeeId = Auth::id();
+
+        // 👇 Latest approved leave (notification)
+        $data['approved_notification'] = Leave::with('leaveType')
+            ->where('employee_id', $employeeId)
+            ->where('status', 'APPROVED')
+            ->orderBy('updated_at', 'desc')
+            ->first();
+
         return view('employee.index', $data);
     }
 
-   
+
+
     /**
      * Show the form for creating a new resource.
      */
