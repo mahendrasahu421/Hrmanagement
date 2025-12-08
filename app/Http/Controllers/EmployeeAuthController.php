@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
 class EmployeeAuthController extends Controller
 {
     /**
@@ -30,48 +31,61 @@ class EmployeeAuthController extends Controller
     public function store(Request $request)
     {
         try {
-            // Step 1: Validate form input
             $request->validate([
-                'patId' => 'required',
+                'patId'    => 'required',
                 'password' => 'required',
             ]);
 
-            $credentials = [
-                'patId' => $request->patId,
-                'password' => $request->password,
-            ];
+            $loginInput = $request->patId;
+            $password   = $request->password;
+            $remember   = $request->has('remember_me');
 
-            $remember = $request->has('remember_me');
+            if (Auth::guard('employee')->attempt([
+                'patId' => $loginInput,
+                'password' => $password
+            ], $remember)) {
 
-            // Step 2: Attempt login using custom guard
-            if (Auth::guard('employee')->attempt($credentials, $remember)) {
                 $user = Auth::guard('employee')->user();
-
-                return redirect()
-                    ->route('employee.dashboard')
+                return redirect()->route('employee.dashboard')
                     ->with('success', 'Welcome back, ' . $user->employee_name . '!');
             }
 
-            // Step 3: Wrong credentials
-            return back()
-                ->with('error', 'The provided Patient ID or password is incorrect.')
-                ->withInput();
+            if (Auth::guard('employee')->attempt([
+                'employee_email' => $loginInput,
+                'password' => $password
+            ], $remember)) {
 
+                $user = Auth::guard('employee')->user();
+                return redirect()->route('employee.dashboard')
+                    ->with('success', 'Welcome back, ' . $user->employee_name . '!');
+            }
+
+            if (Auth::guard('employee')->attempt([
+                'employee_mobile' => $loginInput,
+                'password' => $password
+            ], $remember)) {
+
+                $user = Auth::guard('employee')->user();
+                return redirect()->route('employee.dashboard')
+                    ->with('success', 'Welcome back, ' . $user->employee_name . '!');
+            }
+
+            return back()
+                ->with('error', 'Invalid Pat ID / Email / Mobile or password.')
+                ->withInput();
         } catch (\Illuminate\Validation\ValidationException $e) {
-            // Step 4: Validation errors (missing fields)
-            $message = collect($e->errors())->flatten()->first(); // first validation error message
+            $message = collect($e->errors())->flatten()->first();
 
             return back()
                 ->with('error', $message ?? 'Please fill all required fields correctly.')
                 ->withInput();
-
         } catch (\Exception $e) {
-            // Step 5: Any unexpected error
             return back()
                 ->with('error', 'Something went wrong while logging in. Please try again.')
                 ->withInput();
         }
     }
+
 
 
 
