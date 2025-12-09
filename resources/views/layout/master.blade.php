@@ -500,7 +500,7 @@
                 $role = Auth::user()->role_id;
             @endphp
 
-            <div class="sidebar-inner slimscroll">
+            <div class="sidebar-inner slimscroll" >
                 <div id="sidebar-menu" class="sidebar-menu">
                     <ul>
 
