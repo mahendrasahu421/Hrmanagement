@@ -40,7 +40,7 @@ class EmployeeAuthController extends Controller
             $password   = $request->password;
             $remember   = $request->has('remember_me');
 
-            if (Auth::guard('employee')->attempt([
+            if (Auth::guard('employee')->attempt([ 
                 'patId' => $loginInput,
                 'password' => $password
             ], $remember)) {
@@ -50,7 +50,7 @@ class EmployeeAuthController extends Controller
                     ->with('success', 'Welcome back, ' . $user->employee_name . '!');
             }
 
-            if (Auth::guard('employee')->attempt([
+            if (Auth::guard('employee')->attempt([ 
                 'employee_email' => $loginInput,
                 'password' => $password
             ], $remember)) {
