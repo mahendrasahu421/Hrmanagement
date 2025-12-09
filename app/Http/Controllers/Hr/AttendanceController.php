@@ -7,8 +7,11 @@ use App\Models\Department;
 use App\Models\Holiday;
 use App\Models\Designation;
 use App\Models\Leave;
+use App\Models\EmailTemplate;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use App\Mail\LeaveStatusMail;
+use Illuminate\Support\Facades\Mail;
 
 class AttendanceController extends Controller
 {
@@ -125,20 +128,46 @@ class AttendanceController extends Controller
 
 
 
+
+
     public function updateStatus(Request $request)
-    {
+{
+    $leave = Leave::find($request->leave_id);
 
-        $leave = Leave::find($request->leave_id);
-
-        if (!$leave) {
-            return response()->json(['error' => 'Leave not found'], 404);
-        }
-
-        $leave->status = $request->new_status;
-        $leave->save();
-
-        return response()->json(['success' => true]);
+    if (!$leave) {
+        return response()->json(['error' => 'Leave not found'], 404);
     }
+
+    // Employee fetch using relation
+    $employee = $leave->employee;
+
+    if (!$employee || empty($employee->employee_email)) {
+        return response()->json(['error' => 'Employee email not found'], 404);
+    }
+
+    // Email template fetch
+    $template = EmailTemplate::where('template_key', 'leave_request_status')->first();
+
+    if (!$template) {
+        return response()->json(['error' => 'Email template not found'], 404);
+    }
+
+    // Mail bhejna (pehle)
+    Mail::to($employee->employee_email)
+        ->cc('mahendra.s@neuralinfo.org')
+        ->send(new LeaveStatusMail($leave, $request->new_status, $template, $employee));
+
+    // Status update (mail ke baad)
+    $leave->status = $request->new_status;
+    $leave->save();
+
+    return response()->json([
+        'success' => true,
+        'message' => 'Mail sent & status updated'
+    ]);
+}
+
+
 
 
 

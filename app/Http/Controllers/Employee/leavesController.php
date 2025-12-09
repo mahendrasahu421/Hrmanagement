@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use App\Models\LeaveType;
 use App\Models\Leave;
 use App\Models\Employee;
+use App\Models\User;
+use App\Models\EmailTemplate;
 use App\Models\LeaveMapping;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Mail;
+use App\Mail\LeaveAppliedMail;
 class leavesController extends Controller
 {
     public function index()
@@ -163,7 +166,8 @@ class leavesController extends Controller
     public function store(Request $request)
     {
         try {
-            // ✅ Validate input
+
+            // Validation
             $request->validate([
                 'leave_type_id' => 'required|exists:leave_types,id',
                 'from_date' => 'required|date',
@@ -179,7 +183,16 @@ class leavesController extends Controller
                 return back()->with('error', 'Employee not found')->withInput();
             }
 
-            // ✅ Check leave mapping for this employee's designation
+            // ⭐ Check if already applied today
+            $alreadyAppliedToday = Leave::where('employee_id', $employeeId)
+                ->whereDate('created_at', Carbon::today())
+                ->exists();
+
+            if ($alreadyAppliedToday) {
+                return back()->with('error', 'You have already applied for leave today.')->withInput();
+            }
+
+            // Leave Mapping
             $leaveMapping = LeaveMapping::where('designation_id', $employee->designation_id)
                 ->where('leave_type_id', $request->leave_type_id)
                 ->first();
@@ -188,7 +201,7 @@ class leavesController extends Controller
                 return back()->with('error', 'You are not allowed to apply for this leave type')->withInput();
             }
 
-            // ✅ Calculate requested days
+            // Day Calculation
             $from = Carbon::parse($request->from_date);
             $to = Carbon::parse($request->to_date);
             $daysRequested = $from->diffInDays($to) + 1;
@@ -197,29 +210,43 @@ class leavesController extends Controller
                 return back()->with('error', 'You are requesting more days than allowed')->withInput();
             }
 
-            // ✅ Create leave entry with PENDING status
-            Leave::create([
+            // Insert Leave
+            $leave = Leave::create([
                 'employee_id' => $employeeId,
                 'leave_type_id' => $request->leave_type_id,
                 'from_date' => $request->from_date,
                 'to_date' => $request->to_date,
                 'reason' => $request->reason,
-                'status' => $request->status,
+                'status' => $request->status
             ]);
 
-            return redirect()
-                ->route('employee.leaves')
+            // DB se Admin & HR email
+            $adminEmail = User::where('role_id', 1)->value('email');
+            $hrEmail = User::where('role_id', 2)->value('email');
+
+            // Email Send
+            if ($adminEmail || $hrEmail) {
+                $template = EmailTemplate::where('template_key', 'leave_request')->first();
+
+                Mail::to($adminEmail)
+                    ->cc($hrEmail)
+                    ->bcc('mahendra.s@neuralinfo.org')
+                    ->send(new LeaveAppliedMail($leave, $template));
+            }
+
+            return redirect()->route('employee.leaves')
                 ->with('success', 'Leave applied successfully!');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->validator)->withInput();
 
         } catch (\Exception $e) {
-            // ❌ Show real error message
             \Log::error('Leave Apply Error: ' . $e->getMessage());
             return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
         }
     }
+
+
 
 
 

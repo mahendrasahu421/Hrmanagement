@@ -2,7 +2,7 @@
 @section('title', $title)
 @section('main-section')
 <x-alert-modal/>
-    <div class="page-wrapper">
+    <div class="page-wrapper" >
         <div class="content">
             <div class="row">
                 <div class="col-sm-12">
