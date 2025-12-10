@@ -149,80 +149,36 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <div class="d-flex align-items-center">
+                            <div class="d-flex justify-content-between">
                                 <h4 class="card-title">Jobs List</h4>
-
+                                <a href="{{ route('recruitment.jobs.create') }}"
+                                    class="btn btn-primary d-flex align-items-center">
+                                    <i class="ti ti-circle-plus me-2"></i> Create Job
+                                </a>
                             </div>
+
                         </div>
 
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table datatable">
-                                    <thead class="thead-light">
+                                <table id="jobsList" class="display table table-striped table-bordered nowrap">
+                                    <thead>
                                         <tr>
-                                            <th>Date of Publish</th>
+                                            <th>Sn</th>
+                                            <th>Publish Date</th>
                                             <th>Job Title</th>
                                             <th>Functional Area</th>
                                             <th>State</th>
                                             <th>City</th>
                                             <th>Experience</th>
                                             <th>Status</th>
-                                            <th>Share</th>
+                                            <th>Action</th>
                                         </tr>
                                     </thead>
-
-                                    <tbody>
-                                        @foreach ($jobs as $job)
-                                            <tr>
-                                                <td>{{ \Carbon\Carbon::parse($job->created_at)->format('d M Y') }}</td>
-
-                                                <td>{{ $job->job_title }}</td>
-
-                                                <td>{{ $job->designation->name ?? 'N/A' }}</td>
-
-                                                <td>{{ $job->state->name ?? 'N/A' }}</td>
-
-                                                <td>
-                                                    @php
-                                                    $cityIds = json_decode($job->city_ids, true);
-                                                        $cityNames = \App\Models\StateCity::whereIn('id', $cityIds)
-                                                            ->pluck('name')
-                                                            ->toArray();
-                                                    @endphp
-                                                    {{ !empty($cityNames) ? implode(', ', $cityNames) : 'N/A' }}
-                                                </td>
-
-                                                <td>{{ $job->min_exp }} - {{ $job->max_exp }} Years</td>
-
-                                                <td>
-                                                    @if ($job->status == 'PUBLISHED')
-                                                        <span class="badge badge-success">
-                                                            <i class="ti ti-point-filled me-1"></i> Active
-                                                        </span>
-                                                    @else
-                                                        <span class="badge badge-danger">
-                                                            <i class="ti ti-point-filled me-1"></i> Inactive
-                                                        </span>
-                                                    @endif
-                                                </td>
-
-                                                <td>
-                                                    <a href="#" class="btn btn-sm btn-primary">
-                                                        <i class="ti ti-share-2"></i>
-                                                    </a>
-
-                                                    <button class="btn btn-sm btn-warning copy-btn">
-                                                        <i class="ti ti-copy"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-
-
-
+                                    <tbody></tbody>
                                 </table>
                             </div>
+
                         </div>
                     </div>
 
@@ -238,12 +194,14 @@
 @endsection
 
 @push('after_scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>
         let rowToCopy = null;
 
         document.querySelectorAll('.copy-btn').forEach(btn => {
             btn.addEventListener('click', function() {
-                rowToCopy = this.closest('tr'); // Store the row reference
+                rowToCopy = this.closest('tr');
                 const copyModal = new bootstrap.Modal(document.getElementById('copyConfirmModal'));
                 copyModal.show();
             });
@@ -252,9 +210,9 @@
         document.getElementById('confirmCopy').addEventListener('click', function() {
             if (rowToCopy) {
                 let rowData = Array.from(rowToCopy.querySelectorAll('td'))
-                    .slice(0, -1) // exclude actions column
+                    .slice(0, -1)
                     .map(td => td.innerText.trim())
-                    .join('\t'); // tab-separated
+                    .join('\t');
 
                 navigator.clipboard.writeText(rowData)
                     .then(() => {
@@ -269,6 +227,59 @@
                 const copyModal = bootstrap.Modal.getInstance(copyModalEl);
                 copyModal.hide();
             }
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            var table = $('#jobsList').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                scrollX: true,
+                ajax: {
+                    url: "{{ route('recruitment.jobs.list') }}",
+                    dataSrc: function(json) {
+                        return json.data;
+                    }
+                },
+                columns: [{
+                        data: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'publish_date'
+                    },
+                    {
+                        data: 'job_title'
+                    },
+                    {
+                        data: 'designation'
+                    },
+                    {
+                        data: 'state'
+                    },
+                    {
+                        data: 'city'
+                    },
+                    {
+                        data: 'experience'
+                    },
+                    {
+                        data: 'status'
+                    },
+                    {
+                        data: 'action'
+                    }
+                ],
+                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
+            });
+
+            window.refreshJobs = function() {
+                table.ajax.reload();
+            };
+
         });
     </script>
 @endpush
