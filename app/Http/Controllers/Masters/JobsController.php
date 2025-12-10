@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\AcflJobs;
 use App\Models\City;
+use App\Models\StateCity;
 use Illuminate\Support\Facades\DB;
 
 class JobsController extends Controller
@@ -27,6 +28,70 @@ class JobsController extends Controller
             ->get();
         return view('home.jobs.index', $data);
     }
+    public function jobDeatils()
+    {
+        $data['title'] = 'Recruitment / Jobs / Job Deatils';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('home.jobs.job-deatils', $data);
+    }
+
+    public function list(Request $request)
+    {
+        try {
+            $search = $request->input('search')['value'] ?? null;
+            $limit = $request->input('length', 10);
+            $start = $request->input('start', 0);
+
+            $query = AcflJobs::with(['designation', 'state']);
+
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('job_title', 'like', "%{$search}%")
+                        ->orWhereHas('designation', fn($q) => $q->where('name', 'like', "%{$search}%"))
+                        ->orWhereHas('state', fn($q) => $q->where('name', 'like', "%{$search}%"));
+                });
+            }
+
+            $totalRecord = $query->count();
+
+            $jobs = $query->skip($start)->take($limit)->orderBy('id', 'DESC')->get();
+
+            $rows = [];
+            foreach ($jobs as $index => $job) {
+                $cityIds = json_decode($job->city_ids, true) ?? [];
+                $cityNames =StateCity::whereIn('id', $cityIds)->pluck('name')->toArray();
+
+                $rows[] = [
+                    'DT_RowIndex' => $start + $index + 1,
+                    'publish_date' => $job->created_at->format('d M Y'),
+                    'job_title' => $job->job_title,
+                    'designation' => $job->designation->name ?? '--',
+                    'state' => $job->state->name ?? '--',
+                    'city' => !empty($cityNames) ? implode(', ', $cityNames) : '--',
+                    'experience' => $job->min_exp . ' - ' . $job->max_exp . ' Years',
+                    'status' => $job->status == 'PUBLISHED'
+                        ? '<span class="badge bg-success">Active</span>'
+                        : '<span class="badge bg-danger">Inactive</span>',
+                    'action' => '<a href="#" class="btn btn-sm btn-primary"><i class="ti ti-share-2"></i></a>
+                             <button class="btn btn-sm btn-warning copy-btn"><i class="ti ti-copy"></i></button>',
+                ];
+            }
+
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $totalRecord,
+                'recordsFiltered' => $totalRecord,
+                'data' => $rows,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => 'Something went wrong while fetching job records.',
+                'exception' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
 
     /**
      * Show the form for creating a new resource.

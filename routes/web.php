@@ -171,6 +171,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recruitment/job/applied-candidate', [JobsController::class, 'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
     Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
     Route::post('recruitment/jobs/store', [JobsController::class, 'store'])->name('recruitment.jobs.store');
+    Route::get('recruitment/jobs/list', [JobsController::class, 'list'])->name('recruitment.jobs.list');
+    Route::get('recruitment/jobs/job-deatils', [JobsController::class, 'jobDeatils'])->name('recruitment.jobs.job-deatils');
 
     // Employee/Onboarding
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
