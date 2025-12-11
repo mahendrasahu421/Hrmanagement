@@ -28,9 +28,17 @@ class JobsController extends Controller
             ->get();
         return view('home.jobs.index', $data);
     }
-    public function jobDeatils()
+
+    public function recommendedJob()
     {
-        $data['title'] = 'Recruitment / Jobs / Job Deatils';
+        $data['title'] = 'Recruitment / Jobs / Recommended-Job';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('home.jobs.recommended-job', $data);
+    }
+
+    public function jobDetails()
+    {
+        $data['title'] = 'Recruitment / Jobs / Recommended-Job';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.jobs.job-deatils', $data);
     }
@@ -59,7 +67,7 @@ class JobsController extends Controller
             $rows = [];
             foreach ($jobs as $index => $job) {
                 $cityIds = json_decode($job->city_ids, true) ?? [];
-                $cityNames =StateCity::whereIn('id', $cityIds)->pluck('name')->toArray();
+                $cityNames = StateCity::whereIn('id', $cityIds)->pluck('name')->toArray();
 
                 $rows[] = [
                     'DT_RowIndex' => $start + $index + 1,
@@ -177,6 +185,13 @@ class JobsController extends Controller
                 ->with('error', 'Something went wrong while posting the job.')
                 ->withInput();
         }
+    }
+
+
+    public function jobForm()
+    {
+        $data['title'] = 'Recruitment / Jobs / Apply Form';
+        return view('home.jobs.job-apply-form', $data);
     }
 
     /**

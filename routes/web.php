@@ -172,7 +172,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
     Route::post('recruitment/jobs/store', [JobsController::class, 'store'])->name('recruitment.jobs.store');
     Route::get('recruitment/jobs/list', [JobsController::class, 'list'])->name('recruitment.jobs.list');
-    Route::get('recruitment/jobs/job-deatils', [JobsController::class, 'jobDeatils'])->name('recruitment.jobs.job-deatils');
+    Route::get('recruitment/jobs/recommended-job', [JobsController::class, 'recommendedJob'])->name('recruitment.jobs.recommended-job');
+    Route::get('recruitment/jobs/job-deatils', [JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
+    Route::get('recruitment/jobs/job-apply-form', [JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
 
     // Employee/Onboarding
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
@@ -296,7 +298,6 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
         Route::get('/competencies', [SelfAppraisalController::class, 'competencies'])->name('employee.competencies');
         Route::get('/kpi-assessment', [SelfAppraisalController::class, 'kpiAssessment'])->name('employee.kpi.assessment');
         Route::get('/form-c', [SelfAppraisalController::class, 'formC'])->name('employee.form-c');
-
     });
 
     // Review your Employee
@@ -318,8 +319,7 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::get('leaves/apply', [LeavesController::class, 'create'])->name('employee.leaves.apply');
     Route::post('leaves/apply/store', [LeavesController::class, 'store'])->name('employee.leaves.store');
     Route::get('leaves/list', [LeavesController::class, 'list'])->name('employee.leaves.list');
-    Route::get('leave/balance/{leaveTypeId}', [LeavesController::class, 'getLeaveBalance'])->name('leave.balance')
-    ;
+    Route::get('leave/balance/{leaveTypeId}', [LeavesController::class, 'getLeaveBalance'])->name('leave.balance');
 
     // Attendance & Holidayssettings
     Route::get('attendance', [AttendanceController::class, 'show'])->name('employee.attendance');
@@ -332,7 +332,3 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     // Payslip
     // Route::get('payslip', [PayslipController::class, 'index'])->name('employee.payslip');
 });
-
-
-
-
