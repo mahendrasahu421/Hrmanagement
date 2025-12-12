@@ -108,7 +108,7 @@
         .select2-container .select2-selection--single {
             height: 42px !important;
             padding: 6px 10px;
-            border-radius: 10px !important;
+            border-radius: 5px !important;
             border: 1.5px solid #e5e7eb !important;
             display: flex;
             align-items: center;
