@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\DB;
 
 class JobsController extends Controller
 {
-    
+
     public function index()
     {
         $data['title'] = 'Recruitment / Jobs ';
@@ -47,7 +47,6 @@ class JobsController extends Controller
             $start = $request->input('start', 0);
 
             $query = AcflJobs::with(['designation', 'state']);
-
             if ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('job_title', 'like', "%{$search}%")
@@ -57,8 +56,34 @@ class JobsController extends Controller
             }
 
             $totalRecord = $query->count();
+            $orderColumnIndex = $request->input('order.0.column', 0);
+            $orderDirection = $request->input('order.0.dir', 'desc');
 
-            $jobs = $query->skip($start)->take($limit)->orderBy('id', 'DESC')->get();
+            $columns = [
+                0 => 'id',
+                1 => 'created_at',
+                2 => 'job_title',
+                3 => 'designation_id',
+                4 => 'state_id',
+                5 => 'city_ids',
+                6 => 'min_exp',
+                7 => 'status',
+            ];
+
+            $orderColumn = $columns[$orderColumnIndex] ?? 'id';
+            if ($orderColumn == 'designation_id') {
+                $query = $query->join('designations', 'acfl_jobs.designation_id', '=', 'designations.id')
+                    ->orderBy('designations.name', $orderDirection)
+                    ->select('acfl_jobs.*');
+            } elseif ($orderColumn == 'state_id') {
+                $query = $query->join('country_states', 'acfl_jobs.state_id', '=', 'country_states.id')
+                    ->orderBy('country_states.name', $orderDirection)
+                    ->select('acfl_jobs.*');
+            } else {
+                $query = $query->orderBy($orderColumn, $orderDirection);
+            }
+
+            $jobs = $query->skip($start)->take($limit)->get();
 
             $rows = [];
             foreach ($jobs as $index => $job) {
@@ -95,6 +120,7 @@ class JobsController extends Controller
             ], 500);
         }
     }
+
 
 
     public function create()
