@@ -262,7 +262,17 @@
             border-left: 4px solid #f16522;
             padding-left: 10px;
         }
+        .resume-input{
+            height: 35px !important;
+        }
+        .form-select:focus ,.form-control:focus{
+            box-shadow: none !important;
+            border: 1px solid #f16522 !important;
+        }
 
+        .resume-control{
+            height: 33px !important;
+        }
         input.form-control,
         select.form-select {
             height: 42px;
@@ -272,14 +282,7 @@
             padding-left: 12px;
         }
 
-        input.form-control:focus,
-        select.form-select:focus,
-        textarea:focus,
-        .select2-selection:focus {
-            border-color: #f16522 !important;
-            box-shadow: 0 0 0 0.1rem rgba(241, 101, 34, 0.25);
-            outline: none !important;
-        }
+
 
         .radio-pill {
             display: inline-block;
@@ -353,7 +356,7 @@
                     <div class="footer">1 Day Ago</div>
 
                     <div class="apply-box">
-                        <a href="#" class="btn-apply" id="openForm">
+                        <a href="javascript:void(0);" class="btn-apply" id="openForm">
                             <i class="fa-solid fa-paper-plane"></i> Apply Now
                         </a>
                     </div>
@@ -465,7 +468,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Resume <span class="text-danger">*</span></label>
-                        <input type="file" class="form-control" accept=".pdf,.doc,.docx">
+                        <input type="file" class="form-control resume-control" accept=".pdf,.doc,.docx">
                         <small class="text-danger">Only .pdf, .doc, .docx allowed</small>
                     </div>
                 </div>
@@ -492,7 +495,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Gender <span class="text-danger">*</span></label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select Gender</option>
                             <option>Male</option>
                             <option>Female</option>
@@ -501,7 +504,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Marital Status <span class="text-danger">*</span></label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select status</option>
                             <option>Married</option>
                             <option>Unmarried</option>
@@ -509,7 +512,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">State <span class="text-danger">*</span></label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select State</option>
                             <option>State 1</option>
                             <option>State 2</option>
@@ -517,7 +520,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">City <span class="text-danger">*</span></label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select City</option>
                             <option>City 1</option>
                             <option>City 2</option>
@@ -539,7 +542,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">10th Passing Year <span class="text-danger">*</span></label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select year</option>
                             <option>2020</option>
                             <option>2021</option>
@@ -552,7 +555,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">12th Passing Year <span class="text-danger">*</span></label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select year</option>
                             <option>2020</option>
                             <option>2021</option>
@@ -565,7 +568,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">UG Passing Year <span class="text-danger">*</span></label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select year</option>
                             <option>2022</option>
                             <option>2023</option>
@@ -591,7 +594,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Institute <span class="text-danger">*</span></label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select institute</option>
                             <option>Institute A</option>
                             <option>Institute B</option>
@@ -599,7 +602,7 @@
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Final Passing Year <span class="text-danger">*</span></label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select year</option>
                             <option>2022</option>
                             <option>2023</option>
@@ -613,7 +616,7 @@
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label class="form-label">Total Work Experience</label>
-                        <select class="form-select select2">
+                        <select class="form-select">
                             <option>Select</option>
                             <option>0 Years</option>
                             <option>1 Year</option>
@@ -644,7 +647,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
