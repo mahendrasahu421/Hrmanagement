@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recommended Jobs</title>
+    <title>Recommended Jobs </title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <style>
@@ -107,83 +107,87 @@
 <body>
 
     <div>
-        <a href="{{route('recruitment.jobs.job-deatils')}}" style="text-decoration:none;">
-            <div class="job-card">
-                <div class="top-row">
-                    <div>
-                        <div class="job-title">WordPress Developer / SEO Specialist</div>
-                        <div class="company-name">
-                            11 Plus Grammar Preparation
-                            <span class="star">★ 3.4</span> | 3 Reviews
+        <div>
+            <a href="{{ route('recruitment.jobs.job-deatils') }}" style="text-decoration:none;" target="_blank">
+                <div class="job-card">
+                    <div class="top-row">
+                        <div>
+                            <div class="job-title">WordPress Developer / SEO Specialist</div>
+                            <div class="company-name">
+                                11 Plus Grammar Preparation
+                                <span class="star">★ 3.4</span> | 3 Reviews
+                            </div>
                         </div>
+                        <div class="logo-box">N</div>
                     </div>
-                    <div class="logo-box">N</div>
-                </div>
 
-                <div class="meta">
-                    <div><i class="fa-solid fa-briefcase"></i> 1–2 Yrs</div>
-                    <div><i class="fa-solid fa-indian-rupee-sign"></i> Not disclosed</div>
-                    <div><i class="fa-solid fa-location-dot"></i> Remote</div>
-                </div>
+                    <div class="meta">
+                        <div><i class="fa-solid fa-briefcase"></i> 1–2 Yrs</div>
+                        <div><i class="fa-solid fa-indian-rupee-sign"></i> Not disclosed</div>
+                        <div><i class="fa-solid fa-location-dot"></i> Remote</div>
+                    </div>
 
-                <div class="meta" style="margin-top:10px; color:#555;">
-                    <i class="fa-regular fa-file-lines" style="margin-top:4px;"></i>
-                    Must be able to work and collaborate with the team during UK business hours
-                </div>
+                    <div class="meta" style="margin-top:10px; color:#555;">
+                        <i class="fa-regular fa-file-lines" style="margin-top:4px;"></i>
+                        Must be able to work and collaborate with the team during UK business hours
+                    </div>
 
-                <div class="tags">
-                    <div class="tag">SEO</div>
-                    <div class="tag">Webflow</div>
-                    <div class="tag">Search Engine Optimization</div>
-                    <div class="tag">CSS</div>
-                    <div class="tag">Woocommerce</div>
-                    <div class="tag">HTML</div>
-                </div>
+                    <div class="tags">
+                        <div class="tag">SEO</div>
+                        <div class="tag">Webflow</div>
+                        <div class="tag">Search Engine Optimization</div>
+                        <div class="tag">CSS</div>
+                        <div class="tag">Woocommerce</div>
+                        <div class="tag">HTML</div>
+                    </div>
 
-                <div class="bottom-row">
-                    <span>1 Day Ago</span>
+                    <div class="bottom-row">
+                        <span>1 Day Ago</span>
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
 
-        <a href="#" style="text-decoration:none;">
-            <div class="job-card">
-                <div class="top-row">
-                    <div>
-                        <div class="job-title">WordPress Developer / SEO Specialist</div>
-                        <div class="company-name">
-                            11 Plus Grammar Preparation
-                            <span class="star">★ 3.4</span> | 3 Reviews
+        <div>
+            <a href="{{ route('recruitment.jobs.job-deatils') }}" style="text-decoration:none;" target="_blank">
+                <div class="job-card">
+                    <div class="top-row">
+                        <div>
+                            <div class="job-title">WordPress Developer / SEO Specialist</div>
+                            <div class="company-name">
+                                11 Plus Grammar Preparation
+                                <span class="star">★ 3.4</span> | 3 Reviews
+                            </div>
                         </div>
+                        <div class="logo-box">N</div>
                     </div>
-                    <div class="logo-box">N</div>
-                </div>
 
-                <div class="meta">
-                    <div><i class="fa-solid fa-briefcase"></i> 1–2 Yrs</div>
-                    <div><i class="fa-solid fa-indian-rupee-sign"></i> Not disclosed</div>
-                    <div><i class="fa-solid fa-location-dot"></i> Remote</div>
-                </div>
+                    <div class="meta">
+                        <div><i class="fa-solid fa-briefcase"></i> 1–2 Yrs</div>
+                        <div><i class="fa-solid fa-indian-rupee-sign"></i> Not disclosed</div>
+                        <div><i class="fa-solid fa-location-dot"></i> Remote</div>
+                    </div>
 
-                <div class="meta" style="margin-top:10px; color:#555;">
-                    <i class="fa-regular fa-file-lines" style="margin-top:4px;"></i>
-                    Must be able to work and collaborate with the team during UK business hours
-                </div>
+                    <div class="meta" style="margin-top:10px; color:#555;">
+                        <i class="fa-regular fa-file-lines" style="margin-top:4px;"></i>
+                        Must be able to work and collaborate with the team during UK business hours
+                    </div>
 
-                <div class="tags">
-                    <div class="tag">SEO</div>
-                    <div class="tag">Webflow</div>
-                    <div class="tag">Search Engine Optimization</div>
-                    <div class="tag">CSS</div>
-                    <div class="tag">Woocommerce</div>
-                    <div class="tag">HTML</div>
-                </div>
+                    <div class="tags">
+                        <div class="tag">SEO</div>
+                        <div class="tag">Webflow</div>
+                        <div class="tag">Search Engine Optimization</div>
+                        <div class="tag">CSS</div>
+                        <div class="tag">Woocommerce</div>
+                        <div class="tag">HTML</div>
+                    </div>
 
-                <div class="bottom-row">
-                    <span>1 Day Ago</span>
+                    <div class="bottom-row">
+                        <span>1 Day Ago</span>
+                    </div>
                 </div>
-            </div>
-        </a>
+            </a>
+        </div>
     </div>
 
 </body>

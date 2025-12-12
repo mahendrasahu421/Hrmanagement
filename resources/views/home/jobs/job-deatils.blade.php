@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Job Details with Sidebar</title>
+    <title>Job Details</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
@@ -80,7 +80,7 @@
         .section {
             font-weight: 600;
             font-size: 16px;
-            margin: 5px 0 ;
+            margin: 5px 0;
             color: #222;
         }
 
@@ -203,10 +203,6 @@
             color: inherit;
         }
 
-        ul li {
-            margin-bottom: 8px;
-        }
-
         @media (max-width: 992px) {
             .title {
                 font-size: 22px;
@@ -321,7 +317,7 @@
                     <div class="footer">1 Day Ago</div>
 
                     <div class="apply-box">
-                        <a href="{{ route('recruitment.jobs.apply.form') }}" class="btn-apply">
+                        <a href="{{ route('recruitment.jobs.apply.form') }}" target="_blank" class="btn-apply">
                             <i class="fa-solid fa-paper-plane"></i> Apply Now
                         </a>
                     </div>
