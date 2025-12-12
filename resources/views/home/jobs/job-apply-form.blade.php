@@ -6,215 +6,156 @@
     <title>Job Application Form</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-        }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background: #f6f7fb;
-            min-height: 100vh;
             padding: 40px 15px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            font-family: 'Poppins', sans-serif;
+            font-size: 14px;
         }
 
         .form-wrapper {
-            width: 100%;
             max-width: 960px;
-            background: #ffffff;
+            margin: auto;
+            background: #fff;
             border-radius: 20px;
-            padding: 20px 30px;
+            padding: 25px 35px;
             box-shadow: 0 20px 60px rgba(0, 0, 0, 0.07);
         }
 
         .form-title {
             text-align: center;
-            font-size: 30px;
-            font-weight: 600;
+            font-size: 25px;
             color: #f26522;
-            margin-bottom: 6px;
-        }
-
-        .form-subtitle {
-            text-align: center;
-            font-size: 14px;
-            color: #6b7280;
-            margin-bottom: 30px;
-        }
-
-        .section {
-            margin-top: 30px;
-        }
-
-        .section h3 {
-            font-size: 16px;
             font-weight: 600;
-            color: #1f2937;
-            position: relative;
-            padding-left: 14px;
-            margin-bottom: 20px;
         }
 
-        .section h3::before {
+        .section-title {
+            font-size: 15px;
+            font-weight: 600;
+            position: relative;
+            padding-left: 12px;
+            margin-bottom: 18px;
+            color: #1f2937;
+        }
+
+        .section-title::before {
             content: "";
             position: absolute;
             left: 0;
             top: 2px;
             height: 100%;
-            width: 4px;
-            border-radius: 10px;
+            width: 3px;
             background: #f26522;
+            border-radius: 6px;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 18px;
+        .form-label {
+            font-size: 13px;
+            margin-bottom: 4px;
         }
 
-        .field {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            position: relative;
-        }
-
-        .field label {
+        .form-control,
+        .form-select {
             font-size: 14px;
-            font-weight: 500;
-            color: #1f2937;
+            height: 42px;
+            padding: 8px 10px;
+            border-radius: 5px;
+            outline: none !important;
+            box-shadow: none !important;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus,
+        .select2-selection:focus {
+            outline: none !important;
+            box-shadow: none !important;
+            border-color: #e5e7eb !important;
         }
 
         .req {
             color: #f26522;
         }
 
-        .field input,
-        .field select {
-            height: 44px;
-            border-radius: 12px;
+        .radio-pill {
             border: 1.5px solid #e5e7eb;
-            padding: 0 14px;
-            font-size: 14px;
-            background: #fff;
-            transition: 0.25s;
-        }
-
-        .field input:focus,
-        .field select:focus {
-            border-color: #f26522;
-            box-shadow: 0 0 0 3px rgba(242, 101, 34, 0.15);
-            outline: none;
-        }
-
-        .field input[type="file"] {
-            padding-top: 9px;
-        }
-
-        .hint {
-            font-size: 12px;
-            color: #f26522;
-            margin-top: -2px;
-        }
-
-        .radio-group {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-            margin-top: 4px;
-        }
-
-        .radio {
-            padding: 8px 14px;
-            border-radius: 30px;
-            border: 1.5px solid #e5e7eb;
-            font-size: 14px;
+            padding: 6px 15px;
+            border-radius: 20px;
             cursor: pointer;
-            transition: .2s ease;
-            user-select: none;
+            transition: .2s;
+            font-size: 13px;
         }
 
-        .radio input {
-            display: none;
-        }
-
-        .radio.active {
+        .radio-pill.active {
             background: #fef0ea;
             border-color: #f26522;
             color: #f26522;
-            font-weight: 500;
-        }
-
-        .radio span {
-            pointer-events: none;
-        }
-
-        .footer {
-            margin-top: 35px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
         }
 
         .btn-submit {
             background: #f26522;
-            border: none;
             color: #fff;
-            padding: 12px 36px;
-            border-radius: 35px;
-            font-size: 15px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: 0.2s ease;
+            padding: 10px 28px;
+            border-radius: 25px;
+            border: 0;
+            font-size: 14px;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-1px);
-        }
-
-        .select-wrapper {
-            position: relative;
+        .select2-container .select2-selection--single {
+            height: 42px !important;
+            padding: 6px 10px;
+            border-radius: 10px !important;
+            border: 1.5px solid #e5e7eb !important;
             display: flex;
             align-items: center;
+            background: #fff !important;
+            outline: none !important;
+            box-shadow: none !important;
         }
 
-        .select-wrapper select {
-            width: 100%;
-            appearance: none;
-            padding-right: 40px;
+        .select2-selection--single:focus {
+            outline: none !important;
+            box-shadow: none !important;
         }
 
-        .select-wrapper::after {
-            content: "\f078";
-            font-family: "Font Awesome 6 Free";
-            font-weight: 900;
-            position: absolute;
-            right: 15px;
-            pointer-events: none;
-            color: #6b7280;
-            transition: 0.3s ease;
+        .select2-container--default .select2-selection--single .select2-selection__rendered {
+            color: #111827;
+            font-size: 14px;
+            line-height: 42px !important;
         }
 
-        .select-wrapper.active::after {
-            transform: rotate(180deg);
-            color: #f26522;
+        .select2-container--default .select2-selection--single .select2-selection__arrow {
+            height: 40px !important;
+            top: 1px !important;
+            right: 8px;
         }
 
-        @media(max-width:600px) {
-            .form-wrapper {
-                padding: 25px 18px;
-            }
+        .select2-dropdown {
+            border: none !important;
+            border-radius: 12px !important;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08) !important;
+            padding: 6px 0;
+        }
+
+        .select2-results__option {
+            padding: 10px 14px !important;
+            font-size: 14px;
+            border-radius: 8px !important;
+            margin: 3px 8px !important;
+        }
+
+        .select2-results__option--highlighted {
+            background: #fef0ea !important;
+            color: #f26522 !important;
+        }
+
+        .select2-results__option[aria-selected=true] {
+            background: #fef0ea !important;
+            color: #f26522 !important;
         }
     </style>
 </head>
@@ -223,211 +164,219 @@
 
     <div class="form-wrapper">
 
-        <div class="form-title">Job Application</div>
-        <div class="form-subtitle">Please fill all the required details</div>
+        <h2 class="form-title">Job Application Form</h2>
 
         <div class="section">
-            <h3>Personal Information</h3>
-            <div class="grid">
-                <div class="field">
-                    <label>Name <span class="req">*</span></label>
-                    <input type="text" placeholder="Enter full name">
+            <h3 class="section-title">Personal Information</h3>
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label class="form-label">Name <span class="req">*</span></label>
+                    <input type="text" class="form-control">
                 </div>
 
-                <div class="field">
-                    <label>Email</label>
-                    <input type="email" placeholder="Enter email">
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input type="email" class="form-control">
                 </div>
 
-                <div class="field">
-                    <label>Aadhar No.</label>
-                    <input type="text" placeholder="Enter Aadhar number">
+                <div class="col-md-6">
+                    <label class="form-label">Aadhar No.</label>
+                    <input type="text" class="form-control">
                 </div>
 
-                <div class="field">
-                    <label>Date of Birth <span class="req">*</span></label>
-                    <input type="date">
+                <div class="col-md-6">
+                    <label class="form-label">Date of Birth <span class="req">*</span></label>
+                    <input type="date" class="form-control">
                 </div>
 
-                <div class="field">
-                    <label>Gender <span class="req">*</span></label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select Gender</option>
-                            <option>Male</option>
-                            <option>Female</option>
-                            <option>Other</option>
-                        </select>
-                    </div>
+                <div class="col-md-6">
+                    <label class="form-label">Gender <span class="req">*</span></label>
+                    <select class="form-select select2">
+                        <option>Select Gender</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
                 </div>
 
-                <div class="field">
-                    <label>Marital Status <span class="req">*</span></label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select status</option>
-                            <option>Married</option>
-                            <option>Unmarried</option>
-                        </select>
-                    </div>
+                <div class="col-md-6">
+                    <label class="form-label">Marital Status <span class="req">*</span></label>
+                    <select class="form-select select2">
+                        <option>Select status</option>
+                        <option>Married</option>
+                        <option>Unmarried</option>
+                    </select>
                 </div>
 
-                <div class="field">
-                    <label>State <span class="req">*</span></label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select State</option>
-                            <option>State 1</option>
-                            <option>State 2</option>
-                        </select>
-                    </div>
+                <div class="col-md-6">
+                    <label class="form-label">State <span class="req">*</span></label>
+                    <select class="form-select select2">
+                        <option>Select State</option>
+                        <option>State 1</option>
+                        <option>State 2</option>
+                    </select>
                 </div>
 
-                <div class="field">
-                    <label>City <span class="req">*</span></label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select City</option>
-                            <option>City 1</option>
-                            <option>City 2</option>
-                        </select>
-                    </div>
+                <div class="col-md-6">
+                    <label class="form-label">City <span class="req">*</span></label>
+                    <select class="form-select select2">
+                        <option>Select City</option>
+                        <option>City 1</option>
+                        <option>City 2</option>
+                    </select>
                 </div>
 
-                <div class="field">
-                    <label>Phone <span class="req">*</span></label>
-                    <input type="text" placeholder="Enter mobile number">
+                <div class="col-md-6">
+                    <label class="form-label">Phone <span class="req">*</span></label>
+                    <input type="text" class="form-control">
                 </div>
 
-                <div class="field">
-                    <label>Resume</label>
-                    <input type="file">
-                    <div class="hint">Only .pdf, .doc, .docx allowed</div>
+                <div class="col-md-6">
+                    <label class="form-label">Resume</label>
+                    <input type="file" class="form-control" accept=".pdf, .doc, .docx">
+                    <small class="text-danger">Only .pdf, .doc, .docx allowed</small>
                 </div>
+
             </div>
         </div>
 
-        <div class="section">
-            <h3>Academic Information</h3>
-            <div class="grid">
-                <div class="field">
-                    <label>10th % <span class="req">*</span></label>
-                    <input type="text">
+        <div class="section mt-4">
+            <h3 class="section-title">Academic Information</h3>
+
+            <div class="row g-3">
+
+                <div class="col-md-4">
+                    <label class="form-label">10th % <span class="req">*</span></label>
+                    <input type="text" class="form-control">
                 </div>
 
-                <div class="field">
-                    <label>10th Passing Year <span class="req">*</span></label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select year</option>
-                        </select>
-                    </div>
+                <div class="col-md-4">
+                    <label class="form-label">10th Passing Year <span class="req">*</span></label>
+                    <select class="form-select select2">
+                        <option>Select year</option>
+                        <option>2019</option>
+                        <option>2020</option>
+                        <option>2021</option>
+                    </select>
                 </div>
 
-                <div class="field">
-                    <label>12th % <span class="req">*</span></label>
-                    <input type="text">
+                <div class="col-md-4">
+                    <label class="form-label">12th % <span class="req">*</span></label>
+                    <input type="text" class="form-control">
                 </div>
 
-                <div class="field">
-                    <label>12th Passing Year <span class="req">*</span></label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select year</option>
-                        </select>
-                    </div>
+                <div class="col-md-4">
+                    <label class="form-label">12th Passing Year <span class="req">*</span></label>
+                    <select class="form-select select2">
+                        <option>Select year</option>
+                        <option>2020</option>
+                        <option>2021</option>
+                        <option>2022</option>
+                    </select>
                 </div>
 
-                <div class="field">
-                    <label>UG % <span class="req">*</span></label>
-                    <input type="text">
+                <div class="col-md-4">
+                    <label class="form-label">UG % <span class="req">*</span></label>
+                    <input type="text" class="form-control">
                 </div>
 
-                <div class="field">
-                    <label>UG Passing Year <span class="req">*</span></label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select year</option>
-                        </select>
-                    </div>
+                <div class="col-md-4">
+                    <label class="form-label">UG Passing Year <span class="req">*</span></label>
+                    <select class="form-select select2">
+                        <option>Select year</option>
+                        <option>2022</option>
+                        <option>2023</option>
+                    </select>
                 </div>
 
-                <div class="field">
-                    <label>Highest Qualification <span class="req">*</span></label>
-                    <div class="radio-group">
-                        <label class="radio">
-                            <input type="radio" name="qualification" onclick="selectRadio(this)">
-                            <span>Post Graduation</span>
+                <div class="col-md-12">
+                    <label class="form-label">Highest Qualification <span class="req">*</span></label>
+
+                    <div class="d-flex gap-2 mt-1 flex-wrap">
+                        <label class="radio-pill" onclick="selectRadioGrp(this)">
+                            <input type="radio" name="qualification" hidden>
+                            Post Graduation
                         </label>
-                        <label class="radio">
-                            <input type="radio" name="qualification" onclick="selectRadio(this)">
-                            <span>Graduation</span>
+
+                        <label class="radio-pill" onclick="selectRadioGrp(this)">
+                            <input type="radio" name="qualification" hidden>
+                            Graduation
                         </label>
                     </div>
                 </div>
 
-                <div class="field">
-                    <label>Highest Degree <span class="req">*</span></label>
-                    <input type="text">
+                <div class="col-md-6">
+                    <label class="form-label">Highest Degree <span class="req">*</span></label>
+                    <input type="text" class="form-control">
                 </div>
 
-                <div class="field">
-                    <label>Institute <span class="req">*</span></label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select institute</option>
-                        </select>
-                    </div>
+                <div class="col-md-6">
+                    <label class="form-label">Institute <span class="req">*</span></label>
+                    <select class="form-select select2">
+                        <option>Select institute</option>
+                        <option>Institute A</option>
+                        <option>Institute B</option>
+                    </select>
                 </div>
 
-                <div class="field">
-                    <label>Final Passing Year <span class="req">*</span></label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select year</option>
-                        </select>
-                    </div>
+                <div class="col-md-6">
+                    <label class="form-label">Final Passing Year <span class="req">*</span></label>
+                    <select class="form-select select2">
+                        <option>Select year</option>
+                        <option>2022</option>
+                        <option>2023</option>
+                    </select>
                 </div>
+
             </div>
         </div>
 
-        <div class="section">
-            <h3>Work Experience</h3>
-            <div class="grid">
-                <div class="field">
-                    <label>Total Work Experience</label>
-                    <div class="select-wrapper">
-                        <select>
-                            <option>Select</option>
-                        </select>
-                    </div>
+        <div class="section mt-4">
+            <h3 class="section-title">Work Experience</h3>
+
+            <div class="row g-3">
+
+                <div class="col-md-6">
+                    <label class="form-label">Total Work Experience</label>
+                    <select class="form-select select2">
+                        <option>Select</option>
+                        <option>0 Years</option>
+                        <option>1 Year</option>
+                        <option>2 Years</option>
+                        <option>3 Years</option>
+                    </select>
                 </div>
 
-                <div class="field">
-                    <label>Work Experience <span class="req">*</span></label>
-                    <input type="text" placeholder="+ Add">
+                <div class="col-md-6">
+                    <label class="form-label">Work Experience <span class="req">*</span></label>
+                    <input type="text" class="form-control" placeholder="+ Add">
                 </div>
+
             </div>
         </div>
 
-        <div class="footer">
+        <div class="text-center mt-4">
             <button class="btn-submit">Submit Application</button>
         </div>
+
     </div>
 
     <script>
-        function selectRadio(el) {
-            document.querySelectorAll('.radio').forEach(r => r.classList.remove('active'));
-            el.parentElement.classList.add('active');
+        function selectRadioGrp(el) {
+            document.querySelectorAll('.radio-pill').forEach(rb => rb.classList.remove('active'));
+            el.classList.add('active');
         }
+    </script>
 
-        document.querySelectorAll('.select-wrapper select').forEach(select => {
-            select.addEventListener('focus', function() {
-                this.parentElement.classList.add('active');
-            });
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-            select.addEventListener('blur', function() {
-                this.parentElement.classList.remove('active');
+    <script>
+        $(document).ready(function() {
+            $(".select2").select2({
+                width: "100%"
             });
         });
     </script>

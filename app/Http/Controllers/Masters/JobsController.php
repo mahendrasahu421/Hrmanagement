@@ -16,16 +16,12 @@ use Illuminate\Support\Facades\DB;
 
 class JobsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
         $data['title'] = 'Recruitment / Jobs ';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        $data['jobs'] = AcflJobs::with(['designation', 'state'])
-            ->orderBy('id', 'DESC')
-            ->get();
+        $data['jobs'] = AcflJobs::with(['designation', 'state'])->orderBy('id', 'DESC')->get();
         return view('home.jobs.index', $data);
     }
 
@@ -101,9 +97,6 @@ class JobsController extends Controller
     }
 
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $data['title'] = 'Recruitment / Jobs Create ';
@@ -125,9 +118,6 @@ class JobsController extends Controller
         return view('home.jobs.applied-candidate', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         // Validation (names now match your form)
@@ -194,33 +184,21 @@ class JobsController extends Controller
         return view('home.jobs.job-apply-form', $data);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(string $id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
         //
