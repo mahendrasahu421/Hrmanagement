@@ -1,0 +1,20 @@
+{
+  "name": "Check In / Check Out App",
+  "short_name": "CheckApp",
+  "start_url": "/checkin-app",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/checkin/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/checkin/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -598,11 +598,14 @@
                                 <a href="javascript:void(0);"><i class="ti ti-users-group"></i> Recruitment <span
                                         class="menu-arrow"></span></a>
                                 <ul>
+                                     <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
+                                       <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
+                                       <li><a href="{{ route('create-job-questionaire') }}">Customize JAF</a></li>
                                     <li><a href="{{ route('recruitment.jobs.applied-candidate') }}">Applied
                                             Candidates</a></li>
-                                    <li><a href="{{ route('recruitment.jobs') }}">Job List</a></li>
-                                    <li><a href="{{ route('create-job-questionaire') }}">Customize JAF</a></li>
-                                    <li><a href="{{ route('recruitment.jobs.create') }}">Create Job</a></li>
+                                  
+                                    
+                                   
                                 </ul>
                             </li>
 

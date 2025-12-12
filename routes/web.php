@@ -2,7 +2,7 @@
 
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CheckinController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Employee\EmployeeCotroller;
@@ -175,12 +175,14 @@ Route::middleware(['auth'])->group(function () {
     // Employee/Onboarding
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
 
-    Route::get('create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
+    Route::get('recruitment/jobs/create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
+    Route::post('recruitment/jobs/create-job-questionaire/store', [JafController::class, 'store'])->name('jaf.store');
+    Route::get('recruitment/jobs/create-job-questionaire/show', [JafController::class, 'show'])->name('jaf.index');
 
     // Master/Payroll/salary-component
     Route::get('masters/payroll/salary-component', [SalaryComponentController::class, 'index'])->name('masters.payroll.salary-component');
     Route::get('masters/payroll/salary-component/create', [SalaryComponentController::class, 'create'])->name('masters.payroll.salary-component.create');
-    Route::get('masters/payroll/salary-component/store', [SalaryComponentController::class, 'store'])->name('masters.payroll.salary-component.store');
+    Route::post('masters/payroll/salary-component/store', [SalaryComponentController::class, 'store'])->name('masters.payroll.salary-component.store');
 
     // Master/Payroll/salary-structure
     Route::get('masters/payroll/salary-structure', [SalaryStructureController::class, 'index'])->name('masters.payroll.salary-structure');
@@ -329,6 +331,9 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
 
     // Payslip
     // Route::get('payslip', [PayslipController::class, 'index'])->name('employee.payslip');
+     Route::get('/checkin-app', [CheckinController::class, 'index']);
+    Route::post('/checkin', [CheckinController::class, 'checkin']);
+    Route::post('/checkout', [CheckinController::class, 'checkout']);
 });
 
 

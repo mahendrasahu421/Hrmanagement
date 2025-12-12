@@ -54,9 +54,7 @@ class EmployeeController extends Controller
         $data['role'] = Auth::user()->name;
         $data['title'] = $data['role'] . ' Dashboard';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-
         $employeeId = Auth::id();
-
         // 👇 Latest approved leave (notification)
         $data['approved_notification'] = Leave::with('leaveType')
             ->where('employee_id', $employeeId)

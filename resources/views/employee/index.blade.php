@@ -54,7 +54,8 @@
             opacity: 1;
             transform: translateY(0px) scale(1);
         }
-         .modal-content {
+
+        .modal-content {
             border-radius: 12px !important;
         }
 
@@ -168,17 +169,17 @@
                 </div>
             </div>
 
-            @if($approved_notification)
-<div class="alert bg-secondary-transparent alert-dismissible fade show mb-4">
-    Your Leave Request on 
-    “{{ \Carbon\Carbon::parse($approved_notification->start_date)->format('d M Y') }}”
-    has been <b>Approved</b> !!!
-    
-    <button type="button" class="btn-close fs-14" data-bs-dismiss="alert" aria-label="Close">
-        <i class="ti ti-x"></i>
-    </button>
-</div>
-@endif
+            @if ($approved_notification)
+                <div class="alert bg-secondary-transparent alert-dismissible fade show mb-4">
+                    Your Leave Request on
+                    “{{ \Carbon\Carbon::parse($approved_notification->start_date)->format('d M Y') }}”
+                    has been <b>Approved</b> !!!
+
+                    <button type="button" class="btn-close fs-14" data-bs-dismiss="alert" aria-label="Close">
+                        <i class="ti ti-x"></i>
+                    </button>
+                </div>
+            @endif
 
             <!-- Breadcrumb -->
             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
@@ -467,40 +468,32 @@
             </div>
 
             <div class="row">
-                <div class="col-xl-5 d-flex">
-                    <div class="card flex-fill">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center justify-content-between flex-wrap row-gap-2">
-                                <h5>Performance</h5>
-                                <div class="dropdown">
-                                    <a href="javascript:void(0);"
-                                        class="btn btn-white border btn-sm d-inline-flex align-items-center"
-                                        data-bs-toggle="dropdown">
-                                        <i class="ti ti-calendar me-1"></i>2024
-                                    </a>
-                                    <ul class="dropdown-menu  dropdown-menu-end p-3">
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1">2024</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1">2023</a>
-                                        </li>
-                                        <li>
-                                            <a href="javascript:void(0);" class="dropdown-item rounded-1">2022</a>
-                                        </li>
-                                    </ul>
+                <div class="col-xl-4 d-flex">
+                    <div class="card flex-fill border-primary attendance-bg">
+                        <div class="card-body">
+                            <div class="mb-4 text-center">
+                                <h6 class="fw-medium text-gray-5 mb-1">Attendance</h6>
+                                <h4>08:35 AM, 11 Mar 2025</h4>
+                            </div>
+                            <div class="attendance-circle-progress attendance-progress mx-auto mb-3" data-value="65">
+                                <span class="progress-left">
+                                    <span class="progress-bar border-success" style="transform: rotate(54deg);"></span>
+                                </span>
+                                <span class="progress-right">
+                                    <span class="progress-bar border-success" style="transform: rotate(180deg);"></span>
+                                </span>
+                                <div class="total-work-hours text-center w-100">
+                                    <span class="fs-13 d-block mb-1">Total Hours</span>
+                                    <h6>5:45:32</h6>
                                 </div>
                             </div>
-                        </div>
-                        <div class="card-body">
-                            <div>
-                                <div class="bg-light d-flex align-items-center rounded p-2">
-                                    <h3 class="me-2">98%</h3>
-                                    <span
-                                        class="badge badge-outline-success bg-success-transparent rounded-pill me-1">12%</span>
-                                    <span>vs last years</span>
-                                </div>
-                                <div id="performance_chart2"></div>
+                            <div class="text-center">
+                                <div class="badge badge-dark badge-md mb-3">Production : 3.45 hrs</div>
+                                <h6 class="fw-medium d-flex align-items-center justify-content-center mb-4">
+                                    <i class="ti ti-fingerprint text-primary me-1"></i>
+                                    Punch In at 10.00 AM
+                                </h6>
+                                <a href="#" class="btn btn-primary w-100">Punch Out</a>
                             </div>
                         </div>
                     </div>
@@ -576,7 +569,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-3 d-flex">
+                <div class="col-xl-4 d-flex">
                     <div class="flex-fill">
                         <div class="card card-bg-5 bg-dark mb-3">
                             <div class="card-body">
