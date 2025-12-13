@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\AcflJobs;
 use App\Models\City;
+use App\Models\JobSkill;
 use App\Models\StateCity;
 use Illuminate\Support\Facades\DB;
 
@@ -130,6 +131,7 @@ class JobsController extends Controller
         $data['jobsType'] = JobCategory::where('type', 'job type')->get();
         $data['states'] = CountryState::where('country_id', 101)->get();
         $data['branch'] = Branch::all();
+        $data['jobSkills'] = JobSkill::where('status', 'Active')->orderBy('name')->get();
 
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
@@ -151,7 +153,7 @@ class JobsController extends Controller
             'branch_id' => 'required|exists:branches,id',
             'job_title' => 'required|string|max:255',
             'designation_id' => 'required|exists:designations,id',
-            'test_skills' => 'required|string',
+            'test_skills' => 'required|array',
             'positions' => 'required|integer|min:1',
             'job_type_id' => 'required|exists:job_categories,id',
             'ctc_from' => 'nullable|numeric',
@@ -174,7 +176,7 @@ class JobsController extends Controller
             $job->branch_id = $request->branch_id;
             $job->job_title = $request->job_title;
             $job->designation_id = $request->designation_id;
-            $job->test_skills = $request->test_skills;
+            $job->test_skills = json_encode($request->test_skills);
             $job->positions = $request->positions;
             $job->job_type_id = $request->job_type_id;
             $job->ctc_from = $request->ctc_from;
