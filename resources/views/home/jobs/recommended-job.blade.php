@@ -7,6 +7,8 @@
     <title>Recommended Jobs </title>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <style>
         body {
             background: #f6f7fb;
@@ -44,7 +46,7 @@
         .company-name {
             font-size: 13px;
             color: #444;
-            margin-top: 5px;
+            /* margin-top: 5px; */
         }
 
         .star {
@@ -97,7 +99,7 @@
             margin-top: 10px;
             display: flex;
             justify-content: space-between;
-            font-size: 10px;
+            font-size: 15px;
             color: #777;
             font-weight: 500;
         }
@@ -107,87 +109,93 @@
 <body>
 
     <div>
-        <div>
-            <a href="{{ route('recruitment.jobs.job-deatils') }}" style="text-decoration:none;" target="_blank">
-                <div class="job-card">
-                    <div class="top-row">
-                        <div>
-                            <div class="job-title">WordPress Developer / SEO Specialist</div>
-                            <div class="company-name">
-                                11 Plus Grammar Preparation
-                                <span class="star">★ 3.4</span> | 3 Reviews
+        @foreach ($jobs as $job)
+            <div>
+                @php
+                   
+
+                    $titleSlug = Str::slug($job->job_title);
+                    $branchSlug = Str::slug($job->branch_name ?? 'branch');
+                    $locationSlug = Str::slug(implode('-', $job->city_names));
+                    $stateSlug = Str::slug($job->state_name ?? '');
+                    $expSlug = Str::slug($job->min_exp . '-to-' . $job->max_exp . '-years');
+
+                    // unique job code like naukri
+                    $jobCode = $job->id . rand(100000, 999999);
+
+                    // final slug (Naukri.com style)
+                    $finalSlug =
+                        $titleSlug .
+                        '-' .
+                        $branchSlug .
+                        '-' .
+                        $locationSlug .
+                        '-' .
+                        $stateSlug .
+                        '-' .
+                        $expSlug .
+                        '-' .
+                        $jobCode;
+                @endphp
+
+                <a href="{{ route('recruitment.jobs.job-deatils', ['slug' => $finalSlug]) }}"
+                    style="text-decoration:none;" target="_blank">
+
+
+                    <div class="job-card">
+                        <div class="top-row">
+                            <div>
+                                <div class="job-title">{{ $job->job_title }}</div>
+                                <div class="company-name">
+                                    {{ $job->branchName }}
+
+                                </div>
+                            </div>
+                            <div class="logo-box">N</div>
+                        </div>
+
+
+                        <div class="meta">
+                            <div class="mb-1"><i class="fa-solid fa-briefcase"></i> {{ $job->min_exp }} –
+                                {{ $job->max_exp }} Yrs
+                            </div>|
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i>
+                                @if (!empty($job->ctc_from) && !empty($job->ctc_to))
+                                    ₹{{ number_format($job->ctc_from / 100000, 2) }} LPA -
+                                    ₹{{ number_format($job->ctc_to / 100000, 2) }} LPA
+                                @else
+                                    N/A
+                                @endif
+                            </div>|
+                            <div><i class="fa-solid fa-location-dot"></i>
+                                {{ implode(', ', $job->city_names) }}- {{ $job->state_name }}
+
+
                             </div>
                         </div>
-                        <div class="logo-box">N</div>
-                    </div>
 
-                    <div class="meta">
-                        <div><i class="fa-solid fa-briefcase"></i> 1–2 Yrs</div>
-                        <div><i class="fa-solid fa-indian-rupee-sign"></i> Not disclosed</div>
-                        <div><i class="fa-solid fa-location-dot"></i> Remote</div>
-                    </div>
+                        <div class="meta" style="color:#555;">
+                            <i class="fa-regular fa-file-lines mt-1"></i>
+                            {!! $job->job_description !!}
 
-                    <div class="meta" style="margin-top:10px; color:#555;">
-                        <i class="fa-regular fa-file-lines" style="margin-top:4px;"></i>
-                        Must be able to work and collaborate with the team during UK business hours
-                    </div>
-
-                    <div class="tags">
-                        <div class="tag">SEO</div>
-                        <div class="tag">Webflow</div>
-                        <div class="tag">Search Engine Optimization</div>
-                        <div class="tag">CSS</div>
-                        <div class="tag">Woocommerce</div>
-                        <div class="tag">HTML</div>
-                    </div>
-
-                    <div class="bottom-row">
-                        <span>1 Day Ago</span>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div>
-            <a href="{{ route('recruitment.jobs.job-deatils') }}" style="text-decoration:none;" target="_blank">
-                <div class="job-card">
-                    <div class="top-row">
-                        <div>
-                            <div class="job-title">WordPress Developer / SEO Specialist</div>
-                            <div class="company-name">
-                                11 Plus Grammar Preparation
-                                <span class="star">★ 3.4</span> | 3 Reviews
-                            </div>
                         </div>
-                        <div class="logo-box">N</div>
-                    </div>
 
-                    <div class="meta">
-                        <div><i class="fa-solid fa-briefcase"></i> 1–2 Yrs</div>
-                        <div><i class="fa-solid fa-indian-rupee-sign"></i> Not disclosed</div>
-                        <div><i class="fa-solid fa-location-dot"></i> Remote</div>
-                    </div>
 
-                    <div class="meta" style="margin-top:10px; color:#555;">
-                        <i class="fa-regular fa-file-lines" style="margin-top:4px;"></i>
-                        Must be able to work and collaborate with the team during UK business hours
-                    </div>
+                        <div class="tags">
+                            <div class="tag">{{ $job->test_skills }}</div>
 
-                    <div class="tags">
-                        <div class="tag">SEO</div>
-                        <div class="tag">Webflow</div>
-                        <div class="tag">Search Engine Optimization</div>
-                        <div class="tag">CSS</div>
-                        <div class="tag">Woocommerce</div>
-                        <div class="tag">HTML</div>
-                    </div>
+                        </div>
+                        <div class="bottom-row">
+                            Posted : {{ $job->created_at->diffForHumans() }}
 
-                    <div class="bottom-row">
-                        <span>1 Day Ago</span>
+                        </div>
                     </div>
-                </div>
-            </a>
-        </div>
+                </a>
+            </div>
+        @endforeach
+
+
+
     </div>
 
 </body>

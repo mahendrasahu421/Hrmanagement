@@ -53,8 +53,29 @@ class AcflJobs extends Model
 
     public function state()
     {
-        return $this->belongsTo(CountryState::class, 'state_id');
+        return $this->belongsTo(CountryState::class, 'state_id','id');
     }
+
+    public function city()
+    {
+        return $this->belongsTo(StateCity::class, 'city_id');
+    }
+    public function getCityIdsAttribute($value)
+    {
+        // Fix double encoded JSON: "\"[\"1\"]\""
+        while (is_string($value)) {
+            $decoded = json_decode($value, true);
+
+            if ($decoded === null) {
+                break;
+            }
+
+            $value = $decoded;
+        }
+
+        return is_array($value) ? $value : [];
+    }
+
 
 
 }
