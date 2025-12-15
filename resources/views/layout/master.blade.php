@@ -522,6 +522,7 @@
                                 <a href="javascript:void(0);"><i class="ti ti-settings"></i> <span>Settings</span>
                                     <span class="menu-arrow"></span></a>
                                 <ul>
+                                    <li><a href="{{ route('settings.jobskill') }}">Job Skill</a></li>
                                     <li><a href="{{ route('settings.category') }}">Category</a></li>
                                     <li><a href="{{ route('settings.department') }}">Department</a></li>
                                     <li><a href="{{ route('settings.designation') }}">Designation</a></li>
@@ -531,7 +532,7 @@
                                     <li><a href="{{ route('settings.holiday') }}">Holiday</a></li>
                                     <li><a href="{{ route('settings.email-templates') }}">Email Templates</a></li>
                                 </ul>
-                            </li>
+                            </li> 
 
                             {{-- ADMINISTRATION --}}
                             <li class="menu-title"><span>ADMINISTRATION</span></li>
