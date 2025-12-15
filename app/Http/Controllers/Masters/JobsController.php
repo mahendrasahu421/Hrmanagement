@@ -100,6 +100,7 @@ class JobsController extends Controller
 
     public function jobDetails($slug)
     {
+
         /**
          * Slug Format:
          * wordpress-developer-delhi-159123456
@@ -119,7 +120,7 @@ class JobsController extends Controller
 
         // job + relations fetch
         $job = AcflJobs::with(['branch', 'state'])->findOrFail($jobId);
-        
+
         // city names
         $cityNames = StateCity::whereIn('id', $job->city_ids ?? [])
             ->pluck('name')
@@ -148,7 +149,7 @@ class JobsController extends Controller
 
         // Debug to check final output
 
-
+      
         return view('home.jobs.job-deatils', [
             'title' => $job->job_title . " - Job Details",
             'job' => $jobDetails

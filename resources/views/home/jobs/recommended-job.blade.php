@@ -112,84 +112,83 @@
         @foreach ($jobs as $job)
             <div>
                 @php
-                   
 
-                    $titleSlug = Str::slug($job->job_title);
-                    $branchSlug = Str::slug($job->branch_name ?? 'branch');
-                    $locationSlug = Str::slug(implode('-', $job->city_names));
-                    $stateSlug = Str::slug($job->state_name ?? '');
-                    $expSlug = Str::slug($job->min_exp . '-to-' . $job->max_exp . '-years');
+                    if (empty($job->job_title) || empty($job->id)) {
+                        continue;
+                    }
 
-                    // unique job code like naukri
-                    $jobCode = $job->id . rand(100000, 999999);
+                    $cities = is_array($job->city_names) ? $job->city_names : [];
 
-                    // final slug (Naukri.com style)
-                    $finalSlug =
-                        $titleSlug .
-                        '-' .
-                        $branchSlug .
-                        '-' .
-                        $locationSlug .
-                        '-' .
-                        $stateSlug .
-                        '-' .
-                        $expSlug .
-                        '-' .
-                        $jobCode;
+                    $finalSlug = implode(
+                        '-',
+                        array_filter([
+                            Str::slug($job->job_title),
+                            Str::slug($job->branch_name ?? 'branch'),
+                            Str::slug(implode('-', $cities)),
+                            Str::slug($job->state_name ?? ''),
+                            Str::slug($job->min_exp . '-to-' . $job->max_exp . '-years'),
+                            $job->id . rand(100000, 999999),
+                        ]),
+                    );
                 @endphp
 
-                <a href="{{ route('recruitment.jobs.job-deatils', ['slug' => $finalSlug]) }}"
-                    style="text-decoration:none;" target="_blank">
 
 
-                    <div class="job-card">
-                        <div class="top-row">
-                            <div>
-                                <div class="job-title">{{ $job->job_title }}</div>
-                                <div class="company-name">
-                                    {{ $job->branchName }}
-
-                                </div>
-                            </div>
-                            <div class="logo-box">N</div>
-                        </div>
+                @if (!empty($finalSlug))
+                    <a href="{{ route('recruitment.jobs.job-deatils', ['slug' => $finalSlug]) }}" target="_blank"
+                        style="text-decoration:none;">
+                @endif
 
 
-                        <div class="meta">
-                            <div class="mb-1"><i class="fa-solid fa-briefcase"></i> {{ $job->min_exp }} –
-                                {{ $job->max_exp }} Yrs
-                            </div>|
-                            <div><i class="fa-solid fa-indian-rupee-sign"></i>
-                                @if (!empty($job->ctc_from) && !empty($job->ctc_to))
-                                    ₹{{ number_format($job->ctc_from / 100000, 2) }} LPA -
-                                    ₹{{ number_format($job->ctc_to / 100000, 2) }} LPA
-                                @else
-                                    N/A
-                                @endif
-                            </div>|
-                            <div><i class="fa-solid fa-location-dot"></i>
-                                {{ implode(', ', $job->city_names) }}- {{ $job->state_name }}
 
+                <div class="job-card">
+                    <div class="top-row">
+                        <div>
+                            <div class="job-title">{{ $job->job_title }}</div>
+                            <div class="company-name">
+                                {{ $job->branchName }}
 
                             </div>
                         </div>
-
-                        <div class="meta" style="color:#555;">
-                            <i class="fa-regular fa-file-lines mt-1"></i>
-                            {!! $job->job_description !!}
-
-                        </div>
+                        <div class="logo-box">N</div>
+                    </div>
 
 
-                        <div class="tags">
-                            <div class="tag">{{ $job->test_skills }}</div>
+                    <div class="meta">
+                        <div class="mb-1"><i class="fa-solid fa-briefcase"></i> {{ $job->min_exp }} –
+                            {{ $job->max_exp }} Yrs
+                        </div>|
+                        <div><i class="fa-solid fa-indian-rupee-sign"></i>
+                            @if (!empty($job->ctc_from) && !empty($job->ctc_to))
+                                ₹{{ number_format($job->ctc_from / 100000, 2) }} LPA -
+                                ₹{{ number_format($job->ctc_to / 100000, 2) }} LPA
+                            @else
+                                N/A
+                            @endif
+                        </div>|
+                        <div><i class="fa-solid fa-location-dot"></i>
+                            {{ implode(', ', $job->city_names) }}- {{ $job->state_name }}
 
-                        </div>
-                        <div class="bottom-row">
-                            Posted : {{ $job->created_at->diffForHumans() }}
 
                         </div>
                     </div>
+
+                    <div class="meta" style="color:#555;">
+                        <i class="fa-regular fa-file-lines mt-1"></i>
+                        {!! $job->job_description !!}
+
+                    </div>
+
+
+                    <div class="tags">
+                        <div class="tag">{{ $job->test_skills }}</div>
+
+                    </div>
+                    <div class="bottom-row">
+                        Posted : {{ $job->created_at->diffForHumans() }}
+
+                    </div>
+                </div>
                 </a>
             </div>
         @endforeach
