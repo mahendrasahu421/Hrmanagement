@@ -532,7 +532,7 @@
                                     <li><a href="{{ route('settings.holiday') }}">Holiday</a></li>
                                     <li><a href="{{ route('settings.email-templates') }}">Email Templates</a></li>
                                 </ul>
-                            </li>
+                            </li> 
 
                             {{-- ADMINISTRATION --}}
                             <li class="menu-title"><span>ADMINISTRATION</span></li>
