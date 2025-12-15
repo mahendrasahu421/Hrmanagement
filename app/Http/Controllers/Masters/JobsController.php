@@ -25,19 +25,135 @@ class JobsController extends Controller
         return view('home.jobs.index', $data);
     }
 
+
     public function recommendedJob()
     {
         $data['title'] = 'Recruitment / Jobs / Recommended-Job';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+
+        $jobs = AcflJobs::all();
+
+        foreach ($jobs as $job) {
+
+            // city names
+            $cityIds = $job->city_ids;
+            $job->city_names = StateCity::whereIn('id', $cityIds)
+                ->pluck('name')
+                ->toArray();
+
+            // state name
+            $job->state_name = optional($job->state)->name ?? 'State not available';
+            $job->branchName = optional($job->branch)->branch_name ?? 'Branch not available';
+        }
+
+        $data['jobs'] = $jobs;
+
         return view('home.jobs.recommended-job', $data);
     }
-
-    public function jobDetails()
+    public function recommendedJobApi()
     {
-        $data['title'] = 'Recruitment / Jobs / Recommended-Job';
-        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('home.jobs.job-deatils', $data);
+        $jobs = AcflJobs::all();
+
+        $jobsData = [];
+
+        foreach ($jobs as $job) {
+
+            // city names (model accessor se array aa rahi hai)
+            $cityIds = $job->city_ids;
+            $cityNames = StateCity::whereIn('id', $cityIds)
+                ->pluck('name')
+                ->toArray();
+
+            // state name
+            $stateName = optional($job->state)->name ?? 'State not available';
+
+            // prepare API response
+            $jobsData[] = [
+                'id' => $job->id,
+                'job_title' => $job->job_title,
+                'designation_id' => $job->designation_id,
+                'test_skills' => $job->test_skills,
+                'positions' => $job->positions,
+                'job_type_id' => $job->job_type_id,
+                'ctc_from' => $job->ctc_from,
+                'ctc_to' => $job->ctc_to,
+                'min_exp' => $job->min_exp,
+                'max_exp' => $job->max_exp,
+                'state' => $stateName,
+                'cities' => $cityNames,
+                'job_description' => $job->job_description,
+                'qualifications' => $job->qualifications,
+                'keywords' => $job->keywords,
+                'interview_date' => $job->interview_date,
+                'status' => $job->status,
+                'created_at' => $job->created_at->toDateTimeString(),
+                'updated_at' => $job->updated_at->toDateTimeString(),
+            ];
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => $jobsData,
+        ]);
     }
+
+    public function jobDetails($slug)
+    {
+        /**
+         * Slug Format:
+         * wordpress-developer-delhi-159123456
+         *
+         * Last 6 digits = random code
+         * उससे पहले वाले digits = job_id
+         */
+
+        // slug ke last me job_id + random code hota hai
+        preg_match('/(\d+)\d{6}$/', $slug, $matches);
+
+        $jobId = $matches[1] ?? null;
+
+        if (!$jobId) {
+            abort(404, 'Invalid Job URL');
+        }
+
+        // job + relations fetch
+        $job = AcflJobs::with(['branch', 'state'])->findOrFail($jobId);
+        
+        // city names
+        $cityNames = StateCity::whereIn('id', $job->city_ids ?? [])
+            ->pluck('name')
+            ->toArray();
+
+        // Prepare full job response
+        $jobDetails = [
+            'id' => $job->id,
+            'title' => $job->job_title,
+            'description' => $job->job_description,
+            'skills' => $job->test_skills,
+            'min_exp' => $job->min_exp,
+            'max_exp' => $job->max_exp,
+            'ctc_from' => $job->ctc_from,
+            'ctc_to' => $job->ctc_to,
+            'posted' => $job->created_at->diffForHumans(),
+
+            // Relations
+            'branch_name' => $job->branch->branch_name ?? "N/A",
+            'state_name' => $job->state->name ?? "N/A",
+            'city_names' => $cityNames,
+
+            // Extra
+            'imageUrl' => "https://picsum.photos/200/200?random=" . rand(1, 1000)
+        ];
+
+        // Debug to check final output
+
+
+        return view('home.jobs.job-deatils', [
+            'title' => $job->job_title . " - Job Details",
+            'job' => $jobDetails
+        ]);
+    }
+
 
     public function list(Request $request)
     {

@@ -321,36 +321,41 @@
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-8 col-md-12">
+                {{-- Job Card --}}
                 <div class="card">
                     <div class="header">
                         <div>
-                            <div class="title">WordPress Developer / SEO Specialist</div>
+                            <div class="title">{{ $job['title'] }}</div>
                             <div class="company">
-                                11 Plus Grammar Preparation
-                                <span class="rating">★ 3.4</span> | 3 Reviews
+                                {{ $job['branch_name'] }}
                             </div>
                         </div>
-                        <div class="logo">N</div>
+                        <div class="logo">{{ strtoupper(substr($job['branch_name'], 0, 1)) }}</div>
                     </div>
 
                     <div class="meta">
-                        <div><i class="fa-solid fa-briefcase"></i> 1–2 Yrs</div>
-                        <div><i class="fa-solid fa-indian-rupee-sign"></i> Not disclosed</div>
-                        <div><i class="fa-solid fa-location-dot"></i> Remote</div>
+                        <div><i class="fa-solid fa-briefcase"></i> {{ $job['min_exp'] }}–{{ $job['max_exp'] }} Yrs</div>
+                        <div><i class="fa-solid fa-indian-rupee-sign"></i>
+                            @if ($job['ctc_from'] && $job['ctc_to'])
+                                ₹{{ number_format($job['ctc_from'] / 100000, 1) }} LPA -
+                                ₹{{ number_format($job['ctc_to'] / 100000, 1) }} LPA
+                            @else
+                                Not Disclosed
+                            @endif
+                        </div>
+                        <div><i class="fa-solid fa-location-dot"></i>
+                            {{ implode(', ', $job['city_names'] ?? []) }} - {{ $job['state_name'] }}
+                        </div>
                     </div>
 
                     <div class="section">Skills Required</div>
                     <div class="tags">
-                        <div class="tag">SEO</div>
-                        <div class="tag">Webflow</div>
-                        <div class="tag">WordPress</div>
-                        <div class="tag">Search Optimization</div>
-                        <div class="tag">CSS</div>
-                        <div class="tag">HTML</div>
-                        <div class="tag">Woocommerce</div>
+                        @foreach (explode(',', $job['skills']) as $skill)
+                            <div class="tag">{{ trim($skill) }}</div>
+                        @endforeach
                     </div>
 
-                    <div class="footer">1 Day Ago</div>
+                    <div class="footer">Posted: {{ $job['posted'] }}</div>
 
                     <div class="apply-box">
                         <a href="#" class="btn-apply" id="openForm">
@@ -359,40 +364,40 @@
                     </div>
                 </div>
 
+                {{-- Job Description Card --}}
                 <div class="card mt-4">
                     <div class="section"><i class="fa-solid fa-circle-info"></i> Job Description</div>
-                    <div class="text">
-                        We are looking for a **WordPress Developer / SEO Specialist** to join our team. You will be
-                        responsible for maintaining websites, optimizing content, and improving search engine rankings.
-                    </div>
+                    <div class="text">{!! $job['description'] !!}</div>
 
-                    <div class="section"><i class="fa-solid fa-tasks"></i> Responsibilities</div>
-                    <ul class="text">
-                        <li>Develop, maintain, and update WordPress websites</li>
-                        <li>Optimize website content for SEO, including keywords and meta tags</li>
-                        <li>Monitor website performance and implement improvements</li>
-                        <li>Collaborate with team members to implement business requirements</li>
-                        <li>Ensure mobile responsiveness and cross-browser compatibility</li>
-                    </ul>
+                    @if (!empty($job['responsibilities']))
+                        <div class="section"><i class="fa-solid fa-tasks"></i> Responsibilities</div>
+                        <ul class="text">
+                            @foreach ($job['responsibilities'] as $item)
+                                <li>{{ $item }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
 
-                    <div class="section"><i class="fa-solid fa-user-check"></i> Requirements</div>
-                    <ul class="text">
-                        <li>1–2 years of experience in WordPress development</li>
-                        <li>Strong knowledge of SEO tools and best practices</li>
-                        <li>Proficient in HTML, CSS, and JavaScript</li>
-                        <li>Experience with WooCommerce is a plus</li>
-                        <li>Good communication skills and team player</li>
-                    </ul>
+                    @if (!empty($job['requirements']))
+                        <div class="section"><i class="fa-solid fa-user-check"></i> Requirements</div>
+                        <ul class="text">
+                            @foreach ($job['requirements'] as $item)
+                                <li>{{ $item }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
 
-                    <div class="section"><i class="fa-solid fa-gift"></i> Perks & Benefits</div>
-                    <ul class="text">
-                        <li>Flexible working hours and remote work</li>
-                        <li>Opportunity to work with international clients</li>
-                        <li>Professional growth and skill development</li>
-                        <li>Friendly and collaborative work environment</li>
-                    </ul>
+                    @if (!empty($job['benefits']))
+                        <div class="section"><i class="fa-solid fa-gift"></i> Perks & Benefits</div>
+                        <ul class="text">
+                            @foreach ($job['benefits'] as $item)
+                                <li>{{ $item }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
                 </div>
             </div>
+
 
             <div class="col-lg-4 col-md-12">
                 <div class="side-card">
