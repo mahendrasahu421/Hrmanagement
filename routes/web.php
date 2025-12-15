@@ -60,6 +60,7 @@ use App\Http\Controllers\Hr\JobsController as HrJobsController;
 use App\Http\Controllers\Masters\JafController;
 use App\Http\Controllers\Masters\LeaveMappingController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
+use App\Http\Controllers\Masters\JobSkillController;
 use App\Http\Controllers\Masters\OnboardingController;
 use App\Http\Controllers\PMT\FeedbackController;
 use App\Http\Controllers\PMT\ReviewEmployeeController;
@@ -269,6 +270,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/email-template/list', [SettingController::class, 'list'])->name('settings.email-template.list');
     Route::get('settings/email-template/preview/{id}', [SettingController::class, 'preview'])->name('settings.email-template.preview');
 
+    // Master/Organisation/JobSkill
+    Route::get('settings/jobskill', [JobSkillController::class, 'index'])->name('settings.jobskill');
+    Route::get('settings/jobskill/list', [JobSkillController::class, 'list'])->name('settings.jobskill.list');
+    Route::get('settings/jobskill/create', [JobSkillController::class, 'create'])->name('settings.jobskill.create');
+    Route::post('settings/jobskill/store', [JobSkillController::class, 'store'])->name('settings.jobskill.store');
+    Route::get('settings/jobskill/edit/{id}', [JobSkillController::class, 'edit'])->name('settings.jobskill.edit');
+    Route::put('settings/jobskill/update/{id}', [JobSkillController::class, 'update'])->name('settings.jobskill.update');
+    Route::delete('settings/jobskill/delete/{id}', [JobSkillController::class, 'destroy']);
+
 
     // Master/Organisation/Category
     Route::get('settings/category', [CategoryController::class, 'index'])->name('settings.category');
@@ -336,7 +346,7 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
 
     // Payslip
     // Route::get('payslip', [PayslipController::class, 'index'])->name('employee.payslip');
-     Route::get('/checkin-app', [CheckinController::class, 'index']);
+    Route::get('/checkin-app', [CheckinController::class, 'index']);
     Route::post('/checkin', [CheckinController::class, 'checkin']);
     Route::post('/checkout', [CheckinController::class, 'checkout']);
 });
