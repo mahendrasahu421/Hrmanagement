@@ -75,9 +75,15 @@
                                     <!-- Test Skills (tags) -->
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Test Skills *</label>
-                                        <input type="text" class="form-control" name="test_skills"
-                                            placeholder="Enter Test Skills (comma separated)" required>
-                                        <div class="invalid-feedback">Please enter test skills.</div>
+                                        <select class="form-select select2" name="test_skills[]" multiple required>
+                                            <option value="">Select Test Skills</option>
+                                            @foreach ($jobSkills as $skill)
+                                                <option value="{{ $skill->id }}">
+                                                    {{ $skill->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        <div class="invalid-feedback">Please select at least one skill.</div>
                                     </div>
 
                                     <!-- No of Positions -->
