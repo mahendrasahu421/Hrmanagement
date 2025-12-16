@@ -82,7 +82,7 @@
         .section {
             font-weight: 600;
             font-size: 16px;
-            margin: 10px 0;
+            margin: 5px 0;
             color: #222;
         }
 
@@ -262,17 +262,21 @@
             border-left: 4px solid #f16522;
             padding-left: 10px;
         }
-        .resume-input{
+
+        .resume-input {
             height: 35px !important;
         }
-        .form-select:focus ,.form-control:focus{
+
+        .form-select:focus,
+        .form-control:focus {
             box-shadow: none !important;
             border: 1px solid #f16522 !important;
         }
 
-        .resume-control{
+        .resume-control {
             height: 33px !important;
         }
+
         input.form-control,
         select.form-select {
             height: 42px;
@@ -353,8 +357,8 @@
 
                     <div class="section">Skills Required</div>
                     <div class="tags">
-                        @foreach (explode(',', $job['skills']) as $skill)
-                            <div class="tag">{{ trim($skill) }}</div>
+                        @foreach ($job['skills'] as $skill)
+                            <div class="tag">{{ $skill }}</div>
                         @endforeach
                     </div>
 
@@ -637,7 +641,7 @@
             </div>
 
             <div class="text-end">
-                <a href="{{ route('recruitment.jobs.job-deatils') }}" class="btn btn-secondary py-2">
+                <a href="{{ route('recruitment.jobs.recommended-job') }}" class="btn btn-secondary py-2">
                     <i class="fas fa-rotate-left me-1"></i> Reset
                 </a>
                 <button type="button" class="btn btn-secondary py-2" id="closeFormBottom">

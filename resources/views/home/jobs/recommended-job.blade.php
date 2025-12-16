@@ -80,7 +80,6 @@
         }
 
         .tags {
-            margin-top: 14px;
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
@@ -112,7 +111,6 @@
         @foreach ($jobs as $job)
             <div>
                 @php
-                   
 
                     $titleSlug = Str::slug($job->job_title);
                     $branchSlug = Str::slug($job->branch_name ?? 'branch');
@@ -160,9 +158,9 @@
                                 {{ $job->max_exp }} Yrs
                             </div>|
                             <div><i class="fa-solid fa-indian-rupee-sign"></i>
-                                @if (!empty($job->ctc_from) && !empty($job->ctc_to))
-                                    ₹{{ number_format($job->ctc_from / 100000, 2) }} LPA -
-                                    ₹{{ number_format($job->ctc_to / 100000, 2) }} LPA
+                                @if ($job->ctc_from !== null && $job->ctc_to !== null)
+                                    ₹{{ number_format((float) $job->ctc_from / 100000, 2) }} LPA -
+                                    ₹{{ number_format((float) $job->ctc_to / 100000, 2) }} LPA
                                 @else
                                     N/A
                                 @endif
@@ -182,7 +180,12 @@
 
 
                         <div class="tags">
-                            <div class="tag">{{ $job->test_skills }}</div>
+                            <div class="tags">
+                                @foreach ($job->skill_names as $skill)
+                                    <div class="tag">{{ $skill }}</div>
+                                @endforeach
+                            </div>
+
 
                         </div>
                         <div class="bottom-row">
