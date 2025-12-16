@@ -82,7 +82,7 @@
         .section {
             font-weight: 600;
             font-size: 16px;
-            margin: 10px 0;
+            margin: 5px 0;
             color: #222;
         }
 
@@ -357,8 +357,8 @@
 
                     <div class="section">Skills Required</div>
                     <div class="tags">
-                        @foreach (explode(',', $job['skills']) as $skill)
-                            <div class="tag">{{ trim($skill) }}</div>
+                        @foreach ($job['skills'] as $skill)
+                            <div class="tag">{{ $skill }}</div>
                         @endforeach
                     </div>
 
@@ -465,6 +465,15 @@
     </div>
 
 
+            <div class="text-end">
+                <a href="{{ route('recruitment.jobs.recommended-job') }}" class="btn btn-secondary py-2">
+                    <i class="fas fa-rotate-left me-1"></i> Reset
+                </a>
+                <button type="button" class="btn btn-secondary py-2" id="closeFormBottom">
+                    <i class="fas fa-xmark me-1"></i> Close
+                </button>
+                <button type="submit" class="btn-submit">Submit</button>
+            </div>
 
 
 
