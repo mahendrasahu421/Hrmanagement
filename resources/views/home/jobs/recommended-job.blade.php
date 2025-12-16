@@ -80,7 +80,6 @@
         }
 
         .tags {
-            margin-top: 14px;
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
@@ -113,23 +112,28 @@
             <div>
                 @php
 
-                    if (empty($job->job_title) || empty($job->id)) {
-                        continue;
-                    }
+                    $titleSlug = Str::slug($job->job_title);
+                    $branchSlug = Str::slug($job->branch_name ?? 'branch');
+                    $locationSlug = Str::slug(implode('-', $job->city_names));
+                    $stateSlug = Str::slug($job->state_name ?? '');
+                    $expSlug = Str::slug($job->min_exp . '-to-' . $job->max_exp . '-years');
 
-                    $cities = is_array($job->city_names) ? $job->city_names : [];
+                    // unique job code like naukri
+                    $jobCode = $job->id . rand(100000, 999999);
 
-                    $finalSlug = implode(
-                        '-',
-                        array_filter([
-                            Str::slug($job->job_title),
-                            Str::slug($job->branch_name ?? 'branch'),
-                            Str::slug(implode('-', $cities)),
-                            Str::slug($job->state_name ?? ''),
-                            Str::slug($job->min_exp . '-to-' . $job->max_exp . '-years'),
-                            $job->id . rand(100000, 999999),
-                        ]),
-                    );
+                    // final slug (Naukri.com style)
+                    $finalSlug =
+                        $titleSlug .
+                        '-' .
+                        $branchSlug .
+                        '-' .
+                        $locationSlug .
+                        '-' .
+                        $stateSlug .
+                        '-' .
+                        $expSlug .
+                        '-' .
+                        $jobCode;
                 @endphp
 
 
@@ -154,20 +158,20 @@
                     </div>
 
 
-                    <div class="meta">
-                        <div class="mb-1"><i class="fa-solid fa-briefcase"></i> {{ $job->min_exp }} –
-                            {{ $job->max_exp }} Yrs
-                        </div>|
-                        <div><i class="fa-solid fa-indian-rupee-sign"></i>
-                            @if (!empty($job->ctc_from) && !empty($job->ctc_to))
-                                ₹{{ number_format($job->ctc_from / 100000, 2) }} LPA -
-                                ₹{{ number_format($job->ctc_to / 100000, 2) }} LPA
-                            @else
-                                N/A
-                            @endif
-                        </div>|
-                        <div><i class="fa-solid fa-location-dot"></i>
-                            {{ implode(', ', $job->city_names) }}- {{ $job->state_name }}
+                        <div class="meta">
+                            <div class="mb-1"><i class="fa-solid fa-briefcase"></i> {{ $job->min_exp }} –
+                                {{ $job->max_exp }} Yrs
+                            </div>|
+                            <div><i class="fa-solid fa-indian-rupee-sign"></i>
+                                @if ($job->ctc_from !== null && $job->ctc_to !== null)
+                                    ₹{{ number_format((float) $job->ctc_from / 100000, 2) }} LPA -
+                                    ₹{{ number_format((float) $job->ctc_to / 100000, 2) }} LPA
+                                @else
+                                    N/A
+                                @endif
+                            </div>|
+                            <div><i class="fa-solid fa-location-dot"></i>
+                                {{ implode(', ', $job->city_names) }}- {{ $job->state_name }}
 
 
                         </div>
@@ -180,8 +184,13 @@
                     </div>
 
 
-                    <div class="tags">
-                        <div class="tag">{{ $job->test_skills }}</div>
+                        <div class="tags">
+                            <div class="tags">
+                                @foreach ($job->skill_names as $skill)
+                                    <div class="tag">{{ $skill }}</div>
+                                @endforeach
+                            </div>
+
 
                     </div>
                     <div class="bottom-row">

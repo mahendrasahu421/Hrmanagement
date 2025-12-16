@@ -196,55 +196,23 @@
 @push('after_scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
     <script>
         let rowToCopy = null;
+        let table = null;
 
-        document.querySelectorAll('.copy-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                rowToCopy = this.closest('tr');
-                const copyModal = new bootstrap.Modal(document.getElementById('copyConfirmModal'));
-                copyModal.show();
-            });
-        });
-
-        document.getElementById('confirmCopy').addEventListener('click', function() {
-            if (rowToCopy) {
-                let rowData = Array.from(rowToCopy.querySelectorAll('td'))
-                    .slice(0, -1)
-                    .map(td => td.innerText.trim())
-                    .join('\t');
-
-                navigator.clipboard.writeText(rowData)
-                    .then(() => {
-                        alert('Row data copied to clipboard!');
-                    })
-                    .catch(err => {
-                        alert('Failed to copy: ' + err);
-                    });
-
-                rowToCopy = null;
-                const copyModalEl = document.getElementById('copyConfirmModal');
-                const copyModal = bootstrap.Modal.getInstance(copyModalEl);
-                copyModal.hide();
-            }
-        });
-    </script>
-    <script>
         $(document).ready(function() {
 
-            var table = $('#jobsList').DataTable({
+            table = $('#jobsList').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
                 scrollX: true,
-                ajax: {
-                    url: "{{ route('recruitment.jobs.list') }}",
-                    dataSrc: function(json) {
-                        return json.data;
-                    }
-                },
+                ajax: "{{ route('recruitment.jobs.list') }}",
+
                 columns: [{
-                        data: 'DT_RowIndex'
+                        data: 'DT_RowIndex',
+                        orderable: false
                     },
                     {
                         data: 'publish_date'
@@ -265,20 +233,56 @@
                         data: 'experience'
                     },
                     {
-                        data: 'status'
+                        data: 'status',
+                        orderable: false,
+                        searchable: false
                     },
                     {
-                        data: 'action'
+                        data: 'action',
+                        orderable: false,
+                        searchable: false
                     }
                 ],
-                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
-                    "<'row'<'col-md-12'tr>>" +
-                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
             });
 
-            window.refreshJobs = function() {
-                table.ajax.reload();
-            };
+            // ✅ COPY BUTTON CLICK (AJAX SAFE)
+            $('#jobsList tbody').on('click', '.copy-btn', function() {
+
+                rowToCopy = $(this).closest('tr');
+
+                let preview = '';
+                rowToCopy.find('td').each(function(index) {
+                    if (index < 8) {
+                        preview += $(this).text().trim() + ' | ';
+                    }
+                });
+
+                $('#rowPreview').text(preview);
+
+                new bootstrap.Modal(document.getElementById('copyConfirmModal')).show();
+            });
+
+            // ✅ CONFIRM COPY
+            $('#confirmCopy').on('click', function() {
+
+                if (!rowToCopy) return;
+
+                let rowData = [];
+                rowToCopy.find('td').each(function(index) {
+                    if (index < 8) {
+                        rowData.push($(this).text().trim());
+                    }
+                });
+
+                navigator.clipboard.writeText(rowData.join('\t'))
+                    .then(() => alert('Row copied successfully!'));
+
+                bootstrap.Modal.getInstance(
+                    document.getElementById('copyConfirmModal')
+                ).hide();
+
+                rowToCopy = null;
+            });
 
         });
     </script>

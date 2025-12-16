@@ -60,6 +60,12 @@ class AcflJobs extends Model
     {
         return $this->belongsTo(StateCity::class, 'city_id');
     }
+
+    public function skills()
+    {
+        return JobSkill::whereIn('id', $this->test_skills ?? [])->pluck('name')->toArray();
+    }
+    
     public function getCityIdsAttribute($value)
     {
         // Fix double encoded JSON: "\"[\"1\"]\""
