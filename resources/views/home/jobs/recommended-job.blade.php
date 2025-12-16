@@ -136,21 +136,26 @@
                         $jobCode;
                 @endphp
 
-                <a href="{{ route('recruitment.jobs.job-deatils', ['slug' => $finalSlug]) }}"
-                    style="text-decoration:none;" target="_blank">
 
 
-                    <div class="job-card">
-                        <div class="top-row">
-                            <div>
-                                <div class="job-title">{{ $job->job_title }}</div>
-                                <div class="company-name">
-                                    {{ $job->branchName }}
+                @if (!empty($finalSlug))
+                    <a href="{{ route('recruitment.jobs.job-deatils', ['slug' => $finalSlug]) }}" target="_blank"
+                        style="text-decoration:none;">
+                @endif
 
-                                </div>
+
+
+                <div class="job-card">
+                    <div class="top-row">
+                        <div>
+                            <div class="job-title">{{ $job->job_title }}</div>
+                            <div class="company-name">
+                                {{ $job->branchName }}
+
                             </div>
-                            <div class="logo-box">N</div>
                         </div>
+                        <div class="logo-box">N</div>
+                    </div>
 
 
                         <div class="meta">
@@ -169,14 +174,14 @@
                                 {{ implode(', ', $job->city_names) }}- {{ $job->state_name }}
 
 
-                            </div>
                         </div>
+                    </div>
 
-                        <div class="meta" style="color:#555;">
-                            <i class="fa-regular fa-file-lines mt-1"></i>
-                            {!! $job->job_description !!}
+                    <div class="meta" style="color:#555;">
+                        <i class="fa-regular fa-file-lines mt-1"></i>
+                        {!! $job->job_description !!}
 
-                        </div>
+                    </div>
 
 
                         <div class="tags">
@@ -187,12 +192,12 @@
                             </div>
 
 
-                        </div>
-                        <div class="bottom-row">
-                            Posted : {{ $job->created_at->diffForHumans() }}
-
-                        </div>
                     </div>
+                    <div class="bottom-row">
+                        Posted : {{ $job->created_at->diffForHumans() }}
+
+                    </div>
+                </div>
                 </a>
             </div>
         @endforeach

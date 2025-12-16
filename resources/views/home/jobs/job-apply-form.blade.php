@@ -168,7 +168,11 @@
 
         <div class="section">
             <h3 class="section-title">Personal Information</h3>
-
+            <div class="col-md-12">
+                <label class="form-label">Resume</label>
+                <input type="file" class="form-control" accept=".pdf, .doc, .docx">
+                <small class="text-danger">Only .pdf, .doc, .docx allowed</small>
+            </div>
             <div class="row g-3">
 
                 <div class="col-md-6">
@@ -233,11 +237,7 @@
                     <input type="text" class="form-control">
                 </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">Resume</label>
-                    <input type="file" class="form-control" accept=".pdf, .doc, .docx">
-                    <small class="text-danger">Only .pdf, .doc, .docx allowed</small>
-                </div>
+
 
             </div>
         </div>
