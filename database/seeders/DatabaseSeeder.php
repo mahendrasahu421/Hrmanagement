@@ -31,9 +31,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             CitySeeder::class,
         ]);
-         $this->call(JobCategorySeeder::class);
-         $this->call(SkillSeeder::class);
-         $this->call(LeaveTypeSeeder::class);
+        $this->call(JobCategorySeeder::class);
+        $this->call(SkillSeeder::class);
+        $this->call(LeaveTypeSeeder::class);
     }
 
 

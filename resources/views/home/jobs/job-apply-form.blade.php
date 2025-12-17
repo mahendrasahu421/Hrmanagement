@@ -162,206 +162,283 @@
 
 <body>
 
-    <div class="form-wrapper">
 
-        <h2 class="form-title">Job Application Form</h2>
-
-        <div class="section">
-            <h3 class="section-title">Personal Information</h3>
-            <div class="col-md-12">
-                <label class="form-label">Resume</label>
-                <input type="file" class="form-control" accept=".pdf, .doc, .docx">
-                <small class="text-danger">Only .pdf, .doc, .docx allowed</small>
-            </div>
-            <div class="row g-3">
-
-                <div class="col-md-6">
-                    <label class="form-label">Name <span class="req">*</span></label>
-                    <input type="text" class="form-control">
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Email</label>
-                    <input type="email" class="form-control">
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Aadhar No.</label>
-                    <input type="text" class="form-control">
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Date of Birth <span class="req">*</span></label>
-                    <input type="date" class="form-control">
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Gender <span class="req">*</span></label>
-                    <select class="form-select select2">
-                        <option>Select Gender</option>
-                        <option>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Marital Status <span class="req">*</span></label>
-                    <select class="form-select select2">
-                        <option>Select status</option>
-                        <option>Married</option>
-                        <option>Unmarried</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">State <span class="req">*</span></label>
-                    <select class="form-select select2">
-                        <option>Select State</option>
-                        <option>State 1</option>
-                        <option>State 2</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">City <span class="req">*</span></label>
-                    <select class="form-select select2">
-                        <option>Select City</option>
-                        <option>City 1</option>
-                        <option>City 2</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Phone <span class="req">*</span></label>
-                    <input type="text" class="form-control">
-                </div>
+    <!-- ================= PERSONAL INFORMATION ================= -->
+    <div class="section">
 
 
+        <form action="{{ route('job.application.store') }}" method="POST" enctype="multipart/form-data">
 
-            </div>
-        </div>
+            @csrf
 
-        <div class="section mt-4">
-            <h3 class="section-title">Academic Information</h3>
+            <div class="form-wrapper">
 
-            <div class="row g-3">
+                <h2 class="form-title">Job Application Form</h2>
 
-                <div class="col-md-4">
-                    <label class="form-label">10th % <span class="req">*</span></label>
-                    <input type="text" class="form-control">
-                </div>
+                <!-- ================= PERSONAL INFORMATION ================= -->
+                <div class="section">
+                    <h3 class="section-title">Personal Information</h3>
 
-                <div class="col-md-4">
-                    <label class="form-label">10th Passing Year <span class="req">*</span></label>
-                    <select class="form-select select2">
-                        <option>Select year</option>
-                        <option>2019</option>
-                        <option>2020</option>
-                        <option>2021</option>
-                    </select>
-                </div>
+                    <div class="col-md-12 mb-3">
+                        <label class="form-label">Resume</label>
+                        <input type="file" name="resume" id="resume" class="form-control"
+                            accept=".pdf,.doc,.docx">
+                        <small class="text-danger">Only .pdf, .doc, .docx allowed</small>
+                    </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">12th % <span class="req">*</span></label>
-                    <input type="text" class="form-control">
-                </div>
+                    <div class="row g-3">
 
-                <div class="col-md-4">
-                    <label class="form-label">12th Passing Year <span class="req">*</span></label>
-                    <select class="form-select select2">
-                        <option>Select year</option>
-                        <option>2020</option>
-                        <option>2021</option>
-                        <option>2022</option>
-                    </select>
-                </div>
+                        <div class="col-md-6">
+                            <label class="form-label">First Name <span class="req">*</span></label>
+                            <input type="text" name="first_name" id="first_name" class="form-control" required>
+                        </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">UG % <span class="req">*</span></label>
-                    <input type="text" class="form-control">
-                </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Last Name <span class="req">*</span></label>
+                            <input type="text" name="last_name" id="last_name" class="form-control" required>
+                        </div>
 
-                <div class="col-md-4">
-                    <label class="form-label">UG Passing Year <span class="req">*</span></label>
-                    <select class="form-select select2">
-                        <option>Select year</option>
-                        <option>2022</option>
-                        <option>2023</option>
-                    </select>
-                </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" id="email" class="form-control">
+                        </div>
 
-                <div class="col-md-12">
-                    <label class="form-label">Highest Qualification <span class="req">*</span></label>
+                        <div class="col-md-6">
+                            <label class="form-label">Phone <span class="req">*</span></label>
+                            <input type="text" name="phone" id="phone" class="form-control" required>
+                        </div>
 
-                    <div class="d-flex gap-2 mt-1 flex-wrap">
-                        <label class="radio-pill" onclick="selectRadioGrp(this)">
-                            <input type="radio" name="qualification" hidden>
-                            Post Graduation
-                        </label>
+                        <div class="col-md-6">
+                            <label class="form-label">Aadhaar No. (Optional)</label>
+                            <input type="text" name="aadhaar_number" id="aadhaar_number" maxlength="12"
+                                class="form-control">
+                        </div>
 
-                        <label class="radio-pill" onclick="selectRadioGrp(this)">
-                            <input type="radio" name="qualification" hidden>
-                            Graduation
-                        </label>
+                        @php
+                            $today = date('Y-m-d');
+                            $maxDob = date('Y-m-d', strtotime('-18 years'));
+                        @endphp
+
+                        <div class="col-md-6">
+                            <label class="form-label">Date of Birth <span class="req">*</span></label>
+                            <input type="date" name="dob" id="dob" class="form-control"
+                                value="{{ $today }}" max="{{ $maxDob }}" required>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Gender <span class="req">*</span></label>
+                            <select name="gender" id="gender" class="form-select select2" required>
+                                @foreach ($genders as $gender)
+                                    <option value="{{ $gender->id }}">{{ $gender->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Marital Status <span class="req">*</span></label>
+                            <select name="marital_status" id="marital_status" class="form-select select2" required>
+                                @foreach ($MaritalStatus as $marital)
+                                    <option value="{{ $marital->id }}">{{ $marital->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">State <span class="req">*</span></label>
+                            <select name="state_id" id="state" class="form-select select2" required>
+                                @foreach ($state as $states)
+                                    <option value="{{ $states->id }}">{{ $states->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">City <span class="req">*</span></label>
+                            <select name="city_id" id="city" class="form-select select2" required>
+                                <option value="">Select City</option>
+                            </select>
+                        </div>
+
                     </div>
                 </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">Highest Degree <span class="req">*</span></label>
-                    <input type="text" class="form-control">
+                <!-- ================= ACADEMIC INFORMATION ================= -->
+                <div class="section mt-4">
+                    <h3 class="section-title">Academic Information</h3>
+
+                    <div class="row g-3">
+
+                        <div class="col-md-6">
+                            <label class="form-label">10th %</label>
+                            <input type="text" name="tenth_percent" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">10th Passing Year</label>
+                            <select name="tenth_year" class="form-select select2">
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}">{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">12th %</label>
+                            <input type="text" name="twelfth_percent" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">12th Passing Year</label>
+                            <select name="twelfth_year" class="form-select select2">
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}">{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">UG %</label>
+                            <input type="text" name="ug_percent" class="form-control">
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">UG Passing Year</label>
+                            <select name="ug_year" class="form-select select2">
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}">{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label">Highest Qualification</label>
+                            <div class="d-flex gap-2 mt-1">
+                                <label class="radio-pill">
+                                    <input type="radio" name="qualification" value="Post Graduation" hidden>
+                                    Post Graduation
+                                </label>
+                                <label class="radio-pill">
+                                    <input type="radio" name="qualification" value="Graduation" hidden>
+                                    Graduation
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Highest Degree</label>
+                            <input type="text" name="degree" class="form-control">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Institute</label>
+                            <input type="text" name="institute" class="form-control">
+                        </div>
+
+                        <div class="col-md-4">
+                            <label class="form-label">Final Passing Year</label>
+                            <select name="final_year" class="form-select select2">
+                                @foreach ($years as $year)
+                                    <option value="{{ $year }}">{{ $year }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                    </div>
                 </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">Institute <span class="req">*</span></label>
-                    <select class="form-select select2">
-                        <option>Select institute</option>
-                        <option>Institute A</option>
-                        <option>Institute B</option>
-                    </select>
+                <!-- ================= WORK EXPERIENCE ================= -->
+                <div class="section mt-4">
+                    <h3 class="section-title">Work Experience</h3>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Total Work Experience</label>
+                            <select name="experience_years" class="form-select select2">
+                                <option value="">Select</option>
+                                @for ($i = 1; $i <= 20; $i++)
+                                    <option value="{{ $i }}">{{ $i }}
+                                        Year{{ $i > 1 ? 's' : '' }}</option>
+                                @endfor
+                            </select>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label">Work Experience Details</label>
+                            <input type="text" name="experience_details" class="form-control"
+                                placeholder="+ Add">
+                        </div>
+                    </div>
                 </div>
 
-                <div class="col-md-6">
-                    <label class="form-label">Final Passing Year <span class="req">*</span></label>
-                    <select class="form-select select2">
-                        <option>Select year</option>
-                        <option>2022</option>
-                        <option>2023</option>
-                    </select>
+                <!-- ================= JOB QUESTIONS ================= -->
+                <div class="section mt-5">
+                    <h3 class="section-title">Job Related Questions</h3>
+
+                    <div class="row">
+                        @foreach ($questions as $q)
+                            @php
+                                $isRequired = $q->is_required === 'Yes';
+                                $requiredAttr = $isRequired ? 'required' : '';
+                                $options = $q->options ? json_decode($q->options, true) : [];
+                            @endphp
+
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">
+                                    {{ $q->question }}
+                                    @if ($isRequired)
+                                        <span class="req">*</span>
+                                    @endif
+                                </label>
+
+                                @if ($q->text_element === 'text')
+                                    <input type="text" name="answers[{{ $q->id }}]" class="form-control"
+                                        {{ $requiredAttr }}>
+                                @elseif ($q->text_element === 'select')
+                                    <select name="answers[{{ $q->id }}]" class="form-select"
+                                        {{ $requiredAttr }}>
+                                        <option value="">Select</option>
+                                        @foreach ($options as $opt)
+                                            <option value="{{ $opt }}">{{ $opt }}</option>
+                                        @endforeach
+                                    </select>
+                                @elseif ($q->text_element === 'radio')
+                                    @foreach ($options as $opt)
+                                        <div class="form-check">
+                                            <input type="radio" name="answers[{{ $q->id }}]"
+                                                value="{{ $opt }}" class="form-check-input"
+                                                {{ $requiredAttr }}>
+                                            <label class="form-check-label">{{ $opt }}</label>
+                                        </div>
+                                    @endforeach
+                                @elseif ($q->text_element === 'checkbox')
+                                    @foreach ($options as $opt)
+                                        <div class="form-check">
+                                            <input type="checkbox" name="answers[{{ $q->id }}][]"
+                                                value="{{ $opt }}" class="form-check-input">
+                                            <label class="form-check-label">{{ $opt }}</label>
+                                        </div>
+                                    @endforeach
+                                @endif
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn-submit">Submit Application</button>
                 </div>
 
             </div>
-        </div>
+        </form>
 
-        <div class="section mt-4">
-            <h3 class="section-title">Work Experience</h3>
 
-            <div class="row g-3">
-
-                <div class="col-md-6">
-                    <label class="form-label">Total Work Experience</label>
-                    <select class="form-select select2">
-                        <option>Select</option>
-                        <option>0 Years</option>
-                        <option>1 Year</option>
-                        <option>2 Years</option>
-                        <option>3 Years</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="form-label">Work Experience <span class="req">*</span></label>
-                    <input type="text" class="form-control" placeholder="+ Add">
-                </div>
-
-            </div>
-        </div>
-
-        <div class="text-center mt-4">
-            <button class="btn-submit">Submit Application</button>
-        </div>
 
     </div>
+
+
+
+
+
 
     <script>
         function selectRadioGrp(el) {
@@ -380,7 +457,47 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
 
+            // Existing country → state code remains
+
+            let selectedState = $('#state').val();
+            let selectedCity = "{{ $selected_city ?? '' }}";
+
+            // Page load: fetch cities if state already selected
+            if (selectedState) {
+                fetchCities(selectedState, selectedCity);
+            }
+
+            // On change state
+            $('#state').on('change', function() {
+                let state_id = $(this).val();
+                fetchCities(state_id, '');
+            });
+
+            function fetchCities(state_id, selectedCity = '') {
+                if (state_id) {
+                    $.ajax({
+                        url: '/get-cities/' + state_id,
+                        type: 'GET',
+                        success: function(data) {
+                            let cityDropdown = $('#city');
+                            cityDropdown.empty();
+                            cityDropdown.append('<option value="">Select City</option>');
+                            $.each(data, function(key, value) {
+                                let selected = (value.id == selectedCity) ? 'selected' : '';
+                                cityDropdown.append('<option value="' + value.id + '" ' +
+                                    selected + '>' + value.name + '</option>');
+                            });
+                        }
+                    });
+                } else {
+                    $('#city').empty().append('<option value="">Select City</option>');
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>

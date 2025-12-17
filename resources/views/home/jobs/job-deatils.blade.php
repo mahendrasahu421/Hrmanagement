@@ -363,11 +363,37 @@
                     </div>
 
                     <div class="footer">Posted: {{ $job['posted'] }}</div>
+                    @php
+                        if (empty($job['title']) || empty($job['id'])) {
+                            // job invalid
+                            return;
+                        }
+
+                        $cities = is_array($job['city_names'] ?? null) ? $job['city_names'] : [];
+
+                        $finalSlug = implode(
+                            '-',
+                            array_filter([
+                                Str::slug($job['title']),
+                                Str::slug($job['branch_name'] ?? 'branch'),
+                                Str::slug(implode('-', $cities)),
+                                Str::slug($job['state_name'] ?? ''),
+                                Str::slug(($job['min_exp'] ?? 0) . '-to-' . ($job['max_exp'] ?? 0) . '-years'),
+                                $job['id'], // ✅ UNIQUE & STABLE
+                            ]),
+                        );
+                    @endphp
+
 
                     <div class="apply-box">
-                        <a href="{{ route('recruitment.jobs.apply.form') }}" class="btn-apply" id="openForm">
-                            <i class="fa-solid fa-paper-plane"></i> Apply Now
-                        </a>
+                        <div class="apply-box">
+                            <a href="{{ url('/recruitment/jobs/' . $finalSlug . '/apply') }}" target="_blank"
+                                class="btn-apply">
+                                <i class="fa-solid fa-paper-plane"></i> Apply Now
+                            </a>
+                        </div>
+
+
                     </div>
                 </div>
 
