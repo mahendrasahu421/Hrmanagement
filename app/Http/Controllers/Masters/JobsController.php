@@ -29,6 +29,98 @@ class JobsController extends Controller
         return view('home.jobs.index', $data);
     }
 
+    public function list(Request $request)
+    {
+        try {
+
+            $search = $request->input('search.value');
+            $limit  = $request->input('length', 10);
+            $start  = $request->input('start', 0);
+
+            $query = AcflJobs::with(['designation', 'state']);
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('job_title', 'like', "%{$search}%")
+                        ->orWhereHas('designation', fn($q) => $q->where('name', 'like', "%{$search}%"))
+                        ->orWhereHas('state', fn($q) => $q->where('name', 'like', "%{$search}%"));
+                });
+            }
+
+            $totalRecords = $query->count();
+            $orderColumnIndex = $request->input('order.0.column', 0);
+            $orderDir = $request->input('order.0.dir', 'desc');
+
+            $columns = [
+                0 => 'id',
+                1 => 'created_at',
+                2 => 'job_title',
+                3 => 'designation_id',
+                4 => 'state_id',
+                5 => 'city_ids',
+                6 => 'min_exp',
+                7 => 'status',
+            ];
+
+            $orderColumn = $columns[$orderColumnIndex] ?? 'id';
+
+            if ($orderColumn === 'designation_id') {
+                $query->join('designations', 'acfl_jobs.designation_id', '=', 'designations.id')
+                    ->orderBy('designations.name', $orderDir)
+                    ->select('acfl_jobs.*');
+            } elseif ($orderColumn === 'state_id') {
+                $query->join('country_states', 'acfl_jobs.state_id', '=', 'country_states.id')
+                    ->orderBy('country_states.name', $orderDir)
+                    ->select('acfl_jobs.*');
+            } else {
+                $query->orderBy($orderColumn, $orderDir);
+            }
+
+            $jobs = $query->skip($start)->take($limit)->get();
+
+            $rows = [];
+
+            foreach ($jobs as $index => $job) {
+
+                $cityIds = $job->city_ids ?? [];
+                $cityNames = StateCity::whereIn('id', $cityIds)->pluck('name')->toArray();
+
+                $skillIds = json_decode($job->test_skills, true) ?? [];
+                // $skillNames = JobSkill::whereIn('id', $skillIds)->pluck('name')->toArray();
+
+                $rows[] = [
+                    'DT_RowIndex'  => $start + $index + 1,
+                    'publish_date' => $job->created_at->format('d M Y'),
+                    'job_title'   => $job->job_title,
+                    'designation' => $job->designation->name ?? '--',
+                    'state'       => $job->state->name ?? '--',
+                    'city'        => implode(', ', $cityNames) ?: '--',
+                    'experience'  => $job->min_exp . ' - ' . $job->max_exp . ' Years',
+                    'status'      => $job->status === 'PUBLISHED'
+                        ? '<span class="badge bg-success">Active</span>'
+                        : '<span class="badge bg-danger">Inactive</span>',
+                    'action'      => '
+                    <button type="button" class="btn btn-sm btn-warning copy-btn">
+                        <i class="ti ti-copy"></i>
+                    </button>
+                ',
+                ];
+            }
+
+            return response()->json([
+                'draw'            => intval($request->input('draw')),
+                'recordsTotal'    => $totalRecords,
+                'recordsFiltered' => $totalRecords,
+                'data'            => $rows,
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'error'   => true,
+                'message' => 'Something went wrong while fetching jobs',
+                'debug'   => $e->getMessage()
+            ], 500);
+        }
+    }
 
     public function recommendedJob()
     {
@@ -42,6 +134,11 @@ class JobsController extends Controller
             // city names
             $cityIds = $job->city_ids;
             $job->city_names = StateCity::whereIn('id', $cityIds)
+                ->pluck('name')
+                ->toArray();
+
+            $skillIds = json_decode($job->test_skills, true) ?? [];
+            $job->skill_names = JobSkill::whereIn('id', $skillIds)
                 ->pluck('name')
                 ->toArray();
 
@@ -103,51 +200,40 @@ class JobsController extends Controller
 
     public function jobDetails($slug)
     {
-
-        /**
-         * Slug Format:
-         * wordpress-developer-delhi-159123456
-         *
-         * Last 6 digits = random code
-         * उससे पहले वाले digits = job_id
-         */
-
-        // slug ke last me job_id + random code hota hai
         preg_match('/(\d+)\d{6}$/', $slug, $matches);
-
         $jobId = $matches[1] ?? null;
 
         if (!$jobId) {
             abort(404, 'Invalid Job URL');
         }
 
-        // job + relations fetch
         $job = AcflJobs::with(['branch', 'state'])->findOrFail($jobId);
 
-        // city names
+        // City Names
         $cityNames = StateCity::whereIn('id', $job->city_ids ?? [])
             ->pluck('name')
             ->toArray();
 
-        // Prepare full job response
+        // ✅ SKILL NAMES (IMPORTANT FIX)
+        $skillIds = json_decode($job->test_skills, true) ?? [];
+
+        $skillNames = JobSkill::whereIn('id', $skillIds)
+            ->pluck('name')
+            ->toArray();
+
         $jobDetails = [
             'id' => $job->id,
             'title' => $job->job_title,
             'description' => $job->job_description,
-            'skills' => $job->test_skills,
+            'skills' => $skillNames, // ✅ names array
             'min_exp' => $job->min_exp,
             'max_exp' => $job->max_exp,
             'ctc_from' => $job->ctc_from,
             'ctc_to' => $job->ctc_to,
             'posted' => $job->created_at->diffForHumans(),
-
-            // Relations
             'branch_name' => $job->branch->branch_name ?? "N/A",
             'state_name' => $job->state->name ?? "N/A",
             'city_names' => $cityNames,
-
-            // Extra
-            'imageUrl' => "https://picsum.photos/200/200?random=" . rand(1, 1000)
         ];
 
         // Debug to check final output
@@ -158,91 +244,6 @@ class JobsController extends Controller
             'job' => $jobDetails
         ]);
     }
-
-
-    public function list(Request $request)
-    {
-        try {
-            $search = $request->input('search')['value'] ?? null;
-            $limit = $request->input('length', 10);
-            $start = $request->input('start', 0);
-
-            $query = AcflJobs::with(['designation', 'state']);
-            if ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('job_title', 'like', "%{$search}%")
-                        ->orWhereHas('designation', fn($q) => $q->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('state', fn($q) => $q->where('name', 'like', "%{$search}%"));
-                });
-            }
-
-            $totalRecord = $query->count();
-            $orderColumnIndex = $request->input('order.0.column', 0);
-            $orderDirection = $request->input('order.0.dir', 'desc');
-
-            $columns = [
-                0 => 'id',
-                1 => 'created_at',
-                2 => 'job_title',
-                3 => 'designation_id',
-                4 => 'state_id',
-                5 => 'city_ids',
-                6 => 'min_exp',
-                7 => 'status',
-            ];
-
-            $orderColumn = $columns[$orderColumnIndex] ?? 'id';
-            if ($orderColumn == 'designation_id') {
-                $query = $query->join('designations', 'acfl_jobs.designation_id', '=', 'designations.id')
-                    ->orderBy('designations.name', $orderDirection)
-                    ->select('acfl_jobs.*');
-            } elseif ($orderColumn == 'state_id') {
-                $query = $query->join('country_states', 'acfl_jobs.state_id', '=', 'country_states.id')
-                    ->orderBy('country_states.name', $orderDirection)
-                    ->select('acfl_jobs.*');
-            } else {
-                $query = $query->orderBy($orderColumn, $orderDirection);
-            }
-
-            $jobs = $query->skip($start)->take($limit)->get();
-
-            $rows = [];
-            foreach ($jobs as $index => $job) {
-                $cityIds = json_decode($job->city_ids, true) ?? [];
-                $cityNames = StateCity::whereIn('id', $cityIds)->pluck('name')->toArray();
-
-                $rows[] = [
-                    'DT_RowIndex' => $start + $index + 1,
-                    'publish_date' => $job->created_at->format('d M Y'),
-                    'job_title' => $job->job_title,
-                    'designation' => $job->designation->name ?? '--',
-                    'state' => $job->state->name ?? '--',
-                    'city' => !empty($cityNames) ? implode(', ', $cityNames) : '--',
-                    'experience' => $job->min_exp . ' - ' . $job->max_exp . ' Years',
-                    'status' => $job->status == 'PUBLISHED'
-                        ? '<span class="badge bg-success">Active</span>'
-                        : '<span class="badge bg-danger">Inactive</span>',
-                    'action' => '<a href="#" class="btn btn-sm btn-primary"><i class="ti ti-share-2"></i></a>
-                             <button class="btn btn-sm btn-warning copy-btn"><i class="ti ti-copy"></i></button>',
-                ];
-            }
-
-            return response()->json([
-                'draw' => intval($request->input('draw')),
-                'recordsTotal' => $totalRecord,
-                'recordsFiltered' => $totalRecord,
-                'data' => $rows,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => true,
-                'message' => 'Something went wrong while fetching job records.',
-                'exception' => $e->getMessage(),
-            ], 500);
-        }
-    }
-
-
 
     public function create()
     {
