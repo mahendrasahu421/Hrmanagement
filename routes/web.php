@@ -60,7 +60,7 @@ use App\Http\Controllers\Hr\JobsController as HrJobsController;
 use App\Http\Controllers\Masters\JafController;
 use App\Http\Controllers\Masters\LeaveMappingController;
 use App\Http\Controllers\Masters\JobsController as MastersJobsController;
-use App\Http\Controllers\Masters\JobSkillController;
+use App\Http\Controllers\Masters\SkillController;
 use App\Http\Controllers\Masters\OnboardingController;
 use App\Http\Controllers\PMT\FeedbackController;
 use App\Http\Controllers\PMT\ReviewEmployeeController;
@@ -279,13 +279,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/email-template/preview/{id}', [SettingController::class, 'preview'])->name('settings.email-template.preview');
 
     // Master/Organisation/JobSkill
-    Route::get('settings/jobskill', [JobSkillController::class, 'index'])->name('settings.jobskill');
-    Route::get('settings/jobskill/list', [JobSkillController::class, 'list'])->name('settings.jobskill.list');
-    Route::get('settings/jobskill/create', [JobSkillController::class, 'create'])->name('settings.jobskill.create');
-    Route::post('settings/jobskill/store', [JobSkillController::class, 'store'])->name('settings.jobskill.store');
-    Route::get('settings/jobskill/edit/{id}', [JobSkillController::class, 'edit'])->name('settings.jobskill.edit');
-    Route::put('settings/jobskill/update/{id}', [JobSkillController::class, 'update'])->name('settings.jobskill.update');
-    Route::delete('settings/jobskill/delete/{id}', [JobSkillController::class, 'destroy']);
+    Route::get('settings/skill', [SkillController::class, 'index'])->name('settings.skills');
+    Route::get('settings/skill/list', [SkillController::class, 'list'])->name('settings.skill.list');
+    Route::get('settings/skill/create', [SkillController::class, 'create'])->name('settings.skill.create');
+    Route::post('settings/skill/store', [SkillController::class, 'store'])->name('settings.skills.store');
+    Route::get('settings/skill/edit/{id}', [SkillController::class, 'edit'])->name('settings.skill.edit');
+    Route::put('settings/skill/update/{id}', [SkillController::class, 'update'])->name('settings.skill.update');
+    Route::delete('settings/skill/delete/{id}', [SkillController::class, 'destroy']);
 
 
     // Master/Organisation/Category

@@ -14,7 +14,7 @@
                 </div>
                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                     <div class="mb-2">
-                        <a href="{{ route('settings.jobskill.create') }}" class="btn btn-primary d-flex align-items-center">
+                        <a href="{{ route('settings.skill.create') }}" class="btn btn-primary d-flex align-items-center">
                             <i class="ti ti-circle-plus me-2"></i> Add Job Skill
                         </a>
                     </div>
@@ -25,12 +25,12 @@
             <div class="card">
                 <div class="card-body p-0">
                     <div class="table-responsive">
-                        <table id="jobSkillList" class="table table-striped table-bordered nowrap">
+                        <table id="skillList" class="table table-striped table-bordered nowrap">
                             <thead>
                                 <tr>
                                     <th>Sn</th>
                                     <th>Job Skill Name</th>
-                                    <th>Status</th>
+                                   
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -71,11 +71,11 @@
 
     <script>
         $(document).ready(function() {
-            $('#jobSkillList').DataTable({
+            $('#skillList').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
-                ajax: "{{ route('settings.jobskill.list') }}",
+                ajax: "{{ route('settings.skill.list') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -84,12 +84,7 @@
                         data: 'name',
                         name: 'name'
                     },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
+                   
                     {
                         data: 'id',
                         orderable: false,
@@ -97,7 +92,7 @@
                         render: function(data) {
                             return `
                         <div class="action-icon d-inline-flex">
-                            <a href="{{ url('settings/jobskill/edit') }}/${data}" class="me-2">
+                            <a href="{{ url('settings/skill/edit') }}/${data}" class="me-2">
                                 <i class="ti ti-edit"></i>
                             </a>
                             <a href="javascript:void(0)" onclick="deleteItem(${data})">
@@ -119,7 +114,7 @@
         $('#confirmDeleteBtn').click(function() {
             let id = $('#deleteId').val();
             $.ajax({
-                url: "{{ url('settings/jobskill/delete') }}/" + id,
+                url: "{{ url('settings/skill/delete') }}/" + id,
                 type: 'POST',
                 data: {
                     _method: 'DELETE',
@@ -127,7 +122,7 @@
                 },
                 success: function() {
                     $('#delete_modal').modal('hide');
-                    $('#jobSkillList').DataTable().ajax.reload();
+                    $('#skillList').DataTable().ajax.reload();
                 }
             });
         });
