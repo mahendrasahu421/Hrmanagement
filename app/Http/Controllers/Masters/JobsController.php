@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\AcflJobs;
 use App\Models\City;
+use App\Models\Employee;
 use App\Models\JobSkill;
 use App\Models\Skills;
 use App\Models\StateCity;
@@ -261,13 +262,98 @@ class JobsController extends Controller
         return view('home.jobs.create', $data);
     }
 
-    public function appliedCandidate(Request $request)
+    public function appliedCandidate()
     {
         $data['title'] = 'Recruitment / Jobs / Applied Candidate';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-
         return view('home.jobs.applied-candidate', $data);
     }
+
+    public function appliedCandidateAjax(Request $request)
+    {
+        try {
+            $search = $request->input('search.value');
+            $limit  = $request->input('length', 10);
+            $start  = $request->input('start', 0);
+            $query = Employee::where('applied_status', 'Applied');
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('employee_name', 'like', "%{$search}%")
+                        ->orWhere('employee_email', 'like', "%{$search}%")
+                        ->orWhere('employee_mobile', 'like', "%{$search}%");
+                });
+            }  
+            $totalRecords = $query->count();
+            $candidates = $query
+                ->orderBy('created_at', 'desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
+            $rows = [];
+            foreach ($candidates as $index => $candidate) {
+                $gender = match ($candidate->employee_gender) {
+                    1 => 'Male',
+                    2 => 'Female',
+                    3 => 'Other',
+                    default => 'N/A'
+                };
+                $stateName = optional(CountryState::find($candidate->posting_state))->name ?? 'N/A';
+                $cityName  = optional(StateCity::find($candidate->posting_city))->name ?? 'N/A';
+                $rows[] = [
+                    'DT_RowIndex' => $start + $index + 1,
+                    'name' => $candidate->employee_name . ' <button class="btn btn-sm btn-primary ms-2 view-details"        data-id="' . $candidate->employee_id . '"><i class="fa fa-eye"></i></button>',
+                    'email'       => $candidate->employee_email,
+                    'phone'       => $candidate->employee_mobile,
+                    'gender'      => $gender,
+                    'state'       => $stateName,
+                    'city'        => $cityName,
+                    'action'      => '<a href="' . route('employee.onboarding', $candidate->employee_id) . '" class="btn btn-sm btn-primary">Onboarding</a>',
+                ];
+            }
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $totalRecords,
+                'recordsFiltered' => $totalRecords,
+                'data' => $rows,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function employeeDetails($id)
+    {
+        $employee = Employee::with('designation')->findOrFail($id);
+
+        $gender = match ($employee->employee_gender) {
+            1 => 'Male',
+            2 => 'Female',
+            3 => 'Other',
+            default => 'N/A'
+        };
+
+        $stateName = optional(CountryState::find($employee->posting_state))->name ?? 'N/A';
+        $cityName  = optional(StateCity::find($employee->posting_city))->name ?? 'N/A';
+        $designationName = $employee->designation->name ?? 'N/A';
+
+        return response()->json([
+            'employee_name' => $employee->employee_name,
+            'email' => $employee->employee_email,
+            'mobile' => $employee->employee_mobile,
+            'gender' => $gender,
+            'state' => $stateName,
+            'city' => $cityName,
+            'joining_date' => $employee->joining_date,
+            'band' => $employee->band,
+            'designation' => $designationName,
+            'status' => $employee->status,
+        ]);
+    }
+
+
 
     public function store(Request $request)
     {

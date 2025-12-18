@@ -2,18 +2,7 @@
 @section('title', $title)
 
 @section('main-section')
-    <style>
-        .filter-row {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex-wrap: nowrap; 
-        }
-
-        #jobFilter {
-            max-width: 250px;
-        }
-    </style>
+    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
     <div class="page-wrapper">
         <div class="content">
@@ -23,105 +12,150 @@
                 <div class="my-auto mb-2">
                     <h2 class="mb-1">{{ $title }}</h2>
                 </div>
-            </div> 
+            </div>
             <!-- /Breadcrumb -->
 
-            <div class="card mb-3">
-                <div class="card-body">
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="filter-row">
-
-                                <label class="form-label mb-0 fw-bold">Filter by Job Title</label>
-
-                                <select id="jobFilter" class="form-select">
-                                    <option value="">All Jobs</option>
-                                    <option value="Senior Developer">Senior Developer</option>
-                                    <option value="UI/UX Designer">UI/UX Designer</option>
-                                </select>
-
-                            </div>
-                        </div>
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table id="candidateList" class="table table-striped table-bordered nowrap">
+                            <thead>
+                                <tr>
+                                    <th>Sn</th>
+                                    <th>Employee Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Gender</th>
+                                    <th>State</th>
+                                    <th>City</th>
+                                    <th>Onboarding</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
                     </div>
-
                 </div>
             </div>
-            <!-- /Filter -->
 
-            <div class="row">
-                <div class="col-sm-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex align-items-center">
-                                <h4 class="card-title">Applied Candidate List</h4>
-                            </div>
-                        </div>
-
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table datatable" id="candidateTable">
-                                    <thead class="thead-light">
-                                        <tr>
-                                            <th>Job Title</th>
-                                            <th>City</th>
-                                            <th>Profile</th>
-                                            <th>Candidate Name</th>
-                                            <th>Date</th>
-                                            <th>Onboarding</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr>
-                                            <td>Senior Developer</td>
-                                            <td>Mumbai</td>
-                                            <td>IT / Software</td>
-                                            <td>Rohit Sharma</td>
-                                            <td>21 Nov 2025</td>
-                                            <td><a href="{{ route('employee.onboarding') }}" class="btn btn-sm btn-primary">Onboarding</a></td>
-                                        </tr>
-
-                                        <tr>
-                                            <td>UI/UX Designer</td>
-                                            <td>Pune</td>
-                                            <td>Design</td>
-                                            <td>Neha Verma</td>
-                                            <td>20 Nov 2025</td>
-                                            <td><a href="{{ route('employee.onboarding') }}" class="btn btn-sm btn-primary">Onboarding</a></td>
-                                        </tr>
-                                    </tbody>
-
-                                </table>
-                            </div>
-                        </div>
-
-                    </div>
-
-                </div>
+            <!-- Employee Details  -->
+            <div id="employeeDrawer"
+                style="position: fixed; top: 0; right: -40%; width: 40%; height: 100%; background: #fff; 
+                       box-shadow: -3px 0 6px rgba(0,0,0,0.2); z-index: 1050; transition: right 0.3s; 
+                       overflow-y: auto; padding: 20px;">
             </div>
 
         </div>
 
         <x-footer />
-
     </div>
-@endsection  
+@endsection
 
 @push('after_scripts')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+
     <script>
-        $('#jobFilter').on('change', function() {
-            var selectedJob = $(this).val().toLowerCase();
+        $(document).ready(function() {
+            $('#candidateList').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                scrollX: true,
+                ajax: "{{ route('jobs.applied.ajax') }}",
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'email',
+                        name: 'email'
+                    },
+                    {
+                        data: 'phone',
+                        name: 'phone'
+                    },
+                    {
+                        data: 'gender',
+                        name: 'gender'
+                    },
+                    {
+                        data: 'state',
+                        name: 'state'
+                    },
+                    {
+                        data: 'city',
+                        name: 'city'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                order: [
+                    [0, 'asc']
+                ],
+                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'f>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
+            });
+            $(document).on('click', '.view-details', function() {
+                let employeeId = $(this).data('id');
 
-            $('#candidateTable tbody tr').filter(function() {
-                var jobTitle = $(this).find('td:nth-child(1)').text().toLowerCase();
+                $.ajax({
+                    url: '/employee/details/' + employeeId,
+                    type: 'GET',
+                    success: function(res) {
+                        let html = `
+                    <div class="card border-0">
+                        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0 text-white">Employee Details</h5>
+                            <button id="closeDrawer" class="btn btn-sm btn-light text-danger">
+                                <i class="fa fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-2"><div class="col-5 fw-bold">Name:</div><div class="col-7">${res.employee_name}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Email:</div><div class="col-7">${res.email}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Mobile:</div><div class="col-7">${res.mobile}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Gender:</div><div class="col-7">${res.gender}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">State:</div><div class="col-7">${res.state}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">City:</div><div class="col-7">${res.city}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Joining Date:</div><div class="col-7">${res.joining_date}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Band:</div><div class="col-7">${res.band}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Designation:</div><div class="col-7">${res.designation}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Status:</div><div class="col-7">${res.status}</div></div>
+                        </div>
+                    </div>
+                `;
+                        $('#employeeDrawer').html(html);
+                        $('#employeeDrawer').css('right', '0');
 
-                if (selectedJob === "" || jobTitle === selectedJob) {
-                    $(this).show();
-                } else { 
-                    $(this).hide(); 
-                }
+                        $('#closeDrawer').click(function() {
+                            $('#employeeDrawer').css('right', '-40%');
+                        });
+                    },
+                    error: function(err) {
+                        alert('Failed to fetch employee details');
+                    }
+                });
             });
         });
     </script>
+
+    <style>
+        #employeeDrawer .row {
+            padding: 5px 0;
+            border-bottom: 1px solid #f1f1f1;
+        }
+
+        #employeeDrawer .fw-bold {
+            color: #555;
+        }
+    </style>
 @endpush

@@ -103,7 +103,7 @@
             border-radius: 25px;
             border: 0;
             font-size: 14px;
-        }
+        } 
 
         .select2-container .select2-selection--single {
             height: 42px !important;
