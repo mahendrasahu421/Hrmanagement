@@ -113,6 +113,8 @@ class SkillController extends Controller
             }
             $jobSkill->delete();
 
+
+            
             return response()->json([
                 'success' => true,
                 'message' => 'Job Skill deleted successfully'

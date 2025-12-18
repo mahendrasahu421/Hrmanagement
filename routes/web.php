@@ -68,6 +68,8 @@ use App\Http\Controllers\PMT\SelfAppraisalController;
 use App\Http\Controllers\PMT\ViewFeedbackController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ResumeController;
+use App\Http\Controllers\AppliedController;
+use App\Http\Controllers\Api\JobApplicationController;
 
 
 Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
@@ -75,9 +77,13 @@ Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('s
 
 Route::post('/parse-resume', [ResumeController::class, 'parse'])
     ->name('resume.parse');
+Route::post('/job-apply', [JobApplicationController::class, 'store'])
+    ->name('job.application.store');
 
-
-
+Route::get(
+    '/recruitment/jobs/{slug}/apply',
+    [JobsController::class, 'jobForm']
+)->name('recruitment.jobs.apply.form');
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard
@@ -172,23 +178,26 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/policy/store', [PolicyController::class, 'store'])->name('masters.organisation.policy.store');
 
     // Master/Recruitment/Jobs
+    Route::get('employee/details/{id}', [JobsController::class, 'employeeDetails'])->name('employee.details');
 
     Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
-    Route::get('recruitment/job/applied-candidate', [JobsController::class, 'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
-    Route::get('recruitment/jobs/applied-candidate/ajax', [JobsController::class, 'appliedCandfidateAjax'])->name('jobs.applied.ajax');
-    Route::get('employee/details/{id}', [JobsController::class, 'employeeDetails'])->name('employee.details');
     Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
     Route::post('recruitment/jobs/store', [JobsController::class, 'store'])->name('recruitment.jobs.store');
     Route::get('recruitment/jobs/list', [JobsController::class, 'list'])->name('recruitment.jobs.list');
     Route::get('recruitment/jobs/recommended-job', [JobsController::class, 'recommendedJob'])->name('recruitment.jobs.recommended-job');
-    Route::get('recruitment/jobs/job-listings/{slug}',[JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
-
-
-
-
+    Route::get('recruitment/jobs/job-listings/{slug}', [JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
     Route::get('recruitment/jobs/job-apply-form', [JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
 
-    // Employee/Onboarding
+    // Employee/OnboardingRoute::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
+    Route::get('recruitment/job/applied-candidate', [JobsController::class, 'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
+
+
+
+
+
+
+
+
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
 
     Route::get('recruitment/jobs/create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
@@ -312,6 +321,12 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/employee/login', [EmployeeAuthController::class, 'index'])->name('employee.login');
 Route::post('/employee/login', [EmployeeAuthController::class, 'store'])->name('employee.login');
 Route::get('/employee/logout', [EmployeeAuthController::class, 'logout'])->name('employee.logout');
+
+Route::get('recruitment/job/applied-candidate', [AppliedController::class, 'index'])->name('recruitment.jobs.applied-candidate');
+Route::get('recruitment/jobs/applied-candidate/list', [AppliedController::class, 'list'])->name('jobs.applied.list');
+
+
+// Employee section routes
 Route::prefix('employee')->middleware('auth:employee')->group(function () {
 
     // Self Appraisal

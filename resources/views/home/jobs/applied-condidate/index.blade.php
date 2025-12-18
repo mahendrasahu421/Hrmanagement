@@ -61,14 +61,14 @@
                 processing: true,
                 serverSide: true,
                 scrollX: true,
-                ajax: "{{ route('jobs.applied.ajax') }}",
+                ajax: "{{ route('jobs.applied.list') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
                     {
-                        data: 'name',
-                        name: 'name'
+                        data: 'first_name',
+                        name: 'first_name'
                     },
                     {
                         data: 'email',
@@ -120,16 +120,14 @@
                             </button>
                         </div>
                         <div class="card-body">
-                            <div class="row mb-2"><div class="col-5 fw-bold">Name:</div><div class="col-7">${res.first_name}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Name:</div><div class="col-7">${res.employee_name}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">Email:</div><div class="col-7">${res.email}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">Mobile:</div><div class="col-7">${res.mobile}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">Gender:</div><div class="col-7">${res.gender}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">State:</div><div class="col-7">${res.state}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">City:</div><div class="col-7">${res.city}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">Apply Date:</div><div class="col-7">${res.applied_at}</div></div>
-                            <div class="row mb-2"><div class="col-5 fw-bold">Band:</div><div class="col-7">${res.band}</div></div>
-                            <div class="row mb-2"><div class="col-5 fw-bold">Designation:</div><div class="col-7">${res.designation}</div></div>
-                            <div class="row mb-2"><div class="col-5 fw-bold">Status:</div><div class="col-7">${res.status}</div></div>
+                      
                         </div>
                     </div>
                 `;
