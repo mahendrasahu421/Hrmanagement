@@ -410,7 +410,7 @@ class JobsController extends Controller
     {
         $jobId = last(explode('-', $slug));
 
-        $job = AcflJobs::findOrFail($jobId);
+        $job = AcflJobs::findOrFail($jobId); 
 
         // ✅ Job-wise questions
         $questions = JafQuestion::where('job_id', $jobId)
