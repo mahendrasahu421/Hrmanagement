@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Masters;
 use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\CountryState;
+use App\Models\Gender;
 use App\Models\JobHrms;
+use App\Models\JafQuestion;
 use App\Models\JobCategory;
 use Illuminate\Http\Request;
 use App\Models\Designation;
@@ -14,6 +16,7 @@ use App\Models\City;
 use App\Models\Employee;
 use App\Models\JobSkill;
 use App\Models\StateCity;
+use App\Models\MaritalStatus;
 use Illuminate\Support\Facades\DB;
 
 class JobsController extends Controller
@@ -234,6 +237,9 @@ class JobsController extends Controller
             'city_names' => $cityNames,
         ];
 
+        // Debug to check final output
+
+
         return view('home.jobs.job-deatils', [
             'title' => $job->job_title . " - Job Details",
             'job' => $jobDetails
@@ -406,11 +412,34 @@ class JobsController extends Controller
         }
     }
 
-    public function jobForm()
+
+
+    public function jobForm($slug)
     {
-        $data['title'] = 'Recruitment / Jobs / Apply Form';
-        return view('home.jobs.job-apply-form', $data);
+        $jobId = last(explode('-', $slug));
+
+        $job = AcflJobs::findOrFail($jobId);
+
+        // ✅ Job-wise questions
+        $questions = JafQuestion::where('job_id', $jobId)
+            ->orderBy('order', 'asc')
+            ->get();
+        $genders = Gender::all();
+        $MaritalStatus = MaritalStatus::all();
+        $state = CountryState::where('country_id', 101)->get();
+        $years = range(date('Y'), 1980);
+        return view('home.jobs.job-apply-form', [
+            'title' => 'Recruitment / Jobs / Apply Form',
+            'job' => $job,
+            'questions' => $questions,
+            'genders' => $genders,
+            'MaritalStatus' => $MaritalStatus,
+            'state' => $state,
+            'years' => $years,
+        ]);
     }
+
+
 
     public function show(string $id)
     {
