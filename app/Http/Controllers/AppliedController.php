@@ -5,7 +5,7 @@ use App\Models\JobApplication;
 use App\Models\CountryState;
 use App\Models\StateCity;
 use Illuminate\Http\Request;
-
+use Carbon\Carbon;
 class AppliedController extends Controller
 {
     /**
@@ -16,6 +16,52 @@ class AppliedController extends Controller
         $data['title'] = 'Recruitment / Jobs / Applied Candidate';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.jobs.applied-condidate.index', $data);
+    }
+
+
+
+    public function usersDetails($id)
+    {
+        $employee = JobApplication::with(
+            'designation',
+            'gender',
+            'maritalStatus'
+        )->findOrFail($id);
+
+        return response()->json([
+            'employee_name' => ucfirst($employee->first_name) . ' ' . ucfirst($employee->last_name),
+            'email' => $employee->email,
+            'mobile' => $employee->phone,
+            'aadhaar' => $employee->aadhaar_number,
+            'dob' => Carbon::parse($employee->dob)->format('d-m-Y'),
+            'gender' => $employee->gender->name ?? 'N/A',
+            'marital_status' => $employee->maritalStatus->name ?? 'N/A',
+
+            'state' => CountryState::whereId($employee->state_id)->value('name') ?? 'N/A',
+            'city' => StateCity::whereId($employee->city_id)->value('name') ?? 'N/A',
+            // educations
+            'tenth_percent' => $employee->tenth_percent . "%",
+            'tenth_year' => $employee->tenth_year,
+            'twelfth_percent' => $employee->twelfth_percent . "%",
+            'twelfth_year' => $employee->twelfth_year,
+            'ug_percent' => $employee->ug_percent,
+            'ug_year' => $employee->ug_year,
+            'qualification' => $employee->qualification,
+            'degree' => $employee->degree,
+            'institute' => $employee->institute,
+            'final_year' => $employee->final_year,
+
+            'experience_years' => $employee->experience_years,
+            'experience_details' => $employee->experience_details,
+
+            'skills' => $employee->skills ?? [],
+            'answers' => $employee->answers ?? [],
+
+            'designation' => $employee->designation->name ?? 'N/A',
+            'status' => ucfirst($employee->status),
+            'resume' => asset('storage/' . $employee->resume),
+            'applied_at' => $employee->created_at->format('d-m-Y'),
+        ]);
     }
 
     /**
