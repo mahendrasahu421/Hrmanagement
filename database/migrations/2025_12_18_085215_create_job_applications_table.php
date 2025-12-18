@@ -5,27 +5,33 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
-{public function up()
 {
-    Schema::dropIfExists('job_applications');
-
+    /**
+     * Run the migrations.
+     */
+    // database/migrations/xxxx_xx_xx_create_job_applications_table.php
+public function up()
+{
     Schema::create('job_applications', function (Blueprint $table) {
         $table->id();
 
+        // Personal
+        $table->string('resume')->nullable();
         $table->string('first_name');
         $table->string('last_name');
         $table->string('email')->nullable();
         $table->string('phone');
-        $table->string('aadhaar_number')->nullable();
+        $table->string('aadhaar_number', 12)->nullable();
         $table->date('dob');
-
-        $table->unsignedBigInteger('gender');
-        $table->unsignedBigInteger('marital_status');
+        $table->unsignedBigInteger('gender_id');
+        $table->unsignedBigInteger('marital_status_id');
         $table->unsignedBigInteger('state_id');
         $table->unsignedBigInteger('city_id');
 
-        $table->string('resume')->nullable();
+        // Skills (multiple)
+        $table->json('skills');
 
+        // Academic
         $table->string('tenth_percent')->nullable();
         $table->string('tenth_year')->nullable();
         $table->string('twelfth_percent')->nullable();
@@ -37,18 +43,25 @@ return new class extends Migration
         $table->string('institute')->nullable();
         $table->string('final_year')->nullable();
 
-        $table->integer('experience_years')->nullable();
-        $table->text('experience_details')->nullable();
+        // Experience
+        $table->string('experience_years')->nullable();
+        $table->string('experience_details')->nullable();
 
-        $table->longText('answers')->nullable();
+        // Job Questions Answers
+        $table->json('answers')->nullable();
+
+        // Status (onboarding flow)
+        $table->enum('status', [
+            'applied',
+            'shortlisted',
+            'interview_scheduled',
+            'interview_postponed',
+            'selected',
+            'rejected'
+        ])->default('applied');
 
         $table->timestamps();
     });
-}
-
-public function down()
-{
-    Schema::dropIfExists('job_applications');
 }
 
 };
