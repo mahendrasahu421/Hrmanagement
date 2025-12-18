@@ -18,7 +18,7 @@
                             </div>
                             <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                 <div class="mb-2">
-                                    <a href="{{ route('settings.jobskill') }}"
+                                    <a href="{{ route('settings.skills') }}"
                                        class="btn btn-primary d-flex align-items-center">
                                         <i class="ti ti-list-details me-2"></i> JobSkill List
                                     </a>
@@ -32,7 +32,7 @@
                     <div class="card-body">
 
                         <form class="needs-validation" novalidate method="POST"
-                              action="{{ route('settings.jobskill.store') }}">
+                              action="{{ route('settings.skills.store') }}">
                             @csrf
 
                             <div class="row">
@@ -51,23 +51,12 @@
                                     @enderror
                                 </div>
 
-                                <!-- Status -->
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Status <span class="text-danger">*</span></label>
-                                    <select name="status" class="form-control" required>
-                                        <option value="">Select Status</option>
-                                        <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active</option>
-                                        <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
-                                    </select>
-                                    @error('status')
-                                        <div class="text-danger small">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                               
 
                             </div>
 
                             <div class="d-flex justify-content-end mt-3">
-                                <a href="{{ route('settings.jobskill') }}" class="btn btn-light me-2">
+                                <a href="{{ route('settings.skills') }}" class="btn btn-light me-2">
                                     <i class="ti ti-arrow-left me-1"></i> Back
                                 </a>
 
