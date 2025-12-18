@@ -258,6 +258,15 @@
                                 <option value="">Select City</option>
                             </select>
                         </div>
+                        <div class="col-md-12">
+                            <label class="form-label">skills <span class="req">*</span></label>
+                            <select name="skills[]" id="skills" class="form-select select2" multiple required>
+                                @foreach ($skills as $skill)
+                                     <option value="{{ $skill->id }}">{{ $skill->name }}</option>
+                                @endforeach
+                               
+                            </select>
+                        </div>
 
                     </div>
                 </div>
@@ -430,15 +439,7 @@
 
             </div>
         </form>
-
-
-
     </div>
-
-
-
-
-
 
     <script>
         function selectRadioGrp(el) {

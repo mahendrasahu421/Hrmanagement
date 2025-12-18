@@ -8,14 +8,17 @@ class JobApplication extends Model
 {
     protected $fillable = [
         'resume',
-        'name',
+        'first_name',
+        'last_name',
         'email',
-        'dob',
-        'gender',
-        'marital_status',
-        'state',
-        'city',
         'phone',
+        'aadhaar_number',
+        'dob',
+        'gender_id',
+        'marital_status_id',
+        'state_id',
+        'city_id',
+        'skills',
         'tenth_percent',
         'tenth_year',
         'twelfth_percent',
@@ -25,12 +28,15 @@ class JobApplication extends Model
         'qualification',
         'degree',
         'institute',
+        'final_year',
         'experience_years',
-        'last_company',
+        'experience_details',
         'answers',
+        'status'
     ];
 
     protected $casts = [
+        'skills' => 'array',
         'answers' => 'array',
     ];
 }
