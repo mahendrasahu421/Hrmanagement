@@ -68,15 +68,14 @@ use App\Http\Controllers\PMT\SelfAppraisalController;
 use App\Http\Controllers\PMT\ViewFeedbackController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ResumeController;
-use App\Http\Controllers\JobApplicationController;
+
 
 Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
 Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('skills.search');
 
 Route::post('/parse-resume', [ResumeController::class, 'parse'])
     ->name('resume.parse');
-Route::post('/job-apply', [JobApplicationController::class, 'store'])
-    ->name('job.application.store');
+
 
 
 Route::middleware(['auth'])->group(function () {

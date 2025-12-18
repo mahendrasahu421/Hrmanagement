@@ -491,15 +491,7 @@
     </div>
 
 
-            <div class="text-end">
-                <a href="{{ route('recruitment.jobs.recommended-job') }}" class="btn btn-secondary py-2">
-                    <i class="fas fa-rotate-left me-1"></i> Reset
-                </a>
-                <button type="button" class="btn btn-secondary py-2" id="closeFormBottom">
-                    <i class="fas fa-xmark me-1"></i> Close
-                </button>
-                <button type="submit" class="btn-submit">Submit</button>
-            </div>
+           
 
 
 

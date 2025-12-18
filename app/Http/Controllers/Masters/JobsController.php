@@ -14,6 +14,7 @@ use App\Models\Designation;
 use App\Models\AcflJobs;
 use App\Models\City;
 use App\Models\JobSkill;
+use App\Models\Skills;
 use App\Models\StateCity;
 use App\Models\MaritalStatus;
 use Illuminate\Support\Facades\DB;
@@ -34,8 +35,8 @@ class JobsController extends Controller
         try {
 
             $search = $request->input('search.value');
-            $limit  = $request->input('length', 10);
-            $start  = $request->input('start', 0);
+            $limit = $request->input('length', 10);
+            $start = $request->input('start', 0);
 
             $query = AcflJobs::with(['designation', 'state']);
             if ($search) {
@@ -88,17 +89,17 @@ class JobsController extends Controller
                 // $skillNames = JobSkill::whereIn('id', $skillIds)->pluck('name')->toArray();
 
                 $rows[] = [
-                    'DT_RowIndex'  => $start + $index + 1,
+                    'DT_RowIndex' => $start + $index + 1,
                     'publish_date' => $job->created_at->format('d M Y'),
-                    'job_title'   => $job->job_title,
+                    'job_title' => $job->job_title,
                     'designation' => $job->designation->name ?? '--',
-                    'state'       => $job->state->name ?? '--',
-                    'city'        => implode(', ', $cityNames) ?: '--',
-                    'experience'  => $job->min_exp . ' - ' . $job->max_exp . ' Years',
-                    'status'      => $job->status === 'PUBLISHED'
+                    'state' => $job->state->name ?? '--',
+                    'city' => implode(', ', $cityNames) ?: '--',
+                    'experience' => $job->min_exp . ' - ' . $job->max_exp . ' Years',
+                    'status' => $job->status === 'PUBLISHED'
                         ? '<span class="badge bg-success">Active</span>'
                         : '<span class="badge bg-danger">Inactive</span>',
-                    'action'      => '
+                    'action' => '
                     <button type="button" class="btn btn-sm btn-warning copy-btn">
                         <i class="ti ti-copy"></i>
                     </button>
@@ -107,17 +108,17 @@ class JobsController extends Controller
             }
 
             return response()->json([
-                'draw'            => intval($request->input('draw')),
-                'recordsTotal'    => $totalRecords,
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $totalRecords,
                 'recordsFiltered' => $totalRecords,
-                'data'            => $rows,
+                'data' => $rows,
             ]);
         } catch (\Exception $e) {
 
             return response()->json([
-                'error'   => true,
+                'error' => true,
                 'message' => 'Something went wrong while fetching jobs',
-                'debug'   => $e->getMessage()
+                'debug' => $e->getMessage()
             ], 500);
         }
     }
@@ -138,7 +139,7 @@ class JobsController extends Controller
                 ->toArray();
 
             $skillIds = json_decode($job->test_skills, true) ?? [];
-            $job->skill_names = JobSkill::whereIn('id', $skillIds)
+            $job->skill_names = Skills::whereIn('id', $skillIds)
                 ->pluck('name')
                 ->toArray();
 
@@ -217,7 +218,7 @@ class JobsController extends Controller
         // ✅ SKILL NAMES (IMPORTANT FIX)
         $skillIds = json_decode($job->test_skills, true) ?? [];
 
-        $skillNames = JobSkill::whereIn('id', $skillIds)
+        $skillNames = Skills::whereIn('id', $skillIds)
             ->pluck('name')
             ->toArray();
 
@@ -252,7 +253,8 @@ class JobsController extends Controller
         $data['jobsType'] = JobCategory::where('type', 'job type')->get();
         $data['states'] = CountryState::where('country_id', 101)->get();
         $data['branch'] = Branch::all();
-        $data['jobSkills'] = JobSkill::where('status', 'Active')->orderBy('name')->get();
+        $data['jobSkills'] = Skills::orderBy('name')->get();
+
 
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
@@ -342,6 +344,7 @@ class JobsController extends Controller
         $MaritalStatus = MaritalStatus::all();
         $state = CountryState::where('country_id', 101)->get();
         $years = range(date('Y'), 1980);
+        $skills = Skills::all();
         return view('home.jobs.job-apply-form', [
             'title' => 'Recruitment / Jobs / Apply Form',
             'job' => $job,
@@ -350,6 +353,7 @@ class JobsController extends Controller
             'MaritalStatus' => $MaritalStatus,
             'state' => $state,
             'years' => $years,
+            'skills' => $skills,
         ]);
     }
 
