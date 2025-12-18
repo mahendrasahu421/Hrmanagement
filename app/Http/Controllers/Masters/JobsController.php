@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Branch;
 use App\Models\CountryState;
 use App\Models\Gender;
+use App\Models\JobApplication;
 use App\Models\JobHrms;
 use App\Models\JafQuestion;
 use App\Models\JobCategory;
@@ -19,7 +20,7 @@ use App\Models\Skills;
 use App\Models\StateCity;
 use App\Models\MaritalStatus;
 use Illuminate\Support\Facades\DB;
-
+use Carbon\Carbon;
 class JobsController extends Controller
 {
 
@@ -316,29 +317,28 @@ class JobsController extends Controller
 
     public function employeeDetails($id)
     {
-        $employee = Employee::with('designation')->findOrFail($id);
-
-        $gender = match ($employee->employee_gender) {
+        $employee = JobApplication::with('designation')->findOrFail($id);
+     
+        $gender = match ($employee->gender_id) {
             1 => 'Male',
             2 => 'Female',
             3 => 'Other',
             default => 'N/A'
         };
 
-        $stateName = optional(CountryState::find($employee->posting_state))->name ?? 'N/A';
-        $cityName  = optional(StateCity::find($employee->posting_city))->name ?? 'N/A';
+        $stateName = optional(CountryState::find($employee->state_id))->name ?? 'N/A';
+        $cityName = optional(StateCity::find($employee->city_id))->name ?? 'N/A';
         $designationName = $employee->designation->name ?? 'N/A';
 
         return response()->json([
-            'employee_name' => $employee->employee_name,
-            'email' => $employee->employee_email,
-            'mobile' => $employee->employee_mobile,
+            'employee_name' => $employee->first_name,
+            'email' => $employee->email,
+            'mobile' => $employee->phone,
             'gender' => $gender,
             'state' => $stateName,
             'city' => $cityName,
-            'joining_date' => $employee->joining_date,
-            'band' => $employee->band,
-            'designation' => $designationName,
+            'applied_at' => Carbon::parse($employee->created_at)->format('d-m-Y'),
+          
             'status' => $employee->status,
         ]);
     }

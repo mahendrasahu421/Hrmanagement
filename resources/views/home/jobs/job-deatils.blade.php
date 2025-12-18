@@ -440,61 +440,7 @@
             </div>
 
 
-            <div class="col-lg-4 col-md-12">
-                <div class="side-card">
-                    <div class="section">Jobs you might be interested in</div>
-                    <div class="related">
-                        <a href="#">
-                            <div class="related-header">
-                                <div class="related-info">
-                                    <div class="related-title">Web Developer & SEO Specialist</div>
-                                    <div class="related-company">Timbre Media</div>
-                                    <div class="related-rating">★ 4.5 | 3 reviews</div>
-                                </div>
-                                <div class="related-logo">T</div>
-                            </div>
-                            <div class="related-meta">
-                                <div><i class="fa-solid fa-location-dot"></i> Bengaluru</div>
-                                <div>Posted 16 days ago</div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="related">
-                        <a href="#">
-                            <div class="related-header">
-                                <div class="related-info">
-                                    <div class="related-title">Wordpress Developer</div>
-                                    <div class="related-company">K12 Techno Services</div>
-                                    <div class="related-rating">★ 3.6 | 1869 reviews</div>
-                                </div>
-                                <div class="related-logo">K12</div>
-                            </div>
-                            <div class="related-meta">
-                                <div><i class="fa-solid fa-location-dot"></i> Bengaluru</div>
-                                <div>Posted 6 days ago</div>
-                            </div>
-                        </a>
-                    </div>
-
-                    <div class="related">
-                        <a href="#">
-                            <div class="related-header">
-                                <div class="related-info">
-                                    <div class="related-title">SEO Executive</div>
-                                    <div class="related-company">Show Off Retail</div>
-                                    <div class="related-rating">★ 4.0 | 89 reviews</div>
-                                </div>
-                                <div class="related-logo">S</div>
-                            </div>
-                            <div class="related-meta">
-                                <div><i class="fa-solid fa-location-dot"></i> Bengaluru</div>
-                                <div>Posted 20 days ago</div>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-            </div>
+           
         </div>
     </div>
 

@@ -68,6 +68,7 @@ use App\Http\Controllers\PMT\SelfAppraisalController;
 use App\Http\Controllers\PMT\ViewFeedbackController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\ResumeController;
+use App\Http\Controllers\AppliedController;
 use App\Http\Controllers\Api\JobApplicationController;
 
 
@@ -172,6 +173,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/policy/store', [PolicyController::class, 'store'])->name('masters.organisation.policy.store');
 
     // Master/Recruitment/Jobs
+    Route::get('employee/details/{id}', [JobsController::class, 'employeeDetails'])->name('employee.details');
 
     
     Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
@@ -183,7 +185,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recruitment/jobs/job-listings/{slug}',[JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
     Route::get('/recruitment/jobs/{slug}/apply',[JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
 
-    // Employee/Onboarding
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
 
     Route::get('recruitment/jobs/create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
@@ -307,6 +308,12 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/employee/login', [EmployeeAuthController::class, 'index'])->name('employee.login');
 Route::post('/employee/login', [EmployeeAuthController::class, 'store'])->name('employee.login');
 Route::get('/employee/logout', [EmployeeAuthController::class, 'logout'])->name('employee.logout');
+
+Route::get('recruitment/job/applied-candidate', [AppliedController::class, 'index'])->name('recruitment.jobs.applied-candidate');
+Route::get('recruitment/jobs/applied-candidate/list', [AppliedController::class, 'list'])->name('jobs.applied.list');
+
+
+// Employee section routes
 Route::prefix('employee')->middleware('auth:employee')->group(function () {
 
     // Self Appraisal
