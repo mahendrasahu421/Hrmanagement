@@ -129,31 +129,25 @@ class JobsController extends Controller
     {
         $data['title'] = 'Recruitment / Jobs / Recommended-Job';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-
-        $jobs = AcflJobs::all();
+        $jobs = AcflJobs::with(['branch.company', 'state'])->get();
 
         foreach ($jobs as $job) {
-
-            // city names
             $cityIds = $job->city_ids;
             $job->city_names = StateCity::whereIn('id', $cityIds)
                 ->pluck('name')
                 ->toArray();
-
             $skillIds = json_decode($job->test_skills, true) ?? [];
             $job->skill_names = Skills::whereIn('id', $skillIds)
                 ->pluck('name')
                 ->toArray();
-
-            // state name
-            $job->state_name = optional($job->state)->name ?? 'State not available';
-            $job->branchName = optional($job->branch)->branch_name ?? 'Branch not available';
+            $job->state_name  = optional($job->state)->name ?? 'State not available';
+            $job->branchName  = optional($job->branch)->branch_name ?? 'Branch not available';
+            $job->company_logo = optional($job->branch->company)->company_logo;
         }
-
         $data['jobs'] = $jobs;
-
         return view('home.jobs.recommended-job', $data);
     }
+
     public function recommendedJobApi()
     {
         $jobs = AcflJobs::all();
@@ -210,16 +204,13 @@ class JobsController extends Controller
             abort(404, 'Invalid Job URL');
         }
 
-        $job = AcflJobs::with(['branch', 'state'])->findOrFail($jobId);
+        $job = AcflJobs::with(['branch.company', 'state'])->findOrFail($jobId);
 
-        // City Names
         $cityNames = StateCity::whereIn('id', $job->city_ids ?? [])
             ->pluck('name')
             ->toArray();
 
-        // ✅ SKILL NAMES (IMPORTANT FIX)
         $skillIds = json_decode($job->test_skills, true) ?? [];
-
         $skillNames = Skills::whereIn('id', $skillIds)
             ->pluck('name')
             ->toArray();
@@ -228,25 +219,24 @@ class JobsController extends Controller
             'id' => $job->id,
             'title' => $job->job_title,
             'description' => $job->job_description,
-            'skills' => $skillNames, // ✅ names array
+            'skills' => $skillNames,
             'min_exp' => $job->min_exp,
             'max_exp' => $job->max_exp,
             'ctc_from' => $job->ctc_from,
             'ctc_to' => $job->ctc_to,
             'posted' => $job->created_at->diffForHumans(),
-            'branch_name' => $job->branch->branch_name ?? "N/A",
-            'state_name' => $job->state->name ?? "N/A",
+            'branch_name' => $job->branch->branch_name ?? 'N/A',
+            'state_name' => $job->state->name ?? 'N/A',
             'city_names' => $cityNames,
+            'company_logo' => optional($job->branch->company)->company_logo ?? null, // ✅ from company table
         ];
-
-        // Debug to check final output
-
 
         return view('home.jobs.job-deatils', [
             'title' => $job->job_title . " - Job Details",
             'job' => $jobDetails
         ]);
     }
+
 
     public function create()
     {
@@ -261,6 +251,68 @@ class JobsController extends Controller
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
         return view('home.jobs.create', $data);
+    }
+
+    public function appliedCandidate()
+    {
+        $data['title'] = 'Recruitment / Jobs / Applied Candidate';
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        return view('home.jobs.applied-candidate', $data);
+    }
+
+    public function appliedCandidateAjax(Request $request)
+    {
+        try {
+            $search = $request->input('search.value');
+            $limit  = $request->input('length', 10);
+            $start  = $request->input('start', 0);
+            $query = Employee::where('applied_status', 'Applied');
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('employee_name', 'like', "%{$search}%")
+                        ->orWhere('employee_email', 'like', "%{$search}%")
+                        ->orWhere('employee_mobile', 'like', "%{$search}%");
+                });
+            }
+            $totalRecords = $query->count();
+            $candidates = $query
+                ->orderBy('created_at', 'desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
+            $rows = [];
+            foreach ($candidates as $index => $candidate) {
+                $gender = match ($candidate->employee_gender) {
+                    1 => 'Male',
+                    2 => 'Female',
+                    3 => 'Other',
+                    default => 'N/A'
+                };
+                $stateName = optional(CountryState::find($candidate->posting_state))->name ?? 'N/A';
+                $cityName  = optional(StateCity::find($candidate->posting_city))->name ?? 'N/A';
+                $rows[] = [
+                    'DT_RowIndex' => $start + $index + 1,
+                    'name' => $candidate->employee_name . ' <button class="btn btn-sm btn-primary ms-2 view-details"        data-id="' . $candidate->employee_id . '"><i class="fa fa-eye"></i></button>',
+                    'email'       => $candidate->employee_email,
+                    'phone'       => $candidate->employee_mobile,
+                    'gender'      => $gender,
+                    'state'       => $stateName,
+                    'city'        => $cityName,
+                    'action'      => '<a href="' . route('employee.onboarding', $candidate->employee_id) . '" class="btn btn-sm btn-primary">Onboarding</a>',
+                ];
+            }
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $totalRecords,
+                'recordsFiltered' => $totalRecords,
+                'data' => $rows,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage()
+            ], 500);
+        }
     }
 
     public function employeeDetails($id)
@@ -358,7 +410,7 @@ class JobsController extends Controller
     {
         $jobId = last(explode('-', $slug));
 
-        $job = AcflJobs::findOrFail($jobId);
+        $job = AcflJobs::findOrFail($jobId); 
 
         // ✅ Job-wise questions
         $questions = JafQuestion::where('job_id', $jobId)

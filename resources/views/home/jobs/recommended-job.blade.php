@@ -146,7 +146,15 @@
                     <div class="job-title">{{ $job->job_title }}</div>
                     <div class="company-name">{{ $job->branchName }}</div>
                 </div>
-                <div class="logo-box">N</div>
+                <div class="logo-box">
+                    @if ($job->company_logo)
+                        <img src="{{ asset('uploads/company/' . $job->company_logo) }}" alt="Company Logo" class="img-fluid"
+                            >
+                    @else
+                        <span>{{ strtoupper(substr($job->branchName, 0, 1)) }}</span>
+                    @endif
+                </div>
+
             </div>
 
             <div class="meta">

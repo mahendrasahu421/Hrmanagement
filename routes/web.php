@@ -75,15 +75,10 @@ use App\Http\Controllers\Api\JobApplicationController;
 Route::get('/districts/search', [StateCityController::class, 'search'])->name('districts.search');
 Route::get('/skills/search', [SkillsController::class, 'skillsSearch'])->name('skills.search');
 
-Route::post('/parse-resume', [ResumeController::class, 'parse'])
-    ->name('resume.parse');
-Route::post('/job-apply', [JobApplicationController::class, 'store'])
-    ->name('job.application.store');
+Route::post('/parse-resume', [ResumeController::class, 'parse'])->name('resume.parse');
+Route::post('/job-apply', [JobApplicationController::class, 'store'])->name('job.application.store');
 
-Route::get(
-    '/recruitment/jobs/{slug}/apply',
-    [JobsController::class, 'jobForm']
-)->name('recruitment.jobs.apply.form');
+
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard
@@ -180,23 +175,15 @@ Route::middleware(['auth'])->group(function () {
     // Master/Recruitment/Jobs
     Route::get('employee/details/{id}', [JobsController::class, 'employeeDetails'])->name('employee.details');
 
+    
     Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
+    Route::get('recruitment/job/applied-candidate', [JobsController::class, 'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
     Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
     Route::post('recruitment/jobs/store', [JobsController::class, 'store'])->name('recruitment.jobs.store');
     Route::get('recruitment/jobs/list', [JobsController::class, 'list'])->name('recruitment.jobs.list');
     Route::get('recruitment/jobs/recommended-job', [JobsController::class, 'recommendedJob'])->name('recruitment.jobs.recommended-job');
-    Route::get('recruitment/jobs/job-listings/{slug}', [JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
-    Route::get('recruitment/jobs/job-apply-form', [JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
-
-    // Employee/OnboardingRoute::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
-    Route::get('recruitment/job/applied-candidate', [JobsController::class, 'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
-
-
-
-
-
-
-
+    Route::get('recruitment/jobs/job-listings/{slug}',[JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
+    Route::get('/recruitment/jobs/{slug}/apply',[JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
 
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
 
