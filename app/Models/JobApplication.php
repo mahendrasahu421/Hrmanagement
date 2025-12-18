@@ -39,4 +39,9 @@ class JobApplication extends Model
         'skills' => 'array',
         'answers' => 'array',
     ];
+
+     public function designation()
+    {
+        return $this->belongsTo(Designation::class, 'designation_id');
+    }
 }
