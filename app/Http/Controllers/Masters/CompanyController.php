@@ -55,8 +55,8 @@ class CompanyController extends Controller
                 'company_logo' => 'nullable|image|mimes:png|max:2048',
                 'address' => 'required|string',
                 'country' => 'required|exists:countries,id',
-                'state' => 'required|exists:states,id',
-                'city' => 'required|exists:cities,id',
+                'state' => 'required',
+                'city' => 'required',
                 'pincode' => 'required|string|max:10',
                 'status' => 'required|in:Active,Inactive',
             ], [

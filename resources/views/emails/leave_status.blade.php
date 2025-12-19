@@ -19,10 +19,10 @@
             </div>
 
             <div>
-                @foreach ($companyDetails as $company)
-                    <img src="{{ url('uploads/company/' . $company->company_logo) }}" 
-                         alt="Logo" width="100" style="margin-left:10px;">
-                @endforeach
+               @if(!empty($companyDetails) && !empty($companyDetails->company_logo))
+    <img src="{{ asset('uploads/company/'.$companyDetails->company_logo) }}" height="60">
+@endif
+
             </div>
 
         </div>

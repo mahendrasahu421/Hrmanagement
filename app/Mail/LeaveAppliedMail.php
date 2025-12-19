@@ -7,7 +7,7 @@ use App\Models\Company;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
-
+use Carbon\Carbon;
 class LeaveAppliedMail extends Mailable
 {
     use Queueable, SerializesModels;
@@ -26,13 +26,15 @@ class LeaveAppliedMail extends Mailable
 
         $this->subject = $template->subject ?? "New Leave Request";
 
-        $this->template_body = strtr($template->body, [
-            '{{employee_name}}' => $employee->employee_name,
-            '{{from_date}}' => \Carbon\Carbon::parse($leave->from_date)->format('d M Y'),
-            '{{to_date}}' => \Carbon\Carbon::parse($leave->to_date)->format('d M Y'),
-            '{{reason}}' => $leave->reason,
-            
+        $this->body = strtr($template->body, [
+            '{manager_name}' => $manager->name ?? 'Manager',
+            '{employee_name}' => $employee->employee_name,
+
+            '{from_date}' => Carbon::parse($leave->from_date)->format('d-m-Y'),
+            '{to_date}' => Carbon::parse($leave->to_date)->format('d-m-Y'),
+            '{reason}' => $leave->reason,
         ]);
+
     }
 
 
@@ -43,7 +45,7 @@ class LeaveAppliedMail extends Mailable
             ->with([
                 'subject' => $this->subject,
                 'template_key' => $this->template_key,
-                'template_body' => $this->template_body,
+                'template_body' => $this->body,
                 'companyDetails' => $this->companyDetails
             ]);
     }

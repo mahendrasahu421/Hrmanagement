@@ -3,7 +3,7 @@
 
 @section('main-section')
 
-    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+    <x-alert-modal/>
 
     <div class="page-wrapper">
         <div class="content">

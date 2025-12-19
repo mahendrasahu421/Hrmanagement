@@ -36,5 +36,8 @@ class Designation extends Model
     {
         return $this->belongsTo(Department::class, 'department_id');
     }
-
+    public function leaveMappings()
+    {
+        return $this->hasMany(LeaveMapping::class, 'designation_id');
+    }
 }
