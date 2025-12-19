@@ -32,13 +32,11 @@
                                     <th>Sn</th>
                                     <th>Leave Type</th>
                                     <th>Leave Code</th>
-                                    <th>Total Leaves</th>
-                                    <th>Carry Forward</th>
-                                    <th>Encashable</th>
-                                    <th>Applicable For</th>
-                                    <th>Leave Category</th>
+                                    <th>designation</th>
+                                    <th>Allow days</th>
+                                    
                                     <th>Status</th>
-                                    <th>Actions</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
@@ -82,7 +80,7 @@
             var table = $('#leaveTypeList').DataTable({
                 processing: true,
                 serverSide: true,
-                ajax: "{{ route('settings.leave-type.list') }}",
+                ajax: "{{ route('settings.leave.mapping.list') }}",
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -96,44 +94,21 @@
                         name: 'leave_code'
                     },
                     {
-                        data: 'total_leaves',
-                        name: 'total_leaves'
+                        data: 'designation',
+                        name: 'designation'
                     },
                     {
-                        data: 'carry_forward',
-                        name: 'carry_forward'
+                        data: 'allow_days',
+                        name: 'allow_days'
                     },
-                    {
-                        data: 'encashable',
-                        name: 'encashable'
-                    },
-                    {
-                        data: 'applicable_for',
-                        name: 'applicable_for'
-                    },
-                    {
-                        data: 'leave_category',
-                        name: 'leave_category'
-                    },
+                   
                     {
                         data: 'status',
                         name: 'status',
                         orderable: false,
                         searchable: false
-                    },
-                    {
-                        data: 'id',
-                        render: function(data) {
-                            return `
-                        <div class="action-icon d-inline-flex">
-                            <a href="{{ url('masters/organisation/leave-type/edit') }}/` + data + `" class="me-2"><i class="ti ti-edit"></i></a>
-                            <a href="javascript:void(0);" onclick="deleteLeave(` + data + `)"><i class="ti ti-trash"></i></a>
-                        </div>
-                    `;
-                        },
-                        orderable: false,
-                        searchable: false
                     }
+                   
                 ],
                 order: [
                     [0, 'asc']

@@ -135,7 +135,7 @@ class DesignationController extends Controller
                 'status' => $request->status === 'Active' ? 1 : 0, // ✅ convert to boolean
             ]);
 
-            return redirect()->route('masters.organisation.designation')
+            return redirect()->route('settings.designation')
                 ->with('success', 'Designation created successfully!');
         } catch (\Illuminate\Validation\ValidationException $e) {
             return redirect()->back()

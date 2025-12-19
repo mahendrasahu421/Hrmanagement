@@ -155,12 +155,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/leave-allow', [LeaveMappingController::class, 'index'])->name('settings.leave-allow');
     Route::get('settings/leave-allow/create', [LeaveMappingController::class, 'create'])->name('settings.leave-allow.create');
     Route::post('settings/leave-mapping/store', [LeaveMappingController::class, 'store'])->name('settings.leave.mapping.store');
+    Route::get('settings/leave-mapping/list', [LeaveMappingController::class, 'list'])->name('settings.leave.mapping.list');
 
-    // Route::post('settings/leave-type/store', [LeaveTypeController::class, 'store'])->name('settings.leave-type.store');
-    // Route::get('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'edit'])->name('settings.leave-type.edit');
-    // Route::put('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'update'])->name('settings.leave-type.update');
-    // Route::delete('settings/leave-type/delete/{id}', [LeaveTypeController::class, 'destroy'])->name('settings.leave-type.destroy');
-    // Route::get('settings/leave-type/list', [LeaveTypeController::class, 'list'])->name('settings.leave-type.list');
 
     // Master/Organisation/Holiday
     Route::get('settings/holiday', [HolidayController::class, 'index'])->name('settings.holiday');

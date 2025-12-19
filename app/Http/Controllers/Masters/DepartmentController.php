@@ -120,8 +120,9 @@ class DepartmentController extends Controller
             ]);
 
             return redirect()
-                ->route('masters.organisation.department')
-                ->with('success', 'Department created successfully!');
+                ->route('settings.department')
+                ->with('success', 'Department created successfully!')
+                ->withInput();
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             // Handle validation errors separately

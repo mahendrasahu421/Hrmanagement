@@ -16,7 +16,7 @@
                                 </div>
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
-                                        <a href="{{ route('settings.leave-type') }}"
+                                        <a href="{{ route('settings.leave-allow') }}"
                                             class="btn btn-primary d-flex align-items-center">
                                             <i class="ti ti-list-details me-2"></i> Leave Type List
                                         </a>

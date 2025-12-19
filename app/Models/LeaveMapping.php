@@ -13,8 +13,13 @@ class LeaveMapping extends Model
         'allow_days',
         'status',
     ];
-     public function leaveType()
+    public function leaveType()
     {
-        return $this->belongsTo(LeaveType::class, 'leave_type_id', 'id');
+        return $this->belongsTo(LeaveType::class, 'leave_type_id');
+    }
+
+    public function designation()
+    {
+        return $this->belongsTo(Designation::class, 'designation_id');
     }
 }

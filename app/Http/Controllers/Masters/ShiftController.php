@@ -108,7 +108,7 @@ class ShiftController extends Controller
             ]);
 
             return redirect()
-                ->route('masters.organisation.shift')
+                ->route('settings.shift')
                 ->with('success', 'Shift created successfully!');
         } catch (\Illuminate\Validation\ValidationException $e) {
 

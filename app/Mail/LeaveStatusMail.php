@@ -2,50 +2,59 @@
 
 namespace App\Mail;
 
+use App\Models\Company;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Carbon\Carbon;
 
 class LeaveStatusMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $leave;
-    public $status;
     public $subjectLine;
     public $templateBody;
-    public $employee;
+    public $companyDetails;
 
-    public function __construct($leave, $status, $template, $employee)
+    protected $leave;
+    protected $employee;
+    protected $status;
+   
+
+    public function __construct($leave, $status, $template, $employee, $rejectionReason = null)
     {
         $this->leave = $leave;
         $this->employee = $employee;
         $this->status = $status;
+      
 
-        // Replace placeholders in subject
-        $this->subjectLine = str_replace(
-            ['{employee_name}', '{from_date}', '{to_date}', '{status}'],
-            [$employee->employee_name, $leave->from_date, $leave->to_date, ucfirst($status)],
-            $template->subject
-        );
+        $this->companyDetails = Company::first();
 
-        // Replace placeholders in body
-        $this->templateBody = str_replace(
-            ['{employee_name}', '{from_date}', '{to_date}', '{status}'],
-            [$employee->employee_name, $leave->from_date, $leave->to_date, ucfirst($status)],
-            $template->body
-        );
+        // 🔁 Common replacements
+        $replace = [
+            '{employee_name}'    => $employee->employee_name,
+            
+            '{from_date}'        => Carbon::parse($leave->from_date)->format('d-m-Y'),
+            '{to_date}'          => Carbon::parse($leave->to_date)->format('d-m-Y'),
+            '{status}'           => ucfirst($status),
+          
+        ];
+
+        // ✅ Subject replace
+        $this->subjectLine = strtr($template->subject, $replace);
+
+        // ✅ Body replace
+        $this->templateBody = strtr($template->body, $replace);
     }
 
     public function build()
     {
         return $this->subject($this->subjectLine)
-                    ->view('emails.leave_status') // HTML blade file
-                    ->with([
-                        'subject' => $this->subjectLine,
-                        'template_body' => $this->templateBody,
-                        'template_key' => 'leave_request_status',
-                        'companyDetails' => \App\Models\Company::all()
-                    ]);
+            ->view('emails.leave_status')
+            ->with([
+                'subject' => $this->subjectLine,
+                'template_body' => $this->templateBody,
+                'companyDetails' => $this->companyDetails,
+            ]);
     }
 }

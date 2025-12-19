@@ -66,7 +66,7 @@ class LeaveMappingController extends Controller
                 'status' => $request->status,
             ]);
 
-            return redirect()->back()->with('success', 'Record saved successfully!');
+            return redirect('settings.leave-allow')->with('success', 'Record saved successfully!');
 
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
@@ -81,6 +81,59 @@ class LeaveMappingController extends Controller
         return response()->json([
             'days' => $leave ? $leave->total_leaves : 0
         ]);
+    }
+
+    public function list(Request $request)
+    {
+        try {
+            $search = $request->input('search.value');
+            $limit = $request->input('length', 10);
+            $start = $request->input('start', 0);
+
+            $query = LeaveMapping::with(['leaveType', 'designation']);
+
+            if ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->whereHas('leaveType', function ($q1) use ($search) {
+                        $q1->where('leave_name', 'like', "%{$search}%")
+                            ->orWhere('leave_code', 'like', "%{$search}%");
+                    })
+                        ->orWhereHas('designation', function ($q2) use ($search) {
+                            $q2->where('name', 'like', "%{$search}%");
+                        });
+                });
+            }
+
+            $totalRecord = $query->count();
+            $leaveMappings = $query->skip($start)->take($limit)->get();
+
+            $rows = [];
+            foreach ($leaveMappings as $index => $leave) {
+                $rows[] = [
+                    'DT_RowIndex' => $start + $index + 1,
+                    'leave_name' => $leave->leaveType->leave_name ?? '-',
+                    'leave_code' => $leave->leaveType->leave_code ?? '-',
+                    'designation' => $leave->designation->name ?? '-',
+                    'allow_days' => $leave->allow_days,
+                    'status' => $leave->status === 'Active'
+                        ? '<span class="badge bg-success">Active</span>'
+                        : '<span class="badge bg-danger">Inactive</span>',
+                ];
+            }
+
+            return response()->json([
+                'draw' => intval($request->input('draw')),
+                'recordsTotal' => $totalRecord,
+                'recordsFiltered' => $totalRecord,
+                'data' => $rows,
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => true,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
