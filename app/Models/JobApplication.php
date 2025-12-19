@@ -40,8 +40,21 @@ class JobApplication extends Model
         'answers' => 'array',
     ];
 
-     public function designation()
+    public function designation()
     {
         return $this->belongsTo(Designation::class, 'designation_id');
     }
+
+
+    public function gender()
+    {
+        return $this->belongsTo(Gender::class, 'gender_id');
+    }
+
+    public function maritalStatus()
+    {
+        return $this->belongsTo(MaritalStatus::class, 'marital_status_id');
+    }
+
+
 }

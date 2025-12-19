@@ -127,6 +127,22 @@
                             <div class="row mb-2"><div class="col-5 fw-bold">State:</div><div class="col-7">${res.state}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">City:</div><div class="col-7">${res.city}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">Apply Date:</div><div class="col-7">${res.applied_at}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Aadhar Number:</div><div class="col-7">${res.aadhaar_number}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">date of Birth:</div><div class="col-7">${res.dob}</div></div>
+                      
+                            <div class="row mb-2"><div class="col-5 fw-bold">Skill:</div><div class="col-7">${res.skills}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Tenth Percentage:</div><div class="col-7">${res.tenth_percent}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Tenth Year:</div><div class="col-7">${res.tenth_year}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Twelfth Percentage:</div><div class="col-7">${res.twelfth_percent}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Twelfth Year:</div><div class="col-7">${res.twelfth_year}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">UG Percentage:</div><div class="col-7">${res.ug_percent}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">UG year:</div><div class="col-7">${res.ug_year}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Qualification:</div><div class="col-7">${res.qualification}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Degree:</div><div class="col-7">${res.degree}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Institute:</div><div class="col-7">${res.institute}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Final Year:</div><div class="col-7">${res.final_year}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Experience Year:</div><div class="col-7">${res.experience_years}</div></div>
+                            <div class="row mb-2"><div class="col-5 fw-bold">Experience details:</div><div class="col-7">${res.experience_details}</div></div>
                       
                         </div>
                     </div>

@@ -173,7 +173,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/policy/store', [PolicyController::class, 'store'])->name('masters.organisation.policy.store');
 
     // Master/Recruitment/Jobs
-    Route::get('employee/details/{id}', [JobsController::class, 'employeeDetails'])->name('employee.details');
+    Route::get('employee/details/{id}', [AppliedController::class, 'usersDetails'])->name('employee.details');
 
     
     Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');

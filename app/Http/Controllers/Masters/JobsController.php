@@ -20,7 +20,7 @@ use App\Models\Skills;
 use App\Models\StateCity;
 use App\Models\MaritalStatus;
 use Illuminate\Support\Facades\DB;
-use Carbon\Carbon;
+
 class JobsController extends Controller
 {
 
@@ -140,8 +140,8 @@ class JobsController extends Controller
             $job->skill_names = Skills::whereIn('id', $skillIds)
                 ->pluck('name')
                 ->toArray();
-            $job->state_name  = optional($job->state)->name ?? 'State not available';
-            $job->branchName  = optional($job->branch)->branch_name ?? 'Branch not available';
+            $job->state_name = optional($job->state)->name ?? 'State not available';
+            $job->branchName = optional($job->branch)->branch_name ?? 'Branch not available';
             $job->company_logo = optional($job->branch->company)->company_logo;
         }
         $data['jobs'] = $jobs;
@@ -264,8 +264,8 @@ class JobsController extends Controller
     {
         try {
             $search = $request->input('search.value');
-            $limit  = $request->input('length', 10);
-            $start  = $request->input('start', 0);
+            $limit = $request->input('length', 10);
+            $start = $request->input('start', 0);
             $query = Employee::where('applied_status', 'Applied');
             if ($search) {
                 $query->where(function ($q) use ($search) {
@@ -289,16 +289,16 @@ class JobsController extends Controller
                     default => 'N/A'
                 };
                 $stateName = optional(CountryState::find($candidate->posting_state))->name ?? 'N/A';
-                $cityName  = optional(StateCity::find($candidate->posting_city))->name ?? 'N/A';
+                $cityName = optional(StateCity::find($candidate->posting_city))->name ?? 'N/A';
                 $rows[] = [
                     'DT_RowIndex' => $start + $index + 1,
                     'name' => $candidate->employee_name . ' <button class="btn btn-sm btn-primary ms-2 view-details"        data-id="' . $candidate->employee_id . '"><i class="fa fa-eye"></i></button>',
-                    'email'       => $candidate->employee_email,
-                    'phone'       => $candidate->employee_mobile,
-                    'gender'      => $gender,
-                    'state'       => $stateName,
-                    'city'        => $cityName,
-                    'action'      => '<a href="' . route('employee.onboarding', $candidate->employee_id) . '" class="btn btn-sm btn-primary">Onboarding</a>',
+                    'email' => $candidate->employee_email,
+                    'phone' => $candidate->employee_mobile,
+                    'gender' => $gender,
+                    'state' => $stateName,
+                    'city' => $cityName,
+                    'action' => '<a href="' . route('employee.onboarding', $candidate->employee_id) . '" class="btn btn-sm btn-primary">Onboarding</a>',
                 ];
             }
             return response()->json([
@@ -315,33 +315,7 @@ class JobsController extends Controller
         }
     }
 
-    public function employeeDetails($id)
-    {
-        $employee = JobApplication::with('designation')->findOrFail($id);
-     
-        $gender = match ($employee->gender_id) {
-            1 => 'Male',
-            2 => 'Female',
-            3 => 'Other',
-            default => 'N/A'
-        };
-
-        $stateName = optional(CountryState::find($employee->state_id))->name ?? 'N/A';
-        $cityName = optional(StateCity::find($employee->city_id))->name ?? 'N/A';
-        $designationName = $employee->designation->name ?? 'N/A';
-
-        return response()->json([
-            'employee_name' => $employee->first_name,
-            'email' => $employee->email,
-            'mobile' => $employee->phone,
-            'gender' => $gender,
-            'state' => $stateName,
-            'city' => $cityName,
-            'applied_at' => Carbon::parse($employee->created_at)->format('d-m-Y'),
-          
-            'status' => $employee->status,
-        ]);
-    }
+   
 
 
 
@@ -410,7 +384,7 @@ class JobsController extends Controller
     {
         $jobId = last(explode('-', $slug));
 
-        $job = AcflJobs::findOrFail($jobId); 
+        $job = AcflJobs::findOrFail($jobId);
 
         // ✅ Job-wise questions
         $questions = JafQuestion::where('job_id', $jobId)
