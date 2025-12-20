@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
+use App\Models\Company;
 use App\Models\LeaveType;
 use Illuminate\Http\Request;
 
@@ -80,7 +81,7 @@ class LeaveTypeController extends Controller
     {
         $data['title'] = 'Master / Organisation / Leave Type Create';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-
+        $data['companies'] = Company::all();
         return view('home.leave-type.create', $data);
     }
 
@@ -104,7 +105,7 @@ class LeaveTypeController extends Controller
         LeaveType::create($request->all());
 
         return redirect()
-            ->route('masters.organisation.leave-type')
+            ->route('settings.leave-type')
             ->with('success', 'Leave Type created successfully!');
     }
 
@@ -116,7 +117,7 @@ class LeaveTypeController extends Controller
         $data['title'] = 'Master / Organisation / Leave Type Edit';
         $data['leaveType'] = LeaveType::findOrFail($id);
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-
+        $data['companies'] = Company::all();
         return view('home.leave-type.edit', $data);
     }
 
@@ -139,10 +140,10 @@ class LeaveTypeController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $leaveType->update($request->all()); 
+        $leaveType->update($request->all());
 
         return redirect()
-            ->route('masters.organisation.leave-type')
+            ->route('settings.leave-type')
             ->with('success', 'Leave Type updated successfully!');
     }
 

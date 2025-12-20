@@ -3,7 +3,7 @@
 @section('title', $title)
 
 @section('main-section')
- <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
     <!-- Page Wrapper -->
     <div class="page-wrapper">
@@ -46,12 +46,17 @@
                                         <label class="form-label" for="company_id">Select Company *</label>
                                         <select class="form-control" id="company_id" name="company_id" required>
                                             <option value="">Select Company</option>
-                                            <option value="1">Nerual Info Solution Pvt Ltd</option>
+
+                                            @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                            @endforeach
                                         </select>
+
                                         @error('company_id')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+
                                     <!-- Select Company -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="category_id">Select Category *</label>

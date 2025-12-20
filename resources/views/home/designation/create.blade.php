@@ -35,12 +35,20 @@
                                         <label class="form-label" for="company_id">Select Company *</label>
                                         <select class="form-control" id="company_id" name="company_id" required>
                                             <option value="">Select Company</option>
-                                            <option value="1">Nerual Info Solution Pvt Ltd</option>
+
+                                            @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}"
+                                                    {{ old('company_id') == $company->id ? 'selected' : '' }}>
+                                                    {{ $company->company_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
+
                                         @error('company_id')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+
 
 
                                     <!-- Category Name -->
@@ -180,7 +188,7 @@
                     $('#department_id').empty().append('<option value="">Select Department</option>');
                 }
             });
-          
+
         });
     </script>
 @endpush

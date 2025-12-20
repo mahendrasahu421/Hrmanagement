@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Company;
 use App\Models\Department;
 use App\Models\Designation;
 use Illuminate\Http\Request;
@@ -103,6 +104,7 @@ class DesignationController extends Controller
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         $data['departments'] = Department::all();
         $data['categorys'] = Category::all();
+        $data['companies'] = Company::all();
         return view('home.designation.create', $data);
     }
 

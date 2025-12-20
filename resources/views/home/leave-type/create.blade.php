@@ -36,12 +36,15 @@
                                         <label class="form-label" for="company_id">Company Name *</label>
                                         <select class="form-control" id="company_id" name="company_id" required>
                                             <option value="">Select Company</option>
-                                            <option value="1">Dreams Technologies Pvt. Ltd.</option>
-                                            <option value="2">TechVision Solutions</option>
-                                            <option value="3">NextGen Innovations</option>
+
+                                            @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                            @endforeach
                                         </select>
+
                                         <div class="invalid-feedback">Please select company name.</div>
                                     </div>
+
 
                                     <!-- Leave Type Name -->
                                     <div class="col-md-4 mb-3">
