@@ -162,7 +162,7 @@ class ShiftController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('masters.organisation.shift')
+        return redirect()->route('settings.shift')
             ->with('success', 'Shift updated successfully!');
     }
 
