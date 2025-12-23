@@ -139,7 +139,7 @@
                     [0, 'asc']
                 ]
             });
-        });
+        }); 
 
         function deleteLeave(id) {
             $('#deleteLeaveUrl').val(id);
