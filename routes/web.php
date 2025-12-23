@@ -160,8 +160,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Master/Organisation/Holiday
     Route::get('settings/holiday', [HolidayController::class, 'index'])->name('settings.holiday');
+    Route::get('settings/holiday/list', [HolidayController::class, 'list'])->name('settings.holiday.list');
     Route::get('settings/holiday/create', [HolidayController::class, 'create'])->name('settings.holiday.create');
-    Route::get('settings/holiday/store', [HolidayController::class, 'store'])->name('settings.holiday.store');
+    Route::post('settings/holiday/store', [HolidayController::class, 'store'])->name('settings.holiday.store');
+    Route::get('settings/holiday/edit/{id}', [HolidayController::class, 'edit'])->name('settings.holiday.edit');
+    Route::put('settings/holiday/update/{id}', [HolidayController::class, 'update'])->name('settings.holiday.update');
+    Route::delete('settings/holiday/delete/{id}', [HolidayController::class, 'destroy'])->name('settings.holiday.delete');
 
     // Master/Organisation/Policy
     Route::get('masters/organisation/policy', [PolicyController::class, 'index'])->name('masters.organisation.policy');
@@ -171,15 +175,15 @@ Route::middleware(['auth'])->group(function () {
     // Master/Recruitment/Jobs
     Route::get('employee/details/{id}', [AppliedController::class, 'usersDetails'])->name('employee.details');
 
-    
+
     Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
     Route::get('recruitment/job/applied-candidate', [JobsController::class, 'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
     Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
     Route::post('recruitment/jobs/store', [JobsController::class, 'store'])->name('recruitment.jobs.store');
     Route::get('recruitment/jobs/list', [JobsController::class, 'list'])->name('recruitment.jobs.list');
     Route::get('recruitment/jobs/recommended-job', [JobsController::class, 'recommendedJob'])->name('recruitment.jobs.recommended-job');
-    Route::get('recruitment/jobs/job-listings/{slug}',[JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
-    Route::get('/recruitment/jobs/{slug}/apply',[JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
+    Route::get('recruitment/jobs/job-listings/{slug}', [JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
+    Route::get('/recruitment/jobs/{slug}/apply', [JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
 
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
 

@@ -128,7 +128,7 @@
                         render: function(data, type, row) {
                             return `
                         <div class="action-icon d-inline-flex">
-                            <a href="{{ url('masters/organisation/shift/edit') }}/` + data + `" class="me-2"><i class="ti ti-edit"></i></a>
+                            <a href="{{ url('settings/shift/edit') }}/` + data + `" class="me-2"><i class="ti ti-edit"></i></a>
                             <a href="javascript:void(0);" onclick="deleteShift(` + data + `)"><i class="ti ti-trash"></i></a>
                         </div>
                     `;
@@ -154,7 +154,7 @@
         $('#confirmDeleteBtn').click(function() {
             var id = $('#deleteShiftUrl').val();
             $.ajax({
-                url: "{{ url('masters/organisation/shift/delete') }}/" + id,
+                url: "{{ url('settings/shift/delete') }}/" + id,
                 type: 'POST',
                 data: {
                     _method: 'DELETE',
