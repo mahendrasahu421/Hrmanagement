@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Designation;
 use App\Models\LeaveType;
 use App\Models\LeaveMapping;
+
 class LeaveMappingController extends Controller
 {
     /**
@@ -15,6 +16,7 @@ class LeaveMappingController extends Controller
     public function index()
     {
         $data['title'] = 'Settings/Leave Allow';
+        $data['designation'] = Designation::all();
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.leave-allowed.index', $data);
     }
@@ -67,7 +69,6 @@ class LeaveMappingController extends Controller
             ]);
 
             return redirect('settings.leave-allow')->with('success', 'Record saved successfully!');
-
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }
@@ -86,12 +87,19 @@ class LeaveMappingController extends Controller
     public function list(Request $request)
     {
         try {
+
             $search = $request->input('search.value');
             $limit = $request->input('length', 10);
             $start = $request->input('start', 0);
 
             $query = LeaveMapping::with(['leaveType', 'designation']);
 
+            // -------- DESIGNATION FILTER ----------
+            if ($request->designation_id) {
+                $query->where('designation_id', $request->designation_id);
+            }
+
+            // ---------- SEARCH ----------
             if ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->whereHas('leaveType', function ($q1) use ($search) {
@@ -111,11 +119,11 @@ class LeaveMappingController extends Controller
             foreach ($leaveMappings as $index => $leave) {
                 $rows[] = [
                     'DT_RowIndex' => $start + $index + 1,
-                    'leave_name' => $leave->leaveType->leave_name ?? '-',
-                    'leave_code' => $leave->leaveType->leave_code ?? '-',
                     'designation' => $leave->designation->name ?? '-',
-                    'allow_days' => $leave->allow_days,
-                    'status' => $leave->status === 'Active'
+                    'leave_name'  => $leave->leaveType->leave_name ?? '-',
+                    'leave_code'  => $leave->leaveType->leave_code ?? '-',
+                    'allow_days'  => $leave->allow_days,
+                    'status'      => $leave->status === 'Active'
                         ? '<span class="badge bg-success">Active</span>'
                         : '<span class="badge bg-danger">Inactive</span>',
                 ];
@@ -127,7 +135,6 @@ class LeaveMappingController extends Controller
                 'recordsFiltered' => $totalRecord,
                 'data' => $rows,
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => true,
