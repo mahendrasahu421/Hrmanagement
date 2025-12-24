@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <title>{{ $subject }}</title>
@@ -10,7 +11,8 @@
     <div style="max-width:600px; margin:auto; border:1px solid #ddd; background:#fff;">
 
         <!-- Header -->
-        <div style="background:#f26522; color:#fff; padding:15px; display:flex; justify-content:space-between; align-items:center;">
+        <div
+            style="background:#f26522; color:#fff; padding:15px; display:flex; justify-content:space-between; align-items:center;">
 
             <div>
                 <h3 style="margin:0; font-size:18px; color:#fff;">
@@ -19,9 +21,9 @@
             </div>
 
             <div>
-               @if(!empty($companyDetails) && !empty($companyDetails->company_logo))
-    <img src="{{ asset('uploads/company/'.$companyDetails->company_logo) }}" height="60">
-@endif
+                @if (!empty($companyDetails) && !empty($companyDetails->company_logo))
+                    <img src="{{ asset('uploads/company/' . $companyDetails->company_logo) }}" height="60">
+                @endif
 
             </div>
 
@@ -40,4 +42,5 @@
     </div>
 
 </body>
+
 </html>
