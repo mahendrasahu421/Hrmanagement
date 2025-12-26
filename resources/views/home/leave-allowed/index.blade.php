@@ -28,7 +28,7 @@
                         <label for="designationFilter" class="mb-0"><b>Filter by Designation</b></label>
                     </div>
                     <div class="col-auto">
-                        <select id="designationFilter" class="form-control">
+                        <select id="designationFilter" class="form-control select2">
                             <option value="">-- All Designations --</option>
                             @foreach ($designation as $d)
                                 <option value="{{ $d->id }}">{{ $d->name }}</option>

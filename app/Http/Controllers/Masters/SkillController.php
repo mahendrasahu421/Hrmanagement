@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Skills;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+
 class SkillController extends Controller
 {
     public function index()
@@ -20,22 +21,35 @@ class SkillController extends Controller
         $limit = $request->input('length', 10);
         $start = $request->input('start', 0);
 
+        // Columns mapping: DT_RowIndex -> id
+        $columns = ['id', 'name'];
+
+        $orderColumnIndex = $request->input('order.0.column', 0); // which column index is being sorted
+        $orderDirection = $request->input('order.0.dir', 'asc'); // asc / desc
+
         $query = Skills::query();
 
+        // Search filter
         if ($search) {
             $query->where('name', 'like', "%{$search}%");
         }
 
         $total = $query->count();
+
+        // Apply sorting
+        if (isset($columns[$orderColumnIndex])) {
+            $query->orderBy($columns[$orderColumnIndex], $orderDirection);
+        }
+
         $skills = $query->skip($start)->take($limit)->get();
 
+        // Prepare rows
         $rows = [];
         foreach ($skills as $index => $skill) {
             $rows[] = [
                 'id' => $skill->id,
                 'DT_RowIndex' => $start + $index + 1,
                 'name' => $skill->name,
-
             ];
         }
 
@@ -46,6 +60,7 @@ class SkillController extends Controller
             'data' => $rows,
         ]);
     }
+
 
     public function create()
     {
@@ -114,7 +129,7 @@ class SkillController extends Controller
             $jobSkill->delete();
 
 
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Job Skill deleted successfully'
