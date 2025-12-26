@@ -34,7 +34,7 @@
                                     <!-- Company -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="company_id">Company Name *</label>
-                                        <select class="form-control" id="company_id" name="company_id" required>
+                                        <select class="form-control select2" id="company_id" name="company_id" required>
                                             <option value="">Select Company</option>
 
                                             @foreach ($companies as $company)
@@ -75,7 +75,7 @@
                                     <!-- Carry Forward -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="carry_forward">Carry Forward *</label>
-                                        <select class="form-control" id="carry_forward" name="carry_forward" required>
+                                        <select class="form-control select2" id="carry_forward" name="carry_forward" required>
                                             <option value="1" {{ old('carry_forward') == 1 ? 'selected' : '' }}>Yes
                                             </option>
                                             <option value="0" {{ old('carry_forward') == 0 ? 'selected' : '' }}>No
@@ -87,7 +87,7 @@
                                     <!-- Encashable -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="encashable">Encashable *</label>
-                                        <select class="form-control" id="encashable" name="encashable" required>
+                                        <select class="form-control select2" id="encashable" name="encashable" required>
                                             <option value="1" {{ old('encashable') == 1 ? 'selected' : '' }}>Yes
                                             </option>
                                             <option value="0" {{ old('encashable') == 0 ? 'selected' : '' }}>No
@@ -101,7 +101,7 @@
                                     <!-- Applicable For -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="applicable_for">Applicable For *</label>
-                                        <select class="form-control" id="applicable_for" name="applicable_for" required>
+                                        <select class="form-control select2" id="applicable_for" name="applicable_for" required>
                                             <option value="">Select Option</option>
                                             <option value="Male" {{ old('applicable_for') == 'Male' ? 'selected' : '' }}>
                                                 Male</option>
@@ -116,7 +116,7 @@
                                     <!-- Leave Category -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="leave_category">Leave Category *</label>
-                                        <select class="form-control" id="leave_category" name="leave_category" required>
+                                        <select class="form-control select2" id="leave_category" name="leave_category" required>
                                             <option value="">Select Category</option>
                                             <option value="Paid" {{ old('leave_category') == 'Paid' ? 'selected' : '' }}>
                                                 Paid</option>
@@ -131,7 +131,7 @@
                                     <!-- Status -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="status">Status *</label>
-                                        <select class="form-control" id="status" name="status" required>
+                                        <select class="form-control select2" id="status" name="status" required>
                                             <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>
                                                 Active</option>
                                             <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>

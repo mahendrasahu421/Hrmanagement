@@ -44,7 +44,7 @@
                                     <!-- Select Company -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="company_id">Select Company *</label>
-                                        <select class="form-control" id="company_id" name="company_id" required>
+                                        <select class="form-control select2" id="company_id" name="company_id" required>
                                             <option value="">Select Company</option>
 
                                             @foreach ($companies as $company)
@@ -60,7 +60,7 @@
                                     <!-- Select Company -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="category_id">Select Category *</label>
-                                        <select class="form-control" id="category_id" name="category_id" required>
+                                        <select class="form-control select2" id="category_id" name="category_id" required>
                                             @foreach ($category as $categorys)
                                                 <option value="{{ $categorys->id }}">{{ $categorys->name }}</option>
                                             @endforeach

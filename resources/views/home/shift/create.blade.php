@@ -100,13 +100,14 @@
                                     <!-- Status -->
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Status <span class="text-danger">*</span></label>
-                                        <select name="status" class="form-control" required>
+                                        <select name="status" class="form-control select2" required>
                                             <option value="">Select Status</option>
                                             <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active
                                             </option>
                                             <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>
                                                 Inactive</option>
                                         </select>
+
                                         @error('status')
                                             <div class="text-danger small">{{ $message }}</div>
                                         @enderror

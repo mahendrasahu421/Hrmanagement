@@ -27,7 +27,7 @@
 
                             <div class="col-md-4 mb-3">
                                 <label>Status *</label>
-                                <select name="status" class="form-control">
+                                <select name="status" class="form-control select2">
                                     <option value="1">Active</option>
                                     <option value="0">Inactive</option>
                                 </select>
