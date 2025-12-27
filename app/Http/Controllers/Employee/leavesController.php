@@ -185,6 +185,7 @@ class leavesController extends Controller
                 'from_date' => 'required|date',
                 'to_date' => 'required|date|after_or_equal:from_date',
                 'reason' => 'required|string|max:255',
+                'reason_id' => 'required',
                 'other_reason' => 'nullable|string|max:255',
                 'status' => 'required|in:DRAFT,SENT',
             ]);
@@ -240,7 +241,7 @@ class leavesController extends Controller
                 'from_date' => $request->from_date,
                 'to_date' => $request->to_date,
                 'reason' => $reasonText,
-                 'reasons_id' => $reasonId, 
+                'reasons_id' => $reasonId, 
                 'status' => $request->status,
             ]);
 

@@ -1,7 +1,7 @@
 @extends('employee.layout.layout')
 @section('title', $title)
 @section('main-section')
-    <!-- Page Wrapper -->
+    <!-- Page Wrapper --> <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
     <div class="page-wrapper">
         <div class="content">
             <div class="row">
@@ -183,7 +183,7 @@
             </div>
         </div>
 
-        <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+       
         <x-footer />
     </div>
 
