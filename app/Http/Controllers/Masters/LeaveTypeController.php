@@ -145,7 +145,7 @@ class LeaveTypeController extends Controller
         $data['title'] = 'Master / Organisation / Leave Type Edit';
         $data['leaveType'] = LeaveType::findOrFail($id);
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-
+        $data['companies'] = Company::all();
         return view('home.leave-type.edit', $data);
     }
 
@@ -171,7 +171,7 @@ class LeaveTypeController extends Controller
         $leaveType->update($request->all());
 
         return redirect()
-            ->route('masters.organisation.leave-type')
+            ->route('settings.leave-type')
             ->with('success', 'Leave Type updated successfully!');
     }
 

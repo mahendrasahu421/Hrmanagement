@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Skills;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+
 class SkillController extends Controller
 {
     public function index()
@@ -49,6 +50,7 @@ class SkillController extends Controller
             ->orderBy('id', 'desc')
             ->get();
 
+        // Prepare rows
         $rows = [];
         foreach ($skills as $index => $skill) {
             $rows[] = [

@@ -33,20 +33,28 @@
                                     <!-- Select Company -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="company_id">Select Company *</label>
-                                        <select class="form-control" id="company_id" name="company_id" required>
+                                        <select class="form-control select2" id="company_id" name="company_id" required>
                                             <option value="">Select Company</option>
-                                            <option value="1">Nerual Info Solution Pvt Ltd</option>
+
+                                            @foreach ($companies as $company)
+                                                <option value="{{ $company->id }}"
+                                                    {{ old('company_id') == $company->id ? 'selected' : '' }}>
+                                                    {{ $company->company_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
+
                                         @error('company_id')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
 
 
+
                                     <!-- Category Name -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="category_id">Category *</label>
-                                        <select class="form-control" id="category_id" name="category_id" required>
+                                        <select class="form-control select2" id="category_id" name="category_id" required>
                                             <option value="">Select category</option>
                                             @foreach ($categorys as $category)
                                                 <option value="{{ $category->id }}"
@@ -62,9 +70,16 @@
                                     <!-- Department Name -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="department_id">Department *</label>
-                                        <select id="department_id" class="form-control" name="department_id">
+                                        <select id="department_id" class="form-control select2" name="department_id">
                                             <option value="">Select Department</option>
+                                            @foreach ($departments as $department)
+                                                <option value="{{ $department->id }}"
+                                                    {{ old('department_id') == $department->id ? 'selected' : '' }}>
+                                                    {{ $department->department_name }}
+                                                </option>
+                                            @endforeach
                                         </select>
+
                                         @error('department_id')
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
@@ -180,7 +195,7 @@
                     $('#department_id').empty().append('<option value="">Select Department</option>');
                 }
             });
-          
+
         });
     </script>
 @endpush

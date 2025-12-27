@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Company;
 use App\Models\Department;
 use Illuminate\Http\Request;
 
@@ -91,6 +92,7 @@ class DepartmentController extends Controller
         $data['title'] = 'Master / Organisation / Department Create';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         $data['category'] = Category::all();
+        $data['companies'] = Company::all();
         return view('home.department.create', $data);
     }
 
@@ -145,6 +147,7 @@ class DepartmentController extends Controller
     {
         $data['title'] = 'Master / Organisation / Department Edit';
         $data['department'] = Department::findOrFail($id);
+        $data['companies'] = Company::all();   
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.department.edit', $data);
     }

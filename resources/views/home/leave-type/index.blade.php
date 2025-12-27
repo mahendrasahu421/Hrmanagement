@@ -126,7 +126,7 @@
                         render: function(data) {
                             return `
                         <div class="action-icon d-inline-flex">
-                            <a href="{{ url('masters/organisation/leave-type/edit') }}/` + data + `" class="me-2"><i class="ti ti-edit"></i></a>
+                            <a href="{{ url('settings/leave-type/edit') }}/` + data + `" class="me-2"><i class="ti ti-edit"></i></a>
                             <a href="javascript:void(0);" onclick="deleteLeave(` + data + `)"><i class="ti ti-trash"></i></a>
                         </div>
                     `;
@@ -139,7 +139,7 @@
                     [0, 'asc']
                 ]
             });
-        });
+        }); 
 
         function deleteLeave(id) {
             $('#deleteLeaveUrl').val(id);
@@ -149,7 +149,7 @@
         $('#confirmDeleteBtn').click(function() {
             var id = $('#deleteLeaveUrl').val();
             $.ajax({
-                url: "{{ url('masters/organisation/leave-type/delete') }}/" + id,
+                url: "{{ url('settings/leave-type/delete') }}/" + id,
                 type: 'POST',
                 data: {
                     _method: 'DELETE',

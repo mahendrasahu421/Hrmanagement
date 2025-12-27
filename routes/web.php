@@ -160,8 +160,12 @@ Route::middleware(['auth'])->group(function () {
 
     // Master/Organisation/Holiday
     Route::get('settings/holiday', [HolidayController::class, 'index'])->name('settings.holiday');
+    Route::get('settings/holiday/list', [HolidayController::class, 'list'])->name('settings.holiday.list');
     Route::get('settings/holiday/create', [HolidayController::class, 'create'])->name('settings.holiday.create');
-    Route::get('settings/holiday/store', [HolidayController::class, 'store'])->name('settings.holiday.store');
+    Route::post('settings/holiday/store', [HolidayController::class, 'store'])->name('settings.holiday.store');
+    Route::get('settings/holiday/edit/{id}', [HolidayController::class, 'edit'])->name('settings.holiday.edit');
+    Route::put('settings/holiday/update/{id}', [HolidayController::class, 'update'])->name('settings.holiday.update');
+    Route::delete('settings/holiday/delete/{id}', [HolidayController::class, 'destroy'])->name('settings.holiday.delete');
 
     // Master/Organisation/Policy
     Route::get('masters/organisation/policy', [PolicyController::class, 'index'])->name('masters.organisation.policy');

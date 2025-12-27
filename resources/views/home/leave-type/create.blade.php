@@ -40,8 +40,10 @@
                                                  <option value="{{ $compney->id }}">{{ $compney->company_name }}</option>
                                             @endforeach
                                         </select>
+
                                         <div class="invalid-feedback">Please select company name.</div>
                                     </div>
+
 
                                     <!-- Leave Type Name -->
                                     <div class="col-md-4 mb-3">
