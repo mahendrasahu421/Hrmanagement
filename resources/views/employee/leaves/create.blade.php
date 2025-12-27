@@ -126,7 +126,13 @@
 
                                         <div class="invalid-feedback">Please select reason.</div>
 
+                                        <!-- Others textarea (hidden by default) -->
+                                        <div id="otherReasonDiv" style="display:none; margin-top:10px;">
+                                            <textarea class="form-control" name="other_reason" id="other_reason" placeholder="Enter your reason here..."></textarea>
+                                            <div class="invalid-feedback">Please enter reason.</div>
+                                        </div>
                                     </div>
+
 
                                     <!-- Status -->
                                     <div class="col-md-4 mb-3">
@@ -185,6 +191,55 @@
 
 @endsection
 @push('after_scripts')
+    <script>
+        $(document).ready(function() {
+
+            // When leave type changes, populate reasons
+            $('#leave_type_id').on('change', function() {
+                let leaveTypeId = $(this).val();
+                $("#reason").empty().append('<option value="">-- Select Reason --</option>');
+                $("#otherReasonDiv").hide(); // hide textarea initially
+
+                if (leaveTypeId) {
+                    let url = "{{ route('employee.leave.reasons', ':id') }}";
+                    url = url.replace(':id', leaveTypeId);
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function(res) {
+                            if (res.length > 0) {
+                                $.each(res, function(key, value) {
+                                    $("#reason").append(
+                                        '<option value="' + value.reason + '">' +
+                                        value.reason + '</option>'
+                                    );
+                                });
+                                // Add "Others" option
+                                $("#reason").append('<option value="Others">Others</option>');
+                            } else {
+                                $("#reason").append(
+                                    '<option value="">No Reasons Found</option>');
+                            }
+                        }
+                    });
+                }
+            });
+
+            // When reason changes
+            $('#reason').on('change', function() {
+                if ($(this).val() === 'Others') {
+                    $("#otherReasonDiv").show();
+                    $('#other_reason').prop('required', true);
+                } else {
+                    $("#otherReasonDiv").hide();
+                    $('#other_reason').prop('required', false);
+                }
+            });
+
+        });
+    </script>
+
     <script>
         $(document).ready(function() {
 
@@ -267,25 +322,6 @@
     </script>
 
 
-
-
-
-    <script>
-        if (data.allotted === "Unlimited") {
-            // Unlimited leave → always enable submit, hide message
-            $("#submitBtn").prop("disabled", false);
-            $("#leaveLimitMsg").hide();
-        } else {
-            // Limited leave → check used vs allotted
-            if (data.allotted == data.used) {
-                $("#submitBtn").prop("disabled", true);
-                $("#leaveLimitMsg").show();
-            } else {
-                $("#submitBtn").prop("disabled", false);
-                $("#leaveLimitMsg").hide();
-            }
-        }
-    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
