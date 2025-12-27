@@ -72,14 +72,13 @@
                                 @csrf
 
                                 <div class="form-row row">
-                                    <div id="leaveLimitMsg" class="text-danger"
-                                            style="display:none;">
-                                            <small>
-                                                You have used all available leaves for <span class="leaveName"></span>.
-                                                <br>
-                                                <span style="color:#b30000;">Please select another leave type.</span>
-                                            </small>
-                                        </div>
+                                    <div id="leaveLimitMsg" class="text-danger" style="display:none;">
+                                        <small>
+                                            You have used all available leaves for <span class="leaveName"></span>.
+                                            <br>
+                                            <span style="color:#b30000;">Please select another leave type.</span>
+                                        </small>
+                                    </div>
 
                                     <!-- Leave Type -->
                                     <div class="col-md-4 mb-3">
@@ -92,7 +91,7 @@
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please select a leave type.</div>
-                                        
+
 
                                     </div>
 
@@ -121,9 +120,12 @@
                                     <!-- Reason -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="reason">Reason *</label>
-                                        <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="Enter reason for leave"
-                                            required></textarea>
-                                        <div class="invalid-feedback">Please enter your reason for leave.</div>
+                                        <select class="form-control select2" id="reason" name="reason" required>
+                                            <option value="">-- Select Reason --</option>
+                                        </select>
+
+                                        <div class="invalid-feedback">Please select reason.</div>
+
                                     </div>
 
                                     <!-- Status -->
@@ -185,6 +187,39 @@
 @push('after_scripts')
     <script>
         $(document).ready(function() {
+
+            $('#leave_type_id').on('change', function() {
+
+                let leaveTypeId = $(this).val();
+                $("#reason").empty().append('<option value="">-- Select Reason --</option>');
+
+                if (leaveTypeId) {
+
+                    let url = "{{ route('employee.leave.reasons', ':id') }}";
+                    url = url.replace(':id', leaveTypeId);
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function(res) {
+
+                            if (res.length > 0) {
+                                $.each(res, function(key, value) {
+                                    $("#reason").append(
+                                        '<option value="' + value.reason + '">' +
+                                        value.reason + '</option>'
+                                    );
+                                });
+                            } else {
+                                $("#reason").append(
+                                    '<option value="">No Reasons Found</option>');
+                            }
+                        }
+                    });
+                }
+            });
+
+
 
             $('select[name="leave_type_id"]').on('change', function() {
 

@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Employee;
+
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ use App\Models\LeaveMapping;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\LeaveAppliedMail;
+use App\Models\LeaveReason;
+
 class leavesController extends Controller
 {
     public function index()
@@ -102,6 +105,16 @@ class leavesController extends Controller
         }
 
         return true;
+    }
+
+    public function getLeaveReasons($leaveTypeId)
+    {
+        $reasons = LeaveReason::where('leave_type_id', $leaveTypeId)
+            ->where('status', 'Active')
+            ->select('id', 'reason')
+            ->get();
+
+        return response()->json($reasons);
     }
 
 
@@ -236,10 +249,8 @@ class leavesController extends Controller
 
             return redirect()->route('employee.leaves')
                 ->with('success', 'Leave applied successfully!');
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->validator)->withInput();
-
         } catch (\Exception $e) {
             \Log::error('Leave Apply Error: ' . $e->getMessage());
             return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
@@ -320,7 +331,6 @@ class leavesController extends Controller
                 'recordsFiltered' => $totalRecord,
                 'data' => $rows,
             ]);
-
         } catch (\Exception $e) {
             // ⚠️ Handle error gracefully
             return response()->json([
@@ -391,7 +401,4 @@ class leavesController extends Controller
             'leave_name' => $leaveType->leave_name
         ]);
     }
-
-
-
 }
