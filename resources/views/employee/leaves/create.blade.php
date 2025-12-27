@@ -120,19 +120,19 @@
                                     <!-- Reason -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="reason">Reason *</label>
-                                        <select class="form-control select2" id="reason" name="reason" required>
+                                        <select class="form-control select2" id="reason_id" name="reason_id" required>
                                             <option value="">-- Select Reason --</option>
                                         </select>
 
                                         <div class="invalid-feedback">Please select reason.</div>
 
                                         <!-- Others textarea (hidden by default) -->
-                                        <div id="otherReasonDiv" style="display:none; margin-top:10px;">
-                                            <textarea class="form-control" name="other_reason" id="other_reason" placeholder="Enter your reason here..."></textarea>
-                                            <div class="invalid-feedback">Please enter reason.</div>
-                                        </div>
-                                    </div>
 
+                                    <div id="otherReasonDiv" style="display:none; margin-top:10px;">
+                                        <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here..."></textarea>
+                                        <div class="invalid-feedback">Please enter reason.</div>
+                                    </div>
+                                    </div>
 
                                     <!-- Status -->
                                     <div class="col-md-4 mb-3">
@@ -193,12 +193,12 @@
 @push('after_scripts')
     <script>
         $(document).ready(function() {
-
-            // When leave type changes, populate reasons
+            // Populate reasons when leave type changes
             $('#leave_type_id').on('change', function() {
                 let leaveTypeId = $(this).val();
-                $("#reason").empty().append('<option value="">-- Select Reason --</option>');
-                $("#otherReasonDiv").hide(); // hide textarea initially
+                $("#reason_id").empty().append('<option value="">-- Select Reason --</option>');
+                $("#otherReasonDiv").hide(); // hide the textarea
+                $('#other_reason').val('').prop('required', false); // reset textarea
 
                 if (leaveTypeId) {
                     let url = "{{ route('employee.leave.reasons', ':id') }}";
@@ -210,15 +210,16 @@
                         success: function(res) {
                             if (res.length > 0) {
                                 $.each(res, function(key, value) {
-                                    $("#reason").append(
-                                        '<option value="' + value.reason + '">' +
-                                        value.reason + '</option>'
+                                    $("#reason_id").append(
+                                        '<option value="' + value.id + '">' + value
+                                        .reason + '</option>'
                                     );
                                 });
                                 // Add "Others" option
-                                $("#reason").append('<option value="Others">Others</option>');
+                                $("#reason_id").append(
+                                '<option value="Others">Others</option>');
                             } else {
-                                $("#reason").append(
+                                $("#reason_id").append(
                                     '<option value="">No Reasons Found</option>');
                             }
                         }
@@ -226,17 +227,17 @@
                 }
             });
 
-            // When reason changes
-            $('#reason').on('change', function() {
-                if ($(this).val() === 'Others') {
-                    $("#otherReasonDiv").show();
+            // Show/hide textarea when reason changes
+            $('#reason_id').on('change', function() {
+                if (this.value === 'Others') {
+                    $("#otherReasonDiv").slideDown(); // smoother effect
                     $('#other_reason').prop('required', true);
                 } else {
-                    $("#otherReasonDiv").hide();
+                    $("#otherReasonDiv").slideUp();
                     $('#other_reason').prop('required', false);
+                    $('#other_reason').val(''); // clear textarea
                 }
             });
-
         });
     </script>
 
