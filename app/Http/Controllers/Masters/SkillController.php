@@ -14,20 +14,40 @@ class SkillController extends Controller
         return view('home.skills.index', $data);
     }
 
+
+
     public function list(Request $request)
     {
         $search = $request->input('search.value');
         $limit = $request->input('length', 10);
         $start = $request->input('start', 0);
+        $status = $request->input('status'); // dropdown se aayega
 
+        // Base query
         $query = Skills::query();
 
-        if ($search) {
+        // Total records (without filter)
+        $recordsTotal = Skills::count();
+
+        // Search filter
+        if (!empty($search)) {
             $query->where('name', 'like', "%{$search}%");
         }
 
-        $total = $query->count();
-        $skills = $query->skip($start)->take($limit)->get();
+        // Status filter
+        if (!empty($status)) {
+            $query->where('status', $status);
+        }
+
+        // Filtered count
+        $recordsFiltered = $query->count();
+
+        // Pagination
+        $skills = $query
+            ->offset($start)
+            ->limit($limit)
+            ->orderBy('id', 'desc')
+            ->get();
 
         $rows = [];
         foreach ($skills as $index => $skill) {
@@ -35,21 +55,24 @@ class SkillController extends Controller
                 'id' => $skill->id,
                 'DT_RowIndex' => $start + $index + 1,
                 'name' => $skill->name,
-
+                'status' => '<span class="badge ' .
+                    ($skill->status === 'Active' ? 'bg-success' : 'bg-danger') .
+                    '">' . $skill->status . '</span>',
             ];
         }
 
         return response()->json([
             'draw' => intval($request->input('draw')),
-            'recordsTotal' => $total,
-            'recordsFiltered' => $total,
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
             'data' => $rows,
         ]);
     }
 
+
     public function create()
     {
-        $data['title'] = 'Master / Organisation / JobSkill Create';
+        $data['title'] = 'Master / Organisation / Skill Create';
         return view('home.skills.create', $data);
     }
 
@@ -58,16 +81,36 @@ class SkillController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name' => 'required|string|max:255|unique:skills,name',
+            'status' => 'required|in:Active,Inactive',
         ]);
 
-        Skills::create([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name), // slug auto generate
-        ]);
+        try {
 
-        return redirect()->route('settings.skills')
-            ->with('success', 'JobSkill created successfully');
+            // Unique slug generate
+            $slug = Str::slug($request->name);
+            $count = Skills::where('slug', 'like', "{$slug}%")->count();
+            $finalSlug = $count ? "{$slug}-" . ($count + 1) : $slug;
+
+            Skills::create([
+                'name' => $request->name,
+                'slug' => $finalSlug,
+                'status' => $request->status,
+            ]);
+
+            return redirect()
+                ->route('settings.skills')
+                ->with('success', 'Job Skill created successfully');
+
+        } catch (\Exception $e) {
+
+            Log::error('Skill Create Error: ' . $e->getMessage());
+
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('error', 'Something went wrong while creating Job Skill');
+        }
     }
 
     public function edit($id)
@@ -114,7 +157,7 @@ class SkillController extends Controller
             $jobSkill->delete();
 
 
-            
+
             return response()->json([
                 'success' => true,
                 'message' => 'Job Skill deleted successfully'

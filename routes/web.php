@@ -171,15 +171,15 @@ Route::middleware(['auth'])->group(function () {
     // Master/Recruitment/Jobs
     Route::get('employee/details/{id}', [AppliedController::class, 'usersDetails'])->name('employee.details');
 
-    
+
     Route::get('recruitment/jobs', [JobsController::class, 'index'])->name('recruitment.jobs');
     Route::get('recruitment/job/applied-candidate', [JobsController::class, 'appliedCandidate'])->name('recruitment.jobs.applied-candidate');
     Route::get('recruitment/jobs/create', [JobsController::class, 'create'])->name('recruitment.jobs.create');
     Route::post('recruitment/jobs/store', [JobsController::class, 'store'])->name('recruitment.jobs.store');
     Route::get('recruitment/jobs/list', [JobsController::class, 'list'])->name('recruitment.jobs.list');
     Route::get('recruitment/jobs/recommended-job', [JobsController::class, 'recommendedJob'])->name('recruitment.jobs.recommended-job');
-    Route::get('recruitment/jobs/job-listings/{slug}',[JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
-    Route::get('/recruitment/jobs/{slug}/apply',[JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
+    Route::get('recruitment/jobs/job-listings/{slug}', [JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
+    Route::get('/recruitment/jobs/{slug}/apply', [JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
 
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
 
@@ -281,7 +281,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Master/Organisation/Category
-    
+
     Route::get('settings/category', [CategoryController::class, 'index'])->name('settings.category');
     Route::get('settings/category/create', [CategoryController::class, 'create'])->name('settings.category.create');
     Route::post('settings/category/store', [CategoryController::class, 'store'])->name('settings.category.store');

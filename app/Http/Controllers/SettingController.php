@@ -26,7 +26,8 @@ class SettingController extends Controller
         $data['compneyDetails'] = Company::select('company_name', 'company_logo', 'address')
             ->where('status', 'Active')
             ->get();
-
+        // echo "<pre>";
+        // print_r($data['compneyDetails']);exit;
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.setting.create', $data);
     }
@@ -164,8 +165,8 @@ class SettingController extends Controller
         $data['compneyDetails'] = Company::select('company_name', 'company_logo', 'address')
             ->where('status', 'Active')
             ->get();
-              $data['template'] = EmailTemplate::select('id','template_key','subject','body')
-        ->findOrFail($id);
+        $data['template'] = EmailTemplate::select('id', 'template_key', 'subject', 'body')
+            ->findOrFail($id);
         $data['title'] = 'Email Preview';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         $data['template'] = EmailTemplate::findOrFail($id);
