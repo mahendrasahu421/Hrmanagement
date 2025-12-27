@@ -285,7 +285,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     // Master/Organisation/Category
-    
+
     Route::get('settings/category', [CategoryController::class, 'index'])->name('settings.category');
     Route::get('settings/category/create', [CategoryController::class, 'create'])->name('settings.category.create');
     Route::post('settings/category/store', [CategoryController::class, 'store'])->name('settings.category.store');

@@ -81,7 +81,7 @@ class LeaveTypeController extends Controller
     {
         $data['title'] = 'Master / Organisation / Leave Type Create';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        $data['companies'] = Company::all();
+        $data['compneys'] = Company::all();
         return view('home.leave-type.create', $data);
     }
 
@@ -90,24 +90,52 @@ class LeaveTypeController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'leave_name' => 'required|string|max:255',
-            'leave_code' => 'required|string|max:50|unique:leave_types,leave_code',
-            'total_leaves' => 'required|integer|min:0',
-            'carry_forward' => 'required|boolean',
-            'encashable' => 'required|boolean',
-            'applicable_for' => 'required|in:Male,Female,All',
-            'leave_category' => 'required|in:Paid,Unpaid,Special',
-            'status' => 'required|in:Active,Inactive',
-            'description' => 'nullable|string',
-        ]);
+        try {
+            // Validation
+            $request->validate([
+                'company_id' => 'required|exists:companies,id',
+                'leave_name' => 'required|string|max:255',
+                'leave_code' => 'required|string|max:50|unique:leave_types,leave_code',
+                'total_leaves' => 'required|integer|min:0',
+                'carry_forward' => 'required|boolean',
+                'encashable' => 'required|boolean',
+                'applicable_for' => 'required|in:Male,Female,All',
+                'leave_category' => 'required|in:Paid,Unpaid,Special',
+                'status' => 'required|in:Active,Inactive',
+                'description' => 'nullable|string',
+            ]);
 
-        LeaveType::create($request->all());
+            // Create Leave Type
+            LeaveType::create([
+                'company_id' => $request->company_id,
+                'leave_name' => $request->leave_name,
+                'leave_code' => $request->leave_code,
+                'total_leaves' => $request->total_leaves,
+                'carry_forward' => $request->carry_forward,
+                'encashable' => $request->encashable,
+                'applicable_for' => $request->applicable_for,
+                'leave_category' => $request->leave_category,
+                'status' => $request->status,
+                'description' => $request->description,
+            ]);
 
-        return redirect()
-            ->route('settings.leave-type')
-            ->with('success', 'Leave Type created successfully!');
+            return redirect()
+                ->route('settings.leave-type')
+                ->with('success', 'Leave Type created successfully!');
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            // Agar validation fail ho jaye
+            return redirect()->back()
+                ->withErrors($e->validator)
+                ->withInput();
+        } catch (\Exception $e) {
+            // General exceptions ke liye
+            return redirect()->back()
+                ->with('error', 'Something went wrong: ' . $e->getMessage())
+                ->withInput();
+        }
     }
+
 
     /**
      * Show edit leave type form.

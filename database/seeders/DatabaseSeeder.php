@@ -34,6 +34,21 @@ class DatabaseSeeder extends Seeder
         $this->call(JobCategorySeeder::class);
         $this->call(SkillSeeder::class);
         $this->call(LeaveTypeSeeder::class);
+        $this->call([
+            CompanySeeder::class,
+        ]);
+        $this->call([
+            CategoryMasterSeeder::class,
+        ]);
+        $this->call([
+            DepartmentSeeder::class,
+        ]);
+        $this->call([
+            DesignationSeeder::class,
+        ]);
+        $this->call(ShiftSeeder::class);
+        $this->call(LeaveMapping::class);
+
     }
 
 

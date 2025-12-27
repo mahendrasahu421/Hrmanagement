@@ -36,9 +36,8 @@
                                         <label class="form-label" for="company_id">Company Name *</label>
                                         <select class="form-control select2" id="company_id" name="company_id" required>
                                             <option value="">Select Company</option>
-
-                                            @foreach ($companies as $company)
-                                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                            @foreach ($compneys as $compney)
+                                                 <option value="{{ $compney->id }}">{{ $compney->company_name }}</option>
                                             @endforeach
                                         </select>
 

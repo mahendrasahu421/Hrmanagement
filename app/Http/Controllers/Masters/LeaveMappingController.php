@@ -68,7 +68,8 @@ class LeaveMappingController extends Controller
                 'status' => $request->status,
             ]);
 
-            return redirect('settings.leave-allow')->with('success', 'Record saved successfully!');
+            return redirect()->route('settings.leave-allow')->with('success', 'Record saved successfully!');
+
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Something went wrong: ' . $e->getMessage());
         }

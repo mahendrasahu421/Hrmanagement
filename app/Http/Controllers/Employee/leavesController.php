@@ -226,7 +226,7 @@ class leavesController extends Controller
 
             // Email Send
             if ($adminEmail || $hrEmail) {
-                $template = EmailTemplate::where('template_key', 'leave_request')->first();
+                $template = EmailTemplate::where('template_key', 'employee_leave_apply')->first();
 
                 Mail::to($adminEmail)
                     ->cc($hrEmail)
