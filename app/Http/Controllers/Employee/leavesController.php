@@ -184,9 +184,8 @@ class leavesController extends Controller
                 'leave_type_id' => 'required|exists:leave_types,id',
                 'from_date' => 'required|date',
                 'to_date' => 'required|date|after_or_equal:from_date',
-                'reason' => 'required|string|max:255',
                 'reason_id' => 'required',
-                'other_reason' => 'nullable|string|max:255',
+                'reason' => $request->reason_id === 'Others' ? 'required|string|max:255' : 'nullable|string|max:255',
                 'status' => 'required|in:DRAFT,SENT',
             ]);
 
@@ -220,17 +219,17 @@ class leavesController extends Controller
             $to = Carbon::parse($request->to_date);
             $daysRequested = $from->diffInDays($to) + 1;
 
-            if ($daysRequested > $leaveMapping->allow_days && $leaveMapping->allow_days !== null) {
+            if ($leaveMapping->allow_days !== null && $daysRequested > $leaveMapping->allow_days) {
                 return back()->with('error', 'You are requesting more days than allowed')->withInput();
             }
 
             // 🔹 Determine reason text and reason_id
-            if ($request->reason == 'Others') {
-                $reasonText = $request->other_reason;
-                $reasonId = null;
+            if ($request->reason_id === 'Others') {
+                $reasonText = $request->reason; // textarea value
+                $reasonId = 0; // Others ke liye 0 save kare
             } else {
-                $reasonRecord = LeaveReason::find($request->reason);
-                $reasonText = $reasonRecord ? $reasonRecord->reason : '';
+                $reasonRecord = LeaveReason::find($request->reason_id);
+                $reasonText = $reasonRecord ? $reasonRecord->reason : null;
                 $reasonId = $reasonRecord ? $reasonRecord->id : null;
             }
 
@@ -241,7 +240,7 @@ class leavesController extends Controller
                 'from_date' => $request->from_date,
                 'to_date' => $request->to_date,
                 'reason' => $reasonText,
-                'reasons_id' => $reasonId, 
+                'reasons_id' => $reasonId,
                 'status' => $request->status,
             ]);
 
@@ -267,6 +266,8 @@ class leavesController extends Controller
             return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
         }
     }
+
+
 
 
 
