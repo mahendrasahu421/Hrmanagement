@@ -151,7 +151,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'update'])->name('settings.leave-type.update');
     Route::delete('settings/leave-type/delete/{id}', [LeaveTypeController::class, 'destroy'])->name('settings.leave-type.destroy');
     Route::get('settings/leave-type/list', [LeaveTypeController::class, 'list'])->name('settings.leave-type.list');
-    Route::get('/employee/leave-reasons/{leaveTypeId}', [leavesController::class, 'getLeaveReasons'])->name('employee.leave.reasons');
+    
 
 
 
@@ -321,6 +321,7 @@ Route::get('recruitment/jobs/applied-candidate/list', [AppliedController::class,
 // Employee section routes
 Route::prefix('employee')->middleware('auth:employee')->group(function () {
 
+    Route::get('/employee/leave-reasons/{leaveTypeId}', [leavesController::class, 'getLeaveReasons'])->name('employee.leave.reasons');
     // Self Appraisal
     Route::prefix('self-appraisal')->group(function () {
 
