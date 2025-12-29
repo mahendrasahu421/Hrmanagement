@@ -128,10 +128,10 @@
 
                                         <!-- Others textarea (hidden by default) -->
 
-                                    <div id="otherReasonDiv" style="display:none; margin-top:10px;">
-                                        <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here..."></textarea>
-                                        <div class="invalid-feedback">Please enter reason.</div>
-                                    </div>
+                                        <div id="otherReasonDiv" style="display:none; margin-top:10px;">
+                                            <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here..."></textarea>
+                                            <div class="invalid-feedback">Please enter reason.</div>
+                                        </div>
                                     </div>
 
                                     <!-- Status -->
@@ -183,7 +183,7 @@
             </div>
         </div>
 
-       
+
         <x-footer />
     </div>
 
@@ -217,7 +217,7 @@
                                 });
                                 // Add "Others" option
                                 $("#reason_id").append(
-                                '<option value="Others">Others</option>');
+                                    '<option value="Others">Others</option>');
                             } else {
                                 $("#reason_id").append(
                                     '<option value="">No Reasons Found</option>');
@@ -365,6 +365,25 @@
                 });
                 toast.show();
             });
+        });
+    </script>
+    <script>
+        $('#leave_type_id').on('change', function() {
+            let leaveTypeText = $("#leave_type_id option:selected").text().trim();
+
+            let today = new Date().toISOString().split('T')[0];
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            tomorrow = tomorrow.toISOString().split('T')[0];
+
+            if (leaveTypeText === "Emergency Leave") {
+                $('#from_date').attr('min', today).val(today);
+                $('#to_date').attr('min', today).val(today);
+            } else {
+                $('#from_date').attr('min', tomorrow).val(tomorrow);
+                $('#to_date').attr('min', tomorrow).val(tomorrow);
+            }
+            $('#from_date, #to_date').trigger('change');
         });
     </script>
 @endpush
