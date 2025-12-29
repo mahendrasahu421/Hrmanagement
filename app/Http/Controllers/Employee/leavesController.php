@@ -219,6 +219,7 @@ class leavesController extends Controller
                 'leave_type_id' => $request->leave_type_id,
                 'from_date' => $request->from_date,
                 'to_date' => $request->to_date,
+                'duration' => $daysRequested,
                 'reason' => $reasonText,
                 'reasons_id' => $reasonId,
                 'status' => $request->status,

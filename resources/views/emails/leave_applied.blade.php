@@ -31,7 +31,20 @@
         <!-- Body -->
         <div style="padding:20px; color:#333; line-height:1.6; font-size:14px;">
             {!! $template_body !!}
+
+            <div style="margin-top:25px;">
+                <a href="{{ url('/attendance/leave/request') }}"
+                    style="background:#28a745;color:#fff;padding:10px 18px;text-decoration:none;border-radius:4px;margin-right:10px;">
+                    Approve
+                </a>
+
+                <a href="{{ url('/attendance/leave/request') }}"
+                    style="background:#dc3545;color:#fff;padding:10px 18px;text-decoration:none;border-radius:4px;">
+                    Reject
+                </a>
+            </div>
         </div>
+
 
         <!-- Footer -->
         <div style="background:#f1f1f1; padding:15px; font-size:12px; text-align:center; color:#555;">
