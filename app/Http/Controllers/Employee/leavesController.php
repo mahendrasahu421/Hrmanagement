@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Employee;
+
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -13,6 +14,8 @@ use App\Models\LeaveMapping;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\LeaveAppliedMail;
+use App\Models\LeaveReason;
+
 class leavesController extends Controller
 {
     public function index()
@@ -104,6 +107,16 @@ class leavesController extends Controller
         return true;
     }
 
+    public function getLeaveReasons($leaveTypeId)
+    {
+        $reasons = LeaveReason::where('leave_type_id', $leaveTypeId)
+            ->where('status', 'Active')
+            ->select('id', 'reason')
+            ->get();
+
+        return response()->json($reasons);
+    }
+
 
 
     // ✅ Helper functions same rahenge
@@ -166,14 +179,14 @@ class leavesController extends Controller
     public function store(Request $request)
     {
         try {
-
-            // Validation
+            // 🔹 Validation
             $request->validate([
                 'leave_type_id' => 'required|exists:leave_types,id',
                 'from_date' => 'required|date',
                 'to_date' => 'required|date|after_or_equal:from_date',
-                'reason' => 'required|string|max:255',
-                'status' => 'required',
+                'reason_id' => 'required',
+                'reason' => $request->reason_id === 'Others' ? 'required|string|max:255' : 'nullable|string|max:255',
+                'status' => 'required|in:DRAFT,SENT',
             ]);
 
             $employeeId = auth('employee')->id();
@@ -183,7 +196,7 @@ class leavesController extends Controller
                 return back()->with('error', 'Employee not found')->withInput();
             }
 
-            // ⭐ Check if already applied today
+            // 🔹 Check if already applied today
             $alreadyAppliedToday = Leave::where('employee_id', $employeeId)
                 ->whereDate('created_at', Carbon::today())
                 ->exists();
@@ -192,7 +205,7 @@ class leavesController extends Controller
                 return back()->with('error', 'You have already applied for leave today.')->withInput();
             }
 
-            // Leave Mapping
+            // 🔹 Leave Mapping
             $leaveMapping = LeaveMapping::where('designation_id', $employee->designation_id)
                 ->where('leave_type_id', $request->leave_type_id)
                 ->first();
@@ -201,30 +214,40 @@ class leavesController extends Controller
                 return back()->with('error', 'You are not allowed to apply for this leave type')->withInput();
             }
 
-            // Day Calculation
+            // 🔹 Day Calculation
             $from = Carbon::parse($request->from_date);
             $to = Carbon::parse($request->to_date);
             $daysRequested = $from->diffInDays($to) + 1;
 
-            if ($daysRequested > $leaveMapping->allow_days) {
+            if ($leaveMapping->allow_days !== null && $daysRequested > $leaveMapping->allow_days) {
                 return back()->with('error', 'You are requesting more days than allowed')->withInput();
             }
 
-            // Insert Leave
+            // 🔹 Determine reason text and reason_id
+            if ($request->reason_id === 'Others') {
+                $reasonText = $request->reason; // textarea value
+                $reasonId = 0; // Others ke liye 0 save kare
+            } else {
+                $reasonRecord = LeaveReason::find($request->reason_id);
+                $reasonText = $reasonRecord ? $reasonRecord->reason : null;
+                $reasonId = $reasonRecord ? $reasonRecord->id : null;
+            }
+
+            // 🔹 Insert Leave
             $leave = Leave::create([
                 'employee_id' => $employeeId,
                 'leave_type_id' => $request->leave_type_id,
                 'from_date' => $request->from_date,
                 'to_date' => $request->to_date,
-                'reason' => $request->reason,
-                'status' => $request->status
+                'reason' => $reasonText,
+                'reasons_id' => $reasonId,
+                'status' => $request->status,
             ]);
 
-            // DB se Admin & HR email
+            // 🔹 Email notification to Admin & HR
             $adminEmail = User::where('role_id', 1)->value('email');
             $hrEmail = User::where('role_id', 2)->value('email');
 
-            // Email Send
             if ($adminEmail || $hrEmail) {
                 $template = EmailTemplate::where('template_key', 'employee_leave_apply')->first();
 
@@ -236,15 +259,15 @@ class leavesController extends Controller
 
             return redirect()->route('employee.leaves')
                 ->with('success', 'Leave applied successfully!');
-
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->validator)->withInput();
-
         } catch (\Exception $e) {
             \Log::error('Leave Apply Error: ' . $e->getMessage());
             return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
         }
     }
+
+
 
 
 
@@ -320,7 +343,6 @@ class leavesController extends Controller
                 'recordsFiltered' => $totalRecord,
                 'data' => $rows,
             ]);
-
         } catch (\Exception $e) {
             // ⚠️ Handle error gracefully
             return response()->json([
@@ -391,7 +413,4 @@ class leavesController extends Controller
             'leave_name' => $leaveType->leave_name
         ]);
     }
-
-
-
 }

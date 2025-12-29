@@ -151,6 +151,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'update'])->name('settings.leave-type.update');
     Route::delete('settings/leave-type/delete/{id}', [LeaveTypeController::class, 'destroy'])->name('settings.leave-type.destroy');
     Route::get('settings/leave-type/list', [LeaveTypeController::class, 'list'])->name('settings.leave-type.list');
+    Route::get('/employee/leave-reasons/{leaveTypeId}', [leavesController::class, 'getLeaveReasons'])->name('employee.leave.reasons');
+
+
+
     // Master/Organisation/Leave Allow
     Route::get('settings/leave-allow', [LeaveMappingController::class, 'index'])->name('settings.leave-allow');
     Route::get('settings/leave-allow/create', [LeaveMappingController::class, 'create'])->name('settings.leave-allow.create');

@@ -1,7 +1,7 @@
 @extends('employee.layout.layout')
 @section('title', $title)
 @section('main-section')
-    <!-- Page Wrapper -->
+    <!-- Page Wrapper --> <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
     <div class="page-wrapper">
         <div class="content">
             <div class="row">
@@ -72,14 +72,13 @@
                                 @csrf
 
                                 <div class="form-row row">
-                                    <div id="leaveLimitMsg" class="text-danger"
-                                            style="display:none;">
-                                            <small>
-                                                You have used all available leaves for <span class="leaveName"></span>.
-                                                <br>
-                                                <span style="color:#b30000;">Please select another leave type.</span>
-                                            </small>
-                                        </div>
+                                    <div id="leaveLimitMsg" class="text-danger" style="display:none;">
+                                        <small>
+                                            You have used all available leaves for <span class="leaveName"></span>.
+                                            <br>
+                                            <span style="color:#b30000;">Please select another leave type.</span>
+                                        </small>
+                                    </div>
 
                                     <!-- Leave Type -->
                                     <div class="col-md-4 mb-3">
@@ -92,7 +91,7 @@
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please select a leave type.</div>
-                                        
+
 
                                     </div>
 
@@ -121,9 +120,18 @@
                                     <!-- Reason -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="reason">Reason *</label>
-                                        <textarea class="form-control" id="reason" name="reason" rows="3" placeholder="Enter reason for leave"
-                                            required></textarea>
-                                        <div class="invalid-feedback">Please enter your reason for leave.</div>
+                                        <select class="form-control select2" id="reason_id" name="reason_id" required>
+                                            <option value="">-- Select Reason --</option>
+                                        </select>
+
+                                        <div class="invalid-feedback">Please select reason.</div>
+
+                                        <!-- Others textarea (hidden by default) -->
+
+                                    <div id="otherReasonDiv" style="display:none; margin-top:10px;">
+                                        <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here..."></textarea>
+                                        <div class="invalid-feedback">Please enter reason.</div>
+                                    </div>
                                     </div>
 
                                     <!-- Status -->
@@ -175,7 +183,7 @@
             </div>
         </div>
 
-        <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+       
         <x-footer />
     </div>
 
@@ -185,6 +193,89 @@
 @push('after_scripts')
     <script>
         $(document).ready(function() {
+            // Populate reasons when leave type changes
+            $('#leave_type_id').on('change', function() {
+                let leaveTypeId = $(this).val();
+                $("#reason_id").empty().append('<option value="">-- Select Reason --</option>');
+                $("#otherReasonDiv").hide(); // hide the textarea
+                $('#other_reason').val('').prop('required', false); // reset textarea
+
+                if (leaveTypeId) {
+                    let url = "{{ route('employee.leave.reasons', ':id') }}";
+                    url = url.replace(':id', leaveTypeId);
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function(res) {
+                            if (res.length > 0) {
+                                $.each(res, function(key, value) {
+                                    $("#reason_id").append(
+                                        '<option value="' + value.id + '">' + value
+                                        .reason + '</option>'
+                                    );
+                                });
+                                // Add "Others" option
+                                $("#reason_id").append(
+                                '<option value="Others">Others</option>');
+                            } else {
+                                $("#reason_id").append(
+                                    '<option value="">No Reasons Found</option>');
+                            }
+                        }
+                    });
+                }
+            });
+
+            // Show/hide textarea when reason changes
+            $('#reason_id').on('change', function() {
+                if (this.value === 'Others') {
+                    $("#otherReasonDiv").slideDown(); // smoother effect
+                    $('#other_reason').prop('required', true);
+                } else {
+                    $("#otherReasonDiv").slideUp();
+                    $('#other_reason').prop('required', false);
+                    $('#other_reason').val(''); // clear textarea
+                }
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+
+            $('#leave_type_id').on('change', function() {
+
+                let leaveTypeId = $(this).val();
+                $("#reason").empty().append('<option value="">-- Select Reason --</option>');
+
+                if (leaveTypeId) {
+
+                    let url = "{{ route('employee.leave.reasons', ':id') }}";
+                    url = url.replace(':id', leaveTypeId);
+
+                    $.ajax({
+                        url: url,
+                        type: "GET",
+                        success: function(res) {
+
+                            if (res.length > 0) {
+                                $.each(res, function(key, value) {
+                                    $("#reason").append(
+                                        '<option value="' + value.reason + '">' +
+                                        value.reason + '</option>'
+                                    );
+                                });
+                            } else {
+                                $("#reason").append(
+                                    '<option value="">No Reasons Found</option>');
+                            }
+                        }
+                    });
+                }
+            });
+
+
 
             $('select[name="leave_type_id"]').on('change', function() {
 
@@ -232,25 +323,6 @@
     </script>
 
 
-
-
-
-    <script>
-        if (data.allotted === "Unlimited") {
-            // Unlimited leave → always enable submit, hide message
-            $("#submitBtn").prop("disabled", false);
-            $("#leaveLimitMsg").hide();
-        } else {
-            // Limited leave → check used vs allotted
-            if (data.allotted == data.used) {
-                $("#submitBtn").prop("disabled", true);
-                $("#leaveLimitMsg").show();
-            } else {
-                $("#submitBtn").prop("disabled", false);
-                $("#leaveLimitMsg").hide();
-            }
-        }
-    </script>
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
