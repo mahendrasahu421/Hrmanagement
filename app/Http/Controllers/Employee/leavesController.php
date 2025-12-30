@@ -233,7 +233,7 @@ class leavesController extends Controller
 
                 Mail::to($adminEmail)
                     ->cc($hrEmail)
-                    ->bcc('mahendra.s@neuralinfo.org')
+                    ->bcc('sneha.s@neuralinfo.org')
                     ->send(new LeaveAppliedMail($leave, $template));
             }
 

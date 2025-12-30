@@ -30,28 +30,17 @@ class AttendanceController extends Controller
         return view('home.attendance.index', $data);
     }
 
-
-
-
-
-
     public function list(Request $request)
     {
         try {
             $designationId = $request->designation_id;
-
-            // Base query (Today's leaves)
             $query = Leave::with(['leaveType', 'employee'])
                 ->whereDate('created_at', Carbon::today());
-
-            // Filter: Designation
             if (!empty($designationId)) {
                 $query->whereHas('employee', function ($q) use ($designationId) {
                     $q->where('designation_id', $designationId);
                 });
             }
-
-            // Search filter
             $search = $request->input('search.value');
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
@@ -66,8 +55,6 @@ class AttendanceController extends Controller
             }
 
             $recordsFiltered = $query->count();
-
-            // Pagination
             $start = $request->start ?? 0;
             $length = $request->length ?? 10;
             $leaves = $query->skip($start)->take($length)->get();
@@ -79,8 +66,8 @@ class AttendanceController extends Controller
                 $from = Carbon::parse($leave->from_date);
                 $to = Carbon::parse($leave->to_date);
                 $days = $from->diffInDays($to) + 1;
-
-                // Status badge
+                $fromFormatted = $from->format('d/m/Y');
+                $toFormatted = $to->format('d/m/Y');
                 $statusLower = strtolower($leave->status);
                 $statusBadge = match ($statusLower) {
                     'approved' => '<span class="badge bg-success">Approved</span>',
@@ -88,15 +75,12 @@ class AttendanceController extends Controller
                     'sent' => '<span class="badge bg-primary">Pending</span>',
                     default => '<span class="badge bg-warning">Pending</span>',
                 };
-
-                // Action buttons: only if status is 'Sent'
                 if ($statusLower === 'sent') {
                     $actionButtons = '
-            <button class="btn btn-success btn-sm openModal" data-id="' . $leave->id . '" data-status="Approved">Accept</button>
-            <button class="btn btn-danger btn-sm openModal" data-id="' . $leave->id . '" data-status="Rejected">Reject</button>
-        ';
+                    <button class="btn btn-success btn-sm openModal" data-id="' . $leave->id . '" data-status="Approved">Accept</button>
+                    <button class="btn btn-danger btn-sm openModal" data-id="' . $leave->id . '" data-status="Rejected">Reject</button>
+                ';
                 } else {
-                    // Otherwise show status badge as action
                     $actionButtons = $statusBadge;
                 }
 
@@ -104,15 +88,13 @@ class AttendanceController extends Controller
                     'employee' => $leave->employee->employee_name ?? '--',
                     'leave_type' => $leave->leaveType->leave_name ?? '--',
                     'days' => $days,
-                    'from_date' => $leave->from_date,
-                    'to_date' => $leave->to_date,
+                    'from_date' => $fromFormatted,
+                    'to_date' => $toFormatted,    
                     'reason' => $leave->reason,
                     'status' => $statusBadge,
                     'action' => $actionButtons,
                 ];
             }
-
-
 
             return response()->json([
                 'draw' => intval($request->draw),
@@ -120,14 +102,10 @@ class AttendanceController extends Controller
                 'recordsFiltered' => $recordsFiltered,
                 'data' => $data,
             ]);
-
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
-
-
 
 
     public function updateStatus(Request $request)
@@ -169,7 +147,7 @@ class AttendanceController extends Controller
                 $request->new_status,
                 $template,
                 $employee
-               
+
             ));
 
         // ✅ Status update
@@ -181,11 +159,6 @@ class AttendanceController extends Controller
             'message' => 'Leave ' . $request->new_status . ' successfully & mail sent'
         ]);
     }
-
-
-
-
-
 
 
     /**

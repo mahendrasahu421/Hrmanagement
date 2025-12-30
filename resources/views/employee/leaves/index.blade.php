@@ -140,57 +140,87 @@
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
- <script>
-$(document).ready(function() {
-    $('.select2').select2();
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2();
+            var table = $('#tableexample').DataTable({
+                responsive: true,
+                processing: true,
+                serverSide: true,
+                scrollX: true,
+                ajax: {
+                    url: "{{ route('employee.leaves.list') }}",
+                    data: function(d) {
+                        d.leave_type = $('#leave_type_filter').val();
+                    },
+                    dataSrc: function(json) {
+                        return json.data;
+                    }
+                },
+                columns: [{
+                        data: null,
+                        render: function(data, type, row, meta) {
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        data: 'leave_type'
+                    },
+                    {
+                        data: 'from_date',
+                        render: function(data) {
+                            if (!data) return '';
+                            let date = new Date(data);
+                            let day = ('0' + date.getDate()).slice(-2);
+                            let month = ('0' + (date.getMonth() + 1)).slice(-2);
+                            let year = date.getFullYear();
+                            return `${day}/${month}/${year}`;
+                        }
+                    },
+                    {
+                        data: 'to_date',
+                        render: function(data) {
+                            if (!data) return '';
+                            let date = new Date(data);
+                            let day = ('0' + date.getDate()).slice(-2);
+                            let month = ('0' + (date.getMonth() + 1)).slice(-2);
+                            let year = date.getFullYear();
+                            return `${day}/${month}/${year}`;
+                        }
+                    },
+                    {
+                        data: null,
+                        render: function(data, type, row) {
+                            let fromDate = new Date(row.from_date);
+                            let toDate = new Date(row.to_date);
+                            if (fromDate && toDate && toDate >= fromDate) {
+                                let diffTime = toDate - fromDate;
+                                let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+                                return diffDays;
+                            }
+                            return 0;
+                        }
+                    },
+                    {
+                        data: 'reason'
+                    },
+                    {
+                        data: 'status'
+                    }
+                ],
+                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
+                    "<'row'<'col-md-12'tr>>" +
+                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>"
+            });
 
-    // 🔹 Initialize DataTable
-    var table = $('#tableexample').DataTable({
-        responsive: true,
-        processing: true,
-        serverSide: true,
-        scrollX: true,
-        ajax: {
-            url: "{{ route('employee.leaves.list') }}",
-            data: function(d) {
-                d.leave_type = $('#leave_type_filter').val(); // send selected leave type
-            },
-            dataSrc: function(json) {
-                return json.data;
-            }
-        },
-        columns: [
-            { data: null, render: function(data, type, row, meta) { return meta.row + meta.settings._iDisplayStart + 1; } },
-            { data: 'leave_type' },
-            { data: 'from_date' },
-            { data: 'to_date' },
-            { data: null, render: function(data, type, row) {
-                let fromDate = new Date(row.from_date);
-                let toDate = new Date(row.to_date);
-                if (fromDate && toDate && toDate >= fromDate) {
-                    let diffTime = toDate - fromDate;
-                    let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-                    return diffDays;
-                }
-                return 0;
-            }},
-            { data: 'reason' },
-            { data: 'status' }
-        ],
-        dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
-             "<'row'<'col-md-12'tr>>" +
-             "<'row mt-2'<'col-md-5'i><'col-md-7'p>>"
-    });
+            // 🔹 Filter on change
+            $('#leave_type_filter').on('change', function() {
+                table.ajax.reload();
+            });
 
-    // 🔹 Filter on change
-    $('#leave_type_filter').on('change', function() {
-        table.ajax.reload();
-    });
-
-    window.fetchGenderCounts = function() {
-        table.ajax.reload();
-    };
-});
-</script>
-
+            window.fetchGenderCounts = function() {
+                table.ajax.reload();
+            };
+        });
+    </script>
 @endpush
