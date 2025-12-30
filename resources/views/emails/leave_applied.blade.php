@@ -22,7 +22,7 @@
 
             <div style="text-align:right;">
                 @foreach ($companyDetails as $company)
-                    <img src="{{ url('uploads/company/' . $company->company_logo) }}" alt="Logo" width="100"
+                    <img src="cid:{{ $company->company_logo }}" alt="Logo" width="100"
                         style="margin-left:10px;">
                 @endforeach
             </div>
@@ -31,18 +31,6 @@
         <!-- Body -->
         <div style="padding:20px; color:#333; line-height:1.6; font-size:14px;">
             {!! $template_body !!}
-
-            <div style="margin-top:25px;">
-                <a href="{{ url('/attendance/leave/request') }}"
-                    style="background:#28a745;color:#fff;padding:10px 18px;text-decoration:none;border-radius:4px;margin-right:10px;">
-                    Approve
-                </a>
-
-                <a href="{{ url('/attendance/leave/request') }}"
-                    style="background:#dc3545;color:#fff;padding:10px 18px;text-decoration:none;border-radius:4px;">
-                    Reject
-                </a>
-            </div>
         </div>
 
 

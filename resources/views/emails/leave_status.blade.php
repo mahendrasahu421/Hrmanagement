@@ -11,23 +11,22 @@
     <div style="max-width:600px; margin:auto; border:1px solid #ddd; background:#fff;">
 
         <!-- Header -->
-        <div
-            style="background:#f26522; color:#fff; padding:15px; display:flex; justify-content:space-between; align-items:center;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f26522; color:#fff;">
+            <tr>
+                <td style="padding:15px; vertical-align:middle;">
+                    <h3 style="margin:0; font-size:18px; color:#fff;">
+                        {{ $subject }}
+                    </h3>
+                </td>
 
-            <div>
-                <h3 style="margin:0; font-size:18px; color:#fff;">
-                    {{ $subject }}
-                </h3>
-            </div>
+                <td style="padding:15px; text-align:right; vertical-align:middle;">
+                    @if (!empty($companyDetails) && !empty($companyDetails->company_logo))
+                        <img src="cid:{{ $companyDetails->company_logo }}" height="60">
+                    @endif
+                </td>
+            </tr>
+        </table>
 
-            <div>
-                @if (!empty($companyDetails) && !empty($companyDetails->company_logo))
-                    <img src="{{ asset('uploads/company/' . $companyDetails->company_logo) }}" height="60">
-                @endif
-
-            </div>
-
-        </div>
 
         <!-- Body -->
         <div style="padding:20px; color:#333; line-height:1.6; font-size:14px;">
