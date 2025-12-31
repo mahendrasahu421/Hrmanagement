@@ -197,11 +197,11 @@
 
 
                         <div class="d-flex align-items-center">
-                            <div class="me-1">
+                            <!-- <div class="me-1">
                                 <a href="#" class="btn btn-menubar btnFullscreen">
                                     <i class="ti ti-maximize"></i>
                                 </a>
-                            </div>
+                            </div> -->
                             <div class="dropdown me-1">
                                 <a href="#" class="btn btn-menubar" data-bs-toggle="dropdown">
                                     <i class="ti ti-layout-grid-remove"></i>

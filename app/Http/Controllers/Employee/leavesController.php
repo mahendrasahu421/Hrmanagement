@@ -404,12 +404,9 @@ class leavesController extends Controller
         if (!$employee) {
             abort(404, 'Employee not found');
         }
-
         $employeeGender = strtoupper($employee->gender);
         $today = Carbon::now();
         $monthsWorked = Carbon::parse($employee->joining_date)->diffInMonths($today);
-
-        // Leave types applicable to employee
         $data['leaveTypes'] = LeaveType::where(function ($q) use ($employeeGender) {
             $q->where('applicable_for', 'ALL')
                 ->orWhere('applicable_for', $employeeGender);
@@ -418,11 +415,7 @@ class leavesController extends Controller
                 $q->where('leave_name', 'Leave Without Pay');
             })
             ->get();
-
-        // Leave record being edited
         $data['leave'] = Leave::findOrFail($id);
-
-        // Fetch reasons for the selected leave type
         $data['reasons'] = LeaveReason::where('leave_type_id', $data['leave']->leave_type_id)
             ->where('status', 'Active')
             ->get();
@@ -451,8 +444,6 @@ class leavesController extends Controller
             $leave->from_date     = $request->from_date;
             $leave->to_date       = $request->to_date;
             $leave->status        = $request->status;
-
-            // -------- Reason Handling (Same as Store) --------
             if ($request->reason_id === 'Others') {
                 $leave->reason     = $request->reason;
                 $leave->reasons_id = null;
@@ -464,8 +455,6 @@ class leavesController extends Controller
             }
 
             $leave->save();
-
-            // -------- Send Mail If SENT --------
             if ($leave->status === 'SENT') {
 
                 $adminEmail = User::where('role_id', 1)->value('email');
