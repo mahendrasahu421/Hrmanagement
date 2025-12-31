@@ -349,6 +349,8 @@ Route::prefix('employee')->middleware('auth:employee')->group(function () {
     Route::get('leaves', [LeavesController::class, 'index'])->name('employee.leaves');
     Route::get('leaves/apply', [LeavesController::class, 'create'])->name('employee.leaves.apply');
     Route::post('leaves/apply/store', [LeavesController::class, 'store'])->name('employee.leaves.store');
+    Route::get('leaves/edit/{id}', [LeavesController::class, 'edit'])->name('employee.leaves.edit');
+    Route::put('leaves/update/{id}', [LeavesController::class, 'update'])->name('employee.leaves.update');
     Route::get('leaves/list', [LeavesController::class, 'list'])->name('employee.leaves.list');
     Route::get('leave/balance/{leaveTypeId}', [LeavesController::class, 'getLeaveBalance'])->name('leave.balance');
 

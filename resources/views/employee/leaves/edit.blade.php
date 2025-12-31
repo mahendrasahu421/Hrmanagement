@@ -1,7 +1,8 @@
 @extends('employee.layout.layout')
 @section('title', $title)
 @section('main-section')
-    <!-- Page Wrapper --> <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+
     <div class="page-wrapper">
         <div class="content">
             <div class="row">
@@ -32,11 +33,9 @@
                             <!-- /Breadcrumb -->
                         </div>
 
-
                         <div class="card-body">
                             <div id="leaveInfo" style="display:none;">
                                 <div class="row mt-3 g-3">
-
                                     <div class="col-md-4">
                                         <div class="card text-center shadow-sm border-primary rounded-3 bg-light">
                                             <div class="card-body py-3">
@@ -45,7 +44,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-md-4">
                                         <div class="card text-center shadow-sm border-warning rounded-3 bg-light">
                                             <div class="card-body py-3">
@@ -54,7 +52,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-md-4">
                                         <div class="card text-center shadow-sm border-success rounded-3 bg-light">
                                             <div class="card-body py-3">
@@ -63,13 +60,13 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
 
                             <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('employee.leaves.store') }}">
+                                action="{{ route('employee.leaves.update', $leave->id) }}">
                                 @csrf
+                                @method('PUT')
 
                                 <div class="form-row row">
                                     <div id="leaveLimitMsg" class="text-danger" style="display:none;">
@@ -86,27 +83,29 @@
                                         <select class="form-control select2" id="leave_type_id" name="leave_type_id"
                                             required>
                                             <option value="">-- Select Leave Type --</option>
-                                            @foreach ($leaveTypes as $leave)
-                                                <option value="{{ $leave->id }}">{{ $leave->leave_name }}</option>
+                                            @foreach ($leaveTypes as $l)
+                                                <option value="{{ $l->id }}"
+                                                    {{ $leave->leave_type_id == $l->id ? 'selected' : '' }}>
+                                                    {{ $l->leave_name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please select a leave type.</div>
-
-
                                     </div>
-
 
                                     <!-- From Date -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="from_date">From Date *</label>
-                                        <input type="date" class="form-control" id="from_date" name="from_date" required>
+                                        <input type="date" class="form-control" id="from_date" name="from_date"
+                                            value="{{ $leave->from_date }}" required>
                                         <div class="invalid-feedback">Please select a start date.</div>
                                     </div>
 
                                     <!-- To Date -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="to_date">To Date *</label>
-                                        <input type="date" class="form-control" id="to_date" name="to_date" required>
+                                        <input type="date" class="form-control" id="to_date" name="to_date"
+                                            value="{{ $leave->to_date }}" required>
                                         <div class="invalid-feedback">Please select an end date.</div>
                                     </div>
                                 </div>
@@ -115,21 +114,25 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Total Leaves</label>
                                         <input type="text" class="form-control" id="total_leaves" readonly
-                                            placeholder="0">
+                                            value="{{ $leave->to_date && $leave->from_date ? \Carbon\Carbon::parse($leave->to_date)->diffInDays(\Carbon\Carbon::parse($leave->from_date)) + 1 : 0 }}">
                                     </div>
+
                                     <!-- Reason -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="reason">Reason *</label>
                                         <select class="form-control select2" id="reason_id" name="reason_id" required>
                                             <option value="">-- Select Reason --</option>
+                                            @if ($leave->reason_id)
+                                                <option value="{{ $leave->reason_id }}" selected>{{ $leave->reason }}
+                                                </option>
+                                            @endif
                                         </select>
 
                                         <div class="invalid-feedback">Please select reason.</div>
 
-                                        <!-- Others textarea (hidden by default) -->
-
-                                        <div id="otherReasonDiv" style="display:none; margin-top:10px;">
-                                            <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here..."></textarea>
+                                        <div id="otherReasonDiv"
+                                            style="display:{{ $leave->reason_id == null ? 'block' : 'none' }}; margin-top:10px;">
+                                            <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here...">{{ $leave->reason_id == null ? $leave->reason : '' }}</textarea>
                                             <div class="invalid-feedback">Please enter reason.</div>
                                         </div>
                                     </div>
@@ -138,14 +141,14 @@
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="status">Status *</label>
                                         <select class="form-control select2" id="status" name="status" required>
-                                            <option value="DRAFT" selected>Draft</option>
-                                            <option value="SENT">Sent</option>
+                                            <option value="DRAFT" {{ $leave->status == 'DRAFT' ? 'selected' : '' }}>Draft
+                                            </option>
+                                            <option value="SENT" {{ $leave->status == 'SENT' ? 'selected' : '' }}>Sent
+                                            </option>
                                         </select>
                                         <div class="invalid-feedback">Please select status.</div>
                                     </div>
                                 </div>
-
-
 
                                 <!-- Submit -->
                                 <div class="d-flex justify-content-end mt-3">
@@ -156,49 +159,47 @@
                                         <i class="ti ti-x me-1"></i> Cancel
                                     </button>
                                     <button class="btn btn-primary" id="submitBtn" type="submit">
-                                        <i class="ti ti-device-floppy me-1"></i> Apply Leave
+                                        <i class="ti ti-device-floppy me-1"></i> Update Leave
                                     </button>
                                 </div>
                             </form>
 
-
-                            <script>
-                                (function() {
-                                    'use strict'
-                                    var forms = document.querySelectorAll('.needs-validation')
-                                    Array.prototype.slice.call(forms).forEach(function(form) {
-                                        form.addEventListener('submit', function(event) {
-                                            if (!form.checkValidity()) {
-                                                event.preventDefault()
-                                                event.stopPropagation()
-                                            }
-                                            form.classList.add('was-validated')
-                                        }, false)
-                                    })
-                                })()
-                            </script>
+                            <x-footer />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-
-        <x-footer />
     </div>
 
-    <!-- Scripts -->
-
 @endsection
+
 @push('after_scripts')
+    <!-- Validation -->
+    <script>
+        (function() {
+            'use strict'
+            var forms = document.querySelectorAll('.needs-validation')
+            Array.prototype.slice.call(forms).forEach(function(form) {
+                form.addEventListener('submit', function(event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        })()
+    </script>
+
+    <!-- Reason Handling -->
     <script>
         $(document).ready(function() {
-            // Populate reasons when leave type changes
             $('#leave_type_id').on('change', function() {
                 let leaveTypeId = $(this).val();
                 $("#reason_id").empty().append('<option value="">-- Select Reason --</option>');
-                $("#otherReasonDiv").hide(); // hide the textarea
-                $('#other_reason').val('').prop('required', false); // reset textarea
+                $("#otherReasonDiv").hide();
+                $('#other_reason').val('').prop('required', false);
 
                 if (leaveTypeId) {
                     let url = "{{ route('employee.leave.reasons', ':id') }}";
@@ -210,14 +211,11 @@
                         success: function(res) {
                             if (res.length > 0) {
                                 $.each(res, function(key, value) {
-                                    $("#reason_id").append(
-                                        '<option value="' + value.id + '">' + value
-                                        .reason + '</option>'
-                                    );
+                                    $("#reason_id").append('<option value="' + value
+                                        .id + '">' + value.reason + '</option>');
                                 });
-                                // Add "Others" option
                                 $("#reason_id").append(
-                                    '<option value="Others">Others</option>');
+                                '<option value="Others">Others</option>');
                             } else {
                                 $("#reason_id").append(
                                     '<option value="">No Reasons Found</option>');
@@ -227,62 +225,24 @@
                 }
             });
 
-            // Show/hide textarea when reason changes
             $('#reason_id').on('change', function() {
                 if (this.value === 'Others') {
-                    $("#otherReasonDiv").slideDown(); // smoother effect
+                    $("#otherReasonDiv").slideDown();
                     $('#other_reason').prop('required', true);
                 } else {
                     $("#otherReasonDiv").slideUp();
-                    $('#other_reason').prop('required', false);
-                    $('#other_reason').val(''); // clear textarea
+                    $('#other_reason').prop('required', false).val('');
                 }
             });
         });
     </script>
 
+    <!-- Leave Balance & Info -->
     <script>
         $(document).ready(function() {
-
-            $('#leave_type_id').on('change', function() {
-
-                let leaveTypeId = $(this).val();
-                $("#reason").empty().append('<option value="">-- Select Reason --</option>');
-
-                if (leaveTypeId) {
-
-                    let url = "{{ route('employee.leave.reasons', ':id') }}";
-                    url = url.replace(':id', leaveTypeId);
-
-                    $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function(res) {
-
-                            if (res.length > 0) {
-                                $.each(res, function(key, value) {
-                                    $("#reason").append(
-                                        '<option value="' + value.reason + '">' +
-                                        value.reason + '</option>'
-                                    );
-                                });
-                            } else {
-                                $("#reason").append(
-                                    '<option value="">No Reasons Found</option>');
-                            }
-                        }
-                    });
-                }
-            });
-
-
-
             $('select[name="leave_type_id"]').on('change', function() {
-
                 let leaveTypeId = $(this).val();
-
                 if (leaveTypeId) {
-
                     let url = "{{ route('leave.balance', ['leaveTypeId' => ':id']) }}";
                     url = url.replace(':id', leaveTypeId);
 
@@ -290,17 +250,13 @@
                         url: url,
                         type: "GET",
                         success: function(data) {
-
-                            // ⭐ Set leave name in message
                             $("#leaveLimitMsg span.leaveName").text(data.leave_name);
 
-                            // 🔹 Handle Unlimited leave
                             if (data.allotted === "Unlimited") {
                                 $("#submitBtn").prop("disabled", false);
                                 $("#leaveLimitMsg").hide();
-                                $("#leaveInfo").hide(); // Hide leave info for unlimited
+                                $("#leaveInfo").hide();
                             } else {
-                                // Show leave info
                                 $("#leaveInfo").show();
                                 $("#totalLeaves").text(data.allotted);
                                 $("#usedLeaves").text(data.used);
@@ -318,31 +274,18 @@
                     });
                 }
             });
-
         });
     </script>
 
+    <!-- Calculate Total Leaves -->
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            let today = new Date().toISOString().split('T')[0];
-            $('#from_date').val(today).attr('min', today);
-            $('#to_date').val(today).attr('min', today);
-
             function calculateLeaves() {
                 let fromVal = $('#from_date').val();
                 let toVal = $('#to_date').val();
-
                 if (fromVal && toVal) {
-                    let fromDate = new Date(fromVal);
-                    let toDate = new Date(toVal);
-
-                    if (toDate >= fromDate) {
-                        let diffTime = toDate - fromDate;
-                        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-                        $('#total_leaves').val(diffDays);
-                    } else {
-                        $('#total_leaves').val(0);
-                    }
+                    let diffDays = (new Date(toVal) - new Date(fromVal)) / (1000 * 60 * 60 * 24) + 1;
+                    $('#total_leaves').val(diffDays);
                 } else {
                     $('#total_leaves').val(0);
                 }
@@ -356,32 +299,21 @@
             });
 
             calculateLeaves();
-            var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-            toastElList.map(function(toastEl) {
-                var toast = new bootstrap.Toast(toastEl, {
-                    delay: 30000
-                });
-                toast.show();
+
+            $('#leave_type_id').on('change', function() {
+                let leaveTypeText = $("#leave_type_id option:selected").text().trim();
+                let today = new Date().toISOString().split('T')[0];
+                let tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow = tomorrow.toISOString().split('T')[0];
+
+                if (leaveTypeText === "Emergency Leave") {
+                    $('#from_date, #to_date').attr('min', today).val(today);
+                } else {
+                    $('#from_date, #to_date').attr('min', tomorrow).val(tomorrow);
+                }
+                $('#from_date, #to_date').trigger('change');
             });
-        });
-    </script>
-    <script>
-        $('#leave_type_id').on('change', function() {
-            let leaveTypeText = $("#leave_type_id option:selected").text().trim();
-
-            let today = new Date().toISOString().split('T')[0];
-            let tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            tomorrow = tomorrow.toISOString().split('T')[0];
-
-            if (leaveTypeText === "Emergency Leave") {
-                $('#from_date').attr('min', today).val(today);
-                $('#to_date').attr('min', today).val(today);
-            } else {
-                $('#from_date').attr('min', tomorrow).val(tomorrow);
-                $('#to_date').attr('min', tomorrow).val(tomorrow);
-            }
-            $('#from_date, #to_date').trigger('change');
         });
     </script>
 @endpush
