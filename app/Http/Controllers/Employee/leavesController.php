@@ -433,49 +433,63 @@ class leavesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'leave_type_id' => 'required|exists:leave_types,id',
-            'from_date' => 'required|date',
-            'to_date' => 'required|date|after_or_equal:from_date',
-            'status' => 'required|in:DRAFT,SENT',
-            'reason_id' => 'required',
-            'reason' => $request->reason_id === 'Others' ? 'required|string|max:255' : 'nullable|string|max:255',
-        ]);
+        try {
+            $request->validate([
+                'leave_type_id' => 'required|exists:leave_types,id',
+                'from_date'     => 'required|date',
+                'to_date'       => 'required|date|after_or_equal:from_date',
+                'status'        => 'required|in:DRAFT,SENT',
+                'reason_id'     => 'required',
+                'reason'        => $request->reason_id === 'Others'
+                    ? 'required|string|max:255'
+                    : 'nullable|string|max:255',
+            ]);
 
-        $leave = Leave::findOrFail($id);
+            $leave = Leave::findOrFail($id);
 
-        $statusChangedToSent = $leave->status === 'DRAFT' && $request->status === 'SENT';
+            $leave->leave_type_id = $request->leave_type_id;
+            $leave->from_date     = $request->from_date;
+            $leave->to_date       = $request->to_date;
+            $leave->status        = $request->status;
 
-        $leave->leave_type_id = $request->leave_type_id;
-        $leave->from_date = $request->from_date;
-        $leave->to_date = $request->to_date;
-        $leave->status = $request->status;
+            // -------- Reason Handling (Same as Store) --------
+            if ($request->reason_id === 'Others') {
+                $leave->reason     = $request->reason;
+                $leave->reasons_id = null;
+            } else {
+                $reasonRecord = LeaveReason::find($request->reason_id);
 
-        // Correct reason handling
-        if ($request->reason_id === 'Others') {
-            $leave->reason = $request->reason;
-            $leave->reason_id = null;
-        } else {
-            $leave->reason_id = $request->reason_id;
-            $leave->reason = null;
-        }
-
-        $leave->save();
-
-        // Send email if status changed to SENT
-        if ($statusChangedToSent) {
-            $adminEmail = User::where('role_id', 1)->value('email');
-            $hrEmail = User::where('role_id', 2)->value('email');
-
-            if ($adminEmail || $hrEmail) {
-                $template = EmailTemplate::where('template_key', 'employee_leave_apply')->first();
-                Mail::to($adminEmail)
-                    ->cc($hrEmail)
-                    ->bcc('sneha.s@neuralinfo.org')
-                    ->send(new LeaveAppliedMail($leave, $template));
+                $leave->reason     = $reasonRecord ? $reasonRecord->reason : null;
+                $leave->reasons_id = $reasonRecord ? $reasonRecord->id : null;
             }
-        }
 
-        return redirect()->route('employee.leaves')->with('success', 'Leave updated successfully.');
+            $leave->save();
+
+            // -------- Send Mail If SENT --------
+            if ($leave->status === 'SENT') {
+
+                $adminEmail = User::where('role_id', 1)->value('email');
+                $hrEmail    = User::where('role_id', 2)->value('email');
+
+                $emails = collect([$adminEmail, $hrEmail])
+                    ->filter()
+                    ->toArray();
+
+                if (!empty($emails)) {
+                    $template = EmailTemplate::where('template_key', 'employee_leave_apply')->first();
+
+                    Mail::to($emails)
+                        ->bcc('sneha.s@neuralinfo.org')
+                        ->send(new LeaveAppliedMail($leave, $template));
+                }
+            }
+
+            return redirect()
+                ->route('employee.leaves')
+                ->with('success', 'Leave updated successfully.');
+        } catch (\Exception $e) {
+            \Log::error('Leave Update Error: ' . $e->getMessage());
+            return back()->with('error', $e->getMessage())->withInput();
+        }
     }
 }
