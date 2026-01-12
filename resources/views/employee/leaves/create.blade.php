@@ -1,14 +1,55 @@
 @extends('employee.layout.layout')
 @section('title', $title)
 @section('main-section')
-    <!-- Page Wrapper --> <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+    <style>
+        :root {
+            --fp-main: #f37438;
+        }
+
+        .flatpickr-months .flatpickr-month,
+        .flatpickr-current-month input.cur-year {
+            color: var(--fp-main);
+        }
+
+        .flatpickr-prev-month svg,
+        .flatpickr-next-month svg {
+            fill: var(--fp-main);
+        }
+
+        .flatpickr-day:hover {
+            background: rgba(243, 116, 56, 0.15);
+            color: #000;
+            border-radius: 50px;
+        }
+
+        .flatpickr-day.selected,
+        .flatpickr-day.startRange,
+        .flatpickr-day.endRange {
+            background: var(--fp-main);
+            color: #fff;
+            border-radius: 50px;
+        }
+
+        .flatpickr-day.inRange {
+            background: rgba(243, 116, 56, 0.2);
+            border-radius: 50px;
+        }
+
+        .flatpickr-day.today {
+            border-color: var(--fp-main);
+            color: var(--fp-main);
+        }
+    </style>
+
+    <!-- Page Wrapper -->
+    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
     <div class="page-wrapper">
         <div class="content">
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <!-- Breadcrumb -->
+
                             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                                 <div class="my-auto mb-2">
                                     <h2 class="mb-1">{{ $title }}</h2>
@@ -20,6 +61,7 @@
                                         </ol>
                                     </nav>
                                 </div>
+
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
                                         <a href="{{ route('employee.leaves') }}"
@@ -29,11 +71,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /Breadcrumb -->
+
                         </div>
 
 
                         <div class="card-body">
+
                             <div id="leaveInfo" style="display:none;">
                                 <div class="row mt-3 g-3">
 
@@ -72,6 +115,7 @@
                                 @csrf
 
                                 <div class="form-row row">
+
                                     <div id="leaveLimitMsg" class="text-danger" style="display:none;">
                                         <small>
                                             You have used all available leaves for <span class="leaveName"></span>.
@@ -91,32 +135,34 @@
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please select a leave type.</div>
-
-
                                     </div>
 
-
-                                    <!-- From Date -->
+                                    <!-- =========================
+                                                                 SINGLE DATE RANGE PICKER
+                                                            ==========================-->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="from_date">From Date *</label>
-                                        <input type="date" class="form-control" id="from_date" name="from_date" required>
-                                        <div class="invalid-feedback">Please select a start date.</div>
+                                        <label class="form-label">Select Date Range *</label>
+
+                                        <input type="text" class="form-control" id="leave_range"
+                                            placeholder="Select date range" required>
+
+                                        <!-- Hidden fields for Laravel -->
+                                        <input type="hidden" name="from_date" id="from_date">
+                                        <input type="hidden" name="to_date" id="to_date">
+
+                                        <div class="invalid-feedback">Please select date range.</div>
                                     </div>
 
-                                    <!-- To Date -->
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="to_date">To Date *</label>
-                                        <input type="date" class="form-control" id="to_date" name="to_date" required>
-                                        <div class="invalid-feedback">Please select an end date.</div>
-                                    </div>
-                                </div>
-
-                                <div class="form-row row">
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Total Leaves</label>
                                         <input type="text" class="form-control" id="total_leaves" readonly
                                             placeholder="0">
                                     </div>
+
+                                </div>
+
+                                <div class="form-row row">
+
                                     <!-- Reason -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="reason">Reason *</label>
@@ -125,8 +171,6 @@
                                         </select>
 
                                         <div class="invalid-feedback">Please select reason.</div>
-
-                                        <!-- Others textarea (hidden by default) -->
 
                                         <div id="otherReasonDiv" style="display:none; margin-top:10px;">
                                             <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here..."></textarea>
@@ -145,9 +189,6 @@
                                     </div>
                                 </div>
 
-
-
-                                <!-- Submit -->
                                 <div class="d-flex justify-content-end mt-3">
                                     <a href="{{ route('employee.leaves') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
@@ -160,7 +201,6 @@
                                     </button>
                                 </div>
                             </form>
-
 
                             <script>
                                 (function() {
@@ -177,28 +217,76 @@
                                     })
                                 })()
                             </script>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
         <x-footer />
     </div>
-
-    <!-- Scripts -->
-
 @endsection
+
+
 @push('after_scripts')
+    <!-- FLATPICKR -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+    <script>
+        let rangePicker;
+
+        function initDatePicker(minDate) {
+            if (rangePicker) {
+                rangePicker.destroy();
+            }
+
+            setTimeout(() => {
+                rangePicker = flatpickr("#leave_range", {
+                    mode: "range",
+                    dateFormat: "Y-m-d",
+                    minDate: minDate,
+                    allowOneSidedRange: true,
+                    onChange: function(selectedDates) {
+
+                        if (selectedDates.length === 1) {
+                            let day = selectedDates[0];
+                            $("#from_date").val(flatpickr.formatDate(day, "Y-m-d"));
+                            $("#to_date").val(flatpickr.formatDate(day, "Y-m-d"));
+                            $("#total_leaves").val(1);
+                        }
+
+                        if (selectedDates.length === 2) {
+                            let start = selectedDates[0];
+                            let end = selectedDates[1];
+                            $("#from_date").val(flatpickr.formatDate(start, "Y-m-d"));
+                            $("#to_date").val(flatpickr.formatDate(end, "Y-m-d"));
+
+                            let diff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+                            $("#total_leaves").val(diff);
+                        }
+                    }
+                });
+            }, 50);
+        }
+
+
+        document.addEventListener("DOMContentLoaded", function() {
+            initDatePicker("today");
+        });
+    </script>
+
+
     <script>
         $(document).ready(function() {
-            // Populate reasons when leave type changes
+
             $('#leave_type_id').on('change', function() {
+
                 let leaveTypeId = $(this).val();
                 $("#reason_id").empty().append('<option value="">-- Select Reason --</option>');
-                $("#otherReasonDiv").hide(); // hide the textarea
-                $('#other_reason').val('').prop('required', false); // reset textarea
+                $("#otherReasonDiv").hide();
+                $('#other_reason').val('').prop('required', false);
 
                 if (leaveTypeId) {
                     let url = "{{ route('employee.leave.reasons', ':id') }}";
@@ -210,12 +298,9 @@
                         success: function(res) {
                             if (res.length > 0) {
                                 $.each(res, function(key, value) {
-                                    $("#reason_id").append(
-                                        '<option value="' + value.id + '">' + value
-                                        .reason + '</option>'
-                                    );
+                                    $("#reason_id").append('<option value="' + value
+                                        .id + '">' + value.reason + '</option>');
                                 });
-                                // Add "Others" option
                                 $("#reason_id").append(
                                     '<option value="Others">Others</option>');
                             } else {
@@ -227,54 +312,15 @@
                 }
             });
 
-            // Show/hide textarea when reason changes
             $('#reason_id').on('change', function() {
                 if (this.value === 'Others') {
-                    $("#otherReasonDiv").slideDown(); // smoother effect
+                    $("#otherReasonDiv").slideDown();
                     $('#other_reason').prop('required', true);
                 } else {
                     $("#otherReasonDiv").slideUp();
-                    $('#other_reason').prop('required', false);
-                    $('#other_reason').val(''); // clear textarea
+                    $('#other_reason').prop('required', false).val('');
                 }
             });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-
-            $('#leave_type_id').on('change', function() {
-
-                let leaveTypeId = $(this).val();
-                $("#reason").empty().append('<option value="">-- Select Reason --</option>');
-
-                if (leaveTypeId) {
-
-                    let url = "{{ route('employee.leave.reasons', ':id') }}";
-                    url = url.replace(':id', leaveTypeId);
-
-                    $.ajax({
-                        url: url,
-                        type: "GET",
-                        success: function(res) {
-
-                            if (res.length > 0) {
-                                $.each(res, function(key, value) {
-                                    $("#reason").append(
-                                        '<option value="' + value.reason + '">' +
-                                        value.reason + '</option>'
-                                    );
-                                });
-                            } else {
-                                $("#reason").append(
-                                    '<option value="">No Reasons Found</option>');
-                            }
-                        }
-                    });
-                }
-            });
-
 
 
             $('select[name="leave_type_id"]').on('change', function() {
@@ -291,16 +337,13 @@
                         type: "GET",
                         success: function(data) {
 
-                            // ⭐ Set leave name in message
                             $("#leaveLimitMsg span.leaveName").text(data.leave_name);
 
-                            // 🔹 Handle Unlimited leave
                             if (data.allotted === "Unlimited") {
                                 $("#submitBtn").prop("disabled", false);
                                 $("#leaveLimitMsg").hide();
-                                $("#leaveInfo").hide(); // Hide leave info for unlimited
+                                $("#leaveInfo").hide();
                             } else {
-                                // Show leave info
                                 $("#leaveInfo").show();
                                 $("#totalLeaves").text(data.allotted);
                                 $("#usedLeaves").text(data.used);
@@ -319,69 +362,22 @@
                 }
             });
 
-        });
-    </script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            let today = new Date().toISOString().split('T')[0];
-            $('#from_date').val(today).attr('min', today);
-            $('#to_date').val(today).attr('min', today);
+            // Emergency Leave Logic
+            $('#leave_type_id').on('change', function() {
+                let leaveTypeText = $("#leave_type_id option:selected").text().trim();
 
-            function calculateLeaves() {
-                let fromVal = $('#from_date').val();
-                let toVal = $('#to_date').val();
+                let today = new Date();
+                let tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
 
-                if (fromVal && toVal) {
-                    let fromDate = new Date(fromVal);
-                    let toDate = new Date(toVal);
-
-                    if (toDate >= fromDate) {
-                        let diffTime = toDate - fromDate;
-                        let diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-                        $('#total_leaves').val(diffDays);
-                    } else {
-                        $('#total_leaves').val(0);
-                    }
+                if (leaveTypeText === "Emergency Leave") {
+                    initDatePicker(today);
                 } else {
-                    $('#total_leaves').val(0);
+                    initDatePicker(tomorrow);
                 }
-            }
-
-            $('#from_date, #to_date').on('change', function() {
-                if ($('#to_date').val() < $('#from_date').val()) {
-                    $('#to_date').val($('#from_date').val());
-                }
-                calculateLeaves();
             });
 
-            calculateLeaves();
-            var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-            toastElList.map(function(toastEl) {
-                var toast = new bootstrap.Toast(toastEl, {
-                    delay: 30000
-                });
-                toast.show();
-            });
-        });
-    </script>
-    <script>
-        $('#leave_type_id').on('change', function() {
-            let leaveTypeText = $("#leave_type_id option:selected").text().trim();
-
-            let today = new Date().toISOString().split('T')[0];
-            let tomorrow = new Date();
-            tomorrow.setDate(tomorrow.getDate() + 1);
-            tomorrow = tomorrow.toISOString().split('T')[0];
-
-            if (leaveTypeText === "Emergency Leave") {
-                $('#from_date').attr('min', today).val(today);
-                $('#to_date').attr('min', today).val(today);
-            } else {
-                $('#from_date').attr('min', tomorrow).val(tomorrow);
-                $('#to_date').attr('min', tomorrow).val(tomorrow);
-            }
-            $('#from_date, #to_date').trigger('change');
         });
     </script>
 @endpush

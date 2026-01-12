@@ -9,7 +9,6 @@
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-header">
-                            <!-- Breadcrumb -->
                             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                                 <div class="my-auto mb-2">
                                     <h2 class="mb-1">{{ $title }}</h2>
@@ -30,7 +29,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /Breadcrumb -->
                         </div>
 
                         <div class="card-body">
@@ -71,8 +69,7 @@
                                 <div class="form-row row">
                                     <div id="leaveLimitMsg" class="text-danger" style="display:none;">
                                         <small>
-                                            You have used all available leaves for <span class="leaveName"></span>.
-                                            <br>
+                                            You have used all available leaves for <span class="leaveName"></span>.<br>
                                             <span style="color:#b30000;">Please select another leave type.</span>
                                         </small>
                                     </div>
@@ -93,30 +90,26 @@
                                         <div class="invalid-feedback">Please select a leave type.</div>
                                     </div>
 
-                                    <!-- From Date -->
+                                    <!-- Date Range Picker -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="from_date">From Date *</label>
-                                        <input type="date" class="form-control" id="from_date" name="from_date"
-                                            value="{{ $leave->from_date }}" required>
-                                        <div class="invalid-feedback">Please select a start date.</div>
+                                        <label class="form-label">Select Date Range *</label>
+                                        <input type="text" class="form-control" id="leave_range"
+                                            placeholder="Select date range" required>
+                                        <input type="hidden" name="from_date" id="from_date"
+                                            value="{{ $leave->from_date }}">
+                                        <input type="hidden" name="to_date" id="to_date" value="{{ $leave->to_date }}">
+                                        <div class="invalid-feedback">Please select date range.</div>
                                     </div>
 
-                                    <!-- To Date -->
-                                    <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="to_date">To Date *</label>
-                                        <input type="date" class="form-control" id="to_date" name="to_date"
-                                            value="{{ $leave->to_date }}" required>
-                                        <div class="invalid-feedback">Please select an end date.</div>
-                                    </div>
-                                </div>
-
-                                <div class="form-row row">
+                                    <!-- Total Leaves -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Total Leaves</label>
                                         <input type="text" class="form-control" id="total_leaves" readonly
                                             value="{{ $leave->to_date && $leave->from_date ? \Carbon\Carbon::parse($leave->to_date)->diffInDays(\Carbon\Carbon::parse($leave->from_date)) + 1 : 0 }}">
                                     </div>
+                                </div>
 
+                                <div class="form-row row">
                                     <!-- Reason -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="reason">Reason *</label>
@@ -127,7 +120,6 @@
                                                 </option>
                                             @endif
                                         </select>
-
                                         <div class="invalid-feedback">Please select reason.</div>
 
                                         <div id="otherReasonDiv"
@@ -150,7 +142,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Submit -->
                                 <div class="d-flex justify-content-end mt-3">
                                     <a href="{{ route('employee.leaves') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
@@ -171,30 +162,70 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @push('after_scripts')
-    <!-- Validation -->
-    <script>
-        (function() {
-            'use strict'
-            var forms = document.querySelectorAll('.needs-validation')
-            Array.prototype.slice.call(forms).forEach(function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (!form.checkValidity()) {
-                        event.preventDefault()
-                        event.stopPropagation()
-                    }
-                    form.classList.add('was-validated')
-                }, false)
-            })
-        })()
-    </script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-    <!-- Reason Handling -->
     <script>
-        $(document).ready(function() {
+        let rangePicker;
+
+        function parseDate(dateStr) {
+            return dateStr ? new Date(dateStr) : null;
+        }
+
+        function initDatePicker(minDate, preStart, preEnd) {
+            if (rangePicker) rangePicker.destroy();
+
+            setTimeout(() => {
+                rangePicker = flatpickr("#leave_range", {
+                    mode: "range",
+                    dateFormat: "Y-m-d",
+                    minDate: minDate,
+                    allowOneSidedRange: true,
+                    defaultDate: preStart && preEnd ? [preStart, preEnd] : preStart ? [preStart] : null,
+                    onChange: function(selectedDates) {
+                        if (selectedDates.length === 1) {
+                            let day = selectedDates[0];
+                            $("#from_date").val(flatpickr.formatDate(day, "Y-m-d"));
+                            $("#to_date").val(flatpickr.formatDate(day, "Y-m-d"));
+                            $("#total_leaves").val(1);
+                        }
+                        if (selectedDates.length === 2) {
+                            let start = selectedDates[0];
+                            let end = selectedDates[1];
+                            $("#from_date").val(flatpickr.formatDate(start, "Y-m-d"));
+                            $("#to_date").val(flatpickr.formatDate(end, "Y-m-d"));
+                            let diff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+                            $("#total_leaves").val(diff);
+                        }
+                    }
+                });
+            }, 50);
+        }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            let leaveTypeText = $("#leave_type_id option:selected").text().trim();
+            let from = "{{ $leave->from_date }}";
+            let to = "{{ $leave->to_date }}";
+            let today = new Date();
+            let tomorrow = new Date();
+            tomorrow.setDate(tomorrow.getDate() + 1);
+
+            // Show saved date range in input
+            if (from && to) {
+                $('#leave_range').val(from + " to " + to);
+            } else if (from) {
+                $('#leave_range').val(from);
+            }
+
+            if (leaveTypeText === "Emergency Leave") {
+                initDatePicker(today, parseDate(from), parseDate(to));
+            } else {
+                initDatePicker(tomorrow, parseDate(from), parseDate(to));
+            }
+
             $('#leave_type_id').on('change', function() {
                 let leaveTypeId = $(this).val();
                 $("#reason_id").empty().append('<option value="">-- Select Reason --</option>');
@@ -223,6 +254,20 @@
                         }
                     });
                 }
+
+                let leaveTypeText = $("#leave_type_id option:selected").text().trim();
+                let today = new Date().toISOString().split('T')[0];
+                let tomorrow = new Date();
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                tomorrow = tomorrow.toISOString().split('T')[0];
+
+                if (leaveTypeText === "Emergency Leave") {
+                    $('#from_date, #to_date').attr('min', today).val(today);
+                    initDatePicker(today);
+                } else {
+                    $('#from_date, #to_date').attr('min', tomorrow).val(tomorrow);
+                    initDatePicker(tomorrow);
+                }
             });
 
             $('#reason_id').on('change', function() {
@@ -234,12 +279,7 @@
                     $('#other_reason').prop('required', false).val('');
                 }
             });
-        });
-    </script>
 
-    <!-- Leave Balance & Info -->
-    <script>
-        $(document).ready(function() {
             $('select[name="leave_type_id"]').on('change', function() {
                 let leaveTypeId = $(this).val();
                 if (leaveTypeId) {
@@ -274,12 +314,7 @@
                     });
                 }
             });
-        });
-    </script>
 
-    <!-- Calculate Total Leaves -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
             function calculateLeaves() {
                 let fromVal = $('#from_date').val();
                 let toVal = $('#to_date').val();
@@ -291,29 +326,8 @@
                 }
             }
 
-            $('#from_date, #to_date').on('change', function() {
-                if ($('#to_date').val() < $('#from_date').val()) {
-                    $('#to_date').val($('#from_date').val());
-                }
-                calculateLeaves();
-            });
-
+            $('#from_date, #to_date').on('change', calculateLeaves);
             calculateLeaves();
-
-            $('#leave_type_id').on('change', function() {
-                let leaveTypeText = $("#leave_type_id option:selected").text().trim();
-                let today = new Date().toISOString().split('T')[0];
-                let tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow = tomorrow.toISOString().split('T')[0];
-
-                if (leaveTypeText === "Emergency Leave") {
-                    $('#from_date, #to_date').attr('min', today).val(today);
-                } else {
-                    $('#from_date, #to_date').attr('min', tomorrow).val(tomorrow);
-                }
-                $('#from_date, #to_date').trigger('change');
-            });
         });
     </script>
 @endpush
