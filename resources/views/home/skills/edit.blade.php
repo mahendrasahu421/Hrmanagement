@@ -25,7 +25,7 @@
                 <div class="card-body">
 
                     <form class="needs-validation" novalidate method="POST"
-                        action="{{ route('settings.skills.update', $jobSkill->id) }}">
+                        action="{{ route('settings.skill.update', $jobSkill->id) }}">
                         @csrf
                         @method('PUT')
 
@@ -41,7 +41,27 @@
                                 @enderror
                             </div>
 
-                           
+                            <!-- Status -->
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Status <span class="text-danger">*</span></label>
+                                <select name="status" class="form-select select2" required>
+                                    <option value="">Select Status</option>
+                                    <option value="Active"
+                                        {{ old('status', $jobSkill->status) == 'Active' ? 'selected' : '' }}>
+                                        Active
+                                    </option>
+                                    <option value="Inactive"
+                                        {{ old('status', $jobSkill->status) == 'Inactive' ? 'selected' : '' }}>
+                                        Inactive
+                                    </option>
+                                </select>
+
+                                @error('status')
+                                    <div class="text-danger small">{{ $message }}</div>
+                                @enderror
+                            </div>
+
+
                         </div>
 
                         <div class="d-flex justify-content-end mt-3">
