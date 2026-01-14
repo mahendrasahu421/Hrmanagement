@@ -52,8 +52,8 @@
                                         <div class="mb-3">
                                             <label class="form-label">Status <span
                                                     class="text-danger">*</span></label>
-                                            <select name="status" id="statusFilter" class="form-select">
-                                                <option value="">All Status</option>
+                                            <select name="status" id="statusFilter" class="form-select select2">
+                                                <option value="">Select Status</option>
                                                 <option value="Active">Active</option>
                                                 <option value="Inactive">Inactive</option>
                                             </select>

@@ -60,6 +60,7 @@ class DepartmentController extends Controller
                     'status' => $dept->status === 'Active'
                         ? '<span class="badge bg-success">Active</span>'
                         : '<span class="badge bg-danger">Inactive</span>',
+                        'id' => $dept->id,
                     // 'action' => '<a href="' . url('employee.show', $dept->id) . '" class="btn btn-sm btn-primary">View</a>',
                 ];
             }
@@ -174,7 +175,7 @@ class DepartmentController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('masters.organisation.department')
+        return redirect()->route('settings.department')
             ->with('success', 'Department updated successfully!');
     }
 

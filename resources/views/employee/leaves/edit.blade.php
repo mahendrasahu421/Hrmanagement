@@ -112,22 +112,30 @@
                                 <div class="form-row row">
                                     <!-- Reason -->
                                     <div class="col-md-4 mb-3">
-                                        <label class="form-label" for="reason">Reason *</label>
+                                        <label class="form-label" for="reason_id">Reason *</label>
                                         <select class="form-control select2" id="reason_id" name="reason_id" required>
                                             <option value="">-- Select Reason --</option>
-                                            @if ($leave->reason_id)
-                                                <option value="{{ $leave->reason_id }}" selected>{{ $leave->reason }}
+
+                                            @foreach ($reasons as $r)
+                                                <option value="{{ $r->id }}"
+                                                    {{ $leave->reasons_id == $r->id ? 'selected' : '' }}>
+                                                    {{ $r->reason }}
                                                 </option>
+                                            @endforeach
+                                            @if (!$leave->reasons_id && $leave->reason)
+                                                <option value="Others" selected>Others</option>
                                             @endif
                                         </select>
                                         <div class="invalid-feedback">Please select reason.</div>
 
+                                        <!-- Textarea for Other reason -->
                                         <div id="otherReasonDiv"
-                                            style="display:{{ $leave->reason_id == null ? 'block' : 'none' }}; margin-top:10px;">
-                                            <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here...">{{ $leave->reason_id == null ? $leave->reason : '' }}</textarea>
+                                            style="margin-top:10px; display:{{ !$leave->reasons_id && $leave->reason ? 'block' : 'none' }};">
+                                            <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here...">{{ !$leave->reasons_id && $leave->reason ? $leave->reason : '' }}</textarea>
                                             <div class="invalid-feedback">Please enter reason.</div>
                                         </div>
                                     </div>
+
 
                                     <!-- Status -->
                                     <div class="col-md-4 mb-3">
@@ -246,7 +254,7 @@
                                         .id + '">' + value.reason + '</option>');
                                 });
                                 $("#reason_id").append(
-                                '<option value="Others">Others</option>');
+                                    '<option value="Others">Others</option>');
                             } else {
                                 $("#reason_id").append(
                                     '<option value="">No Reasons Found</option>');

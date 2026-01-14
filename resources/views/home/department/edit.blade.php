@@ -24,7 +24,7 @@
                                 </div>
                                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                                     <div class="mb-2">
-                                        <a href="{{ route('masters.organisation.department') }}"
+                                        <a href="{{ route('settings.department') }}"
                                             class="btn btn-primary d-flex align-items-center">
                                             <i class="ti ti-list me-2"></i> Department List
                                         </a>
@@ -35,8 +35,7 @@
                         </div>
 
                         <div class="card-body">
-                            <form method="POST"
-                                action="{{ route('masters.organisation.department.update', $department->id) }}">
+                            <form method="POST" action="{{ route('settings.department.update', $department->id) }}">
                                 @csrf
                                 @method('PUT')
 
@@ -44,11 +43,14 @@
                                     <!-- Select Company -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="company_id">Select Company *</label>
-                                        <select class="form-control" id="company_id" name="company_id" required>
+                                        <select class="form-control select2" id="company_id" name="company_id" required>
                                             <option value="">Select Company</option>
 
                                             @foreach ($companies as $company)
-                                                <option value="{{ $company->id }}">{{ $company->company_name }}</option>
+                                                <option value="{{ $company->id }}"
+                                                    {{ old('company_id', $department->company_id) == $company->id ? 'selected' : '' }}>
+                                                    {{ $company->company_name }}
+                                                </option>
                                             @endforeach
                                         </select>
 
@@ -56,6 +58,7 @@
                                             <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+
 
 
                                     <!-- Department Name -->
@@ -96,7 +99,7 @@
                                     <!-- Status -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="status">Status *</label>
-                                        <select class="form-control" id="status" name="status" required>
+                                        <select class="form-control select2" id="status" name="status" required>
                                             <option value="active" {{ $department->status == 'active' ? 'selected' : '' }}>
                                                 Active</option>
                                             <option value="inactive"
@@ -110,7 +113,7 @@
 
                                 <!-- Action Buttons -->
                                 <div class="d-flex justify-content-end mt-3">
-                                    <a href="{{ route('masters.organisation.department') }}" class="btn btn-light me-2">
+                                    <a href="{{ route('settings.department') }}" class="btn btn-light me-2">
                                         <i class="ti ti-arrow-left me-1"></i> Back
                                     </a>
                                     <button type="reset" class="btn btn-secondary me-2">

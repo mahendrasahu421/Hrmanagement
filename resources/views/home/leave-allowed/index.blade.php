@@ -2,7 +2,15 @@
 @section('title', $title)
 
 @section('main-section')
+    <style>
+        .select2 {
+            width: 300px !important;
+        }
 
+        [data-select2-id="2"] {
+            display: none !important;
+        }
+    </style>
     <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
     <div class="page-wrapper">
@@ -68,10 +76,11 @@
 @push('after_scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 
     <script>
         $(document).ready(function() {
-
+            $('.select2').select2();
             var table = $('#leaveTypeList').DataTable({
                 processing: true,
                 serverSide: true,

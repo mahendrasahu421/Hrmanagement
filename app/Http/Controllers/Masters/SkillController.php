@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Masters;
 use App\Http\Controllers\Controller;
 use App\Models\Skills;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class SkillController extends Controller
@@ -103,7 +104,6 @@ class SkillController extends Controller
             return redirect()
                 ->route('settings.skills')
                 ->with('success', 'Job Skill created successfully');
-
         } catch (\Exception $e) {
 
             Log::error('Skill Create Error: ' . $e->getMessage());
@@ -130,19 +130,29 @@ class SkillController extends Controller
         $jobSkill = Skills::findOrFail($id);
 
         $request->validate([
-            'name' => 'required|string|max:255',
-
+            'name'   => 'required|string|max:255|unique:skills,name,' . $jobSkill->id,
+            'status' => 'required|in:Active,Inactive',
         ]);
+
+        // Slug regenerate (unique)
+        $slug = Str::slug($request->name);
+        $count = Skills::where('slug', 'like', "{$slug}%")
+            ->where('id', '!=', $jobSkill->id)
+            ->count();
+
+        $finalSlug = $count ? "{$slug}-" . ($count + 1) : $slug;
 
         $jobSkill->update([
-            'name' => $request->name,
-            'slug' => Str::slug($request->name), // slug auto-update
-
+            'name'   => $request->name,
+            'slug'   => $finalSlug,
+            'status' => $request->status,
         ]);
 
-        return redirect()->route('settings.skills')
+        return redirect()
+            ->route('settings.skills')
             ->with('success', 'Job Skill updated successfully!');
     }
+
 
 
     public function destroy($id)

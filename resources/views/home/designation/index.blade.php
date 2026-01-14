@@ -11,14 +11,13 @@
                     <h2 class="mb-1">{{ $title }}</h2>
                 </div>
                 <div class="mb-2">
-                    <a href="{{ route('settings.designation.create') }}"
-                        class="btn btn-primary d-flex align-items-center">
+                    <a href="{{ route('settings.designation.create') }}" class="btn btn-primary d-flex align-items-center">
                         <i class="ti ti-circle-plus me-2"></i>Add Designation
                     </a>
                 </div>
             </div>
 
-                <div class="row">
+            <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
                         <div class="card-body">
@@ -35,7 +34,7 @@
                                             <th>KPI</th>
                                             <th>Compenticy</th>
                                             <th>Status</th>
-
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -101,7 +100,7 @@
                             return meta.row + meta.settings._iDisplayStart + 1;
                         }
                     },
-                    
+
                     {
                         data: 'company_name'
                     },
@@ -126,6 +125,23 @@
                     },
                     {
                         data: 'status'
+                    },
+                    {
+                        data: 'id',
+                        orderable: false,
+                        searchable: false,
+                        render: function(data) {
+                            return `
+                            <div class="action-icon d-inline-flex">
+                                <a href="{{ url('settings/designation/edit') }}/${data}" class="me-2">
+                                    <i class="ti ti-edit"></i>
+                                </a>
+                                <a href="javascript:void(0);" onclick="deleteDesignation(${data})">
+                                    <i class="ti ti-trash"></i>
+                                </a>
+                            </div>
+                        `;
+                        }
                     }
                 ],
                 dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
@@ -137,6 +153,31 @@
                 table.ajax.reload();
             };
 
+        });
+
+        function deleteDesignation(id) {
+            $('#deleteDesignationUrl').val(id);
+            $('#delete_modal').modal('show');
+        }
+
+        $('#confirmDeleteBtn').click(function() {
+            let id = $('#deleteDesignationUrl').val();
+
+            $.ajax({
+                url: "{{ url('settings/designation/delete') }}/" + id,
+                type: 'POST',
+                data: {
+                    _method: 'DELETE',
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(res) {
+                    $('#delete_modal').modal('hide');
+                    $('#designationList').DataTable().ajax.reload();
+                },
+                error: function(err) {
+                    alert(err.responseJSON?.message || 'Something went wrong!');
+                }
+            });
         });
     </script>
 @endpush

@@ -3,7 +3,7 @@
 
 @section('main-section')
 
-    <x-alert-modal/>
+    <x-alert-modal />
 
     <div class="page-wrapper">
         <div class="content">
@@ -15,8 +15,7 @@
                 </div>
                 <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
                     <div class="mb-2">
-                        <a href="{{ route('settings.department.create') }}"
-                            class="btn btn-primary d-flex align-items-center">
+                        <a href="{{ route('settings.department.create') }}" class="btn btn-primary d-flex align-items-center">
                             <i class="ti ti-circle-plus me-2"></i>Add Department
                         </a>
                     </div>
@@ -37,7 +36,7 @@
                                             <th>Category</th>
                                             <th>Code</th>
                                             <th>Status</th>
-
+                                            <th>Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -82,7 +81,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.select2').select2();
 
             var table = $('#departmentList').DataTable({
                 responsive: true,
@@ -91,42 +89,84 @@
                 scrollX: true,
                 ajax: {
                     url: "{{ route('settings.department.list') }}",
-                    data: function(d) {
-
-                    },
                     dataSrc: function(json) {
                         return json.data;
                     }
                 },
                 columns: [{
-                        data: null,
-                        render: function(data, type, row, meta) {
-                            return meta.row + meta.settings._iDisplayStart + 1;
-                        }
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex'
                     },
                     {
-                        data: 'department_name'
+                        data: 'department_name',
+                        name: 'department_name'
                     },
                     {
-                        data: 'category_name'
+                        data: 'category_name',
+                        name: 'category_name'
                     },
                     {
-                        data: 'department_code'
+                        data: 'department_code',
+                        name: 'department_code'
                     },
-                    
                     {
-                        data: 'status'
+                        data: 'status',
+                        name: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'id',
+                        render: function(data) {
+                            return `
+                        <div class="action-icon d-inline-flex">
+                            <a href="{{ url('settings/department/edit') }}/${data}" class="me-2">
+                                <i class="ti ti-edit"></i>
+                            </a>
+                            <a href="javascript:void(0);" onclick="deleteDepartment(${data})">
+                                <i class="ti ti-trash"></i>
+                            </a>
+                        </div>
+                    `;
+                        },
+                        orderable: false,
+                        searchable: false
                     }
                 ],
-                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'B f>>" +
+                order: [
+                    [0, 'asc']
+                ],
+                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'f>>" +
                     "<'row'<'col-md-12'tr>>" +
                     "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
             });
 
-            window.fetchGenderCounts = function() {
-                table.ajax.reload();
-            };
+        });
 
+
+        function deleteDepartment(id) {
+            $('#deleteDepartmentUrl').val(id);
+            $('#delete_modal').modal('show');
+        }
+
+        $('#confirmDeleteBtn').click(function() {
+            var id = $('#deleteDepartmentUrl').val();
+
+            $.ajax({
+                url: "{{ route('settings.department.destroy', ':id') }}".replace(':id', id),
+                type: 'POST',
+                data: {
+                    _method: 'DELETE',
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(res) {
+                    $('#delete_modal').modal('hide');
+                    $('#departmentList').DataTable().ajax.reload();
+                },
+                error: function(err) {
+                    alert(err.responseJSON?.message || 'Something went wrong!');
+                }
+            });
         });
     </script>
 @endpush

@@ -70,6 +70,7 @@ class DesignationController extends Controller
                     'status' => $desig->status == 'Active'
                         ? '<span class="badge bg-success">Active</span>'
                         : '<span class="badge bg-danger">Inactive</span>',
+                    'id' => $desig->id,
                     // 'action' => '<a href="' . route('designation.show', $desig->id) . '" class="btn btn-sm btn-primary">View</a>',
                 ];
             }
@@ -81,7 +82,6 @@ class DesignationController extends Controller
                 'recordsFiltered' => $totalRecord,
                 'data' => $rows,
             ]);
-
         } catch (\Exception $e) {
             \Log::error('Designation List Error: ' . $e->getMessage());
 
@@ -157,39 +157,51 @@ class DesignationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit($id)
     {
         $data['title'] = 'Master / Organisation / Designation Edit';
         $data['designation'] = Designation::findOrFail($id);
-        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+        $data['companies'] = Company::all();
+        $data['categories'] = Category::all();
+        $data['departments'] = Department::all();
+
         return view('home.designation.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, $id)
     {
         $designation = Designation::findOrFail($id);
 
         $request->validate([
-            'company_id' => 'required',
-            'designation_name' => 'required|string|max:255',
-            'designation_code' => 'required|string|max:50|unique:designations,designation_code,' . $designation->id,
-            'status' => 'required|in:1,0',
+            'company_id' => 'required|integer',
+            'category_id' => 'required|integer',
+            'department_id' => 'required|integer',
+            'name' => 'required|string|max:255',
+            'designation_code' => 'required|string|max:50|unique:designations,code,' . $designation->id,
+            'kpi_weightage' => 'required|numeric',
+            'competency_weight' => 'required|numeric',
+            'status' => 'required|in:Active,Inactive',
         ]);
 
         $designation->update([
             'company_id' => $request->company_id,
-            'designation_name' => $request->designation_name,
-            'designation_code' => $request->designation_code,
-            'designation_head' => $request->designation_head,
+            'category_id' => $request->category_id,
+            'department_id' => $request->department_id,
+            'name' => $request->name,
+            'code' => $request->designation_code,
+            'kpi_weightage' => $request->kpi_weightage,
+            'competency_weight' => $request->competency_weight,
             'status' => $request->status,
         ]);
 
-        return redirect()->route('masters.organisation.designation')
+        return redirect()->route('settings.designation')
             ->with('success', 'Designation updated successfully!');
     }
+
+
 
     /**
      * Remove the specified resource from storage.

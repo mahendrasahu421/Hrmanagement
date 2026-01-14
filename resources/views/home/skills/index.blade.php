@@ -30,7 +30,7 @@
                                 <tr>
                                     <th>Sn</th>
                                     <th>Job Skill Name</th>
-                                   
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -83,6 +83,10 @@
                     {
                         data: 'name',
                         name: 'name'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
                     },
                    
                     {

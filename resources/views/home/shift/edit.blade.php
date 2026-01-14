@@ -112,7 +112,7 @@
                                     <!-- Status -->
                                     <div class="col-md-6 mb-3">
                                         <label class="form-label">Status <span class="text-danger">*</span></label>
-                                        <select name="status" class="form-control" required>
+                                        <select name="status" class="form-control select2" required>
                                             <option value="Active"
                                                 {{ old('status', $shift->status) == 'Active' ? 'selected' : '' }}>Active
                                             </option>
