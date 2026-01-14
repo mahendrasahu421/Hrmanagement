@@ -59,6 +59,7 @@
                                     <th>Leave Code</th>
                                     <th>Allow days</th>
                                     <th>Status</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -71,13 +72,60 @@
 
         <x-footer />
     </div>
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="delete_modal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
+                        <i class="ti ti-trash-x fs-36"></i>
+                    </span>
+                    <h4 class="mb-1">Confirm Delete</h4>
+                    <p class="mb-3">Are you sure you want to delete this leave mapping?</p>
+
+                    <input type="hidden" id="deleteLeaveId">
+
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</button>
+                        <button class="btn btn-danger" id="confirmDeleteBtn">Yes, Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('after_scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        function deleteLeave(id) {
+            $('#deleteLeaveId').val(id);
+            $('#delete_modal').modal('show');
+        }
 
+        $('#confirmDeleteBtn').click(function() {
+            let id = $('#deleteLeaveId').val();
+
+            $.ajax({
+                url: "{{ url('settings/leave-mapping/delete') }}/" + id,
+                type: 'POST',
+                data: {
+                    _method: 'DELETE',
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(res) {
+                    $('#delete_modal').modal('hide');
+                    $('#leaveTypeList').DataTable().ajax.reload();
+                },
+                error: function() {
+                    alert('Something went wrong!');
+                }
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             $('.select2').select2();
@@ -113,6 +161,23 @@
                     {
                         data: 'status',
                         name: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'id',
+                        render: function(data) {
+                            return `
+                                <div class="action-icon d-inline-flex">
+                                    <a href="{{ url('settings/leave-mapping/edit') }}/${data}" class="me-2">
+                                        <i class="ti ti-edit"></i>
+                                    </a>
+                                    <a href="javascript:void(0);" onclick="deleteLeave(${data})">
+                                        <i class="ti ti-trash"></i>
+                                    </a>
+                                </div>
+                            `;
+                        },
                         orderable: false,
                         searchable: false
                     }

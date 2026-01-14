@@ -103,7 +103,7 @@
                                     <!-- Status -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label">Status *</label>
-                                        <select class="form-control" name="status" required>
+                                        <select class="form-control select2" name="status" required>
                                             <option value="Active"
                                                 {{ old('status', $designation->status) == 'Active' ? 'selected' : '' }}>
                                                 Active

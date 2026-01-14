@@ -159,7 +159,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/leave-allow', [LeaveMappingController::class, 'index'])->name('settings.leave-allow');
     Route::get('settings/leave-allow/create', [LeaveMappingController::class, 'create'])->name('settings.leave-allow.create');
     Route::post('settings/leave-mapping/store', [LeaveMappingController::class, 'store'])->name('settings.leave.mapping.store');
+    Route::get('settings/leave-mapping/edit/{id}', [LeaveMappingController::class, 'edit'])->name('settings.leave.mapping.edit');
+    Route::put('settings/leave-mapping/update/{id}',[LeaveMappingController::class, 'update'])->name('settings.leave.mapping.update');
     Route::get('settings/leave-mapping/list', [LeaveMappingController::class, 'list'])->name('settings.leave.mapping.list');
+    Route::delete('settings/leave-mapping/delete/{id}',[LeaveMappingController::class, 'destroy'])->name('settings.leave.mapping.delete');
 
 
     // Master/Organisation/Holiday
