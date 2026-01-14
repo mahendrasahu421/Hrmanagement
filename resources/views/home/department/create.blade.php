@@ -106,7 +106,7 @@
                                     <!-- Status -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="status">Status *</label>
-                                        <select class="form-control" id="status" name="status" required>
+                                        <select class="form-control select2" id="status" name="status" required>
                                             <option value="Active" {{ old('status') == 'active' ? 'selected' : '' }}>Active
                                             </option>
                                             <option value="Inactive" {{ old('status') == 'inactive' ? 'selected' : '' }}>
