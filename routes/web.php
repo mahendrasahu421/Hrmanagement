@@ -105,7 +105,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/company/create', [CompanyController::class, 'create'])->name('masters.organisation.company.create');
     Route::post('masters/organisation/company/store', [CompanyController::class, 'store'])->name('masters.organisation.company.store');
     Route::get('masters/organisation/company/list', [CompanyController::class, 'list'])->name('masters.organisation.company.list');
-    Route::get('masters/organisation/company/edit', [CompanyController::class, 'edit'])->name('masters.organisation.company.edit');
+    Route::get('masters/organisation/company/edit/{id}', [CompanyController::class, 'edit'])->name('masters.organisation.company.edit');
+    Route::put('masters/organisation/company/update/{id}', [CompanyController::class, 'update'])->name('masters.organisation.company.update');
+    Route::delete('masters/organisation/company/delete/{id}', [CompanyController::class, 'destroy'])->name('masters.organisation.company.delete');
+
 
     // Master/Organisation/Branch
     Route::get('masters/organisation/branch', [BranchController::class, 'index'])->name('masters.organisation.branch');
@@ -151,7 +154,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('settings/leave-type/edit/{id}', [LeaveTypeController::class, 'update'])->name('settings.leave-type.update');
     Route::delete('settings/leave-type/delete/{id}', [LeaveTypeController::class, 'destroy'])->name('settings.leave-type.destroy');
     Route::get('settings/leave-type/list', [LeaveTypeController::class, 'list'])->name('settings.leave-type.list');
-    
+
 
 
 
@@ -160,9 +163,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('settings/leave-allow/create', [LeaveMappingController::class, 'create'])->name('settings.leave-allow.create');
     Route::post('settings/leave-mapping/store', [LeaveMappingController::class, 'store'])->name('settings.leave.mapping.store');
     Route::get('settings/leave-mapping/edit/{id}', [LeaveMappingController::class, 'edit'])->name('settings.leave.mapping.edit');
-    Route::put('settings/leave-mapping/update/{id}',[LeaveMappingController::class, 'update'])->name('settings.leave.mapping.update');
+    Route::put('settings/leave-mapping/update/{id}', [LeaveMappingController::class, 'update'])->name('settings.leave.mapping.update');
     Route::get('settings/leave-mapping/list', [LeaveMappingController::class, 'list'])->name('settings.leave.mapping.list');
-    Route::delete('settings/leave-mapping/delete/{id}',[LeaveMappingController::class, 'destroy'])->name('settings.leave.mapping.delete');
+    Route::delete('settings/leave-mapping/delete/{id}', [LeaveMappingController::class, 'destroy'])->name('settings.leave.mapping.delete');
 
 
     // Master/Organisation/Holiday
