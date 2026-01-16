@@ -115,7 +115,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/branch/create', [BranchController::class, 'create'])->name('masters.organisation.branch.create');
     Route::post('masters/organisation/branch/store', [BranchController::class, 'store'])->name('masters.organisation.branch.store');
     Route::get('masters/organisation/branch/list', [BranchController::class, 'list'])->name('masters.organisation.branch.list');
-    Route::get('masters/organisation/branch/edit', [BranchController::class, 'edit'])->name('masters.organisation.branch.edit');
+    
+    Route::get('masters/organisation/branch/edit/{id}',[BranchController::class, 'edit'])->name('masters.organisation.branch.edit');
+    Route::put('masters/organisation/branch/update/{id}',[BranchController::class, 'update'])->name('masters.organisation.branch.update');
+    Route::delete('masters/organisation/branch/delete/{id}',[BranchController::class, 'destroy'])->name('masters.organisation.branch.delete');
 
 
 

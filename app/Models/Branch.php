@@ -3,10 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\StateCity;
 use App\Models\CountryState;
 class Branch extends Model
 {
+    use SoftDeletes;
     protected $fillable = [
         'company_id',
         'branch_name',
