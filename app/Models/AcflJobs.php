@@ -30,11 +30,10 @@ class AcflJobs extends Model
 
     // Agar aap JSON columns ko automatically array me chahte ho
     protected $casts = [
+        'test_skills' => 'array',
         'city_ids' => 'array',
         'qualifications' => 'array',
-        'interview_date' => 'date',
     ];
-
     // Relationships
     public function branch()
     {
@@ -53,7 +52,7 @@ class AcflJobs extends Model
 
     public function state()
     {
-        return $this->belongsTo(CountryState::class, 'state_id','id');
+        return $this->belongsTo(CountryState::class, 'state_id', 'id');
     }
 
     public function city()
@@ -65,7 +64,7 @@ class AcflJobs extends Model
     {
         return JobSkill::whereIn('id', $this->test_skills ?? [])->pluck('name')->toArray();
     }
-    
+
     public function getCityIdsAttribute($value)
     {
         // Fix double encoded JSON: "\"[\"1\"]\""
@@ -81,7 +80,4 @@ class AcflJobs extends Model
 
         return is_array($value) ? $value : [];
     }
-
-
-
 }
