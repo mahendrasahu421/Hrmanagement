@@ -280,6 +280,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('settings/email-template/store', [SettingController::class, 'store'])->name('settings.email-template.store');
     Route::get('settings/email-template/list', [SettingController::class, 'list'])->name('settings.email-template.list');
     Route::get('settings/email-template/preview/{id}', [SettingController::class, 'preview'])->name('settings.email-template.preview');
+    Route::get('settings/email-template/edit/{id}', [SettingController::class, 'edit'])->name('settings.email-template.edit');
+    Route::put('settings/email-template/update/{id}', [SettingController::class, 'update'])->name('settings.email-template.update');
+    Route::delete('settings/email-template/delete/{id}', [SettingController::class, 'destroy'])->name('settings.email-template.destroy');
+
 
     // Master/Organisation/JobSkill
     Route::get('settings/skill', [SkillController::class, 'index'])->name('settings.skills');
