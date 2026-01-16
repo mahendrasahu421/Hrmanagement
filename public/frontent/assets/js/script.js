@@ -51,14 +51,15 @@ Template Name: Smarthr - Bootstrap Admin Template
 
     // Stick Sidebar
 
-    if ($(window).width() > 767) {
-        if ($(".theiaStickySidebar").length > 0) {
-            $(".theiaStickySidebar").theiaStickySidebar({
-                // Settings
-                additionalMarginTop: 30,
-            });
+    $(function () {
+        if ($(window).width() > 767) {
+            if ($(".theiaStickySidebar").length > 0) {
+                $(".theiaStickySidebar").theiaStickySidebar({
+                    additionalMarginTop: 30,
+                });
+            }
         }
-    }
+    });
 
     // Stack Menu Toggle
     if ($(".stack-menu").length > 0) {
