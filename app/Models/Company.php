@@ -5,8 +5,11 @@ use App\Models\Country;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\StateCity;
 use App\Models\CountryState;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Company extends Model
 {
+     use SoftDeletes;
      protected $fillable = [
         'company_name',
         'company_code',
@@ -21,13 +24,11 @@ class Company extends Model
         'pincode',
         'status'
     ];
-
-    // ✅ Casts
+protected $dates = ['deleted_at']; 
     protected $casts = [
-        'status' => 'string', // ENUM: Active / Inactive
+        'status' => 'string',
     ];
 
-    // ✅ Relationships (Optional: agar aap country, state, city models ke saath join karna chahte ho)
     public function countryDetail()
     {
         return $this->belongsTo(Country::class, 'country', 'id');

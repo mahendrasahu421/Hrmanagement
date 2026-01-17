@@ -11,22 +11,23 @@
     <div style="max-width:600px; margin:auto; border:1px solid #ddd; background:#fff;">
 
         <!-- Header -->
-        <div
-            style="background:#f26522; color:#fff; padding:15px; display:flex; justify-content:space-between; align-items:center;">
-
-            <div style="text-align:left;">
-                <h3 style="margin:0; font-size:18px; color:#fff;">
+        <table width="100%" cellpadding="0" cellspacing="0" style="background:#f26522; color:#fff;">
+            <tr>
+                <!-- LEFT : Subject / Name -->
+                <td align="left" valign="middle" style="padding:15px; font-size:18px; font-weight:bold; color:#fff;">
                     {{ $subject }}
-                </h3>
-            </div>
+                </td>
 
-            <div style="text-align:right;">
-                @foreach ($companyDetails as $company)
-                    <img src="cid:{{ $company->company_logo }}" alt="Logo" width="100"
-                        style="margin-left:10px;">
-                @endforeach
-            </div>
-        </div>
+                <!-- RIGHT : Logo -->
+                <td align="right" valign="middle" style="padding:15px;">
+                    @if (!empty($companyDetails[0]->company_logo))
+                        <img src="cid:{{ $companyDetails[0]->company_logo }}" alt="Logo"
+                            style="max-height:45px; max-width:120px; display:block;">
+                    @endif
+                </td>
+            </tr>
+        </table>
+
 
         <!-- Body -->
         <div style="padding:20px; color:#333; line-height:1.6; font-size:14px;">

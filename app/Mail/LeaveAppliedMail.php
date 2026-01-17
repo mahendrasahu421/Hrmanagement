@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\Leave;
 use App\Models\Company;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -13,53 +12,50 @@ class LeaveAppliedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $template_key;
-    public $subject;
-    public $body;
+    public $subjectText;
+    public $templateBody;
     public $companyDetails;
-    public $duration;
 
     public function __construct($leave, $template)
     {
         $employee = $leave->employee;
 
-        $this->companyDetails = Company::all();
+        $this->companyDetails = Company::where('status', 'Active')->get();
 
-        $this->subject = $template->subject ?? "New Leave Request";
-
-        $this->duration = Carbon::parse($leave->from_date)
+        $duration = Carbon::parse($leave->from_date)
             ->diffInDays(Carbon::parse($leave->to_date)) + 1;
+        $this->subjectText = str_replace(
+            '{employee_name}',
+            $employee->employee_name,
+            $template->subject ?? 'New Leave Request'
+        );
 
-        $this->body = strtr($template->body, [
-            '{manager_name}' => $manager->name ?? 'Manager',
+        $this->templateBody = strtr($template->body, [
             '{employee_name}' => $employee->employee_name,
-
-            '{from_date}' => Carbon::parse($leave->from_date)->format('d-m-Y'),
-            '{to_date}' => Carbon::parse($leave->to_date)->format('d-m-Y'),
-            '{reason}' => $leave->reason,
-            '{duration}' => $this->duration
+            '{from_date}'     => Carbon::parse($leave->from_date)->format('d-m-Y'),
+            '{to_date}'       => Carbon::parse($leave->to_date)->format('d-m-Y'),
+            '{duration}'      => $duration,
+            '{reason}'        => $leave->reason,
         ]);
     }
 
-
     public function build()
     {
-        $mail = $this->subject($this->template_key)
+        $mail = $this
+            ->subject($this->subjectText)
             ->view('emails.leave_applied')
             ->with([
-                'subject' => $this->subject,
-                'template_key' => $this->template_key,
-                'template_body' => $this->body,
-                'companyDetails' => $this->companyDetails
+                'subject'        => $this->subjectText,
+                'template_body'  => $this->templateBody,
+                'companyDetails'=> $this->companyDetails,
             ]);
 
         foreach ($this->companyDetails as $company) {
-
             $path = public_path('uploads/company/' . $company->company_logo);
 
             if (file_exists($path)) {
                 $mail->attach($path, [
-                    'as' => $company->company_logo,
+                    'as'   => $company->company_logo,
                     'mime' => 'image/png',
                 ]);
             }
