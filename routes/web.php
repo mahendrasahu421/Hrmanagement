@@ -115,10 +115,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('masters/organisation/branch/create', [BranchController::class, 'create'])->name('masters.organisation.branch.create');
     Route::post('masters/organisation/branch/store', [BranchController::class, 'store'])->name('masters.organisation.branch.store');
     Route::get('masters/organisation/branch/list', [BranchController::class, 'list'])->name('masters.organisation.branch.list');
-    
-    Route::get('masters/organisation/branch/edit/{id}',[BranchController::class, 'edit'])->name('masters.organisation.branch.edit');
-    Route::put('masters/organisation/branch/update/{id}',[BranchController::class, 'update'])->name('masters.organisation.branch.update');
-    Route::delete('masters/organisation/branch/delete/{id}',[BranchController::class, 'destroy'])->name('masters.organisation.branch.delete');
+
+    Route::get('masters/organisation/branch/edit/{id}', [BranchController::class, 'edit'])->name('masters.organisation.branch.edit');
+    Route::put('masters/organisation/branch/update/{id}', [BranchController::class, 'update'])->name('masters.organisation.branch.update');
+    Route::delete('masters/organisation/branch/delete/{id}', [BranchController::class, 'destroy'])->name('masters.organisation.branch.delete');
 
 
 
@@ -183,7 +183,11 @@ Route::middleware(['auth'])->group(function () {
     // Master/Organisation/Policy
     Route::get('masters/organisation/policy', [PolicyController::class, 'index'])->name('masters.organisation.policy');
     Route::get('masters/organisation/policy/create', [PolicyController::class, 'create'])->name('masters.organisation.policy.create');
-    Route::get('masters/organisation/policy/store', [PolicyController::class, 'store'])->name('masters.organisation.policy.store');
+    Route::post('masters/organisation/policy/store', [PolicyController::class, 'store'])->name('masters.organisation.policy.store');
+    Route::get('masters/organisation/policy/edit/{id}', [PolicyController::class, 'edit'])->name('masters.organisation.policy.edit');
+    Route::put('masters/organisation/policy/edit/{id}', [PolicyController::class, 'update'])->name('masters.organisation.policy.update');
+    Route::delete('masters/organisation/policy/delete/{id}', [PolicyController::class, 'destroy'])->name('masters.organisation.policy.delete');
+    Route::get('masters/organisation/policy/list', [PolicyController::class, 'list'])->name('masters.organisation.policy.list');
 
     // Master/Recruitment/Jobs
     Route::get('employee/details/{id}', [AppliedController::class, 'usersDetails'])->name('employee.details');
