@@ -6,13 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\Company;
 use App\Models\Branch;
 use Illuminate\Http\Request;
-use App\Models\Country; // corrected namespace
+use App\Models\Country;
 use Illuminate\Support\Facades\DB;
+
 class BranchController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
         $data['countries'] = Country::all();
@@ -20,11 +18,6 @@ class BranchController extends Controller
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.branch.index', $data);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-
 
     public function create()
     {
@@ -35,9 +28,6 @@ class BranchController extends Controller
         return view('home.branch.create', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -66,8 +56,6 @@ class BranchController extends Controller
                 'contact_number' => $request->contact_number,
                 'email' => $request->email,
                 'address_1' => $request->address_1,
-
-                // 🔹 Ye dono fields form me nahi hai → default NA
                 'gst_number' => 'NA',
                 'address_2' => 'NA',
 
@@ -83,7 +71,6 @@ class BranchController extends Controller
             return redirect()
                 ->route('masters.organisation.branch')
                 ->with('success', 'Branch created successfully!');
-
         } catch (\Exception $e) {
 
             DB::rollBack();
@@ -99,11 +86,7 @@ class BranchController extends Controller
             $search = $request->input('search')['value'] ?? null;
             $limit = $request->input('length', 10);
             $start = $request->input('start', 0);
-
-            // 🔹 Load Relations
             $query = Branch::with(['company', 'countryData', 'stateData', 'cityData']);
-
-            // 🔹 Search
             if ($search) {
                 $query->where(function ($q) use ($search) {
                     $q->where('branch_name', 'like', "%{$search}%")
@@ -113,17 +96,12 @@ class BranchController extends Controller
                         ->orWhere('email', 'like', "%{$search}%");
                 });
             }
-
-            // 🔹 Total count
             $totalRecord = $query->count();
-
-            // 🔹 Pagination
             $branches = $query->skip($start)->take($limit)->get();
-
-            // 🔹 Rows for DataTable
             $rows = [];
             foreach ($branches as $index => $branch) {
                 $rows[] = [
+                    'id' => $branch->id, 
                     'DT_RowIndex' => $start + $index + 1,
                     'company_name' => $branch->company->company_name ?? '--',
                     'branch_name' => $branch->branch_name ?? '--',
@@ -131,8 +109,6 @@ class BranchController extends Controller
                     'branch_owner_name' => $branch->branch_owner_name ?? '--',
                     'contact_number' => $branch->contact_number ?? '--',
                     'email' => $branch->email ?? '--',
-
-                    // 🔹 Country / State / City in name format
                     'country_name' => $branch->countryData->name ?? '--',
                     'state_name' => $branch->stateData->name ?? '--',
                     'city_name' => $branch->cityData->name ?? '--',
@@ -144,15 +120,12 @@ class BranchController extends Controller
                     'action' => '<a href="' . route('masters.organisation.branch.edit', $branch->id) . '" class="btn btn-sm btn-primary">Edit</a>',
                 ];
             }
-
-            // 🔹 Datatable Output
             return response()->json([
                 'draw' => intval($request->input('draw')),
                 'recordsTotal' => $totalRecord,
                 'recordsFiltered' => $totalRecord,
                 'data' => $rows,
             ]);
-
         } catch (\Exception $e) {
             return response()->json([
                 'error' => true,
@@ -162,48 +135,53 @@ class BranchController extends Controller
         }
     }
 
-
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
-        $branch = \App\Models\Branch::findOrFail($id);
-        $countries = Country::all();
-        return view('admin.branch.edit', compact('branch', 'countries'));
+        $branch = Branch::findOrFail($id);
+
+        return view('home.branch.edit', [
+            'branch' => $branch,
+            'countries' => Country::all(),
+            'companies' => Company::all(),
+            'title' => 'Edit Branch'
+        ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, $id)
     {
-        $branch = \App\Models\Branch::findOrFail($id);
+        $branch = Branch::findOrFail($id);
 
         $request->validate([
-            'name' => 'required|string|max:255',
-            'country_id' => 'required|exists:countries,id',
-            'address' => 'nullable|string',
+            'company_id' => 'required|exists:companies,id',
+            'branch_name' => 'required',
+            'branch_code' => 'required',
+            'branch_owner_name' => 'required',
+            'contact_number' => 'required',
+            'email' => 'required|email|unique:branches,email,' . $id,
+            'address_1' => 'required',
+            'country' => 'required',
+            'state' => 'required',
+            'city' => 'required',
+            'pincode' => 'required',
+            'status' => 'required'
         ]);
 
-        $branch->update([
-            'name' => $request->name,
-            'country_id' => $request->country_id,
-            'address' => $request->address,
-        ]);
+        $branch->update($request->all());
 
-        return redirect()->route('admin.branches.index')->with('success', 'Branch updated successfully.');
+        return redirect()
+            ->route('masters.organisation.branch')
+            ->with('success', 'Branch updated successfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
+
     public function destroy($id)
     {
-        $branch = \App\Models\Branch::findOrFail($id);
+        $branch = Branch::findOrFail($id);
         $branch->delete();
 
-        return redirect()->route('admin.branches.index')->with('success', 'Branch deleted successfully.');
+        return response()->json([
+            'status' => true,
+            'message' => 'Branch deleted successfully'
+        ]);
     }
 }

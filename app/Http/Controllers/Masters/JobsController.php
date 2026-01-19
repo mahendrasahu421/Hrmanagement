@@ -34,96 +34,63 @@ class JobsController extends Controller
 
     public function list(Request $request)
     {
-        try {
+        $search = $request->input('search.value');
+        $limit  = $request->input('length', 10);
+        $start  = $request->input('start', 0);
 
-            $search = $request->input('search.value');
-            $limit = $request->input('length', 10);
-            $start = $request->input('start', 0);
+        $query = AcflJobs::with(['designation', 'state']);
 
-            $query = AcflJobs::with(['designation', 'state']);
-            if ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('job_title', 'like', "%{$search}%")
-                        ->orWhereHas('designation', fn($q) => $q->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('state', fn($q) => $q->where('name', 'like', "%{$search}%"));
-                });
-            }
-
-            $totalRecords = $query->count();
-            $orderColumnIndex = $request->input('order.0.column', 0);
-            $orderDir = $request->input('order.0.dir', 'desc');
-
-            $columns = [
-                0 => 'id',
-                1 => 'created_at',
-                2 => 'job_title',
-                3 => 'designation_id',
-                4 => 'state_id',
-                5 => 'city_ids',
-                6 => 'min_exp',
-                7 => 'status',
-            ];
-
-            $orderColumn = $columns[$orderColumnIndex] ?? 'id';
-
-            if ($orderColumn === 'designation_id') {
-                $query->join('designations', 'acfl_jobs.designation_id', '=', 'designations.id')
-                    ->orderBy('designations.name', $orderDir)
-                    ->select('acfl_jobs.*');
-            } elseif ($orderColumn === 'state_id') {
-                $query->join('country_states', 'acfl_jobs.state_id', '=', 'country_states.id')
-                    ->orderBy('country_states.name', $orderDir)
-                    ->select('acfl_jobs.*');
-            } else {
-                $query->orderBy($orderColumn, $orderDir);
-            }
-
-            $jobs = $query->skip($start)->take($limit)->get();
-
-            $rows = [];
-
-            foreach ($jobs as $index => $job) {
-
-                $cityIds = $job->city_ids ?? [];
-                $cityNames = StateCity::whereIn('id', $cityIds)->pluck('name')->toArray();
-
-                $skillIds = json_decode($job->test_skills, true) ?? [];
-                // $skillNames = JobSkill::whereIn('id', $skillIds)->pluck('name')->toArray();
-
-                $rows[] = [
-                    'DT_RowIndex' => $start + $index + 1,
-                    'publish_date' => $job->created_at->format('d M Y'),
-                    'job_title' => $job->job_title,
-                    'designation' => $job->designation->name ?? '--',
-                    'state' => $job->state->name ?? '--',
-                    'city' => implode(', ', $cityNames) ?: '--',
-                    'experience' => $job->min_exp . ' - ' . $job->max_exp . ' Years',
-                    'status' => $job->status === 'PUBLISHED'
-                        ? '<span class="badge bg-success">Active</span>'
-                        : '<span class="badge bg-danger">Inactive</span>',
-                    'action' => '
-                    <button type="button" class="btn btn-sm btn-warning copy-btn">
-                        <i class="ti ti-copy"></i>
-                    </button>
-                ',
-                ];
-            }
-
-            return response()->json([
-                'draw' => intval($request->input('draw')),
-                'recordsTotal' => $totalRecords,
-                'recordsFiltered' => $totalRecords,
-                'data' => $rows,
-            ]);
-        } catch (\Exception $e) {
-
-            return response()->json([
-                'error' => true,
-                'message' => 'Something went wrong while fetching jobs',
-                'debug' => $e->getMessage()
-            ], 500);
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('job_title', 'like', "%{$search}%")
+                    ->orWhereHas('designation', fn($q) => $q->where('name', 'like', "%{$search}%"))
+                    ->orWhereHas('state', fn($q) => $q->where('name', 'like', "%{$search}%"));
+            });
         }
+
+        $recordsTotal = AcflJobs::count();
+        $recordsFiltered = $query->count();
+
+        $jobs = $query->orderBy('id', 'desc')
+            ->skip($start)
+            ->take($limit)
+            ->get();
+
+        $rows = [];
+
+        foreach ($jobs as $index => $job) {
+
+            $cityIds = is_array($job->city_ids) ? $job->city_ids : [];
+
+            $cityNames = StateCity::whereIn('id', $cityIds)
+                ->pluck('name')
+                ->toArray();
+
+            $rows[] = [
+                'DT_RowIndex' => $start + $index + 1,
+                'publish_date' => optional($job->created_at)->format('d M Y'),
+                'job_title' => $job->job_title ?? '--',
+                'designation' => optional($job->designation)->name ?? '--',
+                'state' => optional($job->state)->name ?? '--',
+                'city' => implode(', ', $cityNames) ?: '--',
+                'experience' => "{$job->min_exp} - {$job->max_exp} Years",
+                'status' => $job->status === 'PUBLISHED'
+                    ? '<span class="badge bg-success">Active</span>'
+                    : '<span class="badge bg-danger">Inactive</span>',
+                'action' => '<button class="btn btn-sm btn-warning copy-btn">
+                            <i class="ti ti-copy"></i>
+                        </button>',
+            ];
+        }
+
+        return response()->json([
+            'draw' => intval($request->input('draw')),
+            'recordsTotal' => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data' => $rows,
+        ]);
     }
+
 
     public function recommendedJob()
     {
@@ -155,17 +122,11 @@ class JobsController extends Controller
         $jobsData = [];
 
         foreach ($jobs as $job) {
-
-            // city names (model accessor se array aa rahi hai)
             $cityIds = $job->city_ids;
             $cityNames = StateCity::whereIn('id', $cityIds)
                 ->pluck('name')
                 ->toArray();
-
-            // state name
             $stateName = optional($job->state)->name ?? 'State not available';
-
-            // prepare API response
             $jobsData[] = [
                 'id' => $job->id,
                 'job_title' => $job->job_title,
@@ -315,13 +276,12 @@ class JobsController extends Controller
         }
     }
 
-   
+
 
 
 
     public function store(Request $request)
     {
-        // Validation (names now match your form)
         $request->validate([
             'branch_id' => 'required|exists:branches,id',
             'job_title' => 'required|string|max:255',
@@ -330,40 +290,40 @@ class JobsController extends Controller
             'positions' => 'required|integer|min:1',
             'job_type_id' => 'required|exists:job_categories,id',
             'ctc_from' => 'nullable|numeric',
-            'ctc_to' => 'nullable|numeric',
+            'ctc_to' => 'nullable|numeric|gte:ctc_from',
             'min_exp' => 'required|integer|min:0',
-            'max_exp' => 'required|integer|min:0',
+            'max_exp' => 'required|integer|gte:min_exp',
             'state_id' => 'required|exists:country_states,id',
             'city_ids' => 'required|array',
-            'job_description' => 'required|string',
+            'job_description' => 'required|string|min:10',
             'qualifications' => 'required|array',
             'keywords' => 'nullable|string',
             'interview_date' => 'nullable|date',
             'status' => 'required|in:DRAFT,PUBLISHED',
         ]);
 
-        try {
-            DB::beginTransaction();
+        DB::beginTransaction();
 
-            $job = new AcflJobs();
-            $job->branch_id = $request->branch_id;
-            $job->job_title = $request->job_title;
-            $job->designation_id = $request->designation_id;
-            $job->test_skills = json_encode($request->test_skills);
-            $job->positions = $request->positions;
-            $job->job_type_id = $request->job_type_id;
-            $job->ctc_from = $request->ctc_from;
-            $job->ctc_to = $request->ctc_to;
-            $job->min_exp = $request->min_exp;
-            $job->max_exp = $request->max_exp;
-            $job->state_id = $request->state_id;
-            $job->city_ids = json_encode($request->city_ids);
-            $job->job_description = $request->job_description;
-            $job->qualifications = json_encode($request->qualifications);
-            $job->keywords = $request->keywords;
-            $job->interview_date = $request->interview_date;
-            $job->status = $request->status;
-            $job->save();
+        try {
+            AcflJobs::create([
+                'branch_id' => $request->branch_id,
+                'job_title' => $request->job_title,
+                'designation_id' => $request->designation_id,
+                'test_skills' => $request->test_skills,
+                'positions' => $request->positions,
+                'job_type_id' => $request->job_type_id,
+                'ctc_from' => $request->ctc_from,
+                'ctc_to' => $request->ctc_to,
+                'min_exp' => $request->min_exp,
+                'max_exp' => $request->max_exp,
+                'state_id' => $request->state_id,
+                'city_ids' => $request->city_ids,
+                'job_description' => strip_tags($request->job_description), 
+                'qualifications' => $request->qualifications,
+                'keywords' => $request->keywords,
+                'interview_date' => $request->interview_date,
+                'status' => $request->status,
+            ]);
 
             DB::commit();
 
@@ -371,12 +331,10 @@ class JobsController extends Controller
                 ->with('success', 'Job posted successfully!');
         } catch (\Exception $e) {
             DB::rollBack();
-
-            return redirect()->back()
-                ->with('error', 'Something went wrong while posting the job.')
-                ->withInput();
+            dd($e->getMessage());
         }
     }
+
 
 
 
