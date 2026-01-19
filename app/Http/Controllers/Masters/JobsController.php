@@ -318,7 +318,7 @@ class JobsController extends Controller
                 'max_exp' => $request->max_exp,
                 'state_id' => $request->state_id,
                 'city_ids' => $request->city_ids,
-                'job_description' => $request->job_description,
+                'job_description' => strip_tags($request->job_description), 
                 'qualifications' => $request->qualifications,
                 'keywords' => $request->keywords,
                 'interview_date' => $request->interview_date,
