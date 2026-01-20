@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Models\JobApplication;
 use App\Models\CountryState;
+use App\Models\Skills;
 use App\Models\StateCity;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -28,6 +29,13 @@ class AppliedController extends Controller
             'maritalStatus'
         )->findOrFail($id);
 
+        $skillNames = [];
+    if (!empty($employee->skills)) {
+        $skillNames = Skills::whereIn('id', $employee->skills)
+            ->pluck('name')
+            ->toArray();
+    }
+
         return response()->json([
             'employee_name' => ucfirst($employee->first_name) . ' ' . ucfirst($employee->last_name),
             'email' => $employee->email,
@@ -44,7 +52,7 @@ class AppliedController extends Controller
             'tenth_year' => $employee->tenth_year,
             'twelfth_percent' => $employee->twelfth_percent . "%",
             'twelfth_year' => $employee->twelfth_year,
-            'ug_percent' => $employee->ug_percent,
+            'ug_percent' => $employee->ug_percent . "%",
             'ug_year' => $employee->ug_year,
             'qualification' => $employee->qualification,
             'degree' => $employee->degree,
@@ -54,7 +62,7 @@ class AppliedController extends Controller
             'experience_years' => $employee->experience_years,
             'experience_details' => $employee->experience_details,
 
-            'skills' => $employee->skills ?? [],
+            'skills' => !empty($skillNames) ? implode(', ', $skillNames) : 'N/A',
             'answers' => $employee->answers ?? [],
 
             'designation' => $employee->designation->name ?? 'N/A',

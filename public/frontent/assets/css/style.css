@@ -35808,6 +35808,13 @@ span.flatpickr-weekday {
 .paginate_button {
     margin: 0px 5px;
 }
+
+.dt-length{
+    text-transform: capitalize;
+}
+.dt-length label{
+    margin-left: 15px;
+}
 /* End:: swiper js */
 
 /*# sourceMappingURL=style.css.map */

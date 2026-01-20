@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                             <div class="col-md-6 d-flex align-items-end justify-content-end">
-                                <button type="submit" class="btn btn-primary px-5 py-2 shadow">Submit</button>
+                                <button type="submit" class="btn btn-primary px-5 py-2">Submit</button>
                             </div>
                         </div>
                     </form>

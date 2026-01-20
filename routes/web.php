@@ -201,12 +201,17 @@ Route::middleware(['auth'])->group(function () {
     Route::get('recruitment/jobs/recommended-job', [JobsController::class, 'recommendedJob'])->name('recruitment.jobs.recommended-job');
     Route::get('recruitment/jobs/job-listings/{slug}', [JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
     Route::get('/recruitment/jobs/{slug}/apply', [JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
+    Route::get('recruitment/jobs/details-ajax',[JobsController::class, 'jobDetailsAjax'])->name('recruitment.jobs.details.ajax');
 
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
 
     Route::get('recruitment/jobs/create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
+    Route::get('jaf/list', [JafController::class, 'list'])->name('jaf.list');
     Route::post('recruitment/jobs/create-job-questionaire/store', [JafController::class, 'store'])->name('jaf.store');
     Route::get('recruitment/jobs/create-job-questionaire/show', [JafController::class, 'show'])->name('jaf.index');
+    Route::get('recruitment/jobs/create-job-questionaire/edit/{id}',[JafController::class, 'edit'])->name('jaf.edit');
+    Route::put('recruitment/jobs/create-job-questionaire/update/{id}',[JafController::class, 'update'])->name('jaf.update'); 
+    Route::delete('recruitment/jobs/create-job-questionaire/delete/{id}',[JafController::class, 'destroy'])->name('jaf.delete');
 
     // Master/Payroll/salary-component
     Route::get('masters/payroll/salary-component', [SalaryComponentController::class, 'index'])->name('masters.payroll.salary-component');

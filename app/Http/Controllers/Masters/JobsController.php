@@ -26,25 +26,37 @@ class JobsController extends Controller
 
     public function index()
     {
-        $data['title'] = 'Recruitment / Jobs ';
-        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        $data['jobs'] = AcflJobs::with(['designation', 'state'])->orderBy('id', 'DESC')->get();
+        $data['title'] = 'Recruitment / Job / List ';
+
+        $data['totalJobs'] = AcflJobs::count();
+        $data['publishedJobs'] = AcflJobs::where('status', 'PUBLISHED')->count();
+        $data['draftJobs'] = AcflJobs::where('status', 'DRAFT')->count();
+
         return view('home.jobs.index', $data);
     }
 
     public function list(Request $request)
     {
         $search = $request->input('search.value');
+        $status = $request->input('status');
         $limit  = $request->input('length', 10);
         $start  = $request->input('start', 0);
 
         $query = AcflJobs::with(['designation', 'state']);
 
+        if ($status && $status !== 'ALL') {
+            $query->where('status', $status);
+        }
+
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('job_title', 'like', "%{$search}%")
-                    ->orWhereHas('designation', fn($q) => $q->where('name', 'like', "%{$search}%"))
-                    ->orWhereHas('state', fn($q) => $q->where('name', 'like', "%{$search}%"));
+                    ->orWhereHas('designation', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    })
+                    ->orWhereHas('state', function ($q) use ($search) {
+                        $q->where('name', 'like', "%{$search}%");
+                    });
             });
         }
 
@@ -75,9 +87,13 @@ class JobsController extends Controller
                 'city' => implode(', ', $cityNames) ?: '--',
                 'experience' => "{$job->min_exp} - {$job->max_exp} Years",
                 'status' => $job->status === 'PUBLISHED'
-                    ? '<span class="badge bg-success">Active</span>'
-                    : '<span class="badge bg-danger">Inactive</span>',
-                'action' => '<button class="btn btn-sm btn-warning copy-btn">
+                    ? '<span class="badge bg-success">Published</span>'
+                    : '<span class="badge bg-danger">Draft</span>',
+                'action' => '
+                 <button class="btn btn-sm btn-info view-job" data-id="'.$job->id.'">
+        <i class="ti ti-eye"></i>
+    </button>
+                <button class="btn btn-sm btn-warning copy-btn">
                             <i class="ti ti-copy"></i>
                         </button>',
             ];
@@ -92,28 +108,57 @@ class JobsController extends Controller
     }
 
 
+    public function jobDetailsAjax(Request $request)
+    {
+        $job = AcflJobs::with(['designation', 'state'])->findOrFail($request->id);
+    
+        $cities = StateCity::whereIn('id', $job->city_ids ?? [])
+            ->pluck('name')
+            ->implode(', ');
+    
+        $skills = Skills::whereIn('id', $job->test_skills ?? [])
+            ->pluck('name')
+            ->implode(', ');
+    
+        return response()->json([
+            'job_title' => $job->job_title,
+            'designation' => optional($job->designation)->name ?? '--',
+            'experience' => "{$job->min_exp} - {$job->max_exp} Years",
+            'ctc' => $job->ctc_from . ' - ' . $job->ctc_to,
+            'state' => optional($job->state)->name ?? '--',
+            'cities' => $cities ?: '--',
+            'skills' => $skills ?: '--',
+            'status' => $job->status,
+            'description' => $job->job_description,
+        ]);
+    }
+    
     public function recommendedJob()
     {
         $data['title'] = 'Recruitment / Jobs / Recommended-Job';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        $jobs = AcflJobs::with(['branch.company', 'state'])->get();
 
+        $jobs = AcflJobs::with(['branch.company', 'state'])
+        ->where('status', 'published')
+        ->get();
         foreach ($jobs as $job) {
-            $cityIds = $job->city_ids;
+            $cityIds = $job->city_ids ?? [];
             $job->city_names = StateCity::whereIn('id', $cityIds)
                 ->pluck('name')
                 ->toArray();
-            $skillIds = json_decode($job->test_skills, true) ?? [];
+            $skillIds = $job->test_skills ?? [];
             $job->skill_names = Skills::whereIn('id', $skillIds)
                 ->pluck('name')
                 ->toArray();
-            $job->state_name = optional($job->state)->name ?? 'State not available';
+            $job->state_name  = optional($job->state)->name ?? 'State not available';
             $job->branchName = optional($job->branch)->branch_name ?? 'Branch not available';
-            $job->company_logo = optional($job->branch->company)->company_logo;
+            $job->company_logo = optional($job->branch?->company)->company_logo;
         }
+
         $data['jobs'] = $jobs;
         return view('home.jobs.recommended-job', $data);
     }
+
 
     public function recommendedJobApi()
     {
@@ -155,7 +200,7 @@ class JobsController extends Controller
             'data' => $jobsData,
         ]);
     }
-
+    
     public function jobDetails($slug)
     {
         preg_match('/(\d+)\d{6}$/', $slug, $matches);
@@ -165,13 +210,16 @@ class JobsController extends Controller
             abort(404, 'Invalid Job URL');
         }
 
-        $job = AcflJobs::with(['branch.company', 'state'])->findOrFail($jobId);
+        $job = AcflJobs::with(['branch.company', 'state'])
+        ->where('status', 'published')
+        ->findOrFail($jobId);
 
         $cityNames = StateCity::whereIn('id', $job->city_ids ?? [])
             ->pluck('name')
             ->toArray();
 
-        $skillIds = json_decode($job->test_skills, true) ?? [];
+        $skillIds = $job->test_skills ?? [];
+
         $skillNames = Skills::whereIn('id', $skillIds)
             ->pluck('name')
             ->toArray();
@@ -189,11 +237,11 @@ class JobsController extends Controller
             'branch_name' => $job->branch->branch_name ?? 'N/A',
             'state_name' => $job->state->name ?? 'N/A',
             'city_names' => $cityNames,
-            'company_logo' => optional($job->branch->company)->company_logo ?? null, // ✅ from company table
+            'company_logo' => optional($job->branch->company)->company_logo ?? null,
         ];
 
         return view('home.jobs.job-deatils', [
-            'title' => $job->job_title . " - Job Details",
+            'title' => $job->job_title . ' - Job Details',
             'job' => $jobDetails
         ]);
     }
@@ -276,10 +324,6 @@ class JobsController extends Controller
         }
     }
 
-
-
-
-
     public function store(Request $request)
     {
         $request->validate([
@@ -318,7 +362,7 @@ class JobsController extends Controller
                 'max_exp' => $request->max_exp,
                 'state_id' => $request->state_id,
                 'city_ids' => $request->city_ids,
-                'job_description' => strip_tags($request->job_description), 
+                'job_description' => strip_tags($request->job_description),
                 'qualifications' => $request->qualifications,
                 'keywords' => $request->keywords,
                 'interview_date' => $request->interview_date,
