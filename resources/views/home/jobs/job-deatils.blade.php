@@ -387,7 +387,7 @@
                                 Str::slug(implode('-', $cities)),
                                 Str::slug($job['state_name'] ?? ''),
                                 Str::slug(($job['min_exp'] ?? 0) . '-to-' . ($job['max_exp'] ?? 0) . '-years'),
-                                $job['id'], // ✅ UNIQUE & STABLE
+                                $job['id'],
                             ]),
                         );
                     @endphp
@@ -438,6 +438,7 @@
                     @endif
                 </div>
             </div>
+            
 
 
            

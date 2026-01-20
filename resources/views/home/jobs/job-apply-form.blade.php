@@ -46,7 +46,7 @@
             content: "";
             position: absolute;
             left: 0;
-            top: 2px;
+            top: 0;
             height: 100%;
             width: 3px;
             background: #f26522;
@@ -103,7 +103,7 @@
             border-radius: 25px;
             border: 0;
             font-size: 14px;
-        } 
+        }
 
         .select2-container .select2-selection--single {
             height: 42px !important;
@@ -262,9 +262,9 @@
                             <label class="form-label">skills <span class="req">*</span></label>
                             <select name="skills[]" id="skills" class="form-select select2" multiple required>
                                 @foreach ($skills as $skill)
-                                     <option value="{{ $skill->id }}">{{ $skill->name }}</option>
+                                    <option value="{{ $skill->id }}">{{ $skill->name }}</option>
                                 @endforeach
-                               
+
                             </select>
                         </div>
 
@@ -319,7 +319,7 @@
                             </select>
                         </div>
 
-                        <div class="col-md-12">
+                        <!-- <div class="col-md-12">
                             <label class="form-label">Highest Qualification</label>
                             <div class="d-flex gap-2 mt-1">
                                 <label class="radio-pill">
@@ -331,7 +331,7 @@
                                     Graduation
                                 </label>
                             </div>
-                        </div>
+                        </div> -->
 
                         <div class="col-md-4">
                             <label class="form-label">Highest Degree</label>
@@ -402,6 +402,8 @@
                                 @if ($q->text_element === 'text')
                                     <input type="text" name="answers[{{ $q->id }}]" class="form-control"
                                         {{ $requiredAttr }}>
+                                @elseif ($q->text_element === 'textarea')
+                                    <textarea name="answers[{{ $q->id }}]" class="form-control" rows="4" {{ $requiredAttr }}></textarea>
                                 @elseif ($q->text_element === 'select')
                                     <select name="answers[{{ $q->id }}]" class="form-select"
                                         {{ $requiredAttr }}>

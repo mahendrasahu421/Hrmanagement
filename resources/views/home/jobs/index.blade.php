@@ -51,6 +51,59 @@
         .total_jobs {
             color: #ff6b00 !important;
         }
+
+        .job-details-drawer {
+            width: 40vw !important;
+            max-width: 40vw !important;
+        }
+
+        .job-drawer-body {
+            background: #f8f9fb;
+        }
+
+        .job-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, .06);
+        }
+
+        .job-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1b2559;
+        }
+
+        .job-meta {
+            font-size: 13px;
+            color: #6c757d;
+        }
+
+        .job-badge {
+            font-size: 12px;
+            padding: 4px 10px;
+            border-radius: 20px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1b2559;
+        }
+
+        .info-row {
+            font-size: 14px;
+            margin-bottom: 6px;
+        }
+
+
+        @media (max-width: 768px) {
+            .job-details-drawer {
+                width: 100vw !important;
+                max-width: 100vw !important;
+            }
+        }
     </style>
 
 
@@ -100,12 +153,13 @@
 
             <!-- Job Cards -->
             <div class="row">
+
                 <!-- Total Jobs -->
                 <div class="col-md-4">
-                    <div class="dash-widget">
+                    <div class="dash-widget job-filter" data-status="ALL" style="cursor:pointer;">
                         <div class="dash-widget-info">
                             <span>Total Jobs</span>
-                            <h3 class="total_jobs">120</h3>
+                            <h3 class="total_jobs">{{ $totalJobs }}</h3>
                         </div>
                         <div class="dash-widget-icon bg-orange">
                             <i class="fa-solid fa-briefcase"></i>
@@ -115,10 +169,10 @@
 
                 <!-- Published Jobs -->
                 <div class="col-md-4">
-                    <div class="dash-widget">
+                    <div class="dash-widget job-filter" data-status="PUBLISHED" style="cursor:pointer;">
                         <div class="dash-widget-info">
                             <span>Published Jobs</span>
-                            <h3 class="text-success">80</h3>
+                            <h3 class="text-success">{{ $publishedJobs }}</h3>
                         </div>
                         <div class="dash-widget-icon bg-success">
                             <i class="fa-solid fa-check"></i>
@@ -126,12 +180,12 @@
                     </div>
                 </div>
 
-                <!-- Unpublished Jobs -->
+                <!-- Draft Jobs -->
                 <div class="col-md-4">
-                    <div class="dash-widget">
+                    <div class="dash-widget job-filter" data-status="DRAFT" style="cursor:pointer;">
                         <div class="dash-widget-info">
-                            <span>Unpublished Jobs</span>
-                            <h3 class="text-danger">40</h3>
+                            <span>Draft Jobs</span>
+                            <h3 class="text-danger">{{ $draftJobs }}</h3>
                         </div>
                         <div class="dash-widget-icon bg-danger">
                             <i class="fa-solid fa-ban"></i>
@@ -139,26 +193,13 @@
                     </div>
                 </div>
 
-
             </div>
 
             <!-- /Job Cards -->
 
-
             <div class="row">
                 <div class="col-sm-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="d-flex justify-content-between">
-                                <h4 class="card-title">Jobs List</h4>
-                                <a href="{{ route('recruitment.jobs.create') }}"
-                                    class="btn btn-primary d-flex align-items-center">
-                                    <i class="ti ti-circle-plus me-2"></i> Create Job
-                                </a>
-                            </div>
-
-                        </div>
-
                         <div class="card-body p-0">
                             <div class="table-responsive">
                                 <table id="jobsList" class="display table table-striped table-bordered nowrap">
@@ -189,17 +230,99 @@
 
         <x-footer />
     </div>
-
+    <div class="offcanvas offcanvas-end job-details-drawer" tabindex="-1" id="jobDetailsDrawer">
+        <div class="offcanvas-header border-bottom">
+            <h5 class="offcanvas-title fw-semibold">Job Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
+        </div>
+    
+        <div class="offcanvas-body job-drawer-body">
+            <div id="jobDetailsContent"></div>
+        </div>
+    </div>
+    
 
 @endsection
 
 @push('after_scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-
+    <script>
+        $(document).on('click', '#jobsList tbody .view-job', function () {
+    
+            let jobId = $(this).data('id');
+            $('#jobDetailsContent').html('');
+            let drawerEl = document.getElementById('jobDetailsDrawer');
+            let drawer = bootstrap.Offcanvas.getOrCreateInstance(drawerEl);
+            drawer.show();
+    
+            $.ajax({
+                url: "{{ route('recruitment.jobs.details.ajax') }}",
+                type: "GET",
+                data: { id: jobId },
+                beforeSend: function () {
+                    $('#jobDetailsContent').html(`
+                        <div class="text-center text-muted py-5">
+                            <div class="spinner-border spinner-border-sm me-2"></div>
+                            Fetching job details...
+                        </div>
+                    `);
+                },
+                success: function (res) {
+    
+                    let statusBadge =
+                        res.status === 'PUBLISHED'
+                            ? 'badge bg-success'
+                            : 'badge bg-secondary';
+    
+                    let html = `
+                        <div class="card shadow-sm border-0">
+                            <div class="card-body">
+    
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <h5 class="mb-1">${res.job_title}</h5>
+                                        <small class="text-muted">${res.designation}</small>
+                                    </div>
+                                    <span class="${statusBadge}">
+                                        ${res.status}
+                                    </span>
+                                </div>
+    
+                                <hr>
+    
+                                <p><strong>Experience:</strong> ${res.experience}</p>
+                                <p><strong>CTC:</strong> ${res.ctc}</p>
+                                <p><strong>State:</strong> ${res.state}</p>
+                                <p><strong>City:</strong> ${res.cities}</p>
+                                <p><strong>Skills:</strong> ${res.skills}</p>
+    
+                                <hr>
+    
+                                <h6>Description</h6>
+                                <p class="text-muted">${res.description}</p>
+    
+                            </div>
+                        </div>
+                    `;
+    
+                    $('#jobDetailsContent').html(html);
+                },
+                error: function () {
+                    $('#jobDetailsContent').html(`
+                        <div class="alert alert-danger text-center">
+                            Failed to load job details. Please try again.
+                        </div>
+                    `);
+                }
+            });
+        });
+    </script>
+    
     <script>
         let rowToCopy = null;
         let table = null;
+        let currentStatus = 'ALL';
 
         $(document).ready(function() {
 
@@ -208,8 +331,12 @@
                 processing: true,
                 serverSide: true,
                 scrollX: true,
-                ajax: "{{ route('recruitment.jobs.list') }}",
-
+                ajax: {
+                    url: "{{ route('recruitment.jobs.list') }}",
+                    data: function(d) {
+                        d.status = currentStatus;
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         orderable: false
@@ -245,7 +372,11 @@
                 ],
             });
 
-            // ✅ COPY BUTTON CLICK (AJAX SAFE)
+            $('.job-filter').on('click', function() {
+                currentStatus = $(this).data('status');
+                table.ajax.reload();
+            });
+
             $('#jobsList tbody').on('click', '.copy-btn', function() {
 
                 rowToCopy = $(this).closest('tr');
@@ -262,7 +393,6 @@
                 new bootstrap.Modal(document.getElementById('copyConfirmModal')).show();
             });
 
-            // ✅ CONFIRM COPY
             $('#confirmCopy').on('click', function() {
 
                 if (!rowToCopy) return;
