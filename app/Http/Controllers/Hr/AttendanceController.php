@@ -141,7 +141,7 @@ class AttendanceController extends Controller
 
         // ✉️ Send mail
         Mail::to($employee->employee_email)
-            ->cc('mahendra.s@neuralinfo.org')
+            ->cc('sneha.s@neuralinfo.org')
             ->send(new LeaveStatusMail(
                 $leave,
                 $request->new_status,
