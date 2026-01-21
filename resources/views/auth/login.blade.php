@@ -139,7 +139,7 @@
                                     @csrf
                                     <div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
                                         <div class="logo-text mx-auto mb-5 text-center">
-                                            <img src="{{ asset('frontent/assets/img/icons/logo.png') }}"
+                                            <img src="{{ asset('frontent/assets/img/icons/logo_1.png') }}"
                                                 alt="Img">
                                         </div>
 
@@ -147,7 +147,7 @@
                                         <div class="">
                                             <div class="text-center mb-3">
                                                 <h2 class="mb-2">Sign In</h2>
-                                                <p class="mb-0">Please enter your details to sign in</p>
+                                                <p class="mb-0">Please enter your details to access the dashboard</p>
                                             </div>
                                             <div class="mb-3">
                                                 <label class="form-label">Email Address</label>
@@ -184,17 +184,23 @@
                                             <div class="mb-3">
                                                 <button type="submit" class="btn btn-primary w-100">Sign In</button>
                                             </div>
-                                            <div class="text-center">
+                                            {{-- <div class="text-center">
                                                 <h6 class="fw-normal text-dark mb-0">Don’t have an account?
                                                     <a href="#" class="hover-a"> Create Account</a>
                                                 </h6>
-                                            </div>
+                                            </div> --}}
 
 
                                         </div>
                                         <div class="mt-5 pb-4 text-center">
                                             <p class="mb-0 text-gray-9">Copyright &copy; 2026 - Chitragupta – The HR
                                                 Guardian
+                                            </p>
+                                        </div>
+                                        <div class="mt-1 pb-2 text-center">
+                                            <p class="mb-0 text-gray-9">
+                                                Powered by <strong><a href="https://www.neuralinfo.in/"
+                                                        target="_blank">Neural Info Solution</a></strong>
                                             </p>
                                         </div>
                                     </div>

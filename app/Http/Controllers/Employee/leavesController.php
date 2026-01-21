@@ -126,30 +126,61 @@ class leavesController extends Controller
     }
 
     public function create()
-    {
-        $data['title'] = 'Leaves';
-        $data['titleRoute'] = 'Leave Management / Leaves Apply';
-        $employeeId = auth('employee')->id();
-        $employee = Employee::find($employeeId);
-        if (!$employee) {
-            abort(404, 'Employee not found');
-        }
-        $employeeGender = strtoupper($employee->gender);
-        $today = Carbon::now();
-        $monthsWorked = Carbon::parse($employee->joining_date)->diffInMonths($today);
-        $data['leaveTypes'] = LeaveType::where(function ($q) use ($employeeGender) {
+{
+    $data['title'] = 'Leaves';
+    $data['titleRoute'] = 'Leave Management / Leaves Apply';
+
+    $employeeId = auth('employee')->id();
+    $employee = Employee::findOrFail($employeeId);
+
+    $employeeGender = strtoupper($employee->gender);
+    $monthsWorked = Carbon::parse($employee->joining_date)->diffInMonths(now());
+
+    $leaveTypes = LeaveType::where(function ($q) use ($employeeGender) {
             $q->where('applicable_for', 'ALL')
-                ->orWhere('applicable_for', $employeeGender);
+              ->orWhere('applicable_for', $employeeGender);
         })
-            ->when($monthsWorked < 2, function ($q) {
-                $q->where('leave_name', 'Leave Without Pay');
-            })
-            ->get();
+        ->when($monthsWorked < 2, function ($q) {
+            $q->where('leave_name', 'Leave Without Pay');
+        })
+        ->get();
 
-        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+    // 🔹 Remaining leaves calculation
+    $leaveTypes = $leaveTypes->map(function ($leaveType) use ($employee) {
 
-        return view('employee.leaves.create', $data);
-    }
+        if ($leaveType->leave_name === 'Leave Without Pay') {
+            $leaveType->remaining = 'Unlimited';
+            return $leaveType;
+        }
+
+        $mapping = LeaveMapping::where('designation_id', $employee->designation_id)
+            ->where('leave_type_id', $leaveType->id)
+            ->first();
+
+        if (!$mapping) {
+            $leaveType->remaining = 0;
+            return $leaveType;
+        }
+
+        $used = Leave::where('employee_id', $employee->id)
+            ->where('leave_type_id', $leaveType->id)
+            ->where('status', 'APPROVED')
+            ->whereYear('from_date', now()->year)
+            ->get()
+            ->sum(function ($leave) {
+                return Carbon::parse($leave->from_date)
+                    ->diffInDays(Carbon::parse($leave->to_date)) + 1;
+            });
+
+        $leaveType->remaining = max($mapping->allow_days - $used, 0);
+        return $leaveType;
+    });
+
+    $data['leaveTypes'] = $leaveTypes;
+
+    return view('employee.leaves.create', $data);
+}
+
 
 
     public function store(Request $request)
@@ -161,7 +192,7 @@ class leavesController extends Controller
                 'from_date' => 'required|date',
                 'to_date' => 'required|date|after_or_equal:from_date',
                 'reason_id' => 'required',
-                'reason' => $request->reason_id === 'Others' ? 'required|string|max:255' : 'nullable|string|max:255',
+                'reason' => $request->reason_id === 'Others' ? 'required|string|max:250' : 'nullable|string|max:250',
                 'status' => 'required|in:DRAFT,SENT',
             ]);
 
