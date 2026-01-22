@@ -159,7 +159,7 @@
                     <div class="dash-widget job-filter" data-status="ALL" style="cursor:pointer;">
                         <div class="dash-widget-info">
                             <span>Total Jobs</span>
-                            <h3 class="total_jobs">{{ $totalJobs }}</h3>
+                            <h3 class="total_jobs" id="totalJobsCount">{{ $totalJobs }}</h3>
                         </div>
                         <div class="dash-widget-icon bg-orange">
                             <i class="fa-solid fa-briefcase"></i>
@@ -172,7 +172,7 @@
                     <div class="dash-widget job-filter" data-status="PUBLISHED" style="cursor:pointer;">
                         <div class="dash-widget-info">
                             <span>Published Jobs</span>
-                            <h3 class="text-success">{{ $publishedJobs }}</h3>
+                            <h3 class="text-success" id="publishedJobsCount">{{ $publishedJobs }}</h3>
                         </div>
                         <div class="dash-widget-icon bg-success">
                             <i class="fa-solid fa-check"></i>
@@ -185,7 +185,7 @@
                     <div class="dash-widget job-filter" data-status="DRAFT" style="cursor:pointer;">
                         <div class="dash-widget-info">
                             <span>Draft Jobs</span>
-                            <h3 class="text-danger">{{ $draftJobs }}</h3>
+                            <h3 class="text-danger" id="draftJobsCount">{{ $draftJobs }}</h3>
                         </div>
                         <div class="dash-widget-icon bg-danger">
                             <i class="fa-solid fa-ban"></i>
@@ -230,17 +230,55 @@
 
         <x-footer />
     </div>
+    <div class="modal fade" id="statusConfirmModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Status Change</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to change this job status?
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                    <button class="btn btn-primary" id="confirmStatusChange">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteJobModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <span class="avatar avatar-xl bg-transparent-danger text-danger mb-3">
+                        <i class="ti ti-trash-x fs-36"></i>
+                    </span>
+                    <h4 class="mb-1">Confirm Delete</h4>
+                    <p class="mb-3">Are you sure you want to delete this job? This action cannot be undone.</p>
+                    <input type="hidden" id="deleteJobId">
+                    <div class="d-flex justify-content-center">
+                        <button type="button" class="btn btn-light me-3" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" id="confirmDeleteJobBtn" class="btn btn-danger">Yes, Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="offcanvas offcanvas-end job-details-drawer" tabindex="-1" id="jobDetailsDrawer">
         <div class="offcanvas-header border-bottom">
             <h5 class="offcanvas-title fw-semibold">Job Details</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
         </div>
-    
+
         <div class="offcanvas-body job-drawer-body">
             <div id="jobDetailsContent"></div>
         </div>
     </div>
-    
+
 
 @endsection
 
@@ -248,19 +286,132 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
     <script>
-        $(document).on('click', '#jobsList tbody .view-job', function () {
+        let selectedJobId = null;
+        let selectedSwitch = null;
     
+        // When radio switch clicked
+        $(document).on('change', '.status-switch', function () {
+    
+            selectedJobId = $(this).data('id');
+            selectedSwitch = $(this);
+    
+            // revert switch temporarily
+            $(this).prop('checked', !$(this).prop('checked'));
+    
+            $('#statusConfirmModal').modal('show');
+        });
+    
+        // Confirm YES
+        $('#confirmStatusChange').on('click', function () {
+    
+            $.ajax({
+                url: "/recruitment/jobs/status/" + selectedJobId,
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (res) {
+    
+                    if (res.status === 'PUBLISHED') {
+                        selectedSwitch.prop('checked', true);
+                    } else {
+                        selectedSwitch.prop('checked', false);
+                    }
+                    refreshJobCounts(); 
+                    $('#statusConfirmModal').modal('hide');
+                },
+                error: function () {
+                    alert('Status update failed!');
+                }
+            });
+        });
+    
+        // Cancel → keep original state
+        $('#statusConfirmModal').on('hidden.bs.modal', function () {
+            selectedJobId = null;
+            selectedSwitch = null;
+        });
+    </script>
+    
+    <script>
+        // Delete Job
+        $(document).on('click', '.delete-job', function() {
+            let jobId = $(this).data('id');
+            $('#deleteJobId').val(jobId);
+            $('#deleteJobModal').modal('show');
+        });
+
+        $('#confirmDeleteJobBtn').click(function() {
+            let id = $('#deleteJobId').val();
+            $.ajax({
+                url: "/recruitment/jobs/delete/" + id,
+                type: "POST",
+                data: {
+                    _method: 'DELETE',
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(res) {
+                    $('#deleteJobModal').modal('hide');
+                    $('#jobsList').DataTable().ajax.reload();
+                    refreshJobCounts();
+                },
+                error: function(err) {
+                    console.log(err.responseJSON || err);
+                    alert(err.responseJSON?.message || 'Something went wrong!');
+                }
+            });
+        });
+    </script>
+    <script>
+        $(document).on('click', '.toggle-status', function () {
+        
+            let button = $(this);
+            let jobId = button.data('id');
+        
+            $.ajax({
+                url: "/recruitment/jobs/status/" + jobId,
+                type: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function (res) {
+        
+                    if (res.status === 'PUBLISHED') {
+                        button
+                            .removeClass('btn-danger')
+                            .addClass('btn-success')
+                            .text('Published');
+                    } else {
+                        button
+                            .removeClass('btn-success')
+                            .addClass('btn-danger')
+                            .text('Draft');
+                    }
+        
+                },
+                error: function () {
+                    alert('Status update failed!');
+                }
+            });
+        });
+        </script>
+        
+    <script>
+        $(document).on('click', '#jobsList tbody .view-job', function() {
+
             let jobId = $(this).data('id');
             $('#jobDetailsContent').html('');
             let drawerEl = document.getElementById('jobDetailsDrawer');
             let drawer = bootstrap.Offcanvas.getOrCreateInstance(drawerEl);
             drawer.show();
-    
+
             $.ajax({
                 url: "{{ route('recruitment.jobs.details.ajax') }}",
                 type: "GET",
-                data: { id: jobId },
-                beforeSend: function () {
+                data: {
+                    id: jobId
+                },
+                beforeSend: function() {
                     $('#jobDetailsContent').html(`
                         <div class="text-center text-muted py-5">
                             <div class="spinner-border spinner-border-sm me-2"></div>
@@ -268,13 +419,13 @@
                         </div>
                     `);
                 },
-                success: function (res) {
-    
+                success: function(res) {
+
                     let statusBadge =
-                        res.status === 'PUBLISHED'
-                            ? 'badge bg-success'
-                            : 'badge bg-secondary';
-    
+                        res.status === 'PUBLISHED' ?
+                        'badge bg-success' :
+                        'badge bg-secondary';
+
                     let html = `
                         <div class="card shadow-sm border-0">
                             <div class="card-body">
@@ -305,10 +456,10 @@
                             </div>
                         </div>
                     `;
-    
+
                     $('#jobDetailsContent').html(html);
                 },
-                error: function () {
+                error: function() {
                     $('#jobDetailsContent').html(`
                         <div class="alert alert-danger text-center">
                             Failed to load job details. Please try again.
@@ -318,7 +469,7 @@
             });
         });
     </script>
-    
+
     <script>
         let rowToCopy = null;
         let table = null;
@@ -416,4 +567,14 @@
 
         });
     </script>
+    <script>
+        function refreshJobCounts() {
+            $.get("{{ route('recruitment.jobs.counts') }}", function (res) {
+                $('#totalJobsCount').text(res.total);
+                $('#publishedJobsCount').text(res.published);
+                $('#draftJobsCount').text(res.draft);
+            });
+        }
+    </script>
+    
 @endpush

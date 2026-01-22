@@ -15,14 +15,14 @@
                 <p class="text-muted mb-0">Edit job-specific question.</p>
             </div>
             <div>
-                <a href="{{ route('jaf.index') }}" class="btn btn-primary d-flex align-items-center shadow-sm">
+                <a href="{{ route('jaf.index') }}" class="btn btn-primary d-flex align-items-center  ">
                     <i class="fa-solid fa-arrow-left me-2"></i> Back to List
                 </a>
             </div>
         </div>
 
         <!-- Edit Form Card -->
-        <div class="card shadow-sm border-top border-3 mb-4">
+        <div class="card   border-top border-3 mb-4">
             <div class="card-body">
                 <form method="post" action="{{ route('jaf.update', $question->id) }}">
                     @csrf
@@ -95,7 +95,7 @@
                     </div>
 
                     <div class="text-end">
-                        <button type="submit" class="btn btn-primary px-5 py-2 shadow">Update</button>
+                        <button type="submit" class="btn btn-primary px-5 py-2">Update</button>
                     </div>
                 </form>
             </div>

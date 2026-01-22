@@ -11,15 +11,12 @@
                     <div class="card">
 
                         <div class="card-header">
-                            <!-- Breadcrumb -->
                             <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
                                 <div class="my-auto mb-2">
-                                    <h2 class="mb-1">Create Job</h2>
+                                    <h2 class="mb-1">Edit Job</h2>
                                     <nav>
                                         <ol class="breadcrumb mb-0">
-                                            <li class="breadcrumb-item" aria-current="page">
-                                                Recruitment / Job / Create
-                                            </li>
+                                            <li class="breadcrumb-item">Recruitment / Job / Edit</li>
                                         </ol>
                                     </nav>
                                 </div>
@@ -32,12 +29,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- /Breadcrumb -->
                         </div>
+
                         <div class="card-body">
                             <form class="needs-validation" novalidate method="POST"
-                                action="{{ route('recruitment.jobs.store') }}">
+                                action="{{ route('recruitment.jobs.update', $job->id) }}">
                                 @csrf
+                                @method('PUT')
 
                                 <div class="row">
                                     <!-- Branch -->
@@ -46,7 +44,10 @@
                                         <select class="form-select select2" name="branch_id" required>
                                             <option value="">Select Branch</option>
                                             @foreach ($branch as $branchs)
-                                                <option value="{{ $branchs->id }}">{{ $branchs->branch_name }}</option>
+                                                <option value="{{ $branchs->id }}"
+                                                    {{ $job->branch_id == $branchs->id ? 'selected' : '' }}>
+                                                    {{ $branchs->branch_name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please enter Branch name.</div>
@@ -56,7 +57,7 @@
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Job Title *</label>
                                         <input type="text" class="form-control" name="job_title"
-                                            placeholder="Enter Job Title" required>
+                                            placeholder="Enter Job Title" value="{{ $job->job_title }}" required>
                                         <div class="invalid-feedback">Please enter job title.</div>
                                     </div>
 
@@ -66,19 +67,22 @@
                                         <select class="form-select select2" name="designation_id" required>
                                             <option value="">Select Designations</option>
                                             @foreach ($designation as $designations)
-                                                <option value="{{ $designations->id }}">{{ $designations->name }}</option>
+                                                <option value="{{ $designations->id }}"
+                                                    {{ $job->designation_id == $designations->id ? 'selected' : '' }}>
+                                                    {{ $designations->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please select Designations.</div>
                                     </div>
 
-                                    <!-- Test Skills (tags) -->
+                                    <!-- Test Skills -->
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Test Skills *</label>
                                         <select class="form-select select2" name="test_skills[]" multiple required>
-                                            <option value="">Select Test Skills</option>
                                             @foreach ($jobSkills as $skill)
-                                                <option value="{{ $skill->id }}">
+                                                <option value="{{ $skill->id }}"
+                                                    {{ in_array($skill->id, (array) $job->test_skills) ? 'selected' : '' }}>
                                                     {{ $skill->name }}
                                                 </option>
                                             @endforeach
@@ -90,7 +94,8 @@
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">No. of Positions *</label>
                                         <input type="number" class="form-control" name="positions"
-                                            placeholder="Enter Number of Positions" required min="1">
+                                            value="{{ $job->positions }}" placeholder="Enter Number of Positions" required
+                                            min="1">
                                         <div class="invalid-feedback">Please enter number of positions.</div>
                                     </div>
 
@@ -100,7 +105,10 @@
                                         <select class="form-select select2" name="job_type_id" required>
                                             <option value="">Select Job Type</option>
                                             @foreach ($jobsType as $jobs)
-                                                <option value="{{ $jobs->id }}">{{ $jobs->name }}</option>
+                                                <option value="{{ $jobs->id }}"
+                                                    {{ $job->job_type_id == $jobs->id ? 'selected' : '' }}>
+                                                    {{ $jobs->name }}
+                                                </option>
                                             @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please select job type.</div>
@@ -110,23 +118,24 @@
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">CTC From (Lac/Year)</label>
                                         <input type="number" step="0.1" class="form-control" name="ctc_from"
-                                            placeholder="Enter CTC From">
+                                            value="{{ $job->ctc_from }}" placeholder="Enter CTC From">
                                     </div>
 
                                     <!-- CTC To -->
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">CTC To (Lac/Year)</label>
                                         <input type="number" step="0.1" class="form-control" name="ctc_to"
-                                            placeholder="Enter CTC To">
+                                            value="{{ $job->ctc_to }}" placeholder="Enter CTC To">
                                     </div>
 
                                     <!-- Min Experience -->
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Min Experience *</label>
                                         <select class="form-select select2" name="min_exp" required>
-                                            <option value="">Select Min Experience</option>
                                             @for ($i = 0; $i <= 20; $i++)
-                                                <option value="{{ $i }}">{{ $i }} Years</option>
+                                                <option value="{{ $i }}"
+                                                    {{ $job->min_exp == $i ? 'selected' : '' }}>{{ $i }} Years
+                                                </option>
                                             @endfor
                                         </select>
                                         <div class="invalid-feedback">Please select minimum experience.</div>
@@ -136,9 +145,10 @@
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Max Experience *</label>
                                         <select class="form-select select2" name="max_exp" required>
-                                            <option value="">Select Max Experience</option>
                                             @for ($i = 0; $i <= 20; $i++)
-                                                <option value="{{ $i }}">{{ $i }} Years</option>
+                                                <option value="{{ $i }}"
+                                                    {{ $job->max_exp == $i ? 'selected' : '' }}>{{ $i }} Years
+                                                </option>
                                             @endfor
                                         </select>
                                         <div class="invalid-feedback">Please select maximum experience.</div>
@@ -146,70 +156,54 @@
 
                                     <!-- State -->
                                     <div class="col-md-3 mb-3">
-                                        <label class="form-label" for="state">State *</label>
+                                        <label class="form-label">State *</label>
                                         <select class="form-control select2" id="state" name="state_id" required>
                                             <option value="">Select State</option>
-                                            @if (isset($states))
-                                                @foreach ($states as $state)
-                                                    <option value="{{ $state->id }}"
-                                                        {{ isset($selected_state) && $selected_state == $state->id ? 'selected' : '' }}>
-                                                        {{ $state->name }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
+                                            @foreach ($states as $state)
+                                                <option value="{{ $state->id }}"
+                                                    {{ $job->state_id == $state->id ? 'selected' : '' }}>
+                                                    {{ $state->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
-                                        <div class="invalid-feedback">Please enter state.</div>
+                                        <div class="invalid-feedback">Please select state.</div>
                                     </div>
 
                                     <!-- City -->
                                     <div class="col-md-3 mb-3">
-                                        <label class="form-label" for="city">Location *</label>
+                                        <label class="form-label">Location *</label>
                                         <select class="form-control select2" id="city" name="city_ids[]" multiple
                                             required>
-                                            <option value="">Select City</option>
-                                            @if (isset($cities))
-                                                @foreach ($cities as $city)
-                                                    <option value="{{ $city->id }}"
-                                                        {{ isset($selected_city) && in_array($city->id, (array) $selected_city) ? 'selected' : '' }}>
-                                                        {{ $city->name }}
-                                                    </option>
-                                                @endforeach
-                                            @endif
+                                            @foreach ($cities as $city)
+                                                <option value="{{ $city->id }}"
+                                                    {{ in_array($city->id, (array) $job->city_ids) ? 'selected' : '' }}>
+                                                    {{ $city->name }}
+                                                </option>
+                                            @endforeach
                                         </select>
-                                        <div class="invalid-feedback">Please enter city.</div>
+                                        <div class="invalid-feedback">Please select city.</div>
                                     </div>
 
                                     <!-- Job Description -->
                                     <div class="col-md-12 mb-3">
                                         <label class="form-label">Job Description *</label>
-                                        <textarea id="job_description" class="form-control" name="job_description" rows="4" required
-                                            placeholder="Enter Job Description"></textarea>
+                                        <textarea id="job_description" class="form-control" name="job_description" rows="4" required>{{ $job->job_description }}</textarea>
                                         <div class="invalid-feedback">Please enter job description.</div>
                                     </div>
 
-                                    <!-- Qualification -->
+                                    <!-- Qualifications -->
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Select Qualification *</label>
                                         <select class="form-select select2" name="qualifications[]" multiple required>
-                                            <option value="High School">High School</option>
-                                            <option value="Diploma">Diploma</option>
-                                            <option value="Post Graduation">Post Graduation</option>
-                                            <option value="PhD">PhD</option>
-                                            <option value="Certification Course">Certification Course</option>
-                                            <option value="ITI">ITI</option>
-                                            <option value="Polytechnic">Polytechnic</option>
-                                            <option value="Vocational Training">Vocational Training</option>
-                                            <option value="Diploma in Management">Diploma in Management</option>
-                                            <option value="Professional Course">Professional Course</option>
-                                            <option value="Chartered Accountant (CA)">Chartered Accountant (CA)</option>
-                                            <option value="Cost & Management Accountant (CMA)">Cost & Management Accountant
-                                                (CMA)</option>
-                                            <option value="Certified Financial Analyst (CFA)">Certified Financial Analyst
-                                                (CFA)</option>
-                                            <option value="Company Secretary (CS)">Company Secretary (CS)</option>
-                                            <option value="Finance Diploma / Certification">Finance Diploma / Certification
-                                            </option>
-                                            <option value="Other">Other</option>
+                                            @php
+                                                $jobQualifications = (array) $job->qualifications;
+                                            @endphp
+                                            @foreach (['High School', 'Diploma', 'Post Graduation', 'PhD', 'Certification Course', 'ITI', 'Polytechnic', 'Vocational Training', 'Diploma in Management', 'Professional Course', 'Chartered Accountant (CA)', 'Cost & Management Accountant (CMA)', 'Certified Financial Analyst (CFA)', 'Company Secretary (CS)', 'Finance Diploma / Certification', 'Other'] as $qualification)
+                                                <option value="{{ $qualification }}"
+                                                    {{ in_array($qualification, $jobQualifications) ? 'selected' : '' }}>
+                                                    {{ $qualification }}
+                                                </option>
+                                            @endforeach
                                         </select>
                                         <div class="invalid-feedback">Please select at least one Qualification.</div>
                                     </div>
@@ -218,25 +212,28 @@
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Keywords</label>
                                         <input type="text" class="form-control" name="keywords"
-                                            placeholder="Enter Keywords (comma separated)">
+                                            value="{{ $job->keywords }}" placeholder="Enter Keywords (comma separated)">
                                     </div>
 
                                     <!-- Interview Date -->
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Interview Date <small>(Optional)</small></label>
-                                        <input type="date" class="form-control" name="interview_date">
+                                        <input type="date" class="form-control" name="interview_date"
+                                            value="{{ $job->interview_date ? \Carbon\Carbon::parse($job->interview_date)->format('Y-m-d') : '' }}">
                                     </div>
 
                                     <!-- Job Status -->
                                     <div class="col-md-3 mb-3">
                                         <label class="form-label">Select Status *</label>
                                         <select class="form-select select2" name="status" required>
-                                            <option value="">Select Status</option>
-                                            <option value="DRAFT">DRAFT</option>
-                                            <option value="PUBLISHED">PUBLISHED</option>
+                                            <option value="DRAFT" {{ $job->status == 'DRAFT' ? 'selected' : '' }}>DRAFT
+                                            </option>
+                                            <option value="PUBLISHED" {{ $job->status == 'PUBLISHED' ? 'selected' : '' }}>
+                                                PUBLISHED</option>
                                         </select>
                                         <div class="invalid-feedback">Please select status.</div>
                                     </div>
+
                                 </div>
 
                                 <hr>
@@ -249,13 +246,11 @@
                                         <i class="ti ti-x me-1"></i> Cancel
                                     </button>
                                     <button class="btn btn-primary" type="submit">
-                                        <i class="ti ti-device-floppy me-1"></i> Save Job
+                                        <i class="ti ti-device-floppy me-1"></i> Update Job
                                     </button>
                                 </div>
+
                             </form>
-
-
-
                         </div>
 
                     </div>
@@ -268,28 +263,25 @@
     </div>
 
 @endsection
+
 @push('after_scripts')
     <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
     <script>
         $(document).ready(function() {
 
-            // Existing country → state code remains
+            let selectedState = "{{ $job->state_id }}";
+            let selectedCity = @json((array) $job->city_ids);
 
-            let selectedState = $('#state').val();
-            let selectedCity = "{{ $selected_city ?? '' }}";
-
-            // Page load: fetch cities if state already selected
             if (selectedState) {
                 fetchCities(selectedState, selectedCity);
             }
 
-            // On change state
             $('#state').on('change', function() {
                 let state_id = $(this).val();
-                fetchCities(state_id, '');
+                fetchCities(state_id, []);
             });
 
-            function fetchCities(state_id, selectedCity = '') {
+            function fetchCities(state_id, selectedCity = []) {
                 if (state_id) {
                     $.ajax({
                         url: '/get-cities/' + state_id,
@@ -297,32 +289,28 @@
                         success: function(data) {
                             let cityDropdown = $('#city');
                             cityDropdown.empty();
-                            cityDropdown.append('<option value="">Select City</option>');
+
+                            selectedCity = selectedCity.map(Number);
+
                             $.each(data, function(key, value) {
-                                let selected = (value.id == selectedCity) ? 'selected' : '';
-                                cityDropdown.append('<option value="' + value.id + '" ' +
-                                    selected + '>' + value.name + '</option>');
+                                let selected = selectedCity.includes(value.id) ? 'selected' :
+                                '';
+                                cityDropdown.append(
+                                    `<option value="${value.id}" ${selected}>${value.name}</option>`
+                                );
                             });
+
+                            cityDropdown.trigger('change');
                         }
                     });
                 } else {
-                    $('#city').empty().append('<option value="">Select City</option>');
+                    $('#city').empty();
                 }
             }
-        });
-    </script>
-    <script>
-        var toastElList = [].slice.call(document.querySelectorAll('.toast'));
-        toastElList.map(function(toastEl) {
-            var toast = new bootstrap.Toast(toastEl, {
-                delay: 30000
-            });
-            toast.show();
+
         });
         ClassicEditor
             .create(document.querySelector('#job_description'))
-            .catch(error => {
-                console.error(error);
-            });
+            .catch(error => console.error(error));
     </script>
 @endpush

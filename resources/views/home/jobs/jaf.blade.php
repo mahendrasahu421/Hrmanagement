@@ -15,7 +15,7 @@
                 </div>
                 <div>
                     <a href="{{ route('recruitment.jobs.create') }}"
-                        class="btn btn-primary d-flex align-items-center shadow-sm">
+                        class="btn btn-primary d-flex align-items-center">
                         <i class="fa-solid fa-plus me-2"></i> Add Job
                     </a>
                 </div>
@@ -23,7 +23,7 @@
             <!-- /Breadcrumb -->
 
             <!-- Form Card -->
-            <div class="card shadow-sm border-top border-3 mb-4">
+            <div class="card border-top border-3 mb-4">
                 <div class="card-body">
                     <form id="questionForm" method="post" action="{{ route('jaf.store') }}">
                         @csrf
@@ -31,7 +31,7 @@
                             <div class="col-md-6">
                                 <label class="form-label">Select Job <span class="text-danger">*</span></label>
                                 <select class="form-select select2" id="job_id" name="job_id">
-                                    <option value="">Select Job</option>
+                                    <option value="">Choose Job</option>
                                     @foreach ($jobs as $job)
                                         <option value="{{ $job->id }}">{{ $job->job_title }}</option>
                                     @endforeach

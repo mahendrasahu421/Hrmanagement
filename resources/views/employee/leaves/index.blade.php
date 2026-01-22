@@ -43,7 +43,7 @@
                                     <div class="d-flex align-items-center justify-content-between">
                                         <div class="text-start">
                                             <p class="mb-1">{{ $leave['name'] }}</p>
-                                            <h4>{{ $leave['total_leaves'] }}</h4>
+                                            <h4>{{ $leave['remaining'] }} / {{ $leave['total_leaves'] }}</h4>
                                         </div>
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 me-2">
@@ -55,7 +55,7 @@
                                     </div>
 
                                     <span class="badge bg-secondary-transparent mt-2">
-                                        Remaining Leaves : {{ $leave['remaining'] }}
+                                        Total Leaves : {{ $leave['total_leaves'] }}
                                     </span>
                                 @endif
 
@@ -112,8 +112,8 @@
                                                 <th>From Date</th>
                                                 <th>To Date</th>
                                                 <th>Total Leaves</th>
-                                                <th>reason</th>
-                                                <th>status</th>
+                                                <th>Reason</th>
+                                                <th>Status</th>
                                             </tr>
                                         </thead>
                                         <tbody>

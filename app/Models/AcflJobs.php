@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class AcflJobs extends Model
 {
+    use SoftDeletes;
     protected $table = 'acfl_jobs';
     protected $fillable = [
         'branch_id',
