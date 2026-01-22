@@ -37,7 +37,6 @@
 
         .flatpickr-day.today {
             border-color: var(--fp-main);
-            color: var(--fp-main);
         }
     </style>
 
@@ -185,7 +184,8 @@
                                         <div class="invalid-feedback">Please select reason.</div>
 
                                         <div id="otherReasonDiv" style="display:none; margin-top:10px;">
-                                            <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here..." maxlength="250"style="resize: vertical; min-height: 100px;"></textarea>
+                                            <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here..."
+                                                maxlength="250"style="resize: vertical; min-height: 100px;"></textarea>
                                             <small class="text-muted">
                                                 <span id="charCount">0</span>/250 characters
                                             </small>
@@ -258,6 +258,10 @@
                 rangePicker.destroy();
             }
 
+            // 🔹 max date = minDate se 1 month aage
+            let maxDate = new Date(minDate);
+            maxDate.setMonth(maxDate.getMonth() + 1);
+
             setTimeout(() => {
                 rangePicker = flatpickr("#leave_range", {
                     mode: "range",
@@ -265,6 +269,7 @@
                     altFormat: "d-m-Y",
                     dateFormat: "Y-m-d",
                     minDate: minDate,
+                    maxDate: maxDate, // ✅ 1 month limit
                     allowOneSidedRange: true,
 
                     onChange: function(selectedDates) {
@@ -275,8 +280,7 @@
 
                             if (remainingLeaveCount !== Infinity && remainingLeaveCount < 1) {
                                 rangePicker.clear();
-                                $("#from_date").val('');
-                                $("#to_date").val('');
+                                $("#from_date, #to_date").val('');
                                 $("#total_leaves").val(0);
                                 $("#rangeError").removeClass('d-none');
                                 return;
@@ -297,8 +301,7 @@
 
                             if (remainingLeaveCount !== Infinity && diff > remainingLeaveCount) {
                                 rangePicker.clear();
-                                $("#from_date").val('');
-                                $("#to_date").val('');
+                                $("#from_date, #to_date").val('');
                                 $("#total_leaves").val(0);
                                 $("#rangeError").removeClass('d-none');
                                 return;
@@ -312,6 +315,7 @@
                 });
             }, 50);
         }
+
 
         document.addEventListener("DOMContentLoaded", function() {
             initDatePicker("today");
@@ -351,7 +355,7 @@
                                         .id + '">' + value.reason + '</option>');
                                 });
                                 $("#reason_id").append(
-                                '<option value="Others">Others</option>');
+                                    '<option value="Others">Others</option>');
                             }
                         }
                     });

@@ -199,9 +199,15 @@ Route::middleware(['auth'])->group(function () {
     Route::post('recruitment/jobs/store', [JobsController::class, 'store'])->name('recruitment.jobs.store');
     Route::get('recruitment/jobs/list', [JobsController::class, 'list'])->name('recruitment.jobs.list');
     Route::get('recruitment/jobs/recommended-job', [JobsController::class, 'recommendedJob'])->name('recruitment.jobs.recommended-job');
+    Route::post('/recruitment/jobs/status/{id}',[JobsController::class, 'toggleStatus'])->name('recruitment.jobs.toggle-status');
     Route::get('recruitment/jobs/job-listings/{slug}', [JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
+    Route::get('/recruitment/jobs/counts', [JobsController::class, 'jobCounts'])->name('recruitment.jobs.counts');
     Route::get('/recruitment/jobs/{slug}/apply', [JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
-    Route::get('recruitment/jobs/details-ajax',[JobsController::class, 'jobDetailsAjax'])->name('recruitment.jobs.details.ajax');
+    Route::get('recruitment/jobs/details-ajax', [JobsController::class, 'jobDetailsAjax'])->name('recruitment.jobs.details.ajax');
+
+    Route::get('recruitment/jobs/edit/{id}', [JobsController::class, 'edit'])->name('recruitment.jobs.edit');
+    Route::put('recruitment/jobs/update/{id}', [JobsController::class, 'update'])->name('recruitment.jobs.update');
+    Route::delete('recruitment/jobs/delete/{id}', [JobsController::class, 'destroy'])->name('recruitment.jobs.delete');
 
     Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
 
@@ -209,9 +215,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('jaf/list', [JafController::class, 'list'])->name('jaf.list');
     Route::post('recruitment/jobs/create-job-questionaire/store', [JafController::class, 'store'])->name('jaf.store');
     Route::get('recruitment/jobs/create-job-questionaire/show', [JafController::class, 'show'])->name('jaf.index');
-    Route::get('recruitment/jobs/create-job-questionaire/edit/{id}',[JafController::class, 'edit'])->name('jaf.edit');
-    Route::put('recruitment/jobs/create-job-questionaire/update/{id}',[JafController::class, 'update'])->name('jaf.update'); 
-    Route::delete('recruitment/jobs/create-job-questionaire/delete/{id}',[JafController::class, 'destroy'])->name('jaf.delete');
+    Route::get('recruitment/jobs/create-job-questionaire/edit/{id}', [JafController::class, 'edit'])->name('jaf.edit');
+    Route::put('recruitment/jobs/create-job-questionaire/update/{id}', [JafController::class, 'update'])->name('jaf.update');
+    Route::delete('recruitment/jobs/create-job-questionaire/delete/{id}', [JafController::class, 'destroy'])->name('jaf.delete');
 
     // Master/Payroll/salary-component
     Route::get('masters/payroll/salary-component', [SalaryComponentController::class, 'index'])->name('masters.payroll.salary-component');

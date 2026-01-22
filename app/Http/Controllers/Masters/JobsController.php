@@ -86,16 +86,29 @@ class JobsController extends Controller
                 'state' => optional($job->state)->name ?? '--',
                 'city' => implode(', ', $cityNames) ?: '--',
                 'experience' => "{$job->min_exp} - {$job->max_exp} Years",
-                'status' => $job->status === 'PUBLISHED'
-                    ? '<span class="badge bg-success">Published</span>'
-                    : '<span class="badge bg-danger">Draft</span>',
+                'status' => '
+                        <div class="form-check form-switch">
+                            <input 
+                                class="form-check-input status-switch" 
+                                type="checkbox"
+                                data-id="' . $job->id . '"
+                                ' . ($job->status === 'PUBLISHED' ? 'checked' : '') . '
+                            >
+                        </div>
+                        ',
                 'action' => '
-                 <button class="btn btn-sm btn-info view-job" data-id="'.$job->id.'">
-        <i class="ti ti-eye"></i>
-    </button>
-                <button class="btn btn-sm btn-warning copy-btn">
-                            <i class="ti ti-copy"></i>
-                        </button>',
+                    <button class="btn btn-sm btn-primary view-job" data-id="' . $job->id . '">
+                        <i class="ti ti-eye"></i>
+                    </button>
+                    <a href="' . route('recruitment.jobs.edit', $job->id) . '" class="btn btn-sm btn-warning">
+                        <i class="ti ti-edit"></i>
+                    </a>
+                    <button class="btn btn-sm btn-danger delete-job" data-id="' . $job->id . '">
+                        <i class="ti ti-trash"></i>
+                    </button>
+                    <button class="btn btn-sm btn-warning copy-btn">
+                        <i class="ti ti-copy"></i>
+                    </button>',
             ];
         }
 
@@ -111,15 +124,15 @@ class JobsController extends Controller
     public function jobDetailsAjax(Request $request)
     {
         $job = AcflJobs::with(['designation', 'state'])->findOrFail($request->id);
-    
+
         $cities = StateCity::whereIn('id', $job->city_ids ?? [])
             ->pluck('name')
             ->implode(', ');
-    
+
         $skills = Skills::whereIn('id', $job->test_skills ?? [])
             ->pluck('name')
             ->implode(', ');
-    
+
         return response()->json([
             'job_title' => $job->job_title,
             'designation' => optional($job->designation)->name ?? '--',
@@ -132,15 +145,15 @@ class JobsController extends Controller
             'description' => $job->job_description,
         ]);
     }
-    
+
     public function recommendedJob()
     {
         $data['title'] = 'Recruitment / Jobs / Recommended-Job';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
         $jobs = AcflJobs::with(['branch.company', 'state'])
-        ->where('status', 'published')
-        ->get();
+            ->where('status', 'published')
+            ->get();
         foreach ($jobs as $job) {
             $cityIds = $job->city_ids ?? [];
             $job->city_names = StateCity::whereIn('id', $cityIds)
@@ -200,7 +213,7 @@ class JobsController extends Controller
             'data' => $jobsData,
         ]);
     }
-    
+
     public function jobDetails($slug)
     {
         preg_match('/(\d+)\d{6}$/', $slug, $matches);
@@ -211,8 +224,8 @@ class JobsController extends Controller
         }
 
         $job = AcflJobs::with(['branch.company', 'state'])
-        ->where('status', 'published')
-        ->findOrFail($jobId);
+            ->where('status', 'published')
+            ->findOrFail($jobId);
 
         $cityNames = StateCity::whereIn('id', $job->city_ids ?? [])
             ->pluck('name')
@@ -409,25 +422,129 @@ class JobsController extends Controller
         ]);
     }
 
-
-
-    public function show(string $id)
+    public function toggleStatus(Request $request, $id)
     {
-        //
+        $job = AcflJobs::findOrFail($id);
+
+        $job->status = $job->status === 'PUBLISHED' ? 'DRAFT' : 'PUBLISHED';
+        $job->save();
+
+        return response()->json([
+            'success' => true,
+            'status' => $job->status,
+            'message' => 'Job status updated successfully'
+        ]);
+    }
+
+    public function jobCounts()
+    {
+        return response()->json([
+            'total' => AcflJobs::count(),
+            'published' => AcflJobs::where('status', 'PUBLISHED')->count(),
+            'draft' => AcflJobs::where('status', 'DRAFT')->count(),
+        ]);
     }
 
     public function edit(string $id)
     {
-        //
+        $job = AcflJobs::findOrFail($id);
+
+        $data['title'] = 'Recruitment / Jobs / Edit';
+        $data['job'] = $job;
+        $data['designation'] = Designation::all();
+        $data['jobsType'] = JobCategory::where('type', 'job type')->get();
+        $data['states'] = CountryState::where('country_id', 101)->get();
+        $data['branch'] = Branch::all();
+        $data['jobSkills'] = Skills::orderBy('name')->get();
+        $data['cities'] = $job->state_id
+            ? StateCity::where('state_id', $job->state_id)->get()
+            : collect();
+        $data['selected_city'] = $job->city_ids ?? [];
+        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
+
+        return view('home.jobs.edit', $data);
     }
 
     public function update(Request $request, string $id)
     {
-        //
+        $job = AcflJobs::findOrFail($id);
+
+        $request->validate([
+            'branch_id' => 'required|exists:branches,id',
+            'job_title' => 'required|string|max:255',
+            'designation_id' => 'required|exists:designations,id',
+            'test_skills' => 'required|array',
+            'positions' => 'required|integer|min:1',
+            'job_type_id' => 'required|exists:job_categories,id',
+            'ctc_from' => 'nullable|numeric',
+            'ctc_to' => 'nullable|numeric|gte:ctc_from',
+            'min_exp' => 'required|integer|min:0',
+            'max_exp' => 'required|integer|gte:min_exp',
+            'state_id' => 'required|exists:country_states,id',
+            'city_ids' => 'required|array',
+            'job_description' => 'required|string|min:10',
+            'qualifications' => 'required|array',
+            'keywords' => 'nullable|string',
+            'interview_date' => 'nullable|date',
+            'status' => 'required|in:DRAFT,PUBLISHED',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $job->update([
+                'branch_id' => $request->branch_id,
+                'job_title' => $request->job_title,
+                'designation_id' => $request->designation_id,
+                'test_skills' => $request->test_skills,
+                'positions' => $request->positions,
+                'job_type_id' => $request->job_type_id,
+                'ctc_from' => $request->ctc_from,
+                'ctc_to' => $request->ctc_to,
+                'min_exp' => $request->min_exp,
+                'max_exp' => $request->max_exp,
+                'state_id' => $request->state_id,
+                'city_ids' => $request->city_ids,
+                'job_description' => $request->job_description, // 👈 FIX
+                'qualifications' => $request->qualifications,
+                'keywords' => $request->keywords,
+                'interview_date' => $request->interview_date,
+                'status' => $request->status,
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('recruitment.jobs')
+                ->with('success', 'Job updated successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $e->getMessage());
+        }
     }
+
+
 
     public function destroy(string $id)
     {
-        //
+        $job = AcflJobs::withTrashed()->find($id);
+
+        if (!$job) {
+            return response()->json(['success' => false, 'message' => 'Job not found.']);
+        }
+
+        try {
+            if ($job->trashed()) {
+                $job->forceDelete();
+                $message = 'Job permanently deleted!';
+            } else {
+                $job->delete();
+                $message = 'Job deleted successfully!';
+            }
+
+            return response()->json(['success' => true, 'message' => $message]);
+        } catch (\Exception $e) {
+            \Log::error('Job Delete Error: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Something went wrong.']);
+        }
     }
 }

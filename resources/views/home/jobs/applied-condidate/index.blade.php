@@ -1,6 +1,6 @@
 @extends('layout.master')
 @section('title', $title)
-
+{{-- <div class="row mb-2"><div class="col-5 fw-bold">Qualification:</div><div class="col-7">${res.qualification}</div></div> --}}
 @section('main-section')
     <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
@@ -136,7 +136,7 @@
                             <div class="row mb-2"><div class="col-5 fw-bold">Twelfth Year:</div><div class="col-7">${res.twelfth_year}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">UG Percentage:</div><div class="col-7">${res.ug_percent}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">UG year:</div><div class="col-7">${res.ug_year}</div></div>
-                            <div class="row mb-2"><div class="col-5 fw-bold">Qualification:</div><div class="col-7">${res.qualification}</div></div>
+                            
                             <div class="row mb-2"><div class="col-5 fw-bold">Degree:</div><div class="col-7">${res.degree}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">Institute:</div><div class="col-7">${res.institute}</div></div>
                             <div class="row mb-2"><div class="col-5 fw-bold">Final Year:</div><div class="col-7">${res.final_year}</div></div>
