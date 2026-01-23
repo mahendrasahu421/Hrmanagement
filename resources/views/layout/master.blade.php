@@ -372,7 +372,8 @@
 
                                                     <h5 class="mb-0">{{ auth()->user()->name }}</h5>
                                                     <p class="fs-12 fw-medium mb-0"><a href="#">
-                                                            <p class="fs-12 fw-medium mb-0">{{ auth()->user()->email }}</p>
+                                                            <p class="fs-12 fw-medium mb-0">
+                                                                {{ auth()->user()->email }}</p>
                                                         </a>
                                                     </p>
                                                 </div>
@@ -398,11 +399,15 @@
                                             </a>
                                         </div>
                                         <div class="card-footer">
-                                            <a class="dropdown-item d-inline-flex align-items-center p-0 py-2"
-                                                href="{{ route('logout') }}">
-                                                <i class="ti ti-login me-2"></i>Logout
-                                            </a>
+                                            <form action="{{ route('logout') }}" method="POST" class="w-100">
+                                                @csrf
+                                                <button type="submit"
+                                                    class="dropdown-item d-inline-flex align-items-center p-0 py-2 border-0 bg-transparent w-100 text-start">
+                                                    <i class="ti ti-login me-2"></i>Logout
+                                                </button>
+                                            </form>
                                         </div>
+
                                     </div>
                                 </div>
                             </div>

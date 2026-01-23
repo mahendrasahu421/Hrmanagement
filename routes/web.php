@@ -332,10 +332,9 @@ Route::middleware(['auth'])->group(function () {
 });
 
 
-Route::get('/', [AuthController::class, 'index']);
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/', [AuthController::class, 'index'])->name('login.form');
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 // // Employee
 Route::get('/employee/login', [EmployeeAuthController::class, 'index'])->name('employee.login');

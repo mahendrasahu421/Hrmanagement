@@ -14,7 +14,8 @@ class LeaveTypeController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Master / Organisation / Leave Type';
+        $data['title'] = 'Leave Type';
+        $data['titleRoute'] = 'Settings / Masters / Leave Type';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
         return view('home.leave-type.index', $data);

@@ -126,67 +126,66 @@ class leavesController extends Controller
     }
 
     public function create()
-{
-    $data['title'] = 'Leaves';
-    $data['titleRoute'] = 'Leave Management / Leaves Apply';
+    {
+        $data['title'] = 'Leaves';
+        $data['titleRoute'] = 'Leave Management / Leaves Apply';
 
-    $employeeId = auth('employee')->id();
-    $employee = Employee::findOrFail($employeeId);
+        $employeeId = auth('employee')->id();
+        $employee = Employee::findOrFail($employeeId);
 
-    $employeeGender = strtoupper($employee->gender);
-    $monthsWorked = Carbon::parse($employee->joining_date)->diffInMonths(now());
+        $employeeGender = strtoupper($employee->gender);
+        $monthsWorked = Carbon::parse($employee->joining_date)->diffInMonths(now());
 
-    $leaveTypes = LeaveType::where(function ($q) use ($employeeGender) {
+        $leaveTypes = LeaveType::where(function ($q) use ($employeeGender) {
             $q->where('applicable_for', 'ALL')
-              ->orWhere('applicable_for', $employeeGender);
+                ->orWhere('applicable_for', $employeeGender);
         })
-        ->when($monthsWorked < 2, function ($q) {
-            $q->where('leave_name', 'Leave Without Pay');
-        })
-        ->get();
+            ->when($monthsWorked < 2, function ($q) {
+                $q->where('leave_name', 'Leave Without Pay');
+            })
+            ->get();
 
-    // 🔹 Remaining leaves calculation
-    $leaveTypes = $leaveTypes->map(function ($leaveType) use ($employee) {
+        // 🔹 Remaining leaves calculation
+        $leaveTypes = $leaveTypes->map(function ($leaveType) use ($employee) {
 
-        if ($leaveType->leave_name === 'Leave Without Pay') {
-            $leaveType->remaining = 'Unlimited';
+            if ($leaveType->leave_name === 'Leave Without Pay') {
+                $leaveType->remaining = 'Unlimited';
+                return $leaveType;
+            }
+
+            $mapping = LeaveMapping::where('designation_id', $employee->designation_id)
+                ->where('leave_type_id', $leaveType->id)
+                ->first();
+
+            if (!$mapping) {
+                $leaveType->remaining = 0;
+                return $leaveType;
+            }
+
+            $used = Leave::where('employee_id', $employee->id)
+                ->where('leave_type_id', $leaveType->id)
+                ->where('status', 'APPROVED')
+                ->whereYear('from_date', now()->year)
+                ->get()
+                ->sum(function ($leave) {
+                    return Carbon::parse($leave->from_date)
+                        ->diffInDays(Carbon::parse($leave->to_date)) + 1;
+                });
+
+            $leaveType->remaining = max($mapping->allow_days - $used, 0);
             return $leaveType;
-        }
+        });
 
-        $mapping = LeaveMapping::where('designation_id', $employee->designation_id)
-            ->where('leave_type_id', $leaveType->id)
-            ->first();
+        $data['leaveTypes'] = $leaveTypes;
 
-        if (!$mapping) {
-            $leaveType->remaining = 0;
-            return $leaveType;
-        }
-
-        $used = Leave::where('employee_id', $employee->id)
-            ->where('leave_type_id', $leaveType->id)
-            ->where('status', 'APPROVED')
-            ->whereYear('from_date', now()->year)
-            ->get()
-            ->sum(function ($leave) {
-                return Carbon::parse($leave->from_date)
-                    ->diffInDays(Carbon::parse($leave->to_date)) + 1;
-            });
-
-        $leaveType->remaining = max($mapping->allow_days - $used, 0);
-        return $leaveType;
-    });
-
-    $data['leaveTypes'] = $leaveTypes;
-
-    return view('employee.leaves.create', $data);
-}
+        return view('employee.leaves.create', $data);
+    }
 
 
 
     public function store(Request $request)
     {
         try {
-            // Validation
             $request->validate([
                 'leave_type_id' => 'required|exists:leave_types,id',
                 'from_date' => 'required|date',
@@ -198,10 +197,7 @@ class leavesController extends Controller
 
             $employeeId = auth('employee')->id();
             $employee = Employee::find($employeeId);
-
-            if (!$employee) {
-                return back()->with('error', 'Employee not found')->withInput();
-            }
+            if (!$employee) return back()->with('error', 'Employee not found')->withInput();
 
             $from = Carbon::parse($request->from_date);
             $to = Carbon::parse($request->to_date);
@@ -219,32 +215,33 @@ class leavesController extends Controller
                     });
                 })
                 ->exists();
+            if ($alreadyDraftOrApplied) return back()->with('error', 'You have already applied or saved a draft for this leave type for the selected dates.')->withInput();
 
-            if ($alreadyDraftOrApplied) {
-                return back()->with('error', 'You have already applied or saved a draft for this leave type for the selected dates.')->withInput();
-            }
+            $existingLeave = Leave::where('employee_id', $employeeId)
+                ->where(function ($q) use ($from, $to) {
+                    $q->whereBetween('from_date', [$from, $to])
+                        ->orWhereBetween('to_date', [$from, $to])
+                        ->orWhere(function ($q2) use ($from, $to) {
+                            $q2->where('from_date', '<=', $from)
+                                ->where('to_date', '>=', $to);
+                        });
+                })
+                ->exists();
+            if ($existingLeave) return back()->with('error', 'You already have a leave applied for the selected date(s).')->withInput();
 
             $leaveType = LeaveType::find($request->leave_type_id);
             $today = Carbon::today();
-
-            if ($leaveType && $leaveType->leave_name !== "Emergency Leave") {
-                if (Carbon::parse($request->from_date)->lte($today)) {
-                    return back()
-                        ->with('error', 'You cannot apply non-emergency leave for today. Please select a future date.')
-                        ->withInput();
-                }
+            $tomorrow = Carbon::tomorrow();
+            if ($leaveType && $leaveType->leave_name !== "Emergency Leave" && $from->lt($tomorrow)) {
+                return back()->with('error', 'You cannot apply non-emergency leave for today. Please select a future date.')->withInput();
             }
 
             $leaveMapping = LeaveMapping::where('designation_id', $employee->designation_id)
                 ->where('leave_type_id', $request->leave_type_id)
                 ->first();
-
-            if (!$leaveMapping) {
-                return back()->with('error', 'You are not allowed to apply for this leave type')->withInput();
-            }
+            if (!$leaveMapping) return back()->with('error', 'You are not allowed to apply for this leave type')->withInput();
 
             $daysRequested = $from->diffInDays($to) + 1;
-
             if ($leaveMapping->allow_days !== null && $daysRequested > $leaveMapping->allow_days) {
                 return back()->with('error', 'You are requesting more days than allowed')->withInput();
             }
@@ -258,7 +255,6 @@ class leavesController extends Controller
                 $reasonId = $reasonRecord ? $reasonRecord->id : null;
             }
 
-            // Save leave in DB
             $leave = Leave::create([
                 'employee_id' => $employeeId,
                 'leave_type_id' => $request->leave_type_id,
@@ -270,14 +266,11 @@ class leavesController extends Controller
                 'status' => $request->status,
             ]);
 
-            // Send email only if status is SENT
             if ($request->status === 'SENT') {
                 $adminEmail = User::where('role_id', 1)->value('email');
                 $hrEmail = User::where('role_id', 2)->value('email');
-
                 if ($adminEmail || $hrEmail) {
                     $template = EmailTemplate::where('template_key', 'employee_leave_apply')->first();
-
                     Mail::to($adminEmail)
                         ->cc($hrEmail)
                         ->bcc('sneha.s@neuralinfo.org')
@@ -285,8 +278,7 @@ class leavesController extends Controller
                 }
             }
 
-            return redirect()->route('employee.leaves')
-                ->with('success', 'Leave applied successfully!');
+            return redirect()->route('employee.leaves')->with('success', 'Leave applied successfully!');
         } catch (\Illuminate\Validation\ValidationException $e) {
             return back()->withErrors($e->validator)->withInput();
         } catch (\Exception $e) {
@@ -294,6 +286,7 @@ class leavesController extends Controller
             return back()->with('error', 'Error: ' . $e->getMessage())->withInput();
         }
     }
+
 
 
     public function list(Request $request)
@@ -431,14 +424,15 @@ class leavesController extends Controller
         $data['titleRoute'] = 'Leave Management / Edit Leave';
 
         $employeeId = auth('employee')->id();
-        $employee = Employee::find($employeeId);
-        if (!$employee) {
-            abort(404, 'Employee not found');
-        }
+        $employee = Employee::findOrFail($employeeId);
+
         $employeeGender = strtoupper($employee->gender);
-        $today = Carbon::now();
-        $monthsWorked = Carbon::parse($employee->joining_date)->diffInMonths($today);
-        $data['leaveTypes'] = LeaveType::where(function ($q) use ($employeeGender) {
+        $monthsWorked = Carbon::parse($employee->joining_date)->diffInMonths(now());
+
+        $leave = Leave::findOrFail($id);
+        $data['leave'] = $leave;
+
+        $leaveTypes = LeaveType::where(function ($q) use ($employeeGender) {
             $q->where('applicable_for', 'ALL')
                 ->orWhere('applicable_for', $employeeGender);
         })
@@ -446,8 +440,41 @@ class leavesController extends Controller
                 $q->where('leave_name', 'Leave Without Pay');
             })
             ->get();
-        $data['leave'] = Leave::findOrFail($id);
-        $data['reasons'] = LeaveReason::where('leave_type_id', $data['leave']->leave_type_id)
+
+        // 🔹 Remaining calculation (same as create)
+        $leaveTypes = $leaveTypes->map(function ($leaveType) use ($employee) {
+
+            if ($leaveType->leave_name === 'Leave Without Pay') {
+                $leaveType->remaining = 'Unlimited';
+                return $leaveType;
+            }
+
+            $mapping = LeaveMapping::where('designation_id', $employee->designation_id)
+                ->where('leave_type_id', $leaveType->id)
+                ->first();
+
+            if (!$mapping) {
+                $leaveType->remaining = 0;
+                return $leaveType;
+            }
+
+            $used = Leave::where('employee_id', $employee->id)
+                ->where('leave_type_id', $leaveType->id)
+                ->where('status', 'APPROVED')
+                ->whereYear('from_date', now()->year)
+                ->get()
+                ->sum(function ($leave) {
+                    return Carbon::parse($leave->from_date)
+                        ->diffInDays(Carbon::parse($leave->to_date)) + 1;
+                });
+
+            $leaveType->remaining = max($mapping->allow_days - $used, 0);
+            return $leaveType;
+        });
+
+        $data['leaveTypes'] = $leaveTypes;
+
+        $data['reasons'] = LeaveReason::where('leave_type_id', $leave->leave_type_id)
             ->where('status', 'Active')
             ->get();
 
@@ -455,13 +482,15 @@ class leavesController extends Controller
     }
 
 
+
     public function update(Request $request, $id)
     {
         try {
+            // Validate manually formatted dates
             $request->validate([
                 'leave_type_id' => 'required|exists:leave_types,id',
-                'from_date'     => 'required|date',
-                'to_date'       => 'required|date|after_or_equal:from_date',
+                'from_date'     => 'required|date_format:d-m-Y', // <-- expect DD-MM-YYYY
+                'to_date'       => 'required|date_format:d-m-Y|after_or_equal:from_date',
                 'status'        => 'required|in:DRAFT,SENT',
                 'reason_id'     => 'required',
                 'reason'        => $request->reason_id === 'Others'
@@ -471,29 +500,32 @@ class leavesController extends Controller
 
             $leave = Leave::findOrFail($id);
 
+            // Convert DD-MM-YYYY to YYYY-MM-DD for MySQL
+            $fromDate = \Carbon\Carbon::createFromFormat('d-m-Y', $request->from_date)->format('Y-m-d');
+            $toDate   = \Carbon\Carbon::createFromFormat('d-m-Y', $request->to_date)->format('Y-m-d');
+
             $leave->leave_type_id = $request->leave_type_id;
-            $leave->from_date     = $request->from_date;
-            $leave->to_date       = $request->to_date;
+            $leave->from_date     = $fromDate;
+            $leave->to_date       = $toDate;
             $leave->status        = $request->status;
+
             if ($request->reason_id === 'Others') {
                 $leave->reason     = $request->reason;
                 $leave->reasons_id = null;
             } else {
                 $reasonRecord = LeaveReason::find($request->reason_id);
-
                 $leave->reason     = $reasonRecord ? $reasonRecord->reason : null;
                 $leave->reasons_id = $reasonRecord ? $reasonRecord->id : null;
             }
 
             $leave->save();
-            if ($leave->status === 'SENT') {
 
+            // Send email if status is SENT
+            if ($leave->status === 'SENT') {
                 $adminEmail = User::where('role_id', 1)->value('email');
                 $hrEmail    = User::where('role_id', 2)->value('email');
 
-                $emails = collect([$adminEmail, $hrEmail])
-                    ->filter()
-                    ->toArray();
+                $emails = collect([$adminEmail, $hrEmail])->filter()->toArray();
 
                 if (!empty($emails)) {
                     $template = EmailTemplate::where('template_key', 'employee_leave_apply')->first();

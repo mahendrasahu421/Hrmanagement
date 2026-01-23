@@ -19,7 +19,7 @@
 
                     <div class="mb-2">
                         <a href="{{ route('employee.leaves.apply') }}" class="btn btn-primary d-flex align-items-center"><i
-                                class="ti ti-circle-plus me-2"></i>Apply for
+                                class="ti ti-circle-plus me-2"></i>Apply
                             Leave</a>
                     </div>
 

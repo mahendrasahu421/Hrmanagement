@@ -16,7 +16,8 @@ class DesignationController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Master / Organisation / Designation';
+        $data['title'] = 'Designation';
+        $data['titleRoute'] = 'Settings / Masters / Designation';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.designation.index', $data);
     }

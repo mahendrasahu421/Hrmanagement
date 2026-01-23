@@ -77,18 +77,28 @@
                                     <!-- Leave Type -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="leave_type_id">Leave Type *</label>
+
                                         <select class="form-control select2" id="leave_type_id" name="leave_type_id"
                                             required>
                                             <option value="">-- Select Leave Type --</option>
+
                                             @foreach ($leaveTypes as $l)
                                                 <option value="{{ $l->id }}"
-                                                    {{ $leave->leave_type_id == $l->id ? 'selected' : '' }}>
+                                                    {{ $leave->leave_type_id == $l->id ? 'selected' : '' }}
+                                                    @if ($l->remaining !== 'Unlimited' && (int) $l->remaining === 0 && $leave->leave_type_id != $l->id) disabled @endif>
                                                     {{ $l->leave_name }}
+                                                    @if ($l->remaining === 'Unlimited')
+                                                        (Unlimited)
+                                                    @else
+                                                        (Remaining: {{ $l->remaining }})
+                                                    @endif
                                                 </option>
                                             @endforeach
                                         </select>
+
                                         <div class="invalid-feedback">Please select a leave type.</div>
                                     </div>
+
 
                                     <!-- Date Range Picker -->
                                     <div class="col-md-4 mb-3">
@@ -96,8 +106,10 @@
                                         <input type="text" class="form-control" id="leave_range"
                                             placeholder="Select date range" required>
                                         <input type="hidden" name="from_date" id="from_date"
-                                            value="{{ $leave->from_date }}">
-                                        <input type="hidden" name="to_date" id="to_date" value="{{ $leave->to_date }}">
+                                            value="{{ \Carbon\Carbon::parse($leave->from_date)->format('d-m-Y') }}">
+
+                                        <input type="hidden" name="to_date" id="to_date"
+                                            value="{{ \Carbon\Carbon::parse($leave->to_date)->format('d-m-Y') }}">
                                         <div class="invalid-feedback">Please select date range.</div>
                                     </div>
 
@@ -180,31 +192,37 @@
         let rangePicker;
 
         function parseDate(dateStr) {
-            return dateStr ? new Date(dateStr) : null;
+            if (!dateStr) return null;
+            let parts = dateStr.split('-');
+            return new Date(parts[2], parts[1] - 1, parts[0]);
         }
 
         function initDatePicker(minDate, preStart, preEnd) {
             if (rangePicker) rangePicker.destroy();
 
+            let maxDate = new Date(minDate);
+            maxDate.setMonth(maxDate.getMonth() + 1);
+
             setTimeout(() => {
                 rangePicker = flatpickr("#leave_range", {
                     mode: "range",
-                    dateFormat: "Y-m-d",
+                    dateFormat: "d-m-Y",
                     minDate: minDate,
+                    maxDate: maxDate,
                     allowOneSidedRange: true,
                     defaultDate: preStart && preEnd ? [preStart, preEnd] : preStart ? [preStart] : null,
                     onChange: function(selectedDates) {
                         if (selectedDates.length === 1) {
                             let day = selectedDates[0];
-                            $("#from_date").val(flatpickr.formatDate(day, "Y-m-d"));
-                            $("#to_date").val(flatpickr.formatDate(day, "Y-m-d"));
+                            $("#from_date").val(flatpickr.formatDate(day, "d-m-Y"));
+                            $("#to_date").val(flatpickr.formatDate(day, "d-m-Y"));
                             $("#total_leaves").val(1);
                         }
                         if (selectedDates.length === 2) {
                             let start = selectedDates[0];
                             let end = selectedDates[1];
-                            $("#from_date").val(flatpickr.formatDate(start, "Y-m-d"));
-                            $("#to_date").val(flatpickr.formatDate(end, "Y-m-d"));
+                            $("#from_date").val(flatpickr.formatDate(start, "d-m-Y"));
+                            $("#to_date").val(flatpickr.formatDate(end, "d-m-Y"));
                             let diff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
                             $("#total_leaves").val(diff);
                         }
@@ -215,15 +233,18 @@
 
         document.addEventListener("DOMContentLoaded", function() {
             let leaveTypeText = $("#leave_type_id option:selected").text().trim();
-            let from = "{{ $leave->from_date }}";
-            let to = "{{ $leave->to_date }}";
+            let from = "{{ \Carbon\Carbon::parse($leave->from_date)->format('d-m-Y') }}";
+            let to = "{{ \Carbon\Carbon::parse($leave->to_date)->format('d-m-Y') }}";
+
+
             let today = new Date();
             let tomorrow = new Date();
             tomorrow.setDate(tomorrow.getDate() + 1);
 
-            // Show saved date range in input
             if (from && to) {
                 $('#leave_range').val(from + " to " + to);
+                $("#from_date").val(from);
+                $("#to_date").val(to);
             } else if (from) {
                 $('#leave_range').val(from);
             }
@@ -241,9 +262,7 @@
                 $('#other_reason').val('').prop('required', false);
 
                 if (leaveTypeId) {
-                    let url = "{{ route('employee.leave.reasons', ':id') }}";
-                    url = url.replace(':id', leaveTypeId);
-
+                    let url = "{{ route('employee.leave.reasons', ':id') }}".replace(':id', leaveTypeId);
                     $.ajax({
                         url: url,
                         type: "GET",
@@ -264,17 +283,14 @@
                 }
 
                 let leaveTypeText = $("#leave_type_id option:selected").text().trim();
-                let today = new Date().toISOString().split('T')[0];
-                let tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
-                tomorrow = tomorrow.toISOString().split('T')[0];
+                let todayDate = new Date();
+                let tomorrowDate = new Date();
+                tomorrowDate.setDate(tomorrowDate.getDate() + 1);
 
                 if (leaveTypeText === "Emergency Leave") {
-                    $('#from_date, #to_date').attr('min', today).val(today);
-                    initDatePicker(today);
+                    initDatePicker(todayDate);
                 } else {
-                    $('#from_date, #to_date').attr('min', tomorrow).val(tomorrow);
-                    initDatePicker(tomorrow);
+                    initDatePicker(tomorrowDate);
                 }
             });
 
@@ -291,9 +307,8 @@
             $('select[name="leave_type_id"]').on('change', function() {
                 let leaveTypeId = $(this).val();
                 if (leaveTypeId) {
-                    let url = "{{ route('leave.balance', ['leaveTypeId' => ':id']) }}";
-                    url = url.replace(':id', leaveTypeId);
-
+                    let url = "{{ route('leave.balance', ['leaveTypeId' => ':id']) }}".replace(':id',
+                        leaveTypeId);
                     $.ajax({
                         url: url,
                         type: "GET",
@@ -327,8 +342,10 @@
                 let fromVal = $('#from_date').val();
                 let toVal = $('#to_date').val();
                 if (fromVal && toVal) {
-                    let diffDays = (new Date(toVal) - new Date(fromVal)) / (1000 * 60 * 60 * 24) + 1;
-                    $('#total_leaves').val(diffDays);
+                    let f = parseDate(fromVal);
+                    let t = parseDate(toVal);
+                    let diff = Math.ceil((t - f) / (1000 * 60 * 60 * 24)) + 1;
+                    $('#total_leaves').val(diff);
                 } else {
                     $('#total_leaves').val(0);
                 }

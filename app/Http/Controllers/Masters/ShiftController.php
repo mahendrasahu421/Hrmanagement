@@ -13,7 +13,8 @@ class ShiftController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Master / Organisation / Shift';
+        $data['title'] = 'Shift';
+        $data['titleRoute'] = 'Settings / Masters / Shift';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
         return view('home.shift.index', $data);

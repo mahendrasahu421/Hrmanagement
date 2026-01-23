@@ -10,7 +10,8 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $data['title'] = 'Settings / Category';
+        $data['title'] = 'Category';
+        $data['titleRoute'] = 'Settings / Masters / Category';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.category.index', $data);
     }
