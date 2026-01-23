@@ -15,7 +15,8 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        $data['title'] = 'Master / Organisation / Department';
+        $data['title'] = 'Department';
+        $data['titleRoute'] = 'Settings / Masters / Department';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.department.index', $data);
     }

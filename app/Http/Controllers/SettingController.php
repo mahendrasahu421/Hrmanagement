@@ -12,6 +12,7 @@ class SettingController extends Controller
     public function index()
     {
         $data['title'] = 'Email Templates';
+        $data['titleRoute'] = 'Settings / Masters / Email Templates';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.setting.index', $data);
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Auth;
 class AuthController extends Controller
 {
@@ -19,37 +20,45 @@ class AuthController extends Controller
      * Show the form for creating a new resource.
      */
     public function login(Request $request)
-    {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:6',
-        ]);
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|min:6',
+    ]);
 
-        $credentials = $request->only('email', 'password');
-        $remember = $request->has('remember_me');
+    $credentials = $request->only('email', 'password');
+    $remember = $request->has('remember_me');
 
-        if (!Auth::attempt($credentials, $remember)) {
-            return back()->with('error', 'Invalid credentials.');
-        }
-
-        $user = Auth::user();
-
-        // Admin & HR go to the same home/dashboard
-        if (in_array($user->role_id, [2, 3])) { // 2=Admin, 3=HR
-            return redirect()->route('home')->with('success', 'Login successful. Welcome, ' . $user->name . '!');
-        }
-
-        // Other roles (optional)
-        switch ($user->role_id) {
-            case 1: // Super Admin
-                return redirect('/super-admin/dashboard')->with('success', 'Welcome, ' . $user->name);
-            case 4: // Employee
-                return redirect('/employee/dashboard')->with('success', 'Welcome, ' . $user->name);
-            default:
-                Auth::logout();
-                return redirect('/login')->withErrors(['email' => 'User type not recognized.']);
-        }
+    if (!Auth::attempt($credentials, $remember)) {
+        return back()->with('error', 'Invalid credentials.');
     }
+
+    // ✅ Remember Me → email & password cookie me save karo
+    if ($remember) {
+        cookie()->queue('remember_email', $request->email, 60 * 24 * 30); // 30 days
+        cookie()->queue('remember_password', Crypt::encryptString($request->password), 60 * 24 * 30); // encrypted
+    } else {
+        cookie()->queue(cookie()->forget('remember_email'));
+        cookie()->queue(cookie()->forget('remember_password'));
+    }
+
+    $user = Auth::user();
+
+    if (in_array($user->role_id, [2, 3])) {
+        return redirect()->route('home')
+            ->with('success', 'Login successful. Welcome, ' . $user->name . '!');
+    }
+
+    switch ($user->role_id) {
+        case 1:
+            return redirect('/super-admin/dashboard');
+        case 4:
+            return redirect('/employee/dashboard');
+        default:
+            Auth::logout();
+            return redirect('/')->withErrors(['email' => 'User type not recognized.']);
+    }
+}
 
 
 

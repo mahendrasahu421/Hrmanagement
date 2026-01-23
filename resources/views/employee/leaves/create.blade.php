@@ -40,7 +40,6 @@
         }
     </style>
 
-    <!-- Page Wrapper -->
     <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
     <div class="page-wrapper">
         <div class="content">
@@ -123,7 +122,6 @@
                                         </small>
                                     </div>
 
-                                    <!-- Leave Type -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="leave_type_id">Leave Type *</label>
                                         <select class="form-control select2" id="leave_type_id" name="leave_type_id"
@@ -133,9 +131,7 @@
                                             @foreach ($leaveTypes as $leave)
                                                 <option value="{{ $leave->id }}"
                                                     @if ($leave->remaining !== 'Unlimited' && (int) $leave->remaining === 0) disabled @endif>
-
                                                     {{ $leave->leave_name }}
-
                                                     @if ($leave->remaining === 'Unlimited')
                                                         (Unlimited)
                                                     @else
@@ -174,7 +170,6 @@
 
                                 <div class="form-row row">
 
-                                    <!-- Reason -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="reason">Reason *</label>
                                         <select class="form-control select2" id="reason_id" name="reason_id" required>
@@ -185,7 +180,7 @@
 
                                         <div id="otherReasonDiv" style="display:none; margin-top:10px;">
                                             <textarea class="form-control" name="reason" id="other_reason" placeholder="Enter your reason here..."
-                                                maxlength="250"style="resize: vertical; min-height: 100px;"></textarea>
+                                                maxlength="250" style="resize: vertical; min-height: 100px;"></textarea>
                                             <small class="text-muted">
                                                 <span id="charCount">0</span>/250 characters
                                             </small>
@@ -193,7 +188,6 @@
                                         </div>
                                     </div>
 
-                                    <!-- Status -->
                                     <div class="col-md-4 mb-3">
                                         <label class="form-label" for="status">Status *</label>
                                         <select class="form-control select2" id="status" name="status" required>
@@ -243,7 +237,6 @@
     </div>
 @endsection
 
-
 @push('after_scripts')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -253,72 +246,59 @@
         let remainingLeaveCount = 0;
 
         function initDatePicker(minDate) {
+            if (rangePicker) rangePicker.destroy();
 
-            if (rangePicker) {
-                rangePicker.destroy();
-            }
-
-            // 🔹 max date = minDate se 1 month aage
             let maxDate = new Date(minDate);
             maxDate.setMonth(maxDate.getMonth() + 1);
 
-            setTimeout(() => {
-                rangePicker = flatpickr("#leave_range", {
-                    mode: "range",
-                    altInput: true,
-                    altFormat: "d-m-Y",
-                    dateFormat: "Y-m-d",
-                    minDate: minDate,
-                    maxDate: maxDate, // ✅ 1 month limit
-                    allowOneSidedRange: true,
+            rangePicker = flatpickr("#leave_range", {
+                mode: "range",
+                altInput: true,
+                altFormat: "d-m-Y",
+                dateFormat: "Y-m-d",
+                minDate: minDate,
+                maxDate: maxDate,
+                allowOneSidedRange: true,
 
-                    onChange: function(selectedDates) {
+                onChange: function(selectedDates) {
+                    $("#rangeError").addClass('d-none');
 
-                        $("#rangeError").addClass('d-none');
-
-                        if (selectedDates.length === 1) {
-
-                            if (remainingLeaveCount !== Infinity && remainingLeaveCount < 1) {
-                                rangePicker.clear();
-                                $("#from_date, #to_date").val('');
-                                $("#total_leaves").val(0);
-                                $("#rangeError").removeClass('d-none');
-                                return;
-                            }
-
-                            let day = selectedDates[0];
-                            $("#from_date").val(flatpickr.formatDate(day, "Y-m-d"));
-                            $("#to_date").val(flatpickr.formatDate(day, "Y-m-d"));
-                            $("#total_leaves").val(1);
+                    if (selectedDates.length === 1) {
+                        if (remainingLeaveCount !== Infinity && remainingLeaveCount < 1) {
+                            rangePicker.clear();
+                            $("#from_date, #to_date").val('');
+                            $("#total_leaves").val(0);
+                            $("#rangeError").removeClass('d-none');
+                            return;
                         }
-
-                        if (selectedDates.length === 2) {
-
-                            let start = selectedDates[0];
-                            let end = selectedDates[1];
-
-                            let diff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-
-                            if (remainingLeaveCount !== Infinity && diff > remainingLeaveCount) {
-                                rangePicker.clear();
-                                $("#from_date, #to_date").val('');
-                                $("#total_leaves").val(0);
-                                $("#rangeError").removeClass('d-none');
-                                return;
-                            }
-
-                            $("#from_date").val(flatpickr.formatDate(start, "Y-m-d"));
-                            $("#to_date").val(flatpickr.formatDate(end, "Y-m-d"));
-                            $("#total_leaves").val(diff);
-                        }
+                        let day = selectedDates[0];
+                        $("#from_date, #to_date").val(flatpickr.formatDate(day, "Y-m-d"));
+                        $("#total_leaves").val(1);
                     }
-                });
-            }, 50);
+
+                    if (selectedDates.length === 2) {
+                        let start = selectedDates[0];
+                        let end = selectedDates[1];
+                        let diff = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+
+                        if (remainingLeaveCount !== Infinity && diff > remainingLeaveCount) {
+                            rangePicker.clear();
+                            $("#from_date, #to_date").val('');
+                            $("#total_leaves").val(0);
+                            $("#rangeError").removeClass('d-none');
+                            return;
+                        }
+
+                        $("#from_date").val(flatpickr.formatDate(start, "Y-m-d"));
+                        $("#to_date").val(flatpickr.formatDate(end, "Y-m-d"));
+                        $("#total_leaves").val(diff);
+                    }
+                }
+            });
         }
 
-
         document.addEventListener("DOMContentLoaded", function() {
-            initDatePicker("today");
+            initDatePicker(new Date());
         });
     </script>
 
@@ -327,6 +307,7 @@
             let length = $(this).val().length;
             $('#charCount').text(length);
         });
+
         $(document).ready(function() {
 
             $('#leave_type_id').on('change', function() {
@@ -351,11 +332,9 @@
                         success: function(res) {
                             if (res.length > 0) {
                                 $.each(res, function(key, value) {
-                                    $("#reason_id").append('<option value="' + value
-                                        .id + '">' + value.reason + '</option>');
+                                    $("#reason_id").append('<option value="' + value.id + '">' + value.reason + '</option>');
                                 });
-                                $("#reason_id").append(
-                                    '<option value="Others">Others</option>');
+                                $("#reason_id").append('<option value="Others">Others</option>');
                             }
                         }
                     });
@@ -412,18 +391,19 @@
             });
 
             $('#leave_type_id').on('change', function() {
-
                 let leaveTypeText = $("#leave_type_id option:selected").text().trim();
 
+                let minDate;
                 let today = new Date();
-                let tomorrow = new Date();
-                tomorrow.setDate(tomorrow.getDate() + 1);
 
-                if (leaveTypeText === "Emergency Leave") {
-                    initDatePicker(today);
+                if (leaveTypeText.includes("Emergency Leave")) {
+                    minDate = today; // today allowed
                 } else {
-                    initDatePicker(tomorrow);
+                    minDate = new Date();
+                    minDate.setDate(today.getDate() + 1); // start from tomorrow
                 }
+
+                initDatePicker(minDate);
             });
 
         });

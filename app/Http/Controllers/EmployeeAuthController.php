@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 
 class EmployeeAuthController extends Controller
 {
@@ -30,61 +31,46 @@ class EmployeeAuthController extends Controller
 
     public function store(Request $request)
     {
-        try {
-            $request->validate([
-                'patId'    => 'required',
-                'password' => 'required',
-            ]);
+        $request->validate([
+            'patId'    => 'required',
+            'password' => 'required',
+        ]);
 
-            $loginInput = $request->patId;
-            $password   = $request->password;
-            $remember   = $request->has('remember_me');
+        $loginInput = $request->patId;
+        $password   = $request->password;
+        $remember   = $request->has('remember_me');
 
-            if (Auth::guard('employee')->attempt([ 
-                'patId' => $loginInput,
-                'password' => $password
-            ], $remember)) {
+        $credentials = [
+            ['patId' => $loginInput],
+            ['employee_email' => $loginInput],
+            ['employee_mobile' => $loginInput],
+        ];
 
-                $user = Auth::guard('employee')->user();
+        foreach ($credentials as $field) {
+            if (Auth::guard('employee')->attempt(
+                array_merge($field, ['password' => $password]),
+                $remember
+            )) {
+
+                $employee = Auth::guard('employee')->user();
+
+                if ($remember) {
+                    Cookie::queue(Cookie::make('employee_login_id', $loginInput, 60 * 24 * 30));
+                    Cookie::queue(Cookie::make('employee_password', encrypt($password), 60 * 24 * 30));
+                } else {
+                    Cookie::queue(Cookie::forget('employee_login_id'));
+                    Cookie::queue(Cookie::forget('employee_password'));
+                }
+
                 return redirect()->route('employee.dashboard')
-                    ->with('success', 'Welcome back, ' . $user->employee_name . '!');
+                    ->with('success', 'Welcome back, ' . $employee->employee_name . '!');
             }
-
-            if (Auth::guard('employee')->attempt([ 
-                'employee_email' => $loginInput,
-                'password' => $password
-            ], $remember)) {
-
-                $user = Auth::guard('employee')->user();
-                return redirect()->route('employee.dashboard')
-                    ->with('success', 'Welcome back, ' . $user->employee_name . '!');
-            }
-
-            if (Auth::guard('employee')->attempt([
-                'employee_mobile' => $loginInput,
-                'password' => $password
-            ], $remember)) {
-
-                $user = Auth::guard('employee')->user();
-                return redirect()->route('employee.dashboard')
-                    ->with('success', 'Welcome back, ' . $user->employee_name . '!');
-            }
-
-            return back()
-                ->with('error', 'Invalid Pat ID / Email / Mobile or password.')
-                ->withInput();
-        } catch (\Illuminate\Validation\ValidationException $e) {
-            $message = collect($e->errors())->flatten()->first();
-
-            return back()
-                ->with('error', $message ?? 'Please fill all required fields correctly.')
-                ->withInput();
-        } catch (\Exception $e) {
-            return back()
-                ->with('error', 'Something went wrong while logging in. Please try again.')
-                ->withInput();
         }
+
+        return back()->with('error', 'Invalid credentials')->withInput();
     }
+
+
 
 
 

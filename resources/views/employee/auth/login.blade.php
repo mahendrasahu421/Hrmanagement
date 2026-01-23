@@ -126,7 +126,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Employee ID / Email / Phone No.</label>
                                                 <div class="input-group">
-                                                    <input type="text" value="{{ old('patId') }}" name="patId"
+                                                    <input type="text" name="patId"
+                                                        value="{{ old('patId', request()->cookie('employee_login_id')) }}"
                                                         class="form-control border-end-0">
                                                     <span class="input-group-text border-start-0">
                                                         <i class="ti ti-user"></i>
@@ -136,8 +137,9 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Password</label>
                                                 <div class="pass-group">
-                                                    <input type="password" value="{{ old('password') }}"
-                                                        class="pass-input form-control" name="password">
+                                                    <input type="password" name="password"
+                                                        class="pass-input form-control"
+                                                        value="{{ request()->cookie('employee_password') ? decrypt(request()->cookie('employee_password')) : '' }}">
                                                     <span class="ti toggle-password ti-eye-off"></span>
                                                 </div>
                                             </div>
@@ -145,14 +147,15 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="form-check form-check-md mb-0">
                                                         <input class="form-check-input" id="remember_me"
-                                                            name="remember_me" type="checkbox">
+                                                            name="remember_me" type="checkbox"
+                                                            {{ request()->cookie('employee_login_id') ? 'checked' : '' }}>
                                                         <label for="remember_me" class="form-check-label mt-0">Remember
                                                             Me</label>
                                                     </div>
                                                 </div>
-                                                <div class="text-end">
+                                                {{-- <div class="text-end">
                                                     <a href="#" class="link-danger">Forgot Password?</a>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="mb-3">
                                                 <button type="submit" class="btn btn-primary w-100">Sign In</button>

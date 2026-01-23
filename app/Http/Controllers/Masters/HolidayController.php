@@ -10,7 +10,8 @@ class HolidayController extends Controller
 {
     public function index()
     {
-        $data['title'] = 'Master / Organisation / Holiday';
+        $data['title'] = 'Holiday';
+        $data['titleRoute'] = 'Settings / Masters / Holiday';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 
         return view('home.holiday.index', $data);

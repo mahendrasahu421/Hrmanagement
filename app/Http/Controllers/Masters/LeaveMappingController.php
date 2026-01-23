@@ -13,7 +13,8 @@ class LeaveMappingController extends Controller
 {
     public function index()
     {
-        $data['title'] = 'Settings/Leave Allow';
+        $data['title'] = 'Leave Allow';
+        $data['titleRoute'] = 'Settings / Masters / Leave Allow';
         $data['designation'] = Designation::all();
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
 

@@ -12,18 +12,17 @@ class SkillController extends Controller
 {
     public function index()
     {
-        $data['title'] = 'Master / Organisation / Skill';
+        $data['title'] = 'Skills';
+        $data['titleRoute'] = 'Settings / Masters / Skill';
         return view('home.skills.index', $data);
     }
-
-
 
     public function list(Request $request)
     {
         $search = $request->input('search.value');
         $limit = $request->input('length', 10);
         $start = $request->input('start', 0);
-        $status = $request->input('status'); // dropdown se aayega
+        $status = $request->input('status');
 
         // Base query
         $query = Skills::query();

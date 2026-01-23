@@ -135,7 +135,7 @@
                                     @endif
                                 </div>
 
-                                <form action="{{ route('login') }}" class="vh-100">
+                                <form action="{{ route('login') }}" method="POST" class="vh-100">
                                     @csrf
                                     <div class="vh-100 d-flex flex-column justify-content-between p-4 pb-0">
                                         <div class="logo-text mx-auto mb-5 text-center">
@@ -152,7 +152,8 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Email Address</label>
                                                 <div class="input-group">
-                                                    <input type="text" value="{{ old('email') }}" name="email"
+                                                    <input type="text" name="email"
+                                                        value="{{ old('email', request()->cookie('remember_email')) }}"
                                                         class="form-control border-end-0">
                                                     <span class="input-group-text border-start-0">
                                                         <i class="ti ti-mail"></i>
@@ -162,8 +163,9 @@
                                             <div class="mb-3">
                                                 <label class="form-label">Password</label>
                                                 <div class="pass-group">
-                                                    <input type="password" value="{{ old('password') }}"
-                                                        class="pass-input form-control" name="password">
+                                                    <input type="password" name="password"
+                                                        value="{{ request()->cookie('remember_password') ? Crypt::decryptString(request()->cookie('remember_password')) : '' }}"
+                                                        class="pass-input form-control">
                                                     <span class="ti toggle-password ti-eye-off"></span>
                                                 </div>
                                             </div>
@@ -171,7 +173,8 @@
                                                 <div class="d-flex align-items-center">
                                                     <div class="form-check form-check-md mb-0">
                                                         <input class="form-check-input" id="remember_me"
-                                                            name="remember_me" type="checkbox">
+                                                            name="remember_me" type="checkbox"
+                                                            {{ request()->cookie('remember_email') ? 'checked' : '' }}>
                                                         <label for="remember_me"
                                                             class="form-check-label mt-0">Remember
                                                             Me</label>
