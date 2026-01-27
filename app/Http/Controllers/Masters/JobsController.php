@@ -24,6 +24,31 @@ use Illuminate\Support\Facades\DB;
 class JobsController extends Controller
 {
 
+    public function relatedJobsSidebar($jobId)
+    {
+        $currentJob = AcflJobs::findOrFail($jobId);
+        $relatedJobs = AcflJobs::where('id', '!=', $jobId)
+            ->where('status', 'PUBLISHED')
+            ->where(function ($q) use ($currentJob) {
+                $q->where('state_id', $currentJob->state_id)
+                    ->orWhere('designation_id', $currentJob->designation_id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        foreach ($relatedJobs as $job) {
+            $cityIds = $job->city_ids ?? [];
+            $job->city_names = StateCity::whereIn('id', $cityIds)->pluck('name')->toArray();
+            $job->branchName = optional($job->branch)->branch_name ?? 'Branch not available';
+            $job->company_logo = optional($job->branch?->company)->company_logo;
+            $job->state_name = optional($job->state)->name ?? 'State not available';
+        }
+
+        return $relatedJobs;
+    }
+
+
     public function index()
     {
         $data['title'] = 'Recruitment / Job / List ';
@@ -398,18 +423,19 @@ class JobsController extends Controller
     public function jobForm($slug)
     {
         $jobId = last(explode('-', $slug));
-
         $job = AcflJobs::findOrFail($jobId);
 
-        // ✅ Job-wise questions
+        // Job-wise questions
         $questions = JafQuestion::where('job_id', $jobId)
             ->orderBy('order', 'asc')
             ->get();
+
         $genders = Gender::all();
         $MaritalStatus = MaritalStatus::all();
         $state = CountryState::where('country_id', 101)->get();
         $years = range(date('Y'), 1980);
         $skills = Skills::all();
+
         return view('home.jobs.job-apply-form', [
             'title' => 'Recruitment / Jobs / Apply Form',
             'job' => $job,
@@ -421,6 +447,8 @@ class JobsController extends Controller
             'skills' => $skills,
         ]);
     }
+
+
 
     public function toggleStatus(Request $request, $id)
     {

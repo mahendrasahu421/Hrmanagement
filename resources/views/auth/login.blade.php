@@ -180,9 +180,9 @@
                                                             Me</label>
                                                     </div>
                                                 </div>
-                                                <div class="text-end">
+                                                {{-- <div class="text-end">
                                                     <a href="#" class="link-danger">Forgot Password?</a>
-                                                </div>
+                                                </div> --}}
                                             </div>
                                             <div class="mb-3">
                                                 <button type="submit" class="btn btn-primary w-100">Sign In</button>

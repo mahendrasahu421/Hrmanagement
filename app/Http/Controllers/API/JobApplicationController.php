@@ -19,6 +19,7 @@ class JobApplicationController extends Controller
             DB::beginTransaction();
 
             $request->validate([
+                'job_id' => 'required|exists:acfl_jobs,id',
                 'first_name' => 'required',
                 'last_name' => 'required',
                 'phone' => 'required',
@@ -38,6 +39,7 @@ class JobApplicationController extends Controller
             }
 
             $application = JobApplication::create([
+                'job_id' => $request->job_id,
                 'resume' => $resumePath,
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,

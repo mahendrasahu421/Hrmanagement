@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class JobApplication extends Model
 {
     protected $fillable = [
+        'job_id',
         'resume',
         'first_name',
         'last_name',
@@ -56,5 +57,8 @@ class JobApplication extends Model
         return $this->belongsTo(MaritalStatus::class, 'marital_status_id');
     }
 
-
+    public function job()
+    {
+        return $this->belongsTo(AcflJobs::class, 'job_id');
+    }
 }

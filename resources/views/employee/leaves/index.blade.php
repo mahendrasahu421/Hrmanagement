@@ -47,11 +47,22 @@
                                         </div>
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 me-2">
-                                                <span class="avatar avatar-md d-flex">
-                                                    <i class="{{ $leave['icon'] }} fs-32"></i>
+                                                <span
+                                                    class="avatar avatar-md d-flex align-items-center justify-content-center">
+                                                    @php
+                                                        $leaveIcons = [
+                                                            'Emergency Leave' => 'ti ti-alert-triangle',
+                                                            'Leave Without Pay' => 'ti ti-cash-off',
+                                                            'Casual Leave' => 'ti ti-beach',
+                                                            'Sick Leave' => 'ti ti-heartbeat',
+                                                        ];
+                                                    @endphp
+
+                                                    <i class="{{ $leaveIcons[$leave['name']] ?? 'ti ti-help' }} fs-32"></i>
                                                 </span>
                                             </div>
                                         </div>
+
                                     </div>
 
                                     <span class="badge bg-secondary-transparent mt-2">
