@@ -26,8 +26,7 @@
             transition: 0.3s;
         }
 
-        .card:hover,
-        .related:hover {
+        .card:hover:hover {
             box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
         }
 
@@ -140,13 +139,11 @@
         }
 
         .related {
-            border: 1px solid #ececec;
             padding: 16px;
             border-radius: 12px;
             margin-bottom: 16px;
             cursor: pointer;
             transition: 0.3s;
-            background: #fff;
         }
 
         .related-header {
@@ -438,10 +435,68 @@
                     @endif
                 </div>
             </div>
-            
+
+            <div class="col-lg-4 col-md-12">
+                <div class="side-card">
+                    <div class="section">Related Jobs</div>
+
+                    @php
+                        $relatedJobs = app()
+                            ->make(App\Http\Controllers\Masters\JobsController::class)
+                            ->relatedJobsSidebar($job['id']);
+                    @endphp
+
+                    @foreach ($relatedJobs as $rJob)
+                        @php
+                            $titleSlug = Str::slug($rJob->job_title);
+                            $branchSlug = Str::slug($rJob->branchName ?? 'branch');
+                            $locationSlug = Str::slug(implode('-', $rJob->city_names ?? []));
+                            $stateSlug = Str::slug($rJob->state_name ?? '');
+                            $expSlug = Str::slug(($rJob->min_exp ?? 0) . '-to-' . ($rJob->max_exp ?? 0) . '-years');
+                            $jobCode = $rJob->id . rand(100000, 999999);
+                            $relatedSlug =
+                                $titleSlug .
+                                '-' .
+                                $branchSlug .
+                                '-' .
+                                $locationSlug .
+                                '-' .
+                                $stateSlug .
+                                '-' .
+                                $expSlug .
+                                '-' .
+                                $jobCode;
+                        @endphp
+
+                        <a href="{{ route('recruitment.jobs.job-deatils', $relatedSlug) }}" class="related">
+                            <div class="related-header">
+                                <div class="related-logo">
+                                    @if (!empty($rJob->company_logo))
+                                        <img src="{{ asset('uploads/company/' . $rJob->company_logo) }}" alt="Logo"
+                                            style="width:100%; height:100%; object-fit: contain; border-radius:12px;">
+                                    @else
+                                        <span>{{ strtoupper(substr($rJob->branchName, 0, 1)) }}</span>
+                                    @endif
+                                </div>
+                                <div class="related-info">
+                                    <div class="related-title">{{ $rJob->job_title }}</div>
+                                    <div class="related-company">{{ $rJob->branchName }}</div>
+                                    <div class="related-meta">
+                                        <span><i class="fa-solid fa-location-dot"></i>
+                                            {{ implode(', ', $rJob->city_names) }} - {{ $rJob->state_name }}</span>
+                                        <span><i class="fa-solid fa-briefcase"></i>
+                                            {{ $rJob->min_exp }}–{{ $rJob->max_exp }} Yrs</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    @endforeach
+
+                </div>
+            </div>
 
 
-           
+
         </div>
     </div>
 

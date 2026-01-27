@@ -1,12 +1,14 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\JobApplication;
 use App\Models\CountryState;
 use App\Models\Skills;
 use App\Models\StateCity;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+
 class AppliedController extends Controller
 {
     /**
@@ -26,15 +28,16 @@ class AppliedController extends Controller
         $employee = JobApplication::with(
             'designation',
             'gender',
-            'maritalStatus'
+            'maritalStatus',
+            'job'
         )->findOrFail($id);
 
         $skillNames = [];
-    if (!empty($employee->skills)) {
-        $skillNames = Skills::whereIn('id', $employee->skills)
-            ->pluck('name')
-            ->toArray();
-    }
+        if (!empty($employee->skills)) {
+            $skillNames = Skills::whereIn('id', $employee->skills)
+                ->pluck('name')
+                ->toArray();
+        }
 
         return response()->json([
             'employee_name' => ucfirst($employee->first_name) . ' ' . ucfirst($employee->last_name),
@@ -153,6 +156,7 @@ class AppliedController extends Controller
                 $cityName = optional(StateCity::find($candidate->city_id))->name ?? 'N/A';
                 $rows[] = [
                     'DT_RowIndex' => $start + $index + 1,
+                    'job_title' => $candidate->job->job_title ?? 'N/A',
                     'first_name' => sprintf(
                         '%s<br>
      <button class="badge bg-primary view-details" data-id="%d">

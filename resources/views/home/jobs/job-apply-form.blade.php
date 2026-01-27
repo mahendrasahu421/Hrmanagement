@@ -168,7 +168,7 @@
 
 
         <form action="{{ route('job.application.store') }}" method="POST" enctype="multipart/form-data">
-
+            <input type="hidden" name="job_id" value="{{ $job->id }}">
             @csrf
 
             <div class="form-wrapper">

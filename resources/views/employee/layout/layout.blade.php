@@ -77,6 +77,15 @@
 </head>
 
 <body>
+    <style>
+        #sidebar-menu .submenu>ul {
+            display: none;
+        }
+
+        #sidebar-menu .submenu.open>ul {
+            display: block;
+        }
+    </style>
 
     {{-- <div id="global-loader">
 		<div class="page-loader"></div>
@@ -365,11 +374,11 @@
                                         <a href="#" class="btn btn-primary w-100">View All</a>
                                     </div>
                                 </div>
-                                
+
                             </div>
-                           
+
                             <div class="dropdown profile-dropdown">
-                                
+
                                 <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center"
                                     data-bs-toggle="dropdown">
                                     <span class="avatar avatar-sm online">
@@ -378,7 +387,7 @@
                                             alt="Img" class="img-fluid rounded-circle">
                                     </span>
                                 </a>
-                                
+
                                 <div class="dropdown-menu shadow-none">
                                     <div class="card mb-0">
                                         <div class="card-header">
@@ -388,10 +397,11 @@
                                                         alt="img">
                                                 </span>
                                                 <div>
-                                                    <h5 class="mb-0">{{ Auth::guard('employee')->user()->employee_name }}
+                                                    <h5 class="mb-0">
+                                                        {{ Auth::guard('employee')->user()->employee_name }}
 
                                                     </h5>
-                                                   
+
                                                 </div>
                                             </div>
                                         </div>
@@ -588,8 +598,6 @@
     </div> <!-- Bootstrap Core JS -->
     <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
     <script src="{{ asset('frontent/assets/js/jquery-3.7.1.min.js') }}"></script>
-
-
     <!-- Feather Icon JS -->
     <script src="{{ asset('frontent/assets/js/feather.min.js') }}"></script>
 
@@ -629,6 +637,36 @@
     <script src="{{ asset('frontent/assets/js/todo.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/theme-colorpicker.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/script.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#sidebar-menu .submenu > a').off('click');
+            $('#sidebar-menu .submenu > a').on('click', function(e) {
+                e.preventDefault();
+                let parent = $(this).parent('.submenu');
+                if (parent.hasClass('open')) {
+                    parent.removeClass('open');
+                    $(this).removeClass('active');
+                } else {
+                    $('#sidebar-menu .submenu').removeClass('open');
+                    $('#sidebar-menu .submenu > a').removeClass('active');
+
+                    parent.addClass('open');
+                    $(this).addClass('active');
+                }
+            });
+            let currentUrl = window.location.href.split('?')[0];
+            $('#sidebar-menu a').each(function() {
+                if (this.href === currentUrl) {
+                    $(this).addClass('active');
+                    $(this).closest('.submenu').addClass('open');
+                    $(this).closest('.submenu').children('a').addClass('active');
+                }
+            });
+
+        });
+    </script>
+
+
     @stack('after_scripts')
 </body>
 

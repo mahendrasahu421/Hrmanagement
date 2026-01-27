@@ -22,6 +22,7 @@
                             <thead>
                                 <tr>
                                     <th>Sn</th>
+                                    <th>Job Title</th>
                                     <th>Employee Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
@@ -66,6 +67,11 @@
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
                     },
+                    {
+                        data: 'job_title',
+                        name: 'job_title'
+                    },
+
                     {
                         data: 'first_name',
                         name: 'first_name'
