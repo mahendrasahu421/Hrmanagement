@@ -157,6 +157,11 @@
             background: #fef0ea !important;
             color: #f26522 !important;
         }
+
+        .form-check-input:checked {
+            background-color: #f26522 !important;
+            border-color: #f26522 !important;
+        }
     </style>
 </head>
 
@@ -405,7 +410,7 @@
                                 @elseif ($q->text_element === 'textarea')
                                     <textarea name="answers[{{ $q->id }}]" class="form-control" rows="4" {{ $requiredAttr }}></textarea>
                                 @elseif ($q->text_element === 'select')
-                                    <select name="answers[{{ $q->id }}]" class="form-select"
+                                    <select name="answers[{{ $q->id }}]" class="form-select select2"
                                         {{ $requiredAttr }}>
                                         <option value="">Select</option>
                                         @foreach ($options as $opt)

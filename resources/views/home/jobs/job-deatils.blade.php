@@ -37,14 +37,14 @@
         }
 
         .title {
-            font-size: 23px;
+            font-size: 27px;
             font-weight: 700;
             color: #111;
         }
 
         .company {
-            font-size: 13px;
-            color: #555;
+            font-size: 15px;
+            color: #000;
         }
 
         .rating {
@@ -53,8 +53,8 @@
         }
 
         .logo {
-            width: 60px;
-            height: 60px;
+            width: 110px;
+            height: 58px;
             border-radius: 12px;
             background: #fff2e6;
             border: 1px solid #f5c7a8;
@@ -70,7 +70,7 @@
             display: flex;
             gap: 20px;
             color: #444;
-            font-size: 13px;
+            font-size: 15px;
             flex-wrap: wrap;
         }
 
@@ -86,9 +86,8 @@
         }
 
         .text {
-            font-size: 13px;
+            font-size: 15px;
             color: #444;
-            line-height: 1.8;
         }
 
         .tags {
@@ -107,8 +106,8 @@
         }
 
         .footer {
-            margin-top: 5px;
-            font-size: 13px;
+            margin-top: 15px;
+            font-size: 14px;
             color: #777;
         }
 
@@ -149,12 +148,14 @@
         .related-header {
             display: flex;
             gap: 12px;
-            align-items: center;
             justify-content: space-between;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+            padding: 10px;
+            border-radius: 10px;
         }
 
         .related-logo {
-            width: 50px;
+            width: 95px;
             height: 50px;
             border-radius: 12px;
             background: #fff2e6;
@@ -173,12 +174,12 @@
 
         .related-title {
             font-weight: 600;
-            font-size: 15px;
+            font-size: 18px;
             color: #222;
         }
 
         .related-company {
-            font-size: 13px;
+            font-size: 14px;
             color: #666;
             margin: 3px 0;
         }
@@ -191,7 +192,7 @@
         .related-meta {
             display: flex;
             justify-content: space-between;
-            font-size: 13px;
+            font-size: 14px;
             color: #444;
             margin-top: 8px;
             flex-wrap: wrap;
@@ -438,7 +439,10 @@
 
             <div class="col-lg-4 col-md-12">
                 <div class="side-card">
-                    <div class="section">Related Jobs</div>
+                    <div class="section">
+                        <h4>Related Jobs</h4>
+                        <hr>
+                    </div>
 
                     @php
                         $relatedJobs = app()

@@ -4,120 +4,164 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recommended Jobs </title>
+    <title>Recommended Jobs</title>
 
+    <!-- Google Fonts (Roboto for modern look) -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome & Bootstrap -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     <style>
         body {
-            background: #f6f7fb;
-            font-family: "Segoe UI", sans-serif;
-            padding: 40px;
+            background: #f3f5f9;
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
         }
 
         .job-card {
             background: #fff;
             border-radius: 16px;
-            padding: 22px 25px;
-            max-width: 780px;
-            margin: auto;
-            border: 1px solid #ececec;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-            transition: 0.3s;
+            padding: 15px 30px;
+            width: 100%;
+            max-width: 750px;
             margin-bottom: 25px;
+            border: 1px solid #e1e5eb;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: 0.3s ease;
+            cursor: pointer;
         }
 
         .job-card:hover {
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.07);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
         }
 
         .top-row {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
         }
 
         .job-title {
-            font-size: 20px;
-            font-weight: 600;
+            font-size: 21px;
+            font-weight: 700;
             color: #111;
         }
 
         .company-name {
-            font-size: 13px;
-            color: #444;
-            /* margin-top: 5px; */
-        }
-
-        .star {
-            color: #f4b400;
-            margin-left: 6px;
+            font-size: 14px;
+            color: #555;
+            margin-top: 4px;
         }
 
         .logo-box {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
-            background: #fff2e6;
+            width: 112px;
+            height: 59px;
+            border-radius: 14px;
+            background: #ffe6d5;
             border: 1px solid #f5c7a8;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: 700;
             color: #f8863c;
-            font-size: 20px;
+            font-size: 22px;
+            overflow: hidden;
+        }
+
+        .logo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 14px;
         }
 
         .meta {
             display: flex;
-            gap: 10px;
+            gap: 18px;
             font-size: 13px;
-            color: #444;
+            color: #555;
+            margin-top: 12px;
+            flex-wrap: wrap;
         }
 
         .meta i {
             color: #f26522;
+            margin-right: 4px;
         }
 
         .tags {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
+            margin-top: 14px;
         }
 
         .tag {
-            background: #fff3eb;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
+            background: #fff4ed;
+            padding: 6px 14px;
+            border-radius: 25px;
+            font-size: 13px;
             color: #f16522;
             font-weight: 500;
+            transition: 0.2s;
+        }
+
+        .tag:hover {
+            background: #f16522;
+            color: #fff;
         }
 
         .bottom-row {
-            margin-top: 10px;
-            display: flex;
-            justify-content: space-between;
-            font-size: 15px;
+            margin-top: 16px;
+            font-size: 14px;
             color: #777;
             font-weight: 500;
         }
 
-        .job-card {
-            cursor: pointer;
+        .job-description {
+            margin-top: 12px;
+            font-size: 14px;
+            color: #555;
+            line-height: 1.6;
+        }
+
+        h4.no-jobs {
+            color: #777;
+            font-weight: 500;
+            margin-top: 100px;
+        }
+
+        @media (max-width: 576px) {
+            .top-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .logo-box {
+                width: 50px;
+                height: 50px;
+                font-size: 18px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-
-    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
+    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')"
+        :message="session('success') ?? session('error')" />
 
     @if ($jobs->isEmpty())
-        <div style="display: flex; justify-content: center; align-items: center; height: 80vh;">
-            <h4 class="text-center" style="color: #555;">No jobs found!</h4>
-        </div>
+        <h4 class="text-center no-jobs">No jobs found!</h4>
     @else
         @foreach ($jobs as $job)
             @php
@@ -128,16 +172,11 @@
                 $expSlug = Str::slug(($job->min_exp ?? 0) . '-to-' . ($job->max_exp ?? 0) . '-years');
                 $jobCode = $job->id . rand(100000, 999999);
                 $finalSlug =
-                    $titleSlug .
-                    '-' .
-                    $branchSlug .
-                    '-' .
-                    $locationSlug .
-                    '-' .
-                    $stateSlug .
-                    '-' .
-                    $expSlug .
-                    '-' .
+                    $titleSlug . '-' .
+                    $branchSlug . '-' .
+                    $locationSlug . '-' .
+                    $stateSlug . '-' .
+                    $expSlug . '-' .
                     $jobCode;
                 $jobUrl = route('recruitment.jobs.job-deatils', ['slug' => $finalSlug]);
             @endphp
@@ -150,8 +189,7 @@
                     </div>
                     <div class="logo-box">
                         @if ($job->company_logo && file_exists(public_path('uploads/company/' . $job->company_logo)))
-                            <img src="{{ asset('uploads/company/' . $job->company_logo) }}" alt="Company Logo"
-                                class="img-fluid">
+                            <img src="{{ asset('uploads/company/' . $job->company_logo) }}" alt="Company Logo">
                         @else
                             <span>{{ strtoupper(substr($job->branchName ?? 'C', 0, 1)) }}</span>
                         @endif
@@ -159,13 +197,8 @@
                 </div>
 
                 <div class="meta">
-                    <div>
-                        <i class="fa-solid fa-briefcase"></i>
-                        {{ $job->min_exp ?? 0 }} – {{ $job->max_exp ?? 0 }} Yrs
-                    </div>
-                    |
-                    <div>
-                        <i class="fa-solid fa-indian-rupee-sign"></i>
+                    <div><i class="fa-solid fa-briefcase"></i>{{ $job->min_exp ?? 0 }} – {{ $job->max_exp ?? 0 }} Yrs</div>
+                    <div><i class="fa-solid fa-indian-rupee-sign"></i>
                         @if ($job->ctc_from !== null && $job->ctc_to !== null)
                             ₹{{ number_format($job->ctc_from / 100000, 2) }} LPA -
                             ₹{{ number_format($job->ctc_to / 100000, 2) }} LPA
@@ -173,16 +206,12 @@
                             N/A
                         @endif
                     </div>
-                    |
-                    <div>
-                        <i class="fa-solid fa-location-dot"></i>
-                        {{ implode(', ', $job->city_names ?? []) }} - {{ $job->state_name ?? 'N/A' }}
-                    </div>
+                    <div><i class="fa-solid fa-location-dot"></i>{{ implode(', ', $job->city_names ?? []) }} -
+                        {{ $job->state_name ?? 'N/A' }}</div>
                 </div>
 
                 @if (!empty($job->job_description))
-                    <div class="meta" style="color:#555;">
-                        <i class="fa-regular fa-file-lines mt-1"></i>
+                    <div class="job-description">
                         {!! Str::limit($job->job_description, 200) !!}
                     </div>
                 @endif
@@ -202,21 +231,16 @@
         @endforeach
     @endif
 
-
-
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.job-card').forEach(card => {
-                card.addEventListener('click', function() {
+                card.addEventListener('click', function () {
                     const url = this.dataset.url;
-                    if (url) {
-                        window.open(url, '_blank');
-                    }
+                    if (url) window.open(url, '_blank');
                 });
             });
         });
     </script>
-
 
 </body>
 

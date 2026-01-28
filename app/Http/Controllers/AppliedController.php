@@ -6,6 +6,7 @@ use App\Models\JobApplication;
 use App\Models\CountryState;
 use App\Models\Skills;
 use App\Models\StateCity;
+use App\Models\AcflJobs;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -17,11 +18,10 @@ class AppliedController extends Controller
     public function index()
     {
         $data['title'] = 'Recruitment / Jobs / Applied Candidate';
+        $data['jobs'] = AcflJobs::select('id', 'job_title')->get();
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.jobs.applied-condidate.index', $data);
     }
-
-
 
     public function usersDetails($id)
     {
@@ -124,68 +124,83 @@ class AppliedController extends Controller
     }
 
     public function list(Request $request)
-    {
-        try {
-            $search = $request->input('search.value');
-            $limit = $request->input('length', 10);
-            $start = $request->input('start', 0);
-            $query = JobApplication::where('status', 'applied');
-            if ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('first_name', 'like', "%{$search}%")
-                        ->orWhere('last_name', 'like', "%{$search}%")
-                        ->orWhere('email', 'like', "%{$search}%")
-                        ->orWhere('phone', 'like', "%{$search}%");
-                });
-            }
-            $totalRecords = $query->count();
-            $candidates = $query
-                ->orderBy('created_at', 'desc')
-                ->skip($start)
-                ->take($limit)
-                ->get();
-            $rows = [];
-            foreach ($candidates as $index => $candidate) {
-                $gender = match ($candidate->gender_id) {
+{
+    try {
+        $search = $request->input('search.value');
+        $limit  = $request->input('length', 10);
+        $start  = $request->input('start', 0);
+        $jobId  = $request->input('job_id');
+
+        // ✅ Single base query (IMPORTANT)
+        $query = JobApplication::where('status', 'applied')
+            ->with('job');
+
+        // ✅ Job filter (same like designation filter)
+        if (!empty($jobId)) {
+            $query->where('job_id', $jobId);
+        }
+
+        // ✅ Search filter
+        if (!empty($search)) {
+            $query->where(function ($q) use ($search) {
+                $q->where('first_name', 'like', "%{$search}%")
+                  ->orWhere('last_name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%");
+            });
+        }
+
+        // ✅ Count AFTER filters (VERY IMPORTANT)
+        $recordsFiltered = $query->count();
+        $recordsTotal    = JobApplication::where('status', 'applied')->count();
+
+        // ✅ Pagination
+        $candidates = $query
+            ->orderBy('created_at', 'desc')
+            ->skip($start)
+            ->take($limit)
+            ->get();
+
+        $rows = [];
+        foreach ($candidates as $index => $candidate) {
+            $rows[] = [
+                'DT_RowIndex' => $start + $index + 1,
+                'job_title'   => $candidate->job->job_title ?? 'N/A',
+                'first_name'  => ucfirst($candidate->first_name).' '.ucfirst($candidate->last_name).'
+                    <br>
+                    <button class="badge bg-primary view-details" data-id="'.$candidate->id.'">
+                        View Details
+                    </button>',
+                'email' => $candidate->email,
+                'phone' => $candidate->phone,
+                'gender' => match ($candidate->gender_id) {
                     1 => 'Male',
                     2 => 'Female',
                     3 => 'Other',
-                    default => 'N/A'
-                };
-                $stateName = optional(CountryState::find($candidate->state_id))->name ?? 'N/A';
-                $cityName = optional(StateCity::find($candidate->city_id))->name ?? 'N/A';
-                $rows[] = [
-                    'DT_RowIndex' => $start + $index + 1,
-                    'job_title' => $candidate->job->job_title ?? 'N/A',
-                    'first_name' => sprintf(
-                        '%s<br>
-     <button class="badge bg-primary view-details" data-id="%d">
-        View Details
-     </button>',
-                        e(ucfirst($candidate->first_name) . ' ' . ucfirst($candidate->last_name)),
-                        $candidate->id
-                    ),
-
-
-                    'email' => $candidate->email,
-                    'phone' => $candidate->phone,
-                    'gender' => $gender,
-                    'state' => $stateName,
-                    'city' => $cityName,
-                    'action' => '<a href="' . route('employee.onboarding', $candidate->employee_id) . '" class="btn btn-sm btn-primary">Onboarding</a>',
-                ];
-            }
-            return response()->json([
-                'draw' => intval($request->input('draw')),
-                'recordsTotal' => $totalRecords,
-                'recordsFiltered' => $totalRecords,
-                'data' => $rows,
-            ]);
-        } catch (\Exception $e) {
-            return response()->json([
-                'error' => true,
-                'message' => $e->getMessage()
-            ], 500);
+                    default => 'N/A',
+                },
+                'state' => optional(CountryState::find($candidate->state_id))->name ?? 'N/A',
+                'city'  => optional(StateCity::find($candidate->city_id))->name ?? 'N/A',
+                'action' => '<a href="'.route('employee.onboarding', $candidate->employee_id).'" 
+                                class="btn btn-sm btn-primary">
+                                Onboarding
+                             </a>',
+            ];
         }
+
+        return response()->json([
+            'draw'            => intval($request->draw),
+            'recordsTotal'    => $recordsTotal,
+            'recordsFiltered' => $recordsFiltered,
+            'data'            => $rows,
+        ]);
+
+    } catch (\Exception $e) {
+        return response()->json([
+            'error'   => true,
+            'message' => $e->getMessage(),
+        ], 500);
     }
+}
+
 }
