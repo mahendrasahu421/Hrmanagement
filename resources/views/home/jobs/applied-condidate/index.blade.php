@@ -14,6 +14,26 @@
                 </div>
             </div>
             <!-- /Breadcrumb -->
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="row align-items-end">
+                        <div class="col-md-4">
+                            <label for="jobFilter" class="form-label fw-semibold">
+                                Filter by Job Title
+                            </label>
+                            <select id="jobFilter" class="form-select select2">
+                                <option value="">--All Jobs--</option>
+                                @foreach ($jobs as $job)
+                                    <option value="{{ $job->id }}">
+                                        {{ $job->job_title }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <div class="card">
                 <div class="card-body p-0">
@@ -54,15 +74,23 @@
 @push('after_scripts')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#candidateList').DataTable({
+            $('.select2').select2(); // 🔥 THIS WAS MISSING
+
+            let table = $('#candidateList').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
                 scrollX: true,
-                ajax: "{{ route('jobs.applied.list') }}",
+                ajax: {
+                    url: "{{ route('jobs.applied.list') }}",
+                    data: function(d) {
+                        d.job_id = $('#jobFilter').val();
+                        console.log('Selected Job ID:', d.job_id); // 🧪 debug
+                    }
+                },
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex'
@@ -71,7 +99,6 @@
                         data: 'job_title',
                         name: 'job_title'
                     },
-
                     {
                         data: 'first_name',
                         name: 'first_name'
@@ -98,18 +125,19 @@
                     },
                     {
                         data: 'action',
-                        name: 'action',
                         orderable: false,
                         searchable: false
                     }
-                ],
-                order: [
-                    [0, 'asc']
-                ],
-                dom: "<'row mb-2'<'col-md-6'l><'col-md-6 text-end'f>>" +
-                    "<'row'<'col-md-12'tr>>" +
-                    "<'row mt-2'<'col-md-5'i><'col-md-7'p>>",
+                ]
             });
+
+            // ✅ Filter trigger
+            $('#jobFilter').on('change', function() {
+                console.log('Filter changed'); // 🧪 debug
+                table.ajax.reload();
+            });
+
+
             $(document).on('click', '.view-details', function() {
                 let employeeId = $(this).data('id');
 
@@ -175,6 +203,14 @@
 
         #employeeDrawer .fw-bold {
             color: #555;
+        }
+
+        .select2 {
+            width: 300px !important;
+        }
+
+        [data-select2-id="2"] {
+            display: none !important;
         }
     </style>
 @endpush

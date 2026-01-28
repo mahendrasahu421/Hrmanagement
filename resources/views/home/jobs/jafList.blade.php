@@ -30,7 +30,7 @@
                                     <th>Job</th>
                                     <th>Question</th>
                                     <th>Tool</th>
-                                    <th>Options</th>
+                                    <th width="150">Options</th>
                                     <th>Order</th>
                                     <th>Mandatory</th>
                                     <th>Action</th>
