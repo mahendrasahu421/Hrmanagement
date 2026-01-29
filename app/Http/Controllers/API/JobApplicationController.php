@@ -29,7 +29,7 @@ class JobApplicationController extends Controller
                 'state_id' => 'required',
                 'city_id' => 'required',
                 'skills' => 'required|array',
-                'resume' => 'nullable|file|mimes:pdf,doc,docx|max:2048',
+                'resume' => 'required|file|mimes:pdf,doc,docx',
             ]);
 
             // Resume upload

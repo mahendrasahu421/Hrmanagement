@@ -167,20 +167,12 @@
 
 <body>
 
-
-    <!-- ================= PERSONAL INFORMATION ================= -->
     <div class="section">
-
-
         <form action="{{ route('job.application.store') }}" method="POST" enctype="multipart/form-data">
             <input type="hidden" name="job_id" value="{{ $job->id }}">
             @csrf
-
             <div class="form-wrapper">
-
                 <h2 class="form-title">Job Application Form</h2>
-
-                <!-- ================= PERSONAL INFORMATION ================= -->
                 <div class="section">
                     <h3 class="section-title">Personal Information</h3>
 
@@ -275,8 +267,6 @@
 
                     </div>
                 </div>
-
-                <!-- ================= ACADEMIC INFORMATION ================= -->
                 <div class="section mt-4">
                     <h3 class="section-title">Academic Information</h3>
 
@@ -324,20 +314,6 @@
                             </select>
                         </div>
 
-                        <!-- <div class="col-md-12">
-                            <label class="form-label">Highest Qualification</label>
-                            <div class="d-flex gap-2 mt-1">
-                                <label class="radio-pill">
-                                    <input type="radio" name="qualification" value="Post Graduation" hidden>
-                                    Post Graduation
-                                </label>
-                                <label class="radio-pill">
-                                    <input type="radio" name="qualification" value="Graduation" hidden>
-                                    Graduation
-                                </label>
-                            </div>
-                        </div> -->
-
                         <div class="col-md-4">
                             <label class="form-label">Highest Degree</label>
                             <input type="text" name="degree" class="form-control">
@@ -360,7 +336,6 @@
                     </div>
                 </div>
 
-                <!-- ================= WORK EXPERIENCE ================= -->
                 <div class="section mt-4">
                     <h3 class="section-title">Work Experience</h3>
 
@@ -384,7 +359,6 @@
                     </div>
                 </div>
 
-                <!-- ================= JOB QUESTIONS ================= -->
                 <div class="section mt-5">
                     <h3 class="section-title">Job Related Questions</h3>
 
