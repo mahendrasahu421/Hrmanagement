@@ -74,7 +74,6 @@
 </head>
 
 <body>
-
     {{-- <div id="global-loader">
 		<div class="page-loader"></div>
 	</div> --}}
@@ -726,7 +725,7 @@
                         {{-- ================= MANAGER PANEL ================= --}}
                         @if ($role == 3)
                             {{-- Manager का simplified sidebar यहां include कर दूँ? --}}
-                            <li class="submenu">
+                            <li class="submenu submenu">
                                 <a href="javascript:void(0);">
                                     <i class="ti ti-timeline"></i><span>Recruitment</span>
                                     <span class="menu-arrow"></span>
@@ -1005,6 +1004,45 @@
     <script src="{{ asset('frontent/assets/js/todo.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/theme-colorpicker.js') }}"></script>
     <script src="{{ asset('frontent/assets/js/script.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+
+            let currentPath = window.location.pathname.replace(/\/$/, "");
+
+            $('#sidebar-menu a[href]').each(function() {
+
+                let link = $(this).attr('href');
+                if (!link || link === '#' || link === 'javascript:void(0);') return;
+
+                let linkPath;
+                try {
+                    linkPath = new URL(link, window.location.origin)
+                        .pathname.replace(/\/$/, "");
+                } catch (e) {
+                    return;
+                }
+
+                if (currentPath === linkPath || currentPath.startsWith(linkPath + '/')) {
+
+                    // Active clicked link
+                    $(this).addClass('active');
+                    $(this).closest('li').addClass('active');
+
+                    // Open all parent submenus
+                    $(this).parents('li.submenu, li.submenu-two').each(function() {
+                        $(this).addClass('active'); // li ko active karo
+                        $(this).children('ul').show(); // submenu show karo
+                        $(this).children('a').addClass('active'); // parent <a> bhi active
+                    });
+
+                }
+            });
+
+        });
+    </script>
+
+
+
     @stack('after_scripts')
 </body>
 
