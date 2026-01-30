@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\JobApplication;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+
 class JobApplicationController extends Controller
 {
     public function store(Request $request)
@@ -38,9 +39,15 @@ class JobApplicationController extends Controller
                 $resumePath = $request->file('resume')->store('resumes', 'public');
             }
 
+            $candidateImagePath = null;
+            if ($request->hasFile('candidate_image')) {
+                $candidateImagePath = $request->file('candidate_image')->store('candidate_images', 'public');
+            }
+
             $application = JobApplication::create([
                 'job_id' => $request->job_id,
                 'resume' => $resumePath,
+                'candidate_image' => $candidateImagePath, // new
                 'first_name' => $request->first_name,
                 'last_name' => $request->last_name,
                 'email' => $request->email,
@@ -94,7 +101,6 @@ class JobApplicationController extends Controller
                 'message' => 'Validation error',
                 'errors' => $e->errors()
             ], 422);
-
         } catch (\Exception $e) {
 
             DB::rollBack();

@@ -209,7 +209,7 @@ Route::middleware(['auth'])->group(function () {
     Route::put('recruitment/jobs/update/{id}', [JobsController::class, 'update'])->name('recruitment.jobs.update');
     Route::delete('recruitment/jobs/delete/{id}', [JobsController::class, 'destroy'])->name('recruitment.jobs.delete');
 
-    Route::get('employee/onboarding', [OnboardingController::class, 'index'])->name('employee.onboarding');
+    Route::get('employee/onboarding/{slug}/{id}', [OnboardingController::class, 'index'])->name('employee.onboarding');
 
     Route::get('recruitment/jobs/create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
     Route::get('jaf/list', [JafController::class, 'list'])->name('jaf.list');

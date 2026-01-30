@@ -3,14 +3,28 @@
 namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\JobApplication;
+use Illuminate\Support\Str;
 
 class OnboardingController extends Controller
 {
-    public function index()
+    public function index($slug, $id)
     {
-        $data['title'] = 'Employee / Onboarding ';
-        $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-        return view('home.jobs.onboarding',$data);
+        $data['title'] = 'Employee / Onboarding';
+        $candidate = JobApplication::with([
+            'gender',
+            'maritalStatus',
+            'job',
+            'state',
+            'city',
+        ])->findOrFail($id);
+        $generatedSlug = Str::slug(
+            $candidate->first_name . ' ' . $candidate->last_name
+        );
+        if ($generatedSlug !== $slug) {
+            abort(404);
+        }
+        $data['candidate'] = $candidate;
+        return view('home.jobs.onboarding', $data);
     }
 }
