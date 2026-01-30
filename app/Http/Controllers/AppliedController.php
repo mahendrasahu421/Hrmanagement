@@ -124,83 +124,80 @@ class AppliedController extends Controller
     }
 
     public function list(Request $request)
-{
-    try {
-        $search = $request->input('search.value');
-        $limit  = $request->input('length', 10);
-        $start  = $request->input('start', 0);
-        $jobId  = $request->input('job_id');
+    {
+        try {
+            $search = $request->input('search.value');
+            $limit  = $request->input('length', 10);
+            $start  = $request->input('start', 0);
+            $jobId  = $request->input('job_id');
+            $query = JobApplication::where('status', 'applied')
+                ->with('job');
+            if (!empty($jobId)) {
+                $query->where('job_id', $jobId);
+            }
+            if (!empty($search)) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('first_name', 'like', "%{$search}%")
+                        ->orWhere('last_name', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%")
+                        ->orWhere('phone', 'like', "%{$search}%");
+                });
+            }
+            $recordsFiltered = $query->count();
+            $recordsTotal    = JobApplication::where('status', 'applied')->count();
+            $candidates = $query
+                ->orderBy('created_at', 'desc')
+                ->skip($start)
+                ->take($limit)
+                ->get();
 
-        // ✅ Single base query (IMPORTANT)
-        $query = JobApplication::where('status', 'applied')
-            ->with('job');
+            $rows = [];
+            foreach ($candidates as $index => $candidate) {
+                $resumeButton = $candidate->resume
+                    ? '<a href="' . asset('storage/' . $candidate->resume) . '" target="_blank" class="btn btn-sm btn-primary">
+                        View CV
+                    </a>'
+                    : '<span class="text-muted">N/A</span>';
 
-        // ✅ Job filter (same like designation filter)
-        if (!empty($jobId)) {
-            $query->where('job_id', $jobId);
+                $slug = \Illuminate\Support\Str::slug($candidate->first_name . ' ' . $candidate->last_name);
+                $id   = $candidate->id;
+                $onboardingUrl = route('employee.onboarding', ['slug' => $slug, 'id' => $id]);
+                $rows[] = [
+                    'DT_RowIndex'  => $start + $index + 1,
+                    'job_title'    => $candidate->job->job_title ?? 'N/A',
+                    'applied_date' => $candidate->created_at->format('d-m-Y'),
+                    'first_name'   => ucfirst($candidate->first_name) . ' ' . ucfirst($candidate->last_name) . '
+                          <br>
+                          <button class="badge bg-primary view-details" data-id="' . $candidate->id . '">
+                              View Details
+                          </button>',
+                    'email'        => $candidate->email,
+                    'phone'        => $candidate->phone,
+                    'gender'       => match ($candidate->gender_id) {
+                        1 => 'Male',
+                        2 => 'Female',
+                        3 => 'Other',
+                        default => 'N/A',
+                    },
+                    'state'        => optional(\App\Models\CountryState::find($candidate->state_id))->name ?? 'N/A',
+                    'city'         => optional(\App\Models\StateCity::find($candidate->city_id))->name ?? 'N/A',
+                    'resume'       => $resumeButton,
+                    'action'       => '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-primary">Onboarding</a>',
+                ];
+            }
+
+
+            return response()->json([
+                'draw'            => intval($request->draw),
+                'recordsTotal'    => $recordsTotal,
+                'recordsFiltered' => $recordsFiltered,
+                'data'            => $rows,
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'error'   => true,
+                'message' => $e->getMessage(),
+            ], 500);
         }
-
-        // ✅ Search filter
-        if (!empty($search)) {
-            $query->where(function ($q) use ($search) {
-                $q->where('first_name', 'like', "%{$search}%")
-                  ->orWhere('last_name', 'like', "%{$search}%")
-                  ->orWhere('email', 'like', "%{$search}%")
-                  ->orWhere('phone', 'like', "%{$search}%");
-            });
-        }
-
-        // ✅ Count AFTER filters (VERY IMPORTANT)
-        $recordsFiltered = $query->count();
-        $recordsTotal    = JobApplication::where('status', 'applied')->count();
-
-        // ✅ Pagination
-        $candidates = $query
-            ->orderBy('created_at', 'desc')
-            ->skip($start)
-            ->take($limit)
-            ->get();
-
-        $rows = [];
-        foreach ($candidates as $index => $candidate) {
-            $rows[] = [
-                'DT_RowIndex' => $start + $index + 1,
-                'job_title'   => $candidate->job->job_title ?? 'N/A',
-                'first_name'  => ucfirst($candidate->first_name).' '.ucfirst($candidate->last_name).'
-                    <br>
-                    <button class="badge bg-primary view-details" data-id="'.$candidate->id.'">
-                        View Details
-                    </button>',
-                'email' => $candidate->email,
-                'phone' => $candidate->phone,
-                'gender' => match ($candidate->gender_id) {
-                    1 => 'Male',
-                    2 => 'Female',
-                    3 => 'Other',
-                    default => 'N/A',
-                },
-                'state' => optional(CountryState::find($candidate->state_id))->name ?? 'N/A',
-                'city'  => optional(StateCity::find($candidate->city_id))->name ?? 'N/A',
-                'action' => '<a href="'.route('employee.onboarding', $candidate->employee_id).'" 
-                                class="btn btn-sm btn-primary">
-                                Onboarding
-                             </a>',
-            ];
-        }
-
-        return response()->json([
-            'draw'            => intval($request->draw),
-            'recordsTotal'    => $recordsTotal,
-            'recordsFiltered' => $recordsFiltered,
-            'data'            => $rows,
-        ]);
-
-    } catch (\Exception $e) {
-        return response()->json([
-            'error'   => true,
-            'message' => $e->getMessage(),
-        ], 500);
     }
-}
-
 }

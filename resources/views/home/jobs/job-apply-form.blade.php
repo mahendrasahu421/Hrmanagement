@@ -176,12 +176,26 @@
                 <div class="section">
                     <h3 class="section-title">Personal Information</h3>
 
-                    <div class="col-md-12 mb-3">
-                        <label class="form-label">Resume</label>
-                        <input type="file" name="resume" id="resume" class="form-control"
-                            accept=".pdf,.doc,.docx">
-                        <small class="text-danger">Only .pdf, .doc, .docx allowed</small>
+                    <div class="row g-3">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Resume</label>
+                            <input type="file" name="resume" id="resume" class="form-control"
+                                accept=".pdf,.doc,.docx">
+                            <small class="text-danger">Only .pdf, .doc, .docx allowed</small>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Candidate Image</label>
+                            <input type="file" name="candidate_image" id="candidate_image" class="form-control"
+                                accept=".jpg,.jpeg,.png">
+                            <small class="text-danger">Only .jpg, .jpeg, .png allowed</small>
+                            <!-- Preview -->
+                            <div class="mt-2 text-center">
+                                <img id="candidate_image_preview" src="#" alt="Image Preview"
+                                    style="display:none; max-width:150px; max-height:150px; border-radius:10px; border:1px solid #ccc;">
+                            </div>
+                        </div>
                     </div>
+
 
                     <div class="row g-3">
 
@@ -480,6 +494,29 @@
             }
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $('#candidate_image').on('change', function(event) {
+                let input = event.target;
+                let preview = $('#candidate_image_preview');
+
+                if (input.files && input.files[0]) {
+                    let reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        preview.attr('src', e.target.result);
+                        preview.show();
+                    }
+
+                    reader.readAsDataURL(input.files[0]);
+                } else {
+                    preview.hide();
+                    preview.attr('src', '#');
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

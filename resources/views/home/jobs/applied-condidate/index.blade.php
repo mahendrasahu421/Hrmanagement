@@ -1,6 +1,5 @@
 @extends('layout.master')
 @section('title', $title)
-{{-- <div class="row mb-2"><div class="col-5 fw-bold">Qualification:</div><div class="col-7">${res.qualification}</div></div> --}}
 @section('main-section')
     <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
@@ -43,12 +42,14 @@
                                 <tr>
                                     <th>Sn</th>
                                     <th>Job Title</th>
+                                    <th>Applied Date</th>
                                     <th>Employee Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Gender</th>
                                     <th>State</th>
                                     <th>City</th>
+                                    <th>View CV</th>
                                     <th>Onboarding</th>
                                 </tr>
                             </thead>
@@ -77,7 +78,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('.select2').select2(); // 🔥 THIS WAS MISSING
+            $('.select2').select2();
 
             let table = $('#candidateList').DataTable({
                 responsive: true,
@@ -88,7 +89,7 @@
                     url: "{{ route('jobs.applied.list') }}",
                     data: function(d) {
                         d.job_id = $('#jobFilter').val();
-                        console.log('Selected Job ID:', d.job_id); // 🧪 debug
+                        console.log('Selected Job ID:', d.job_id);
                     }
                 },
                 columns: [{
@@ -98,6 +99,10 @@
                     {
                         data: 'job_title',
                         name: 'job_title'
+                    },
+                    {
+                        data: 'applied_date',
+                        name: 'applied_date'
                     },
                     {
                         data: 'first_name',
@@ -122,6 +127,12 @@
                     {
                         data: 'city',
                         name: 'city'
+                    },
+                    {
+                        data: 'resume',
+                        name: 'resume',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'action',

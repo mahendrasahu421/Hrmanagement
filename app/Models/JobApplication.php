@@ -9,6 +9,7 @@ class JobApplication extends Model
     protected $fillable = [
         'job_id',
         'resume',
+        'candidate_image',
         'first_name',
         'last_name',
         'email',
@@ -46,6 +47,23 @@ class JobApplication extends Model
         return $this->belongsTo(Designation::class, 'designation_id');
     }
 
+    public function state()
+    {
+        return $this->belongsTo(CountryState::class, 'state_id');
+    }
+
+    public function city()
+    {
+        return $this->belongsTo(StateCity::class, 'city_id');
+    }
+    public function getSkillNamesAttribute()
+    {
+        if (empty($this->skills)) {
+            return [];
+        }
+
+        return Skills::whereIn('id', $this->skills)->pluck('name')->toArray();
+    }
 
     public function gender()
     {

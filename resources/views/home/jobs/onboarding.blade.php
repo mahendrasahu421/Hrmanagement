@@ -222,67 +222,85 @@
     <div class="page-wrapper">
         <div class="content">
 
-            <!-- Candidate Details -->
-            <div class="card mb-4 p-4">
-                <div class="row">
-                    <div class="col-md-2 text-center mb-3">
+            @if ($candidate)
+                <div class="card mb-4 p-4">
+                    <div class="row">
 
-                        <div>
-                            <img src="https://randomuser.me/api/portraits/men/41.jpg"
-                                style="width:110px;height:110px;border-radius:50%;border:4px solid #ff6b00;object-fit:cover;box-shadow:0 4px 10px rgba(0,0,0,0.15);">
+                        <!-- Profile Image + CV -->
+                        <div class="col-md-2 text-center mb-3">
+
+                            <div>
+                                <img src="{{ $candidate && $candidate->candidate_image ? asset('storage/' . $candidate->candidate_image) : 'https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-user-profile-avatar-png-image_10211467.png' }}"
+                                    style="width:90px;height:110px;border-radius:0;border:4px solid #ff6b00;object-fit:contain;box-shadow:0 4px 10px rgba(0,0,0,0.15);"
+                                    alt="Candidate Image" />
+
+                            </div>
+
+                            @if ($candidate->resume)
+                                <div class="mt-3">
+                                    <a href="{{ asset('storage/' . $candidate->resume) }}" target="_blank"
+                                        style="display:inline-block;background: linear-gradient(135deg, #ff6b00, #ff9b00);color:#fff;padding:6px 18px;font-size:13px;border-radius:20px;font-weight:600;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,0.12);">
+                                        View CV
+                                    </a>
+                                </div>
+                            @endif
+
                         </div>
 
-                        <div class="mt-3">
-                            <a href="{{ asset('uploads/Rohit.pdf') }}" target="_blank"
-                                style="display:inline-block;background: linear-gradient(135deg, #ff6b00, #ff9b00);color:#fff;padding:6px 18px;font-size:13px;border-radius:20px;font-weight:600;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,0.12);">
-                                View CV
-                            </a>
+                        <!-- Candidate Details -->
+                        <div class="col-md-9">
+                            <div class="table-responsive">
+                                <table class="table table-bordered mb-0">
+                                    <tbody>
+
+                                        <tr>
+                                            <th width="180">Name</th>
+                                            <td>{{ $candidate->first_name }} {{ $candidate->last_name }}</td>
+                                            <th width="180">DOB</th>
+                                            <td>{{ \Carbon\Carbon::parse($candidate->dob)->format('d-m-Y') }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>{{ $candidate->email }}</td>
+                                            <th>State</th>
+                                            <td>{{ $candidate->state->name ?? '-' }}</td>
+                                        </tr>
+
+                                        <tr>
+                                            <th>City</th>
+                                            <td>{{ $candidate->city->name ?? '-' }}</td>
+                                            {{-- <th>Working With</th>
+                                            <td>{{ $candidate->job->title ?? '-' }}</td> --}}
+                                        </tr>
+
+                                        <tr>
+                                            <th>Skills</th>
+                                            <td colspan="3">
+                                                @if (!empty($candidate->skill_names))
+                                                    @foreach ($candidate->skill_names as $skill)
+                                                        <span class="badge bg-primary text-white me-1 mb-1">
+                                                            {{ $skill }}
+                                                        </span>
+                                                    @endforeach
+                                                @else
+                                                    <span class="text-muted">No skills added</span>
+                                                @endif
+
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
 
                     </div>
-
-                    <div class="col-md-9">
-                        <div class="table-responsive">
-                            <table class="table table-bordered mb-0">
-                                <tbody>
-
-                                    <tr>
-                                        <th width="180">Name</th>
-                                        <td>Rohit Mishra</td>
-                                        <th width="180">DOB</th>
-                                        <td>04-03-2005</td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>Email</th>
-                                        <td>rohitmishra41@gmail.com</td>
-                                        <th>State</th>
-                                        <td>Karnataka</td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>City</th>
-                                        <td>Bangalore</td>
-                                        <th>Working With</th>
-                                        <td>Communities and Children</td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>Skills</th>
-                                        <td colspan="3">
-                                            <span class="badge bg-primary text-white me-1 mb-1">Research</span>
-                                            <span class="badge bg-primary text-white me-1 mb-1">Documentation</span>
-                                            <span class="badge bg-primary text-white me-1 mb-1">Communication</span>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
                 </div>
-            </div>
+            @else
+                <p class="text-danger">No candidate found.</p>
+            @endif
+
 
             <!-- Workflow -->
             <div class="workflow">
