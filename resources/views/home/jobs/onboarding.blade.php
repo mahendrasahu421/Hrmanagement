@@ -307,7 +307,9 @@
                 <div class="workflow-step completed">
                     <div class="step-icon" style="margin-top: 20px"><i class="fa-solid fa-file-alt"></i></div>
                     <p>Submission</p>
-                    <small>Date: 11-12-2025</small>
+                    <small>
+                        Date: {{ \Carbon\Carbon::parse($candidate->created_at)->format('d-m-Y') }}
+                    </small>
                 </div>
 
                 <div class="workflow-step mt-3">

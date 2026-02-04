@@ -11,7 +11,8 @@ class PolicyController extends Controller
 {
     public function index()
     {
-        $data['title'] = 'Master / Organisation / Policy';
+        $data['title'] = 'Policy List';
+        $data['titleRoute']='Masters / Organisation / Policy';
         return view('home.policy.index', $data);
     }
 

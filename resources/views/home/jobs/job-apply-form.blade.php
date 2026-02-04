@@ -202,21 +202,25 @@
                         <div class="col-md-6">
                             <label class="form-label">First Name <span class="req">*</span></label>
                             <input type="text" name="first_name" id="first_name" class="form-control" required>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Last Name <span class="req">*</span></label>
                             <input type="text" name="last_name" id="last_name" class="form-control" required>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Email</label>
                             <input type="email" name="email" id="email" class="form-control">
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Phone <span class="req">*</span></label>
                             <input type="text" name="phone" id="phone" class="form-control" required>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
@@ -234,24 +238,29 @@
                             <label class="form-label">Date of Birth <span class="req">*</span></label>
                             <input type="date" name="dob" id="dob" class="form-control"
                                 value="{{ $today }}" max="{{ $maxDob }}" required>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Gender <span class="req">*</span></label>
                             <select name="gender" id="gender" class="form-select select2" required>
+                                <option value="">Select Gender</option>
                                 @foreach ($genders as $gender)
                                     <option value="{{ $gender->id }}">{{ $gender->name }}</option>
                                 @endforeach
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Marital Status <span class="req">*</span></label>
                             <select name="marital_status" id="marital_status" class="form-select select2" required>
+                                <option value="">Select Marital Status</option>
                                 @foreach ($MaritalStatus as $marital)
                                     <option value="{{ $marital->id }}">{{ $marital->name }}</option>
                                 @endforeach
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
@@ -261,6 +270,7 @@
                                     <option value="{{ $states->id }}">{{ $states->name }}</option>
                                 @endforeach
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
@@ -268,6 +278,7 @@
                             <select name="city_id" id="city" class="form-select select2" required>
                                 <option value="">Select City</option>
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
                         <div class="col-md-12">
                             <label class="form-label">skills <span class="req">*</span></label>
@@ -277,6 +288,7 @@
                                 @endforeach
 
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                     </div>
@@ -289,6 +301,7 @@
                         <div class="col-md-6">
                             <label class="form-label">10th %</label>
                             <input type="text" name="tenth_percent" class="form-control">
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
@@ -298,11 +311,13 @@
                                     <option value="{{ $year }}">{{ $year }}</option>
                                 @endforeach
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">12th %</label>
                             <input type="text" name="twelfth_percent" class="form-control">
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
@@ -312,11 +327,13 @@
                                     <option value="{{ $year }}">{{ $year }}</option>
                                 @endforeach
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">UG %</label>
                             <input type="text" name="ug_percent" class="form-control">
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
@@ -326,16 +343,19 @@
                                     <option value="{{ $year }}">{{ $year }}</option>
                                 @endforeach
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label">Highest Degree</label>
                             <input type="text" name="degree" class="form-control">
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-4">
                             <label class="form-label">Institute</label>
                             <input type="text" name="institute" class="form-control">
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-4">
@@ -345,6 +365,7 @@
                                     <option value="{{ $year }}">{{ $year }}</option>
                                 @endforeach
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                     </div>
@@ -363,12 +384,14 @@
                                         Year{{ $i > 1 ? 's' : '' }}</option>
                                 @endfor
                             </select>
+                            <small class="text-danger">This field is required</small>
                         </div>
 
                         <div class="col-md-6">
                             <label class="form-label">Work Experience Details</label>
                             <input type="text" name="experience_details" class="form-control"
                                 placeholder="+ Add">
+                            <small class="text-danger">This field is required</small>
                         </div>
                     </div>
                 </div>

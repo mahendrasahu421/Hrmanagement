@@ -14,7 +14,8 @@ class BranchController extends Controller
     public function index()
     {
         $data['countries'] = Country::all();
-        $data['title'] = 'Masters/Organisation/Branch';
+        $data['title'] = 'Branch List';
+        $data['titleRoute']='Masters / Organisation / Branch';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.branch.index', $data);
     }

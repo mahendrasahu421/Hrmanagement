@@ -5,18 +5,27 @@
 
     <div class="page-wrapper">
         <div class="content">
-            <div class="card">
-                <div class="card-header d-flex align-items-center justify-content-between flex-wrap row-gap-3">
-                    <h5>{{ $title }}</h5>
-                    <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
-                        <div class="mb-2">
-                            <a href="{{ route('masters.organisation.company.create') }}"
-                                class="btn btn-primary d-flex align-items-center">
-                                <i class="ti ti-circle-plus me-2"></i> Add Company
-                            </a>
-                        </div>
+            <div class="d-md-flex d-block align-items-center justify-content-between page-breadcrumb mb-3">
+                <div class="my-auto mb-2">
+                    <h2 class="mb-1">{{ $title }}</h2>
+                    <nav>
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item" aria-current="page">
+                                {{ $titleRoute }}
+                            </li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="d-flex my-xl-auto right-content align-items-center flex-wrap">
+                    <div class="mb-2">
+                        <a href="{{ route('masters.organisation.company.create') }}"
+                            class="btn btn-primary d-flex align-items-center">
+                            <i class="ti ti-circle-plus me-2"></i> Add Company
+                        </a>
                     </div>
                 </div>
+            </div>
+            <div class="card">
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="card">

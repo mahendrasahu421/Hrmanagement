@@ -14,6 +14,7 @@ class CompanyController extends Controller
     public function index()
     {
         $data['title'] = 'Company List';
+        $data['titleRoute']='Masters / Organisation / Company';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.company.index', $data);
     }
