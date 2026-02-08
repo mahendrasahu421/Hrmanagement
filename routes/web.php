@@ -199,7 +199,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('recruitment/jobs/store', [JobsController::class, 'store'])->name('recruitment.jobs.store');
     Route::get('recruitment/jobs/list', [JobsController::class, 'list'])->name('recruitment.jobs.list');
     Route::get('recruitment/jobs/recommended-job', [JobsController::class, 'recommendedJob'])->name('recruitment.jobs.recommended-job');
-    Route::post('/recruitment/jobs/status/{id}',[JobsController::class, 'toggleStatus'])->name('recruitment.jobs.toggle-status');
+    Route::post('/recruitment/jobs/status/{id}', [JobsController::class, 'toggleStatus'])->name('recruitment.jobs.toggle-status');
     Route::get('recruitment/jobs/job-listings/{slug}', [JobsController::class, 'jobDetails'])->name('recruitment.jobs.job-deatils');
     Route::get('/recruitment/jobs/counts', [JobsController::class, 'jobCounts'])->name('recruitment.jobs.counts');
     Route::get('/recruitment/jobs/{slug}/apply', [JobsController::class, 'jobForm'])->name('recruitment.jobs.apply.form');
@@ -210,7 +210,9 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('recruitment/jobs/delete/{id}', [JobsController::class, 'destroy'])->name('recruitment.jobs.delete');
 
     Route::get('employee/onboarding/{slug}/{id}', [OnboardingController::class, 'index'])->name('employee.onboarding');
-
+    Route::post('/onboarding/{id}/shortlist', [OnboardingController::class, 'updateShortlist'])->name('onboarding.shortlist');
+    Route::post('/onboarding/{id}/interview-schedule', [OnboardingController::class, 'storeInterviewSchedule'])->name('onboarding.interview.schedule.store');
+    Route::post('/onboarding/interview-status/{id}', [OnboardingController::class, 'updateInterviewStatus'])->name('onboarding.interview.status.update');
     Route::get('recruitment/jobs/create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
     Route::get('jaf/list', [JafController::class, 'list'])->name('jaf.list');
     Route::post('recruitment/jobs/create-job-questionaire/store', [JafController::class, 'store'])->name('jaf.store');

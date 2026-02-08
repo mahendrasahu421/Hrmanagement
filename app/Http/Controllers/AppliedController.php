@@ -9,6 +9,7 @@ use App\Models\StateCity;
 use App\Models\AcflJobs;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class AppliedController extends Controller
 {
@@ -130,11 +131,12 @@ class AppliedController extends Controller
             $limit  = $request->input('length', 10);
             $start  = $request->input('start', 0);
             $jobId  = $request->input('job_id');
-            $query = JobApplication::where('status', 'applied')
-                ->with('job');
+            $query = JobApplication::with('job');
+
             if (!empty($jobId)) {
                 $query->where('job_id', $jobId);
             }
+
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
@@ -143,8 +145,10 @@ class AppliedController extends Controller
                         ->orWhere('phone', 'like', "%{$search}%");
                 });
             }
+
             $recordsFiltered = $query->count();
-            $recordsTotal    = JobApplication::where('status', 'applied')->count();
+            $recordsTotal    = JobApplication::count();
+
             $candidates = $query
                 ->orderBy('created_at', 'desc')
                 ->skip($start)
@@ -152,25 +156,44 @@ class AppliedController extends Controller
                 ->get();
 
             $rows = [];
+
             foreach ($candidates as $index => $candidate) {
+
                 $resumeButton = $candidate->resume
                     ? '<a href="' . asset('storage/' . $candidate->resume) . '" target="_blank" class="btn btn-sm btn-primary">
                         View CV
-                    </a>'
+                   </a>'
                     : '<span class="text-muted">N/A</span>';
 
-                $slug = \Illuminate\Support\Str::slug($candidate->first_name . ' ' . $candidate->last_name);
+                $slug =Str::slug($candidate->first_name . ' ' . $candidate->last_name);
                 $id   = $candidate->id;
                 $onboardingUrl = route('employee.onboarding', ['slug' => $slug, 'id' => $id]);
+                if ($candidate->status === 'applied') {
+                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-primary">Onboarding</a>';
+                } elseif ($candidate->status === 'shortlisted') {
+                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-success">Shortlisted</a>';
+                } elseif ($candidate->status === 'interview_scheduled') {
+                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-warning">Interview Scheduled</a>';
+                } elseif ($candidate->status === 'interview_postponed') {
+                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-info">Interview Postponed</a>';
+                } elseif ($candidate->status === 'selected') {
+                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-success">Selected</a>';
+                } elseif ($candidate->status === 'rejected') {
+                    $actionHtml = '<span class="btn btn-sm btn-danger">Rejected</span>';
+                } else {
+                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-secondary">Onboarding</a>';
+                }
+
+
                 $rows[] = [
                     'DT_RowIndex'  => $start + $index + 1,
                     'job_title'    => $candidate->job->job_title ?? 'N/A',
                     'applied_date' => $candidate->created_at->format('d-m-Y'),
                     'first_name'   => ucfirst($candidate->first_name) . ' ' . ucfirst($candidate->last_name) . '
-                          <br>
-                          <button class="badge bg-primary view-details" data-id="' . $candidate->id . '">
-                              View Details
-                          </button>',
+                      <br>
+                      <button class="badge bg-primary view-details" data-id="' . $candidate->id . '">
+                          View Details
+                      </button>',
                     'email'        => $candidate->email,
                     'phone'        => $candidate->phone,
                     'gender'       => match ($candidate->gender_id) {
@@ -182,10 +205,9 @@ class AppliedController extends Controller
                     'state'        => optional(\App\Models\CountryState::find($candidate->state_id))->name ?? 'N/A',
                     'city'         => optional(\App\Models\StateCity::find($candidate->city_id))->name ?? 'N/A',
                     'resume'       => $resumeButton,
-                    'action'       => '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-primary">Onboarding</a>',
+                    'action'       => $actionHtml,
                 ];
             }
-
 
             return response()->json([
                 'draw'            => intval($request->draw),

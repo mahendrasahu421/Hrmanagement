@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Application Status</title>
+</head>
+
+<body style="font-family: Arial, sans-serif; background-color: #f4f6f8; margin:0; padding:0;">
+
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding: 20px 0;">
+        <tr>
+            <td align="center">
+                <table width="600" cellpadding="0" cellspacing="0"
+                    style="background-color: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden;">
+
+                    <!-- Header -->
+                    <tr>
+                        <td style="background: linear-gradient(135deg, #ff6b00, #ff9b00); padding: 20px;">
+                            <table width="100%" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td align="left" style="font-size:22px; font-weight:bold; color:#fff;">
+                                        Application Status Update
+                                    </td>
+                                    <td align="right">
+                                        @if (!empty($companyDetails[0]->company_logo))
+                                            <img src="cid:{{ $companyDetails[0]->company_logo }}" alt="Company Logo"
+                                                style="max-height:50px; max-width:120px; display:block;">
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 30px 25px; color:#333; font-size:16px; line-height:1.6;">
+
+                            <p>Hello <strong>{{ $candidate->first_name }} {{ $candidate->last_name }}</strong>,</p>
+
+                            <p>
+                                Thank you for your interest in
+                                <strong>{{ $companyDetails[0]->company_name ?? 'Our Company' }}</strong>.
+                                We have received your application and appreciate the time you took to apply.
+                            </p>
+
+                            @if ($status === 'shortlisted')
+                                <p style="font-size:18px; font-weight:bold; color:#2e7d32;">
+                                  🎉 Congratulations!
+                                </p>
+                                <p>
+                                    We are pleased to inform you that your profile has been
+                                    <strong style="color:#ff6b00;">shortlisted</strong> for the next round of the selection process.
+                                </p>
+                                <p>
+                                    Our HR team will contact you shortly with further details.
+                                </p>
+                            @else
+                                <p style="font-size:18px; font-weight:bold;">
+                                    Application Update
+                                </p>
+                                <p>
+                                    After careful review, we regret to inform you that your application has
+                                    <strong style="color:#ff6b00;">not been shortlisted</strong> at this stage.
+                                </p>
+                                <p>
+                                    We truly appreciate your interest in our organization and encourage you to apply for future opportunities that match your profile.
+                                </p>
+                            @endif
+
+                            <p style="margin-top:30px;">
+                                Best regards,<br>
+                                <strong>HR Team</strong><br>
+                                <span style="color:#ff6b00; font-weight:bold;">
+                                    {{ $companyDetails[0]->company_name ?? '' }}
+                                </span>
+                            </p>
+                        </td>
+                    </tr>
+
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background:#f1f1f1; text-align:center; padding:15px; font-size:12px; color:#555;">
+                            {{ $companyDetails[0]->address ?? '' }}
+                        </td>
+                    </tr>
+
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
