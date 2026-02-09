@@ -79,4 +79,8 @@ class JobApplication extends Model
     {
         return $this->belongsTo(AcflJobs::class, 'job_id');
     }
+    public function interviewSchedules()
+    {
+        return $this->hasMany(InterviewSchedule::class);
+    }
 }
