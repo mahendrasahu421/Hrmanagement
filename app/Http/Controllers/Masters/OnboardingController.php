@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\CandidateStatusMail;
 use App\Mail\InterviewScheduleMail;
 use App\Mail\InterviewStatusMail;
+use App\Models\EmailTemplate;
 use App\Models\InterviewSchedule;
 
 class OnboardingController extends Controller
@@ -25,15 +26,43 @@ class OnboardingController extends Controller
             'state',
             'city',
         ])->findOrFail($id);
+
         $generatedSlug = Str::slug($candidate->first_name . ' ' . $candidate->last_name);
         if ($generatedSlug !== $slug) {
             abort(404);
         }
+
         $data['candidate'] = $candidate;
+        $template = EmailTemplate::where('template_key', 'employee_confirmation')->first();
+        $data['confirmationTemplate'] = $template;
+
         return view('home.jobs.onboarding', $data);
     }
 
-    public function updateShortlist(Request $request, $id)
+    public function sendConfirmation(Request $request)
+    {
+        $request->validate([
+            'candidate_id' => 'required|exists:job_applications,id',
+        ]);
+        $candidate = JobApplication::findOrFail($request->candidate_id);
+        $template = EmailTemplate::where('template_key', 'employee_confirmation')->first();
+        $subject = $template->subject;
+        $templateBody = $template->body;
+        $templateBody = str_replace(
+            ['{{first_name}}', '{{last_name}}', '{{job_title}}'],
+            [$candidate->first_name, $candidate->last_name, $candidate->job->title ?? ''],
+            $templateBody
+        );
+        $adminEmails = User::where('role_id', 2)->pluck('email')->toArray();
+        $hrEmails = User::where('role_id', 3)->pluck('email')->toArray();
+        $allRecipients = array_merge([$candidate->email], $adminEmails, $hrEmails);
+        Mail::raw($templateBody, function ($message) use ($subject, $allRecipients) {
+            $message->to($allRecipients)->subject($subject);
+        });
+        return response()->json(['success' => true]);
+    }
+
+    public function shortlist(Request $request, $id)
     {
         $request->validate([
             'status' => 'required|in:shortlisted,rejected'
@@ -41,11 +70,17 @@ class OnboardingController extends Controller
         $candidate = JobApplication::findOrFail($id);
         $candidate->status = $request->status;
         $candidate->save();
+        $templateKey = $request->status === 'shortlisted'
+            ? 'candidate_shortlisted'
+            : 'candidate_not_shortlisted';
+        $template = EmailTemplate::where('template_key', $templateKey)->first();
         $candidateEmail = $candidate->email;
         $adminEmails = User::where('role_id', 2)->pluck('email')->toArray();
         $hrEmails    = User::where('role_id', 3)->pluck('email')->toArray();
         $allRecipients = array_merge([$candidateEmail], $adminEmails, $hrEmails);
-        Mail::to($allRecipients)->send(new CandidateStatusMail($candidate, $request->status));
+        Mail::to($allRecipients)->send(
+            new CandidateStatusMail($candidate, $request->status, $template)
+        );
         return response()->json([
             'success' => true,
             'status' => $candidate->status
@@ -72,16 +107,18 @@ class OnboardingController extends Controller
             'venue' => $request->venue,
             'description' => $request->description,
         ]);
-
         $candidate = JobApplication::findOrFail($id);
         $candidate->status = 'interview_scheduled';
         $candidate->save();
-        $adminEmails = User::where('role_id', 2)->pluck('email')->toArray(); 
-        $hrEmails    = User::where('role_id', 3)->pluck('email')->toArray(); 
-        $allRecipients = array_merge([$candidate->email], $adminEmails, $hrEmails);
-
-        Mail::to($allRecipients)->send(new InterviewScheduleMail($candidate, $schedule));
-
+        $templateKey = 'interview_schedule';
+        $template = EmailTemplate::where('template_key', $templateKey)->first();
+        $candidateEmail = $candidate->email;
+        $adminEmails = User::where('role_id', 2)->pluck('email')->toArray();
+        $hrEmails    = User::where('role_id', 3)->pluck('email')->toArray();
+        $allRecipients = array_merge([$candidateEmail], $adminEmails, $hrEmails);
+        Mail::to($allRecipients)->send(
+            new InterviewScheduleMail($candidate, $schedule, $template)
+        );
         return response()->json([
             'success' => true,
             'id' => $schedule->id,
@@ -117,6 +154,28 @@ class OnboardingController extends Controller
         return response()->json([
             'success' => true,
             'candidate_status' => $candidate->status,
+        ]);
+    }
+
+    public function updateConfirmationTemplate(Request $request)
+    {
+        $request->validate([
+            'subject' => 'required|string',
+            'body' => 'required|string',
+            'candidate_id' => 'required|exists:job_applications,id',
+        ]);
+
+        $candidate = JobApplication::findOrFail($request->candidate_id);
+
+        $candidate->email_template = json_encode([
+            'subject' => $request->subject,
+            'body' => $request->body
+        ]);
+        $candidate->save();
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Updated successfully'
         ]);
     }
 }

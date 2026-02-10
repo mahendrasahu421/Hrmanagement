@@ -381,17 +381,20 @@
                         </div>
                     @endif
                 </div>
-
-
-
                 <div class="workflow-step">
                     <div class="step-icon"><i class="fa-solid fa-calendar-alt"></i></div>
                     <p>Interview</p>
                 </div>
 
-                <div class="workflow-step">
+                <div class="workflow-step confirmation-step">
                     <div class="step-icon"><i class="fa-solid fa-file"></i></div>
                     <p>Confirmation Letter</p>
+                    @if ($candidate->status === 'selected')
+                        <div class="mt-2 confirmation-actions" style="display:flex; gap:10px; justify-content:center;">
+                            <button class="btn btn-sm btn-primary" id="editConfirmationBtn">Edit</button>
+                            <button class="btn btn-sm btn-success" id="sendConfirmationBtn">Send</button>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="workflow-step">
@@ -630,104 +633,181 @@
             </div>
         </div>
 
+        <!-- Edit Confirmation Letter Modal -->
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Confirmation Email</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="confirmationForm" method="POST" action="{{ route('onboarding.updateTemplate') }}">
+                            @csrf
+                            @method('PATCH')
+                            <div class="mb-3">
+                                <label for="emailSubject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="emailSubject" name="subject"
+                                    value="{{ $candidate->email_template ? json_decode($candidate->email_template)->subject : $confirmationTemplate->subject ?? 'Confirmation Letter' }}">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Body</label>
+                                <textarea id="emailBody" name="body" style="display:none;">
+                            {!! $candidate->email_template
+                                ? json_decode($candidate->email_template)->body
+                                : $confirmationTemplate->body ?? '' !!}
+                        </textarea>
+                                <div id="emailEditor"
+                                    style="border:1px solid #ddd; border-radius:5px; padding:20px; min-height:300px; background:#fff; overflow:auto;">
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="candidate_id" value="{{ $candidate->id }}">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" id="confirmSendBtn">Update Email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal (already exists, can reuse) -->
+        <div class="modal fade" id="sendConfirmModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title fw-semibold">Send Confirmation Email</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p class="mb-3">Are you sure you want to send this confirmation email?</p>
+                    </div>
+                    <div class="modal-footer border-0 justify-content-center">
+                        <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary px-4" id="finalSendBtn">Yes, Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     </div>
 @endsection
 
 @push('after_scripts')
+    <!-- CKEditor -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
     <script>
-    const candidateStatus = "{{ $candidate->status }}";
-    const candidateId = "{{ $candidate->id }}";
+        let emailEditor;
+        ClassicEditor
+            .create(document.querySelector('#emailEditor'), {
+                initialData: document.querySelector('#emailBody').value
+            })
+            .then(editor => {
+                emailEditor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        document.getElementById('confirmSendBtn').addEventListener('click', function() {
+            document.querySelector('#emailBody').value = emailEditor.getData();
+            document.getElementById('confirmationForm').submit();
+        });
+    </script>
+    <script>
+        const candidateStatus = "{{ $candidate->status }}";
+        const candidateId = "{{ $candidate->id }}";
 
-    let pendingPayload = null;
-    let pendingBtn = null;
+        let pendingPayload = null;
+        let pendingBtn = null;
 
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('saveBtn')) {
-            e.preventDefault();
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('saveBtn')) {
+                e.preventDefault();
 
-            const btn = e.target;
-            const tr = btn.closest('tr');
+                const btn = e.target;
+                const tr = btn.closest('tr');
 
-            const data = {
-                round: tr.querySelector('.round').value,
-                mode: tr.querySelector('.mode').value,
-                date: tr.querySelector('.date').value,
-                time: tr.querySelector('.time').value,
-                venue: tr.querySelector('.venue').value,
-                description: tr.querySelector('.description').value,
-                status: tr.querySelector('.status').value,
-                comments: tr.querySelector('.comments').value,
-            };
+                const data = {
+                    round: tr.querySelector('.round').value,
+                    mode: tr.querySelector('.mode').value,
+                    date: tr.querySelector('.date').value,
+                    time: tr.querySelector('.time').value,
+                    venue: tr.querySelector('.venue').value,
+                    description: tr.querySelector('.description').value,
+                    status: tr.querySelector('.status').value,
+                    comments: tr.querySelector('.comments').value,
+                };
 
-            const scheduleId = tr.dataset.id;
-            const url = scheduleId ?
-                `/onboarding/interview-status/${scheduleId}` :
-                `/onboarding/${candidateId}/interview-schedule`;
+                const scheduleId = tr.dataset.id;
+                const url = scheduleId ?
+                    `/onboarding/interview-status/${scheduleId}` :
+                    `/onboarding/${candidateId}/interview-schedule`;
 
-            pendingPayload = {
+                pendingPayload = {
+                    btn,
+                    tr,
+                    data,
+                    scheduleId,
+                    url
+                };
+                pendingBtn = btn;
+
+                const confirmModal = new bootstrap.Modal(document.getElementById('saveConfirmModal'));
+                confirmModal.show();
+            }
+        });
+
+        document.getElementById('confirmSaveBtn').addEventListener('click', function() {
+            if (!pendingPayload) return;
+
+            const confirmBtn = this;
+            const originalText = confirmBtn.innerText;
+            confirmBtn.disabled = true;
+            confirmBtn.innerText = 'Sending...';
+
+            const {
                 btn,
                 tr,
                 data,
                 scheduleId,
                 url
-            };
-            pendingBtn = btn;
+            } = pendingPayload;
 
-            const confirmModal = new bootstrap.Modal(document.getElementById('saveConfirmModal'));
-            confirmModal.show();
-        }
-    });
+            btn.disabled = true;
+            btn.innerText = 'Saving...';
 
-    document.getElementById('confirmSaveBtn').addEventListener('click', function() {
-        if (!pendingPayload) return;
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(async res => {
+                    if (!res.ok) {
+                        const text = await res.text();
+                        throw new Error(text);
+                    }
+                    return res.json();
+                })
+                .then(res => {
+                    if (res.success) {
+                        if (
+                            data.status === 'postponed' &&
+                            !tr.dataset.newRowAdded &&
+                            res.candidate_status === 'interview_postponed'
+                        ) {
+                            const allRounds = Array.from(document.querySelectorAll('.round'))
+                                .map(r => parseInt(r.value.replace('R', '')));
+                            const nextRoundNumber = Math.max(...allRounds) + 1;
 
-        const confirmBtn = this;
-        const originalText = confirmBtn.innerText;
-
-        // 👉 change Yes, Proceed to Sending...
-        confirmBtn.disabled = true;
-        confirmBtn.innerText = 'Sending...';
-
-        const {
-            btn,
-            tr,
-            data,
-            scheduleId,
-            url
-        } = pendingPayload;
-
-        btn.disabled = true;
-        btn.innerText = 'Saving...';
-
-        fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(async res => {
-                if (!res.ok) {
-                    const text = await res.text();
-                    throw new Error(text);
-                }
-                return res.json();
-            })
-            .then(res => {
-                if (res.success) {
-                    if (
-                        data.status === 'postponed' &&
-                        !tr.dataset.newRowAdded &&
-                        res.candidate_status === 'interview_postponed'
-                    ) {
-                        const allRounds = Array.from(document.querySelectorAll('.round'))
-                            .map(r => parseInt(r.value.replace('R', '')));
-                        const nextRoundNumber = Math.max(...allRounds) + 1;
-
-                        const newRow = `
+                            const newRow = `
                             <tr>
                                 <td><input type="text" class="form-control round" value="R${nextRoundNumber}"></td>
                                 <td>
@@ -755,54 +835,135 @@
                             </tr>
                         `;
 
-                        document.getElementById('interviewBody').insertAdjacentHTML('beforeend', newRow);
-                        tr.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
-                        tr.dataset.newRowAdded = true;
+                            document.getElementById('interviewBody').insertAdjacentHTML('beforeend', newRow);
+                            tr.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled =
+                                true);
+                            tr.dataset.newRowAdded = true;
 
-                        btn.innerText = 'Saved';
+                            btn.innerText = 'Saved';
+                            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+                            successModal.show();
+                            return;
+                        }
+
                         const successModal = new bootstrap.Modal(document.getElementById('successModal'));
                         successModal.show();
-                        return;
+
+                        document.getElementById('successModal').addEventListener('hidden.bs.modal', function() {
+                            window.location.reload();
+                        });
+
+                    } else {
+                        alert('Something went wrong!');
+                        btn.disabled = false;
+                        btn.innerText = scheduleId ? 'Update' : 'Save';
                     }
-
-                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                    successModal.show();
-
-                    document.getElementById('successModal').addEventListener('hidden.bs.modal', function() {
-                        window.location.reload();
-                    });
-
-                } else {
-                    alert('Something went wrong!');
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error! Check console.');
                     btn.disabled = false;
                     btn.innerText = scheduleId ? 'Update' : 'Save';
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Error! Check console.');
-                btn.disabled = false;
-                btn.innerText = scheduleId ? 'Update' : 'Save';
-            })
-            .finally(() => {
-                // restore confirm button text
-                confirmBtn.disabled = false;
-                confirmBtn.innerText = originalText;
+                })
+                .finally(() => {
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerText = originalText;
 
-                const cm = bootstrap.Modal.getInstance(document.getElementById('saveConfirmModal'));
-                if (cm) cm.hide();
-                pendingPayload = null;
-            });
-    });
-</script>
-
-
-
+                    const cm = bootstrap.Modal.getInstance(document.getElementById('saveConfirmModal'));
+                    if (cm) cm.hide();
+                    pendingPayload = null;
+                });
+        });
+    </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const steps = document.querySelectorAll('.workflow-step');
-            const workflow = document.querySelector('.workflow');
+        document.addEventListener('DOMContentLoaded', function() {
+            const editBtn = document.getElementById('editConfirmationBtn');
+            const sendBtn = document.getElementById('sendConfirmationBtn');
+            const confirmSendBtn = document.getElementById('confirmSendBtn');
+            const finalSendBtn = document.getElementById('finalSendBtn');
+            const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            const sendConfirmModal = new bootstrap.Modal(document.getElementById('sendConfirmModal'));
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            const candidateId = "{{ $candidate->id }}";
+            if (editBtn) {
+                editBtn.addEventListener('click', function() {
+                    confirmationModal.show();
+                });
+            }
+            if (sendBtn) {
+                sendBtn.addEventListener('click', function() {
+                    sendConfirmModal.show();
+                });
+            }
+            if (finalSendBtn) {
+                finalSendBtn.addEventListener('click', function() {
+                    finalSendBtn.disabled = true;
+                    finalSendBtn.innerText = "Sending...";
+                    fetch("{{ route('onboarding.sendConfirmation') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                candidate_id: candidateId
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                sendConfirmModal.hide();
+                                successModal.show();
+                            }
+                        })
+                        .finally(() => {
+                            finalSendBtn.disabled = false;
+                            finalSendBtn.innerText = "Yes, Send";
+                        });
+                });
+            }
+
+            if (confirmSendBtn) {
+                confirmSendBtn.addEventListener('click', function() {
+                    const formData = {
+                        subject: document.getElementById('emailSubject').value,
+                        body: emailEditor.getData(),
+                        candidate_id: candidateId
+                    };
+                    confirmSendBtn.disabled = true;
+                    confirmSendBtn.innerText = 'Updating...';
+                    fetch("{{ route('onboarding.updateTemplate') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify(formData)
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                confirmationModal.hide();
+                                successModal.show();
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                        .finally(() => {
+                            confirmSendBtn.disabled = false;
+                            confirmSendBtn.innerText = 'Update Email';
+                        });
+                });
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            const steps = $('.workflow-step');
+            const workflow = $('.workflow');
             let candidateStatus = "{{ $candidate->status }}";
             const statusMap = {
                 applied: 1,
@@ -816,18 +977,18 @@
 
             function renderWorkflow(status) {
                 const currentLevel = statusMap[status] || 1;
-                steps.forEach(step => {
-                    step.classList.remove('completed', 'active', 'rejected');
-                });
+                steps.removeClass('completed active rejected');
+
                 if (status !== 'rejected') {
-                    steps.forEach((step, index) => {
+                    steps.each(function(index) {
                         const stepNumber = index + 1;
                         if (stepNumber < currentLevel) {
-                            step.classList.add('completed');
+                            $(this).addClass('completed');
                         } else if (stepNumber === currentLevel) {
-                            step.classList.add('active');
+                            $(this).addClass('active');
                         }
                     });
+
                     const percentMap = {
                         1: 0,
                         2: 22,
@@ -836,69 +997,92 @@
                         5: 100
                     };
                     let percent = percentMap[currentLevel] ?? 0;
-                    workflow.style.setProperty('--workflow-green', percent + '%');
+                    workflow.css('--workflow-green', percent + '%');
                 } else {
-                    steps[0].classList.add('completed');
-                    const rejectedStep = steps[1];
-                    rejectedStep.classList.add('rejected');
-                    const icon = rejectedStep.querySelector('.step-icon i');
-                    if (icon) {
-                        icon.className = 'fa-solid fa-xmark';
+                    steps.eq(0).addClass('completed');
+                    const rejectedStep = steps.eq(1);
+                    rejectedStep.addClass('rejected');
+                    const icon = rejectedStep.find('.step-icon i');
+                    if (icon.length) {
+                        icon.attr('class', 'fa-solid fa-xmark');
                     }
-                    workflow.classList.add('rejected');
-                    workflow.style.setProperty('--workflow-green', '22%');
+                    workflow.addClass('rejected');
+                    workflow.css('--workflow-green', '22%');
                 }
             }
+
             renderWorkflow(candidateStatus);
+
             const shortlistModal = new bootstrap.Modal(document.getElementById('shortlist_modal'));
-            const shortlistMessage = document.getElementById('shortlistMessage');
-            const shortlistRadio = document.getElementById('shortlisted');
-            const notShortlistRadio = document.getElementById('not-shortlisted');
-            const interviewSection = document.getElementById('interviewSection');
+            const shortlistMessage = $('#shortlistMessage');
             let selectedStatus = null;
-            shortlistRadio.addEventListener('click', function(e) {
+
+            $('#shortlisted').on('click', function(e) {
                 e.preventDefault();
-                shortlistMessage.textContent = "Are you sure you want to shortlist this candidate?";
+                shortlistMessage.text("Are you sure you want to shortlist this candidate?");
                 selectedStatus = "shortlisted";
                 shortlistModal.show();
             });
-            notShortlistRadio.addEventListener('click', function(e) {
+
+            $('#not-shortlisted').on('click', function(e) {
                 e.preventDefault();
-                shortlistMessage.textContent = "Are you sure you want to mark as not shortlisted?";
+                shortlistMessage.text("Are you sure you want to mark as not shortlisted?");
                 selectedStatus = "rejected";
                 shortlistModal.show();
             });
-            document.getElementById('confirmShortlistBtn').addEventListener('click', function() {
-                const btn = this;
-                btn.disabled = true;
-                btn.innerText = "Sending Email...";
-                fetch("{{ route('onboarding.shortlist', $candidate->id) }}", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({
-                            status: selectedStatus
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
+
+            $('#confirmShortlistBtn').on('click', function() {
+                const btn = $(this);
+                btn.prop('disabled', true).text("Sending Email...");
+
+                $.ajax({
+                    url: "{{ route('onboarding.shortlist', $candidate->id) }}",
+                    method: "POST",
+                    data: {
+                        status: selectedStatus,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
                         if (data.success) {
-                            window.location.reload();
+                            location.reload();
                         } else {
                             alert("Something went wrong!");
                         }
-                    })
-                    .catch(err => {
+                    },
+                    error: function(err) {
                         alert("Something went wrong!");
-                    })
-                    .finally(() => {
-                        btn.disabled = false;
-                        btn.innerText = "Yes, Proceed";
-                    });
+                    },
+                    complete: function() {
+                        btn.prop('disabled', false).text("Yes, Proceed");
+                    }
+                });
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(today.getDate() + 1);
 
+            const minDate = tomorrow.toISOString().split('T')[0];
+
+            document.querySelectorAll('input.date').forEach(function(input) {
+                input.setAttribute('min', minDate);
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('#interviewBody tr').forEach(function(row) {
+                const dateInput = row.querySelector('input.date');
+                const timeInput = row.querySelector('input.time');
+
+                if (dateInput && timeInput) {
+                    timeInput.removeAttribute('min');
+                }
+            });
         });
     </script>
 @endpush
