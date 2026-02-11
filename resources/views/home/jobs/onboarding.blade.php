@@ -439,12 +439,12 @@
                                                 <td>
                                                     <input type="text" class="form-control round"
                                                         value="{{ $schedule->round }}"
-                                                        {{ $schedule->id ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }}>
                                                 </td>
 
                                                 <td>
                                                     <select class="form-control mode select2"
-                                                        {{ $schedule->id ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }}>
                                                         <option value="">Select Mode</option>
                                                         <option value="offline"
                                                             {{ $schedule->mode == 'offline' ? 'selected' : '' }}>Offline
@@ -461,26 +461,26 @@
                                                 <td>
                                                     <input type="date" class="form-control date"
                                                         value="{{ $schedule->date }}"
-                                                        {{ $schedule->id ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }}>
                                                 </td>
 
                                                 <td>
                                                     <input type="time" class="form-control time"
                                                         value="{{ $schedule->time }}"
-                                                        {{ $schedule->id ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }}>
                                                 </td>
 
                                                 <td>
-                                                    <textarea class="form-control venue" rows="2" {{ $schedule->id ? 'disabled' : '' }}>{{ $schedule->venue }}</textarea>
+                                                    <textarea class="form-control venue" rows="2" {{ $schedule->status ? 'disabled' : '' }}>{{ $schedule->venue }}</textarea>
                                                 </td>
 
                                                 <td>
-                                                    <textarea class="form-control description" rows="2" {{ $schedule->id ? 'disabled' : '' }}>{{ $schedule->description }}</textarea>
+                                                    <textarea class="form-control description" rows="2" {{ $schedule->status ? 'disabled' : '' }}>{{ $schedule->description }}</textarea>
                                                 </td>
 
                                                 <td>
                                                     <select class="form-control status select2"
-                                                        {{ $schedule->id ? '' : 'disabled' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }}>
                                                         <option value="">Select Status</option>
                                                         <option value="cleared"
                                                             {{ $schedule->status == 'cleared' ? 'selected' : '' }}>Cleared
@@ -495,14 +495,14 @@
                                                 </td>
 
                                                 <td>
-                                                    <textarea class="form-control comments" rows="2" {{ $schedule->id ? '' : 'disabled' }}>{{ $schedule->comments }}</textarea>
+                                                    <textarea class="form-control comments" rows="2" {{ $schedule->status ? 'disabled' : '' }}>{{ $schedule->comments }}</textarea>
                                                 </td>
 
                                                 <td>
-                                                    <button type="button" class="btn btn-info btn-sm saveBtn">
-                                                        {{ $schedule->id ? 'Update' : 'Save' }}
+                                                    <button type="button" class="btn btn-info btn-sm saveBtn"
+                                                        {{ $schedule->status ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'Completed' : ($schedule->id ? 'Update' : 'Save') }}
                                                     </button>
-
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -722,27 +722,29 @@
         const candidateId = "{{ $candidate->id }}";
 
         let pendingPayload = null;
-        let pendingBtn = null;
 
         document.addEventListener('click', function(e) {
+
             if (e.target.classList.contains('saveBtn')) {
+
                 e.preventDefault();
 
                 const btn = e.target;
                 const tr = btn.closest('tr');
 
                 const data = {
-                    round: tr.querySelector('.round').value,
-                    mode: tr.querySelector('.mode').value,
-                    date: tr.querySelector('.date').value,
-                    time: tr.querySelector('.time').value,
-                    venue: tr.querySelector('.venue').value,
-                    description: tr.querySelector('.description').value,
-                    status: tr.querySelector('.status').value,
-                    comments: tr.querySelector('.comments').value,
+                    round: tr.querySelector('.round')?.value,
+                    mode: tr.querySelector('.mode')?.value,
+                    date: tr.querySelector('.date')?.value,
+                    time: tr.querySelector('.time')?.value,
+                    venue: tr.querySelector('.venue')?.value,
+                    description: tr.querySelector('.description')?.value,
+                    status: tr.querySelector('.status')?.value,
+                    comments: tr.querySelector('.comments')?.value,
                 };
 
                 const scheduleId = tr.dataset.id;
+
                 const url = scheduleId ?
                     `/onboarding/interview-status/${scheduleId}` :
                     `/onboarding/${candidateId}/interview-schedule`;
@@ -754,7 +756,6 @@
                     scheduleId,
                     url
                 };
-                pendingBtn = btn;
 
                 const confirmModal = new bootstrap.Modal(document.getElementById('saveConfirmModal'));
                 confirmModal.show();
@@ -762,12 +763,12 @@
         });
 
         document.getElementById('confirmSaveBtn').addEventListener('click', function() {
+
             if (!pendingPayload) return;
 
             const confirmBtn = this;
-            const originalText = confirmBtn.innerText;
             confirmBtn.disabled = true;
-            confirmBtn.innerText = 'Sending...';
+            confirmBtn.innerText = 'Saving...';
 
             const {
                 btn,
@@ -789,27 +790,41 @@
                     },
                     body: JSON.stringify(data)
                 })
-                .then(async res => {
-                    if (!res.ok) {
-                        const text = await res.text();
+                .then(async response => {
+                    if (!response.ok) {
+                        const text = await response.text();
                         throw new Error(text);
                     }
-                    return res.json();
+                    return response.json();
                 })
                 .then(res => {
-                    if (res.success) {
-                        if (
-                            data.status === 'postponed' &&
-                            !tr.dataset.newRowAdded &&
-                            res.candidate_status === 'interview_postponed'
-                        ) {
-                            const allRounds = Array.from(document.querySelectorAll('.round'))
-                                .map(r => parseInt(r.value.replace('R', '')));
-                            const nextRoundNumber = Math.max(...allRounds) + 1;
 
-                            const newRow = `
-                            <tr>
-                                <td><input type="text" class="form-control round" value="R${nextRoundNumber}"></td>
+                    window.location.reload();
+                    if (!data.status) {
+                        tr.querySelectorAll('.round, .mode, .date, .time, .venue, .description')
+                            .forEach(input => input.setAttribute('disabled', true));
+                        tr.querySelector('.status')?.removeAttribute('disabled');
+                        tr.querySelector('.comments')?.removeAttribute('disabled');
+                        btn.disabled = false;
+                        btn.innerText = 'Update';
+                    }
+                    if (data.status) {
+                        tr.querySelectorAll('input, select, textarea, button')
+                            .forEach(el => el.setAttribute('disabled', true));
+
+                        btn.innerText = 'Completed';
+                        btn.disabled = true;
+                    }
+                    if (res.new_schedule) {
+
+                        const schedule = res.new_schedule;
+
+                        const newRow = `
+                            <tr data-id="${schedule.id}">
+                                <td>
+                                    <input type="text" class="form-control round" value="${schedule.round}">
+                                </td>
+
                                 <td>
                                     <select class="form-control mode">
                                         <option value="">Select Mode</option>
@@ -818,10 +833,24 @@
                                         <option value="on_call">On Call</option>
                                     </select>
                                 </td>
-                                <td><input type="date" class="form-control date"></td>
-                                <td><input type="time" class="form-control time"></td>
-                                <td><textarea class="form-control venue" rows="2"></textarea></td>
-                                <td><textarea class="form-control description" rows="2"></textarea></td>
+
+                                <td>
+                                    <input type="date" class="form-control date">
+                                </td>
+
+                                <td>
+                                    <input type="time" class="form-control time">
+                                </td>
+
+                                <td>
+                                    <textarea class="form-control venue" rows="2"></textarea>
+                                </td>
+
+                                <td>
+                                    <textarea class="form-control description" rows="2"></textarea>
+                                </td>
+
+                                <!-- Status Disabled Initially -->
                                 <td>
                                     <select class="form-control status" disabled>
                                         <option value="">Select Status</option>
@@ -830,47 +859,40 @@
                                         <option value="postponed">Postponed</option>
                                     </select>
                                 </td>
-                                <td><textarea class="form-control comments" rows="2" disabled></textarea></td>
-                                <td><button class="btn btn-info btn-sm saveBtn">Save</button></td>
+
+                                <td>
+                                    <textarea class="form-control comments" rows="2" disabled></textarea>
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-info btn-sm saveBtn">
+                                        Save
+                                    </button>
+                                </td>
                             </tr>
-                        `;
+                            `;
 
-                            document.getElementById('interviewBody').insertAdjacentHTML('beforeend', newRow);
-                            tr.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled =
-                                true);
-                            tr.dataset.newRowAdded = true;
-
-                            btn.innerText = 'Saved';
-                            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                            successModal.show();
-                            return;
-                        }
-
-                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                        successModal.show();
-
-                        document.getElementById('successModal').addEventListener('hidden.bs.modal', function() {
-                            window.location.reload();
-                        });
-
-                    } else {
-                        alert('Something went wrong!');
-                        btn.disabled = false;
-                        btn.innerText = scheduleId ? 'Update' : 'Save';
+                        document.getElementById('interviewBody')
+                            .insertAdjacentHTML('beforeend', newRow);
                     }
+
                 })
-                .catch(err => {
-                    console.error(err);
-                    alert('Error! Check console.');
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Something went wrong. Check console.");
                     btn.disabled = false;
-                    btn.innerText = scheduleId ? 'Update' : 'Save';
+                    btn.innerText = 'Save';
                 })
                 .finally(() => {
-                    confirmBtn.disabled = false;
-                    confirmBtn.innerText = originalText;
 
-                    const cm = bootstrap.Modal.getInstance(document.getElementById('saveConfirmModal'));
+                    const cm = bootstrap.Modal.getInstance(
+                        document.getElementById('saveConfirmModal')
+                    );
                     if (cm) cm.hide();
+
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerText = 'Yes, Proceed';
+
                     pendingPayload = null;
                 });
         });
@@ -1071,9 +1093,6 @@
                 input.setAttribute('min', minDate);
             });
         });
-    </script>
-
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('#interviewBody tr').forEach(function(row) {
                 const dateInput = row.querySelector('input.date');

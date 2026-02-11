@@ -10,7 +10,7 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class InterviewScheduleMail extends Mailable
+class InterviewPostponedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -25,33 +25,27 @@ class InterviewScheduleMail extends Mailable
         $this->candidate = $candidate;
         $this->schedule = $schedule;
         $this->companyDetails = Company::where('status', 'Active')->get();
+
         $candidateName = trim($candidate->first_name . ' ' . ($candidate->last_name ?? ''));
         $job = AcflJobs::find($candidate->job_id);
-        $jobTitle = $job->job_title ?? '';
         $companyName = optional($job->company)->company_name
             ?? ($this->companyDetails->first()->company_name ?? 'Our Company');
+
         $this->subjectText = $template && !empty($template->subject)
             ? strtr($template->subject, [
                 '{candidate_name}' => $candidateName,
                 '{company_name}'   => $companyName,
-                '{job_title}'      => $jobTitle,
             ])
-            : 'Interview Scheduled';
+            : 'Interview Postponed';
         $this->templateBody = $template && !empty($template->body)
             ? strtr($template->body, [
                 '{candidate_name}' => $candidateName,
                 '{company_name}'   => $companyName,
-                '{job_title}'      => $jobTitle,
-                '{round}'          => $schedule->round,
-                '{mode}'           => ucfirst($schedule->mode),
-                '{date}'           => \Carbon\Carbon::parse($schedule->date)->format('d-m-Y'),
-                '{time}'           => $schedule->time,
-                '{venue}'          => $schedule->venue ?? 'N/A',
-                '{description}'    => $schedule->description ?? '',
-                 '{comments}'       => $schedule->comments ?? 'N/A',
+                '{comments}'       => $schedule->comments ?? 'N/A',
             ])
             : '';
     }
+
 
     public function build()
     {
@@ -64,6 +58,7 @@ class InterviewScheduleMail extends Mailable
                 'companyDetails' => $this->companyDetails,
                 'candidate'      => $this->candidate,
             ]);
+
         foreach ($this->companyDetails as $company) {
             if (!empty($company->company_logo)) {
                 $path = public_path('uploads/company/' . $company->company_logo);

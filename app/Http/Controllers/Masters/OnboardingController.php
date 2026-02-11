@@ -9,6 +9,8 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CandidateStatusMail;
+use App\Mail\InterviewPostponedMail;
+use App\Mail\InterviewRescheduledMail;
 use App\Mail\InterviewScheduleMail;
 use App\Mail\InterviewStatusMail;
 use App\Models\EmailTemplate;
@@ -128,34 +130,81 @@ class OnboardingController extends Controller
     public function updateInterviewStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:cleared,rejected,postponed',
+            'round' => 'required|string',
+            'mode' => 'required|in:offline,online,on_call',
+            'date' => 'required|date',
+            'time' => 'required',
+            'venue' => 'nullable|string',
+            'description' => 'nullable|string',
+            'status' => 'nullable|in:cleared,rejected,postponed',
             'comments' => 'nullable|string'
         ]);
-
         $schedule = InterviewSchedule::findOrFail($id);
-        $schedule->status = $request->status;
-        $schedule->comments = $request->comments;
-        $schedule->save();
+        $oldDate  = $schedule->date;
+        $oldTime  = $schedule->time;
+        $oldMode  = $schedule->mode;
+        $oldVenue = $schedule->venue;
+
+        $schedule->update($request->all());
 
         $candidate = JobApplication::findOrFail($schedule->job_application_id);
+
+        $newSchedule = null;
+
         if ($request->status === 'cleared') {
             $candidate->status = 'selected';
         } elseif ($request->status === 'rejected') {
             $candidate->status = 'rejected';
         } elseif ($request->status === 'postponed') {
             $candidate->status = 'interview_postponed';
+
+            $currentRoundNumber = (int) filter_var($schedule->round, FILTER_SANITIZE_NUMBER_INT);
+            $nextRound = 'R' . ($currentRoundNumber + 1);
+
+            $newSchedule = InterviewSchedule::create([
+                'job_application_id' => $schedule->job_application_id,
+                'round' => $nextRound,
+            ]);
+            $template = EmailTemplate::where('template_key', 'interview_postponed')->first();
+            if ($template) {
+                Mail::to($this->getRecipients($candidate))
+                    ->send(new InterviewPostponedMail($candidate, $schedule, $template));
+            }
+        } else {
+            $isRescheduled =
+                $oldDate  != $schedule->date ||
+                $oldTime  != $schedule->time ||
+                $oldMode  != $schedule->mode ||
+                $oldVenue != $schedule->venue;
+
+            if ($isRescheduled) {
+                $template = EmailTemplate::where('template_key', 'interview_rescheduled')->first();
+                if ($template) {
+                    Mail::to($this->getRecipients($candidate))
+                        ->send(new InterviewRescheduledMail($candidate, $schedule, $template));
+                }
+            }
         }
         $candidate->save();
-        $adminEmails = User::where('role_id', 2)->pluck('email')->toArray();
-        $hrEmails    = User::where('role_id', 3)->pluck('email')->toArray();
-        $allRecipients = array_merge([$candidate->email], $adminEmails, $hrEmails);
-        Mail::to($allRecipients)->send(new InterviewStatusMail($candidate, $schedule));
 
         return response()->json([
             'success' => true,
-            'candidate_status' => $candidate->status,
+            'new_schedule' => $newSchedule
         ]);
     }
+
+    private function getRecipients($candidate)
+    {
+        $adminEmails = User::where('role_id', 2)->pluck('email')->toArray();
+        $hrEmails = User::where('role_id', 3)->pluck('email')->toArray();
+
+        return array_merge(
+            [$candidate->email],
+            $adminEmails,
+            $hrEmails
+        );
+    }
+
 
     public function updateConfirmationTemplate(Request $request)
     {
