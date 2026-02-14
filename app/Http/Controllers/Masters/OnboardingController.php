@@ -3,31 +3,32 @@
 namespace App\Http\Controllers\Masters;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CandidateConfirmationMail;
 use App\Models\JobApplication;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CandidateStatusMail;
+use App\Mail\InterviewClearedMail;
 use App\Mail\InterviewPostponedMail;
+use App\Mail\InterviewRejectedMail;
 use App\Mail\InterviewRescheduledMail;
 use App\Mail\InterviewScheduleMail;
 use App\Mail\InterviewStatusMail;
+use App\Models\AcflJobs;
+use App\Models\Company;
 use App\Models\EmailTemplate;
 use App\Models\InterviewSchedule;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OnboardingController extends Controller
 {
     public function index($slug, $id)
     {
         $data['title'] = 'Employee / Onboarding';
-        $candidate = JobApplication::with([
-            'gender',
-            'maritalStatus',
-            'job',
-            'state',
-            'city',
-        ])->findOrFail($id);
+
+        $candidate = JobApplication::with(['gender', 'maritalStatus', 'job', 'state', 'city'])->findOrFail($id);
 
         $generatedSlug = Str::slug($candidate->first_name . ' ' . $candidate->last_name);
         if ($generatedSlug !== $slug) {
@@ -35,7 +36,30 @@ class OnboardingController extends Controller
         }
 
         $data['candidate'] = $candidate;
-        $template = EmailTemplate::where('template_key', 'employee_confirmation')->first();
+
+        $template = EmailTemplate::where('template_key', 'candidate_confirmation')->first();
+
+        if ($template) {
+            $data['candidate_name'] = trim($candidate->first_name . ' ' . ($candidate->last_name ?? ''));
+
+            $job = AcflJobs::find($candidate->job_id);
+            $data['job_title'] = $job->job_title ?? 'the position';
+
+            $data['company_name'] = $job && $job->branch && $job->branch->company
+                ? $job->branch->company->company_name
+                : (Company::where('status', 'Active')->value('company_name') ?? 'Our Company');
+            $template->subject = str_replace(
+                ['{candidate_name}', '{company_name}', '{job_title}'],
+                [$data['candidate_name'], $data['company_name'], $data['job_title']],
+                $template->subject
+            );
+            $template->body = str_replace(
+                ['{candidate_name}', '{company_name}', '{job_title}'],
+                ['<strong>' . e($data['candidate_name']) . '</strong>', '<strong>' . e($data['company_name']) . '</strong>', '<strong>' . e($data['job_title']) . '</strong>'],
+                $template->body
+            );
+        }
+
         $data['confirmationTemplate'] = $template;
 
         return view('home.jobs.onboarding', $data);
@@ -47,21 +71,31 @@ class OnboardingController extends Controller
             'candidate_id' => 'required|exists:job_applications,id',
         ]);
         $candidate = JobApplication::findOrFail($request->candidate_id);
-        $template = EmailTemplate::where('template_key', 'employee_confirmation')->first();
-        $subject = $template->subject;
-        $templateBody = $template->body;
-        $templateBody = str_replace(
-            ['{{first_name}}', '{{last_name}}', '{{job_title}}'],
-            [$candidate->first_name, $candidate->last_name, $candidate->job->title ?? ''],
-            $templateBody
-        );
+        $offerTemplate = EmailTemplate::where('template_key', 'offer_letter')->first();
+        $confirmationTemplate = EmailTemplate::where('template_key', 'candidate_confirmation')->first();
+        if (!$offerTemplate || !$confirmationTemplate) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Required templates not found.'
+            ]);
+        }
+        $candidateEmail = $candidate->email;
         $adminEmails = User::where('role_id', 2)->pluck('email')->toArray();
-        $hrEmails = User::where('role_id', 3)->pluck('email')->toArray();
-        $allRecipients = array_merge([$candidate->email], $adminEmails, $hrEmails);
-        Mail::raw($templateBody, function ($message) use ($subject, $allRecipients) {
-            $message->to($allRecipients)->subject($subject);
-        });
-        return response()->json(['success' => true]);
+        $hrEmails    = User::where('role_id', 3)->pluck('email')->toArray();
+        $allRecipients = array_merge([$candidateEmail], $adminEmails, $hrEmails);
+        Mail::to($allRecipients)->send(
+            new CandidateConfirmationMail(
+                $candidate,
+                $offerTemplate,
+                $confirmationTemplate
+            )
+        );
+        $candidate->confirmation_letter = 'send';
+        $candidate->save();
+        return response()->json([
+            'success' => true,
+            'message' => 'Confirmation mail sent successfully.'
+        ]);
     }
 
     public function shortlist(Request $request, $id)
@@ -144,23 +178,28 @@ class OnboardingController extends Controller
         $oldTime  = $schedule->time;
         $oldMode  = $schedule->mode;
         $oldVenue = $schedule->venue;
-
         $schedule->update($request->all());
-
         $candidate = JobApplication::findOrFail($schedule->job_application_id);
-
         $newSchedule = null;
-
         if ($request->status === 'cleared') {
             $candidate->status = 'selected';
+            $template = EmailTemplate::where('template_key', 'interview_cleared')->first();
+            if ($template) {
+                Mail::to($this->getRecipients($candidate))
+                    ->send(new InterviewClearedMail($candidate, $schedule, $template));
+            }
         } elseif ($request->status === 'rejected') {
             $candidate->status = 'rejected';
+            $template = EmailTemplate::where('template_key', 'interview_rejected')->first();
+            if ($template) {
+                Mail::to($this->getRecipients($candidate))
+                    ->send(new InterviewRejectedMail($candidate, $schedule, $template));
+            }
         } elseif ($request->status === 'postponed') {
             $candidate->status = 'interview_postponed';
 
             $currentRoundNumber = (int) filter_var($schedule->round, FILTER_SANITIZE_NUMBER_INT);
             $nextRound = 'R' . ($currentRoundNumber + 1);
-
             $newSchedule = InterviewSchedule::create([
                 'job_application_id' => $schedule->job_application_id,
                 'round' => $nextRound,
@@ -176,7 +215,6 @@ class OnboardingController extends Controller
                 $oldTime  != $schedule->time ||
                 $oldMode  != $schedule->mode ||
                 $oldVenue != $schedule->venue;
-
             if ($isRescheduled) {
                 $template = EmailTemplate::where('template_key', 'interview_rescheduled')->first();
                 if ($template) {
@@ -186,7 +224,6 @@ class OnboardingController extends Controller
             }
         }
         $candidate->save();
-
         return response()->json([
             'success' => true,
             'new_schedule' => $newSchedule
@@ -213,18 +250,12 @@ class OnboardingController extends Controller
             'body' => 'required|string',
             'candidate_id' => 'required|exists:job_applications,id',
         ]);
-
         $candidate = JobApplication::findOrFail($request->candidate_id);
-
         $candidate->email_template = json_encode([
             'subject' => $request->subject,
-            'body' => $request->body
+            'body' => $request->body,
         ]);
         $candidate->save();
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Updated successfully'
-        ]);
+        return back()->with('success', 'Template updated successfully.');
     }
 }

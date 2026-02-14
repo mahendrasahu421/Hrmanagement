@@ -261,6 +261,27 @@
         .workflow.rejected::after {
             background: #e74c3c !important;
         }
+
+        #a4Preview {
+            width: 210mm;
+            min-height: 297mm;
+            background: url("{{ asset('frontent/assets/img/acfl.jpg.jpeg') }}") no-repeat center center;
+            background-size: cover;
+            position: relative;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+            margin: 20px auto;
+        }
+
+        #previewContent {
+            position: absolute;
+            top: 30mm;
+            left: 25mm;
+            right: 25mm;
+            background: transparent;
+            font-size: 11px;
+            color: #000;
+            overflow: hidden;
+        }
     </style>
 
     <div class="page-wrapper">
@@ -389,13 +410,24 @@
                 <div class="workflow-step confirmation-step">
                     <div class="step-icon"><i class="fa-solid fa-file"></i></div>
                     <p>Confirmation Letter</p>
+
                     @if ($candidate->status === 'selected')
-                        <div class="mt-2 confirmation-actions" style="display:flex; gap:10px; justify-content:center;">
-                            <button class="btn btn-sm btn-primary" id="editConfirmationBtn">Edit</button>
-                            <button class="btn btn-sm btn-success" id="sendConfirmationBtn">Send</button>
-                        </div>
+
+                        @if ($candidate->confirmation_letter === 'send')
+                            <div class="mt-2">
+                                <span class="badge bg-success">Sent</span>
+                            </div>
+                        @else
+                            <div class="mt-2 confirmation-actions" style="display:flex; gap:10px; justify-content:center;">
+                                <button class="btn btn-sm btn-primary" id="editConfirmationBtn">Edit</button>
+                                <button class="btn btn-sm btn-warning" id="previewConfirmationBtn">Preview</button>
+                                <button class="btn btn-sm btn-success" id="sendConfirmationBtn">Send</button>
+                            </div>
+                        @endif
+
                     @endif
                 </div>
+
 
                 <div class="workflow-step">
                     <div class="step-icon"><i class="fa-solid fa-industry"></i></div>
@@ -625,7 +657,7 @@
                             Interview saved successfully and email sent.
                         </p>
 
-                        <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal" id="successOkBtn">
                             OK
                         </button>
                     </div>
@@ -693,12 +725,52 @@
             </div>
         </div>
 
-
+        <div class="modal fade" id="previewModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content bg-transparent border-0 shadow-none">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close bg-light" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body d-flex justify-content-center">
+                        <div id="a4Preview">
+                            <div id="previewContent">
+                                <div id="previewBody"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @push('after_scripts')
     <!-- CKEditor -->
+    <script>
+        $('#previewConfirmationBtn').on('click', function() {
+            var subject = $('#emailSubject').val();
+            var body = '';
+            if (typeof emailEditor !== 'undefined' && emailEditor) {
+                body = emailEditor.getData();
+            }
+            if (!subject) {
+                subject =
+                    `{{ $candidate->email_template ? json_decode($candidate->email_template)->subject : $confirmationTemplate->subject ?? '' }}`;
+            }
+            if (!body) {
+                body = $('#emailBody').val();
+            }
+            $('#previewSubject').text(subject);
+            $('#previewBody').html(body);
+            $('#a4Preview').addClass('no-bg');
+            const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            previewModal.show();
+        });
+        document.getElementById('successOkBtn')?.addEventListener('click', function() {
+            window.location.reload();
+        });
+    </script>
+
     <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
     <script>
         let emailEditor;
