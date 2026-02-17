@@ -210,10 +210,12 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('recruitment/jobs/delete/{id}', [JobsController::class, 'destroy'])->name('recruitment.jobs.delete');
 
     Route::get('employee/onboarding/{slug}/{id}', [OnboardingController::class, 'index'])->name('employee.onboarding');
-    Route::post('/onboarding/{id}/shortlist', [OnboardingController::class, 'updateShortlist'])->name('onboarding.shortlist');
+    Route::post('/onboarding/{id}/shortlist', [OnboardingController::class, 'shortlist'])->name('onboarding.shortlist');
     Route::post('/onboarding/{id}/interview-schedule', [OnboardingController::class, 'storeInterviewSchedule'])->name('onboarding.interview.schedule.store');
     Route::post('/onboarding/interview-status/{id}', [OnboardingController::class, 'updateInterviewStatus'])->name('onboarding.interview.status.update');
     Route::get('recruitment/jobs/create-job-questionaire', [JafController::class, 'index'])->name('create-job-questionaire');
+    Route::post('/onboarding/send-confirmation', [OnboardingController::class, 'sendConfirmation'])->name('onboarding.sendConfirmation');
+    Route::patch('/onboarding/update-confirmation-template', [OnboardingController::class, 'updateConfirmationTemplate'])->name('onboarding.updateTemplate');
     Route::get('jaf/list', [JafController::class, 'list'])->name('jaf.list');
     Route::post('recruitment/jobs/create-job-questionaire/store', [JafController::class, 'store'])->name('jaf.store');
     Route::get('recruitment/jobs/create-job-questionaire/show', [JafController::class, 'show'])->name('jaf.index');

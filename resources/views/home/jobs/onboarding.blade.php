@@ -261,6 +261,57 @@
         .workflow.rejected::after {
             background: #e74c3c !important;
         }
+
+        #a4Preview {
+            width: 210mm;
+            min-height: 297mm;
+            background: url("{{ asset('frontent/assets/img/acfl.jpg.jpeg') }}") no-repeat center center;
+            background-size: cover;
+            position: relative;
+            box-shadow: 0 0 25px rgba(0, 0, 0, 0.25);
+            margin: 20px auto;
+        }
+
+        #previewContent {
+            position: absolute;
+            top: 30mm;
+            left: 25mm;
+            right: 25mm;
+            background: transparent;
+            font-size: 11px;
+            color: #000;
+            overflow: hidden;
+        }
+
+        :root {
+            --fp-main: #f37438;
+        }
+
+        .flatpickr-months .flatpickr-month,
+        .flatpickr-current-month input.cur-year {
+            color: var(--fp-main);
+        }
+
+        .flatpickr-prev-month svg,
+        .flatpickr-next-month svg {
+            fill: var(--fp-main);
+        }
+
+        .flatpickr-day:hover {
+            background: rgba(243, 116, 56, 0.15);
+            color: #000;
+            border-radius: 50px;
+        }
+
+        .flatpickr-day.selected {
+            background: var(--fp-main);
+            color: #fff;
+            border-radius: 50px;
+        }
+
+        .flatpickr-day.today {
+            border-color: var(--fp-main);
+        }
     </style>
 
     <div class="page-wrapper">
@@ -360,7 +411,14 @@
                     <div class="step-icon"><i class="fa-solid fa-check"></i></div>
                     <p>Shortlist</p>
 
-                    @if (in_array($candidate->status, ['shortlisted', 'interview_scheduled', 'interview_postponed', 'selected', 'placed']))
+                    @if (in_array($candidate->status, [
+                            'shortlisted',
+                            'interview_scheduled',
+                            'interview_postponed',
+                            'interview_rejected',
+                            'selected',
+                            'placed',
+                        ]))
                         <div class="mt-2">
                             <span class="badge bg-primary">Shortlisted</span>
                         </div>
@@ -381,18 +439,32 @@
                         </div>
                     @endif
                 </div>
-
-
-
                 <div class="workflow-step">
                     <div class="step-icon"><i class="fa-solid fa-calendar-alt"></i></div>
                     <p>Interview</p>
                 </div>
 
-                <div class="workflow-step">
+                <div class="workflow-step confirmation-step">
                     <div class="step-icon"><i class="fa-solid fa-file"></i></div>
                     <p>Confirmation Letter</p>
+
+                    @if ($candidate->status === 'selected')
+
+                        @if ($candidate->confirmation_letter === 'send')
+                            <div class="mt-2">
+                                <span class="badge bg-primary">Sent</span>
+                            </div>
+                        @else
+                            <div class="mt-2 confirmation-actions" style="display:flex; gap:10px; justify-content:center;">
+                                <button class="btn btn-sm btn-primary" id="editConfirmationBtn">Edit</button>
+                                <button class="btn btn-sm btn-warning" id="previewConfirmationBtn">Preview</button>
+                                <button class="btn btn-sm btn-success" id="sendConfirmationBtn">Send</button>
+                            </div>
+                        @endif
+
+                    @endif
                 </div>
+
 
                 <div class="workflow-step">
                     <div class="step-icon"><i class="fa-solid fa-industry"></i></div>
@@ -401,8 +473,12 @@
             </div>
 
             <!-- Interview Table -->
+            @php
+                $disableInterviewFields = $candidate->status === 'interview_scheduled';
+                $disableInterviewStatus = $candidate->status === 'interview_postponed';
+            @endphp
             <div class="row mt-5" id="interviewSection"
-                style="{{ in_array($candidate->status, ['shortlisted', 'interview_scheduled', 'interview_postponed', 'selected']) ? '' : 'display:none;' }}">
+                style="{{ in_array($candidate->status, ['shortlisted', 'interview_scheduled', 'interview_rejected', 'interview_postponed', 'selected']) ? '' : 'display:none;' }}">
 
                 <div class="col-sm-12">
                     <div class="card">
@@ -436,12 +512,14 @@
                                                 <td>
                                                     <input type="text" class="form-control round"
                                                         value="{{ $schedule->round }}"
-                                                        {{ $schedule->id ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>
                                                 </td>
 
                                                 <td>
                                                     <select class="form-control mode select2"
-                                                        {{ $schedule->id ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>
                                                         <option value="">Select Mode</option>
                                                         <option value="offline"
                                                             {{ $schedule->mode == 'offline' ? 'selected' : '' }}>Offline
@@ -456,28 +534,33 @@
                                                 </td>
 
                                                 <td>
-                                                    <input type="date" class="form-control date"
-                                                        value="{{ $schedule->date }}"
-                                                        {{ $schedule->id ? 'disabled' : '' }}>
+                                                    <input type="text" class="form-control datepicker"
+                                                        value="{{ \Carbon\Carbon::parse($schedule->date)->format('d-m-Y') }}"
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>
                                                 </td>
 
                                                 <td>
                                                     <input type="time" class="form-control time"
                                                         value="{{ $schedule->time }}"
-                                                        {{ $schedule->id ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>
                                                 </td>
 
                                                 <td>
-                                                    <textarea class="form-control venue" rows="2" {{ $schedule->id ? 'disabled' : '' }}>{{ $schedule->venue }}</textarea>
+                                                    <textarea class="form-control venue" rows="2" {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>{{ $schedule->venue }}</textarea>
                                                 </td>
 
                                                 <td>
-                                                    <textarea class="form-control description" rows="2" {{ $schedule->id ? 'disabled' : '' }}>{{ $schedule->description }}</textarea>
+                                                    <textarea class="form-control description" rows="2" {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>{{ $schedule->description }}</textarea>
                                                 </td>
 
                                                 <td>
                                                     <select class="form-control status select2"
-                                                        {{ $schedule->id ? '' : 'disabled' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewStatus ? 'disabled' : '' }}>
                                                         <option value="">Select Status</option>
                                                         <option value="cleared"
                                                             {{ $schedule->status == 'cleared' ? 'selected' : '' }}>Cleared
@@ -492,14 +575,15 @@
                                                 </td>
 
                                                 <td>
-                                                    <textarea class="form-control comments" rows="2" {{ $schedule->id ? '' : 'disabled' }}>{{ $schedule->comments }}</textarea>
+                                                    <textarea class="form-control comments" rows="2" {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewStatus ? 'disabled' : '' }}>{{ $schedule->comments }}</textarea>
                                                 </td>
 
                                                 <td>
-                                                    <button type="button" class="btn btn-info btn-sm saveBtn">
-                                                        {{ $schedule->id ? 'Update' : 'Save' }}
+                                                    <button type="button" class="btn btn-info btn-sm saveBtn"
+                                                        {{ $schedule->status ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'Completed' : ($schedule->id ? 'Update' : 'Save') }}
                                                     </button>
-
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -517,7 +601,8 @@
                                                     </select>
                                                 </td>
 
-                                                <td><input type="date" class="form-control date"></td>
+                                                <td><input type="text" class="form-control datepicker"
+                                                        placeholder="Select Date"></td>
                                                 <td><input type="time" class="form-control time"></td>
 
                                                 <td>
@@ -622,7 +707,7 @@
                             Interview saved successfully and email sent.
                         </p>
 
-                        <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-success px-4" data-bs-dismiss="modal" id="successOkBtn">
                             OK
                         </button>
                     </div>
@@ -630,106 +715,253 @@
             </div>
         </div>
 
+        <!-- Edit Confirmation Letter Modal -->
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Confirmation Email</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="confirmationForm" method="POST" action="{{ route('onboarding.updateTemplate') }}">
+                            @csrf
+                            @method('PATCH')
+                            <div class="mb-3">
+                                <label for="emailSubject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="emailSubject" name="subject"
+                                    value="{{ $candidate->email_template ? json_decode($candidate->email_template)->subject : $confirmationTemplate->subject ?? 'Confirmation Letter' }}">
+                            </div>
 
+                            <div class="mb-3">
+                                <label class="form-label">Body</label>
+                                <textarea id="emailBody" name="body" style="display:none;">
+                            {!! $candidate->email_template
+                                ? json_decode($candidate->email_template)->body
+                                : $confirmationTemplate->body ?? '' !!}
+                        </textarea>
+                                <div id="emailEditor"
+                                    style="border:1px solid #ddd; border-radius:5px; padding:20px; min-height:300px; background:#fff; overflow:auto;">
+                                </div>
+                            </div>
+
+                            <input type="hidden" name="candidate_id" value="{{ $candidate->id }}">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" id="confirmSendBtn">Update Email</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Success Modal (already exists, can reuse) -->
+        <div class="modal fade" id="sendConfirmModal" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content rounded-4">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title fw-semibold">Send Confirmation Email</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <p class="mb-3">Are you sure you want to send this confirmation email?</p>
+                    </div>
+                    <div class="modal-footer border-0 justify-content-center">
+                        <button type="button" class="btn btn-light px-4" data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary px-4" id="finalSendBtn">Yes, Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="previewModal" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content bg-transparent border-0 shadow-none">
+                    <div class="modal-header border-0">
+                        <button type="button" class="btn-close bg-light" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body d-flex justify-content-center">
+                        <div id="a4Preview">
+                            <div id="previewContent">
+                                <div id="previewBody"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
 
 @push('after_scripts')
+    <!-- CKEditor -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script>
-    const candidateStatus = "{{ $candidate->status }}";
-    const candidateId = "{{ $candidate->id }}";
+        function initInterviewDatePicker() {
+            flatpickr(".datepicker", {
+                dateFormat: "d-m-Y",
+                minDate: "today",
+                allowInput: true
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            initInterviewDatePicker();
+        });
+    </script>
 
-    let pendingPayload = null;
-    let pendingBtn = null;
+    <script>
+        $('#previewConfirmationBtn').on('click', function() {
+            var subject = $('#emailSubject').val();
+            var body = '';
+            if (typeof emailEditor !== 'undefined' && emailEditor) {
+                body = emailEditor.getData();
+            }
+            if (!subject) {
+                subject =
+                    `{{ $candidate->email_template ? json_decode($candidate->email_template)->subject : $confirmationTemplate->subject ?? '' }}`;
+            }
+            if (!body) {
+                body = $('#emailBody').val();
+            }
+            $('#previewSubject').text(subject);
+            $('#previewBody').html(body);
+            $('#a4Preview').addClass('no-bg');
+            const previewModal = new bootstrap.Modal(document.getElementById('previewModal'));
+            previewModal.show();
+        });
+        document.getElementById('successOkBtn')?.addEventListener('click', function() {
+            window.location.reload();
+        });
+    </script>
 
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('saveBtn')) {
-            e.preventDefault();
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+    <script>
+        let emailEditor;
+        ClassicEditor
+            .create(document.querySelector('#emailEditor'), {
+                initialData: document.querySelector('#emailBody').value
+            })
+            .then(editor => {
+                emailEditor = editor;
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        document.getElementById('confirmSendBtn').addEventListener('click', function() {
+            document.querySelector('#emailBody').value = emailEditor.getData();
+            document.getElementById('confirmationForm').submit();
+        });
+    </script>
+    <script>
+        const candidateStatus = "{{ $candidate->status }}";
+        const candidateId = "{{ $candidate->id }}";
 
-            const btn = e.target;
-            const tr = btn.closest('tr');
+        let pendingPayload = null;
 
-            const data = {
-                round: tr.querySelector('.round').value,
-                mode: tr.querySelector('.mode').value,
-                date: tr.querySelector('.date').value,
-                time: tr.querySelector('.time').value,
-                venue: tr.querySelector('.venue').value,
-                description: tr.querySelector('.description').value,
-                status: tr.querySelector('.status').value,
-                comments: tr.querySelector('.comments').value,
-            };
+        document.addEventListener('click', function(e) {
 
-            const scheduleId = tr.dataset.id;
-            const url = scheduleId ?
-                `/onboarding/interview-status/${scheduleId}` :
-                `/onboarding/${candidateId}/interview-schedule`;
+            if (e.target.classList.contains('saveBtn')) {
 
-            pendingPayload = {
+                e.preventDefault();
+
+                const btn = e.target;
+                const tr = btn.closest('tr');
+
+                const data = {
+                    round: tr.querySelector('.round')?.value,
+                    mode: tr.querySelector('.mode')?.value,
+                    date: tr.querySelector('.datepicker')?.value,
+                    time: tr.querySelector('.time')?.value,
+                    venue: tr.querySelector('.venue')?.value,
+                    description: tr.querySelector('.description')?.value,
+                    status: tr.querySelector('.status')?.value,
+                    comments: tr.querySelector('.comments')?.value,
+                };
+
+                const scheduleId = tr.dataset.id;
+
+                const url = scheduleId ?
+                    `/onboarding/interview-status/${scheduleId}` :
+                    `/onboarding/${candidateId}/interview-schedule`;
+
+                pendingPayload = {
+                    btn,
+                    tr,
+                    data,
+                    scheduleId,
+                    url
+                };
+
+                const confirmModal = new bootstrap.Modal(document.getElementById('saveConfirmModal'));
+                confirmModal.show();
+            }
+        });
+
+        document.getElementById('confirmSaveBtn').addEventListener('click', function() {
+
+            if (!pendingPayload) return;
+
+            const confirmBtn = this;
+            confirmBtn.disabled = true;
+            confirmBtn.innerText = 'Saving...';
+
+            const {
                 btn,
                 tr,
                 data,
                 scheduleId,
                 url
-            };
-            pendingBtn = btn;
+            } = pendingPayload;
 
-            const confirmModal = new bootstrap.Modal(document.getElementById('saveConfirmModal'));
-            confirmModal.show();
-        }
-    });
+            btn.disabled = true;
+            btn.innerText = 'Saving...';
 
-    document.getElementById('confirmSaveBtn').addEventListener('click', function() {
-        if (!pendingPayload) return;
+            fetch(url, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(async response => {
+                    if (!response.ok) {
+                        const text = await response.text();
+                        throw new Error(text);
+                    }
+                    return response.json();
+                })
+                .then(res => {
 
-        const confirmBtn = this;
-        const originalText = confirmBtn.innerText;
+                    window.location.reload();
+                    if (!data.status) {
+                        tr.querySelectorAll('.round, .mode, .date, .time, .venue, .description')
+                            .forEach(input => input.setAttribute('disabled', true));
+                        tr.querySelector('.status')?.removeAttribute('disabled');
+                        tr.querySelector('.comments')?.removeAttribute('disabled');
+                        btn.disabled = false;
+                        btn.innerText = 'Update';
+                    }
+                    if (data.status) {
+                        tr.querySelectorAll('input, select, textarea, button')
+                            .forEach(el => el.setAttribute('disabled', true));
 
-        // 👉 change Yes, Proceed to Sending...
-        confirmBtn.disabled = true;
-        confirmBtn.innerText = 'Sending...';
+                        btn.innerText = 'Completed';
+                        btn.disabled = true;
+                    }
+                    if (res.new_schedule) {
 
-        const {
-            btn,
-            tr,
-            data,
-            scheduleId,
-            url
-        } = pendingPayload;
-
-        btn.disabled = true;
-        btn.innerText = 'Saving...';
-
-        fetch(url, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify(data)
-            })
-            .then(async res => {
-                if (!res.ok) {
-                    const text = await res.text();
-                    throw new Error(text);
-                }
-                return res.json();
-            })
-            .then(res => {
-                if (res.success) {
-                    if (
-                        data.status === 'postponed' &&
-                        !tr.dataset.newRowAdded &&
-                        res.candidate_status === 'interview_postponed'
-                    ) {
-                        const allRounds = Array.from(document.querySelectorAll('.round'))
-                            .map(r => parseInt(r.value.replace('R', '')));
-                        const nextRoundNumber = Math.max(...allRounds) + 1;
+                        const schedule = res.new_schedule;
 
                         const newRow = `
-                            <tr>
-                                <td><input type="text" class="form-control round" value="R${nextRoundNumber}"></td>
+                            <tr data-id="${schedule.id}">
+                                <td>
+                                    <input type="text" class="form-control round" value="${schedule.round}">
+                                </td>
+
                                 <td>
                                     <select class="form-control mode">
                                         <option value="">Select Mode</option>
@@ -738,10 +970,24 @@
                                         <option value="on_call">On Call</option>
                                     </select>
                                 </td>
-                                <td><input type="date" class="form-control date"></td>
-                                <td><input type="time" class="form-control time"></td>
-                                <td><textarea class="form-control venue" rows="2"></textarea></td>
-                                <td><textarea class="form-control description" rows="2"></textarea></td>
+
+                                <td>
+                                    <input type="text" class="form-control datepicker" placeholder="Select Date">
+                                </td>
+
+                                <td>
+                                    <input type="time" class="form-control time">
+                                </td>
+
+                                <td>
+                                    <textarea class="form-control venue" rows="2"></textarea>
+                                </td>
+
+                                <td>
+                                    <textarea class="form-control description" rows="2"></textarea>
+                                </td>
+
+                                <!-- Status Disabled Initially -->
                                 <td>
                                     <select class="form-control status" disabled>
                                         <option value="">Select Status</option>
@@ -750,84 +996,164 @@
                                         <option value="postponed">Postponed</option>
                                     </select>
                                 </td>
-                                <td><textarea class="form-control comments" rows="2" disabled></textarea></td>
-                                <td><button class="btn btn-info btn-sm saveBtn">Save</button></td>
+
+                                <td>
+                                    <textarea class="form-control comments" rows="2" disabled></textarea>
+                                </td>
+
+                                <td>
+                                    <button type="button" class="btn btn-info btn-sm saveBtn">
+                                        Save
+                                    </button>
+                                </td>
                             </tr>
-                        `;
+                            `;
 
-                        document.getElementById('interviewBody').insertAdjacentHTML('beforeend', newRow);
-                        tr.querySelectorAll('input, select, textarea, button').forEach(el => el.disabled = true);
-                        tr.dataset.newRowAdded = true;
-
-                        btn.innerText = 'Saved';
-                        const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                        successModal.show();
-                        return;
+                        document.getElementById('interviewBody')
+                            .insertAdjacentHTML('beforeend', newRow);
                     }
 
-                    const successModal = new bootstrap.Modal(document.getElementById('successModal'));
-                    successModal.show();
-
-                    document.getElementById('successModal').addEventListener('hidden.bs.modal', function() {
-                        window.location.reload();
-                    });
-
-                } else {
-                    alert('Something went wrong!');
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("Something went wrong. Check console.");
                     btn.disabled = false;
-                    btn.innerText = scheduleId ? 'Update' : 'Save';
-                }
-            })
-            .catch(err => {
-                console.error(err);
-                alert('Error! Check console.');
-                btn.disabled = false;
-                btn.innerText = scheduleId ? 'Update' : 'Save';
-            })
-            .finally(() => {
-                // restore confirm button text
-                confirmBtn.disabled = false;
-                confirmBtn.innerText = originalText;
+                    btn.innerText = 'Save';
+                })
+                .finally(() => {
 
-                const cm = bootstrap.Modal.getInstance(document.getElementById('saveConfirmModal'));
-                if (cm) cm.hide();
-                pendingPayload = null;
-            });
-    });
-</script>
+                    const cm = bootstrap.Modal.getInstance(
+                        document.getElementById('saveConfirmModal')
+                    );
+                    if (cm) cm.hide();
 
+                    confirmBtn.disabled = false;
+                    confirmBtn.innerText = 'Yes, Proceed';
 
-
+                    pendingPayload = null;
+                });
+        });
+    </script>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const steps = document.querySelectorAll('.workflow-step');
-            const workflow = document.querySelector('.workflow');
+        document.addEventListener('DOMContentLoaded', function() {
+            const editBtn = document.getElementById('editConfirmationBtn');
+            const sendBtn = document.getElementById('sendConfirmationBtn');
+            const confirmSendBtn = document.getElementById('confirmSendBtn');
+            const finalSendBtn = document.getElementById('finalSendBtn');
+            const confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            const sendConfirmModal = new bootstrap.Modal(document.getElementById('sendConfirmModal'));
+            const successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            const candidateId = "{{ $candidate->id }}";
+            if (editBtn) {
+                editBtn.addEventListener('click', function() {
+                    confirmationModal.show();
+                });
+            }
+            if (sendBtn) {
+                sendBtn.addEventListener('click', function() {
+                    sendConfirmModal.show();
+                });
+            }
+            if (finalSendBtn) {
+                finalSendBtn.addEventListener('click', function() {
+                    finalSendBtn.disabled = true;
+                    finalSendBtn.innerText = "Sending...";
+                    fetch("{{ route('onboarding.sendConfirmation') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify({
+                                candidate_id: candidateId
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                sendConfirmModal.hide();
+                                successModal.show();
+                            }
+                        })
+                        .finally(() => {
+                            finalSendBtn.disabled = false;
+                            finalSendBtn.innerText = "Yes, Send";
+                        });
+                });
+            }
+
+            if (confirmSendBtn) {
+                confirmSendBtn.addEventListener('click', function() {
+                    const formData = {
+                        subject: document.getElementById('emailSubject').value,
+                        body: emailEditor.getData(),
+                        candidate_id: candidateId
+                    };
+                    confirmSendBtn.disabled = true;
+                    confirmSendBtn.innerText = 'Updating...';
+                    fetch("{{ route('onboarding.updateTemplate') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            },
+                            body: JSON.stringify(formData)
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.success) {
+                                confirmationModal.hide();
+                                successModal.show();
+                            }
+                        })
+                        .catch(err => {
+                            console.error(err);
+                        })
+                        .finally(() => {
+                            confirmSendBtn.disabled = false;
+                            confirmSendBtn.innerText = 'Update Email';
+                        });
+                });
+            }
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            const steps = $('.workflow-step');
+            const workflow = $('.workflow');
             let candidateStatus = "{{ $candidate->status }}";
             const statusMap = {
                 applied: 1,
                 shortlisted: 2,
                 interview_scheduled: 3,
                 interview_postponed: 3,
+                interview_rejected: 3,
                 selected: 4,
                 placed: 5,
                 rejected: 2
             };
 
             function renderWorkflow(status) {
+
                 const currentLevel = statusMap[status] || 1;
-                steps.forEach(step => {
-                    step.classList.remove('completed', 'active', 'rejected');
-                });
-                if (status !== 'rejected') {
-                    steps.forEach((step, index) => {
+                steps.removeClass('completed active rejected');
+                workflow.removeClass('rejected');
+
+                // ✅ NORMAL FLOW
+                if (status !== 'rejected' && status !== 'interview_rejected') {
+
+                    steps.each(function(index) {
                         const stepNumber = index + 1;
+
                         if (stepNumber < currentLevel) {
-                            step.classList.add('completed');
+                            $(this).addClass('completed');
                         } else if (stepNumber === currentLevel) {
-                            step.classList.add('active');
+                            $(this).addClass('active');
                         }
                     });
+
                     const percentMap = {
                         1: 0,
                         2: 22,
@@ -835,70 +1161,109 @@
                         4: 62,
                         5: 100
                     };
-                    let percent = percentMap[currentLevel] ?? 0;
-                    workflow.style.setProperty('--workflow-green', percent + '%');
-                } else {
-                    steps[0].classList.add('completed');
-                    const rejectedStep = steps[1];
-                    rejectedStep.classList.add('rejected');
-                    const icon = rejectedStep.querySelector('.step-icon i');
-                    if (icon) {
-                        icon.className = 'fa-solid fa-xmark';
-                    }
-                    workflow.classList.add('rejected');
-                    workflow.style.setProperty('--workflow-green', '22%');
+
+                    workflow.css('--workflow-green', (percentMap[currentLevel] ?? 0) + '%');
+                }
+
+                // ❌ SHORTLIST REJECT
+                else if (status === 'rejected') {
+
+                    steps.eq(0).addClass('completed'); // Submission
+                    const rejectedStep = steps.eq(1); // Shortlist
+
+                    rejectedStep.addClass('rejected');
+
+                    rejectedStep.find('.step-icon i')
+                        .attr('class', 'fa-solid fa-xmark');
+
+                    workflow.addClass('rejected');
+                    workflow.css('--workflow-green', '22%');
+                }
+
+                // ❌ INTERVIEW REJECT  ✅ FIXED
+                else if (status === 'interview_rejected') {
+
+                    steps.eq(0).addClass('completed'); // Submission
+                    steps.eq(1).addClass('completed'); // Shortlist
+
+                    const rejectedStep = steps.eq(2); // Interview
+
+                    rejectedStep.addClass('rejected');
+
+                    rejectedStep.find('.step-icon i')
+                        .attr('class', 'fa-solid fa-xmark');
+
+                    workflow.addClass('rejected');
+                    workflow.css('--workflow-green', '44%');
                 }
             }
+
+
             renderWorkflow(candidateStatus);
+
             const shortlistModal = new bootstrap.Modal(document.getElementById('shortlist_modal'));
-            const shortlistMessage = document.getElementById('shortlistMessage');
-            const shortlistRadio = document.getElementById('shortlisted');
-            const notShortlistRadio = document.getElementById('not-shortlisted');
-            const interviewSection = document.getElementById('interviewSection');
+            const shortlistMessage = $('#shortlistMessage');
             let selectedStatus = null;
-            shortlistRadio.addEventListener('click', function(e) {
+
+            $('#shortlisted').on('click', function(e) {
                 e.preventDefault();
-                shortlistMessage.textContent = "Are you sure you want to shortlist this candidate?";
+                shortlistMessage.text("Are you sure you want to shortlist this candidate?");
                 selectedStatus = "shortlisted";
                 shortlistModal.show();
             });
-            notShortlistRadio.addEventListener('click', function(e) {
+
+            $('#not-shortlisted').on('click', function(e) {
                 e.preventDefault();
-                shortlistMessage.textContent = "Are you sure you want to mark as not shortlisted?";
+                shortlistMessage.text("Are you sure you want to mark as not shortlisted?");
                 selectedStatus = "rejected";
                 shortlistModal.show();
             });
-            document.getElementById('confirmShortlistBtn').addEventListener('click', function() {
-                const btn = this;
-                btn.disabled = true;
-                btn.innerText = "Sending Email...";
-                fetch("{{ route('onboarding.shortlist', $candidate->id) }}", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                            "X-CSRF-TOKEN": "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({
-                            status: selectedStatus
-                        })
-                    })
-                    .then(res => res.json())
-                    .then(data => {
+
+            $('#confirmShortlistBtn').on('click', function() {
+                const btn = $(this);
+                btn.prop('disabled', true).text("Sending Email...");
+
+                $.ajax({
+                    url: "{{ route('onboarding.shortlist', $candidate->id) }}",
+                    method: "POST",
+                    data: {
+                        status: selectedStatus,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(data) {
                         if (data.success) {
-                            window.location.reload();
+                            location.reload();
                         } else {
                             alert("Something went wrong!");
                         }
-                    })
-                    .catch(err => {
+                    },
+                    error: function(err) {
                         alert("Something went wrong!");
-                    })
-                    .finally(() => {
-                        btn.disabled = false;
-                        btn.innerText = "Yes, Proceed";
-                    });
+                    },
+                    complete: function() {
+                        btn.prop('disabled', false).text("Yes, Proceed");
+                    }
+                });
             });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const today = new Date();
+            const minDate = today.toISOString().split('T')[0];
+            document.querySelectorAll('input.date').forEach(function(input) {
+                input.setAttribute('min', minDate);
+            });
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('#interviewBody tr').forEach(function(row) {
+                const dateInput = row.querySelector('input.date');
+                const timeInput = row.querySelector('input.time');
 
+                if (dateInput && timeInput) {
+                    timeInput.removeAttribute('min');
+                }
+            });
         });
     </script>
 @endpush

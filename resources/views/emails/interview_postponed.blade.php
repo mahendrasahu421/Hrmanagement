@@ -3,16 +3,16 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Application Status</title>
+    <title>Interview Postponed</title>
 </head>
 
-<body style="font-family: Arial, sans-serif; background-color: #f4f6f8; margin:0; padding:0;">
+<body style="font-family: Arial, sans-serif; background-color:#f4f6f8; margin:0; padding:0;">
 
-    <table width="100%" cellpadding="0" cellspacing="0" style="padding: 20px 0;">
+    <table width="100%" cellpadding="0" cellspacing="0" style="padding:20px 0;">
         <tr>
             <td align="center">
                 <table width="600" cellpadding="0" cellspacing="0"
-                    style="background-color: #ffffff; box-shadow: 0 4px 10px rgba(0,0,0,0.1); overflow: hidden;">
+                    style="background:#ffffff; border:1px solid #e5e5e5;">
 
                     <!-- Header -->
                     <tr>
@@ -33,6 +33,7 @@
                         </td>
                     </tr>
 
+                    <!-- Body -->
                     <tr>
                         <td style="padding: 30px 25px; color:#333; font-size:16px; line-height:1.6;">
                             {!! $template_body !!}
