@@ -6,6 +6,7 @@ use App\Models\JobApplication;
 use App\Models\InterviewSchedule;
 use App\Models\Company;
 use App\Models\AcflJobs;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -44,11 +45,11 @@ class InterviewScheduleMail extends Mailable
                 '{job_title}'      => $jobTitle,
                 '{round}'          => $schedule->round,
                 '{mode}'           => ucfirst($schedule->mode),
-                '{date}'           => \Carbon\Carbon::parse($schedule->date)->format('d-m-Y'),
-                '{time}'           => $schedule->time,
+                '{date}'           => Carbon::parse($schedule->date)->format('d-m-Y'),
+                '{time}'           => Carbon::parse($schedule->time)->format('h:i A'),
                 '{venue}'          => $schedule->venue ?? 'N/A',
                 '{description}'    => $schedule->description ?? '',
-                 '{comments}'       => $schedule->comments ?? 'N/A',
+                 '{comments}'      => $schedule->comments ?? 'N/A',
             ])
             : '';
     }

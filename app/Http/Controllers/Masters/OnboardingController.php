@@ -21,6 +21,7 @@ use App\Models\Company;
 use App\Models\EmailTemplate;
 use App\Models\InterviewSchedule;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 
 class OnboardingController extends Controller
 {
@@ -128,17 +129,19 @@ class OnboardingController extends Controller
         $request->validate([
             'round' => 'required|string',
             'mode' => 'required|in:offline,online,on_call',
-            'date' => 'required|date',
+            'date' => 'required|date_format:d-m-Y',
             'time' => 'required',
             'venue' => 'nullable|string',
             'description' => 'nullable|string',
         ]);
+        $date = Carbon::createFromFormat('d-m-Y', $request->date)
+            ->format('Y-m-d');
 
         $schedule = InterviewSchedule::create([
             'job_application_id' => $id,
             'round' => $request->round,
             'mode' => $request->mode,
-            'date' => $request->date,
+            'date' => $date,
             'time' => $request->time,
             'venue' => $request->venue,
             'description' => $request->description,
@@ -150,7 +153,7 @@ class OnboardingController extends Controller
         $template = EmailTemplate::where('template_key', $templateKey)->first();
         $candidateEmail = $candidate->email;
         $adminEmails = User::where('role_id', 2)->pluck('email')->toArray();
-        $hrEmails    = User::where('role_id', 3)->pluck('email')->toArray();
+        $hrEmails = User::where('role_id', 3)->pluck('email')->toArray();
         $allRecipients = array_merge([$candidateEmail], $adminEmails, $hrEmails);
         Mail::to($allRecipients)->send(
             new InterviewScheduleMail($candidate, $schedule, $template)
@@ -166,7 +169,7 @@ class OnboardingController extends Controller
         $request->validate([
             'round' => 'required|string',
             'mode' => 'required|in:offline,online,on_call',
-            'date' => 'required|date',
+            'date' => 'required|date_format:d-m-Y',
             'time' => 'required',
             'venue' => 'nullable|string',
             'description' => 'nullable|string',
@@ -178,6 +181,11 @@ class OnboardingController extends Controller
         $oldTime  = $schedule->time;
         $oldMode  = $schedule->mode;
         $oldVenue = $schedule->venue;
+        $convertedDate = Carbon::createFromFormat('d-m-Y', $request->date)
+            ->format('Y-m-d');
+        $request->merge([
+            'date' => $convertedDate
+        ]);
         $schedule->update($request->all());
         $candidate = JobApplication::findOrFail($schedule->job_application_id);
         $newSchedule = null;
@@ -189,7 +197,7 @@ class OnboardingController extends Controller
                     ->send(new InterviewClearedMail($candidate, $schedule, $template));
             }
         } elseif ($request->status === 'rejected') {
-            $candidate->status = 'rejected';
+            $candidate->status = 'interview_rejected';
             $template = EmailTemplate::where('template_key', 'interview_rejected')->first();
             if ($template) {
                 Mail::to($this->getRecipients($candidate))
@@ -197,7 +205,6 @@ class OnboardingController extends Controller
             }
         } elseif ($request->status === 'postponed') {
             $candidate->status = 'interview_postponed';
-
             $currentRoundNumber = (int) filter_var($schedule->round, FILTER_SANITIZE_NUMBER_INT);
             $nextRound = 'R' . ($currentRoundNumber + 1);
             $newSchedule = InterviewSchedule::create([
@@ -210,6 +217,9 @@ class OnboardingController extends Controller
                     ->send(new InterviewPostponedMail($candidate, $schedule, $template));
             }
         } else {
+            if ($candidate->status === 'interview_postponed') {
+                $candidate->status = 'interview_scheduled';
+            }
             $isRescheduled =
                 $oldDate  != $schedule->date ||
                 $oldTime  != $schedule->time ||

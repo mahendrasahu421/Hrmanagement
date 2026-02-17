@@ -176,6 +176,8 @@ class AppliedController extends Controller
                     $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-warning">Interview Scheduled</a>';
                 } elseif ($candidate->status === 'interview_postponed') {
                     $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-info">Interview Postponed</a>';
+                } elseif ($candidate->status === 'interview_rejected') {
+                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-danger">Interview Rejected</a>';
                 } elseif ($candidate->status === 'selected') {
                     $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-success">Selected</a>';
                 } elseif ($candidate->status === 'rejected') {

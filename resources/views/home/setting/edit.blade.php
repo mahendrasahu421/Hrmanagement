@@ -131,8 +131,10 @@
                                 </div>
                                 <div
                                     style="background:#f1f1f1; padding:15px; font-size:12px; text-align:center; color:#555;">
-                                    {{ $company->address }}
+                                    © {{ date('Y') }} {{ $company->company_name }} | Powered by Neural Info Solutions
+                                    Private Limited
                                 </div>
+
                             </div>
                         </div>
                     </div>

@@ -12,7 +12,7 @@
             <td align="center">
                 <table width="600" cellpadding="0" cellspacing="0"
                     style="background:#ffffff; border:1px solid #e5e5e5;">
-                    
+
                     <tr>
                         <td style="background: linear-gradient(135deg, #ff6b00, #ff9b00); padding: 20px;">
                             <table width="100%" cellpadding="0" cellspacing="0">
@@ -39,7 +39,8 @@
 
                     <tr>
                         <td style="background:#f1f1f1; text-align:center; padding:15px; font-size:12px; color:#555;">
-                            {{ $companyDetails[0]->address ?? '' }}
+                            © {{ date('Y') }} {{ $companyDetails[0]->company_name ?? 'Our Company' }}
+                            | Powered by Neural Info Solutions Private Limited
                         </td>
                     </tr>
 

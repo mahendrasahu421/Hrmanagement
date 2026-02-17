@@ -282,6 +282,36 @@
             color: #000;
             overflow: hidden;
         }
+
+        :root {
+            --fp-main: #f37438;
+        }
+
+        .flatpickr-months .flatpickr-month,
+        .flatpickr-current-month input.cur-year {
+            color: var(--fp-main);
+        }
+
+        .flatpickr-prev-month svg,
+        .flatpickr-next-month svg {
+            fill: var(--fp-main);
+        }
+
+        .flatpickr-day:hover {
+            background: rgba(243, 116, 56, 0.15);
+            color: #000;
+            border-radius: 50px;
+        }
+
+        .flatpickr-day.selected {
+            background: var(--fp-main);
+            color: #fff;
+            border-radius: 50px;
+        }
+
+        .flatpickr-day.today {
+            border-color: var(--fp-main);
+        }
     </style>
 
     <div class="page-wrapper">
@@ -381,7 +411,14 @@
                     <div class="step-icon"><i class="fa-solid fa-check"></i></div>
                     <p>Shortlist</p>
 
-                    @if (in_array($candidate->status, ['shortlisted', 'interview_scheduled', 'interview_postponed', 'selected', 'placed']))
+                    @if (in_array($candidate->status, [
+                            'shortlisted',
+                            'interview_scheduled',
+                            'interview_postponed',
+                            'interview_rejected',
+                            'selected',
+                            'placed',
+                        ]))
                         <div class="mt-2">
                             <span class="badge bg-primary">Shortlisted</span>
                         </div>
@@ -415,7 +452,7 @@
 
                         @if ($candidate->confirmation_letter === 'send')
                             <div class="mt-2">
-                                <span class="badge bg-success">Sent</span>
+                                <span class="badge bg-primary">Sent</span>
                             </div>
                         @else
                             <div class="mt-2 confirmation-actions" style="display:flex; gap:10px; justify-content:center;">
@@ -436,8 +473,12 @@
             </div>
 
             <!-- Interview Table -->
+            @php
+                $disableInterviewFields = $candidate->status === 'interview_scheduled';
+                $disableInterviewStatus = $candidate->status === 'interview_postponed';
+            @endphp
             <div class="row mt-5" id="interviewSection"
-                style="{{ in_array($candidate->status, ['shortlisted', 'interview_scheduled', 'interview_postponed', 'selected']) ? '' : 'display:none;' }}">
+                style="{{ in_array($candidate->status, ['shortlisted', 'interview_scheduled', 'interview_rejected', 'interview_postponed', 'selected']) ? '' : 'display:none;' }}">
 
                 <div class="col-sm-12">
                     <div class="card">
@@ -471,12 +512,14 @@
                                                 <td>
                                                     <input type="text" class="form-control round"
                                                         value="{{ $schedule->round }}"
-                                                        {{ $schedule->status ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>
                                                 </td>
 
                                                 <td>
                                                     <select class="form-control mode select2"
-                                                        {{ $schedule->status ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>
                                                         <option value="">Select Mode</option>
                                                         <option value="offline"
                                                             {{ $schedule->mode == 'offline' ? 'selected' : '' }}>Offline
@@ -491,28 +534,33 @@
                                                 </td>
 
                                                 <td>
-                                                    <input type="date" class="form-control date"
-                                                        value="{{ $schedule->date }}"
-                                                        {{ $schedule->status ? 'disabled' : '' }}>
+                                                    <input type="text" class="form-control datepicker"
+                                                        value="{{ \Carbon\Carbon::parse($schedule->date)->format('d-m-Y') }}"
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>
                                                 </td>
 
                                                 <td>
                                                     <input type="time" class="form-control time"
                                                         value="{{ $schedule->time }}"
-                                                        {{ $schedule->status ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>
                                                 </td>
 
                                                 <td>
-                                                    <textarea class="form-control venue" rows="2" {{ $schedule->status ? 'disabled' : '' }}>{{ $schedule->venue }}</textarea>
+                                                    <textarea class="form-control venue" rows="2" {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>{{ $schedule->venue }}</textarea>
                                                 </td>
 
                                                 <td>
-                                                    <textarea class="form-control description" rows="2" {{ $schedule->status ? 'disabled' : '' }}>{{ $schedule->description }}</textarea>
+                                                    <textarea class="form-control description" rows="2" {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewFields ? 'disabled' : '' }}>{{ $schedule->description }}</textarea>
                                                 </td>
 
                                                 <td>
                                                     <select class="form-control status select2"
-                                                        {{ $schedule->status ? 'disabled' : '' }}>
+                                                        {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewStatus ? 'disabled' : '' }}>
                                                         <option value="">Select Status</option>
                                                         <option value="cleared"
                                                             {{ $schedule->status == 'cleared' ? 'selected' : '' }}>Cleared
@@ -527,7 +575,8 @@
                                                 </td>
 
                                                 <td>
-                                                    <textarea class="form-control comments" rows="2" {{ $schedule->status ? 'disabled' : '' }}>{{ $schedule->comments }}</textarea>
+                                                    <textarea class="form-control comments" rows="2" {{ $schedule->status ? 'disabled' : '' }} ||
+                                                        {{ $disableInterviewStatus ? 'disabled' : '' }}>{{ $schedule->comments }}</textarea>
                                                 </td>
 
                                                 <td>
@@ -552,7 +601,8 @@
                                                     </select>
                                                 </td>
 
-                                                <td><input type="date" class="form-control date"></td>
+                                                <td><input type="text" class="form-control datepicker"
+                                                        placeholder="Select Date"></td>
                                                 <td><input type="time" class="form-control time"></td>
 
                                                 <td>
@@ -746,6 +796,21 @@
 
 @push('after_scripts')
     <!-- CKEditor -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        function initInterviewDatePicker() {
+            flatpickr(".datepicker", {
+                dateFormat: "d-m-Y",
+                minDate: "today",
+                allowInput: true
+            });
+        }
+        document.addEventListener("DOMContentLoaded", function() {
+            initInterviewDatePicker();
+        });
+    </script>
+
     <script>
         $('#previewConfirmationBtn').on('click', function() {
             var subject = $('#emailSubject').val();
@@ -807,7 +872,7 @@
                 const data = {
                     round: tr.querySelector('.round')?.value,
                     mode: tr.querySelector('.mode')?.value,
-                    date: tr.querySelector('.date')?.value,
+                    date: tr.querySelector('.datepicker')?.value,
                     time: tr.querySelector('.time')?.value,
                     venue: tr.querySelector('.venue')?.value,
                     description: tr.querySelector('.description')?.value,
@@ -907,7 +972,7 @@
                                 </td>
 
                                 <td>
-                                    <input type="date" class="form-control date">
+                                    <input type="text" class="form-control datepicker" placeholder="Select Date">
                                 </td>
 
                                 <td>
@@ -1064,18 +1129,24 @@
                 shortlisted: 2,
                 interview_scheduled: 3,
                 interview_postponed: 3,
+                interview_rejected: 3,
                 selected: 4,
                 placed: 5,
                 rejected: 2
             };
 
             function renderWorkflow(status) {
+
                 const currentLevel = statusMap[status] || 1;
                 steps.removeClass('completed active rejected');
+                workflow.removeClass('rejected');
 
-                if (status !== 'rejected') {
+                // ✅ NORMAL FLOW
+                if (status !== 'rejected' && status !== 'interview_rejected') {
+
                     steps.each(function(index) {
                         const stepNumber = index + 1;
+
                         if (stepNumber < currentLevel) {
                             $(this).addClass('completed');
                         } else if (stepNumber === currentLevel) {
@@ -1090,20 +1161,43 @@
                         4: 62,
                         5: 100
                     };
-                    let percent = percentMap[currentLevel] ?? 0;
-                    workflow.css('--workflow-green', percent + '%');
-                } else {
-                    steps.eq(0).addClass('completed');
-                    const rejectedStep = steps.eq(1);
+
+                    workflow.css('--workflow-green', (percentMap[currentLevel] ?? 0) + '%');
+                }
+
+                // ❌ SHORTLIST REJECT
+                else if (status === 'rejected') {
+
+                    steps.eq(0).addClass('completed'); // Submission
+                    const rejectedStep = steps.eq(1); // Shortlist
+
                     rejectedStep.addClass('rejected');
-                    const icon = rejectedStep.find('.step-icon i');
-                    if (icon.length) {
-                        icon.attr('class', 'fa-solid fa-xmark');
-                    }
+
+                    rejectedStep.find('.step-icon i')
+                        .attr('class', 'fa-solid fa-xmark');
+
                     workflow.addClass('rejected');
                     workflow.css('--workflow-green', '22%');
                 }
+
+                // ❌ INTERVIEW REJECT  ✅ FIXED
+                else if (status === 'interview_rejected') {
+
+                    steps.eq(0).addClass('completed'); // Submission
+                    steps.eq(1).addClass('completed'); // Shortlist
+
+                    const rejectedStep = steps.eq(2); // Interview
+
+                    rejectedStep.addClass('rejected');
+
+                    rejectedStep.find('.step-icon i')
+                        .attr('class', 'fa-solid fa-xmark');
+
+                    workflow.addClass('rejected');
+                    workflow.css('--workflow-green', '44%');
+                }
             }
+
 
             renderWorkflow(candidateStatus);
 
@@ -1156,11 +1250,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const today = new Date();
-            const tomorrow = new Date(today);
-            tomorrow.setDate(today.getDate() + 1);
-
-            const minDate = tomorrow.toISOString().split('T')[0];
-
+            const minDate = today.toISOString().split('T')[0];
             document.querySelectorAll('input.date').forEach(function(input) {
                 input.setAttribute('min', minDate);
             });

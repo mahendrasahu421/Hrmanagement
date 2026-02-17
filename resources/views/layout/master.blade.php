@@ -234,7 +234,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="me-1 notification_item">
+                            {{-- <div class="me-1 notification_item">
                                 <a href="#" class="btn btn-menubar position-relative me-1"
                                     id="notification_popup" data-bs-toggle="dropdown">
                                     <i class="ti ti-bell"></i>
@@ -350,7 +350,7 @@
                                         <a href="#" class="btn btn-primary w-100">View All</a>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="dropdown profile-dropdown">
                                 <a href="javascript:void(0);" class="dropdown-toggle d-flex align-items-center"
                                     data-bs-toggle="dropdown">

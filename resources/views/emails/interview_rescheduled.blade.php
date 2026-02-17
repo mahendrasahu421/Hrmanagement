@@ -43,7 +43,8 @@
                     <!-- Footer -->
                     <tr>
                         <td style="background:#f1f1f1; text-align:center; padding:15px; font-size:12px; color:#555;">
-                            {{ $companyDetails[0]->address ?? '' }}
+                            © {{ date('Y') }} {{ $companyDetails[0]->company_name ?? 'Our Company' }}
+                            | Powered by Neural Info Solutions Private Limited
                         </td>
                     </tr>
 
