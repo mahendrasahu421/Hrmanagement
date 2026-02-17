@@ -165,7 +165,7 @@ class AppliedController extends Controller
                    </a>'
                     : '<span class="text-muted">N/A</span>';
 
-                $slug =Str::slug($candidate->first_name . ' ' . $candidate->last_name);
+                $slug = Str::slug($candidate->first_name . ' ' . $candidate->last_name);
                 $id   = $candidate->id;
                 $onboardingUrl = route('employee.onboarding', ['slug' => $slug, 'id' => $id]);
                 if ($candidate->status === 'applied') {
@@ -180,6 +180,8 @@ class AppliedController extends Controller
                     $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-danger">Interview Rejected</a>';
                 } elseif ($candidate->status === 'selected') {
                     $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-success">Selected</a>';
+                } elseif ($candidate->status === 'confirmation') { 
+                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-success">Confirmation</a>';
                 } elseif ($candidate->status === 'rejected') {
                     $actionHtml = '<span class="btn btn-sm btn-danger">Rejected</span>';
                 } else {

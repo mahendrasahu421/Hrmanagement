@@ -325,7 +325,7 @@
                         <div class="col-md-2 text-center mb-3">
 
                             <div>
-                                <img src="{{ $candidate && $candidate->candidate_image ? asset('storage/' . $candidate->candidate_image) : 'https://png.pngtree.com/png-vector/20231019/ourmid/pngtree-user-profile-avatar-png-image_10211467.png' }}"
+                                <img src="{{ asset($candidate->candidate_image) }}"
                                     style="width:90px;height:110px;border-radius:0;border:4px solid #ff6b00;object-fit:contain;box-shadow:0 4px 10px rgba(0,0,0,0.15);"
                                     alt="Candidate Image" />
 
@@ -333,7 +333,7 @@
 
                             @if ($candidate->resume)
                                 <div class="mt-3">
-                                    <a href="{{ asset('storage/' . $candidate->resume) }}" target="_blank"
+                                    <a href="{{ asset($candidate->resume) }}" target="_blank"
                                         style="display:inline-block;background: linear-gradient(135deg, #ff6b00, #ff9b00);color:#fff;padding:6px 18px;font-size:13px;border-radius:20px;font-weight:600;text-decoration:none;box-shadow:0 4px 10px rgba(0,0,0,0.12);">
                                         View CV
                                     </a>
@@ -417,6 +417,7 @@
                             'interview_postponed',
                             'interview_rejected',
                             'selected',
+                            'confirmation',
                             'placed',
                         ]))
                         <div class="mt-2">
@@ -447,12 +448,11 @@
                 <div class="workflow-step confirmation-step">
                     <div class="step-icon"><i class="fa-solid fa-file"></i></div>
                     <p>Confirmation Letter</p>
-
                     @if ($candidate->status === 'selected')
 
                         @if ($candidate->confirmation_letter === 'send')
                             <div class="mt-2">
-                                <span class="badge bg-primary">Sent</span>
+                                <span class="badge bg-success">Sent</span>
                             </div>
                         @else
                             <div class="mt-2 confirmation-actions" style="display:flex; gap:10px; justify-content:center;">
@@ -461,7 +461,10 @@
                                 <button class="btn btn-sm btn-success" id="sendConfirmationBtn">Send</button>
                             </div>
                         @endif
-
+                    @elseif (in_array($candidate->status, ['confirmation', 'placed']))
+                        <div class="mt-2">
+                            <span class="badge bg-primary">Sent</span>
+                        </div>
                     @endif
                 </div>
 
@@ -478,7 +481,16 @@
                 $disableInterviewStatus = $candidate->status === 'interview_postponed';
             @endphp
             <div class="row mt-5" id="interviewSection"
-                style="{{ in_array($candidate->status, ['shortlisted', 'interview_scheduled', 'interview_rejected', 'interview_postponed', 'selected']) ? '' : 'display:none;' }}">
+                style="{{ in_array($candidate->status, [
+                    'shortlisted',
+                    'interview_scheduled',
+                    'interview_rejected',
+                    'interview_postponed',
+                    'selected',
+                    'confirmation',
+                ])
+                    ? ''
+                    : 'display:none;' }}">
 
                 <div class="col-sm-12">
                     <div class="card">
@@ -1131,6 +1143,7 @@
                 interview_postponed: 3,
                 interview_rejected: 3,
                 selected: 4,
+                confirmation: 4,
                 placed: 5,
                 rejected: 2
             };

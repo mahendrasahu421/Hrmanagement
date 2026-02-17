@@ -36,13 +36,28 @@ class JobApplicationController extends Controller
             // Resume upload
             $resumePath = null;
             if ($request->hasFile('resume')) {
-                $resumePath = $request->file('resume')->store('resumes', 'public');
+
+                $resumeFile = $request->file('resume');
+                $resumeName = time() . '_resume.' . $resumeFile->getClientOriginalExtension();
+
+                $resumeFile->move(public_path('resumes'), $resumeName);
+
+                $resumePath = 'resumes/' . $resumeName;
             }
 
+
+            // Candidate Image upload
             $candidateImagePath = null;
             if ($request->hasFile('candidate_image')) {
-                $candidateImagePath = $request->file('candidate_image')->store('candidate_images', 'public');
+
+                $imageFile = $request->file('candidate_image');
+                $imageName = time() . '_image.' . $imageFile->getClientOriginalExtension();
+
+                $imageFile->move(public_path('candidate_images'), $imageName);
+
+                $candidateImagePath = 'candidate_images/' . $imageName;
             }
+
 
             $application = JobApplication::create([
                 'job_id' => $request->job_id,
