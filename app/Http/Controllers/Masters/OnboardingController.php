@@ -92,6 +92,9 @@ class OnboardingController extends Controller
             )
         );
         $candidate->confirmation_letter = 'send';
+        if ($candidate->status === 'selected') {
+            $candidate->status = 'confirmation';
+        }
         $candidate->save();
         return response()->json([
             'success' => true,
@@ -181,8 +184,7 @@ class OnboardingController extends Controller
         $oldTime  = $schedule->time;
         $oldMode  = $schedule->mode;
         $oldVenue = $schedule->venue;
-        $convertedDate = Carbon::createFromFormat('d-m-Y', $request->date)
-            ->format('Y-m-d');
+        $convertedDate = Carbon::createFromFormat('d-m-Y', $request->date)->format('Y-m-d');
         $request->merge([
             'date' => $convertedDate
         ]);
@@ -191,6 +193,7 @@ class OnboardingController extends Controller
         $newSchedule = null;
         if ($request->status === 'cleared') {
             $candidate->status = 'selected';
+            $candidate->confirmation_letter = 'not_send';
             $template = EmailTemplate::where('template_key', 'interview_cleared')->first();
             if ($template) {
                 Mail::to($this->getRecipients($candidate))
@@ -198,6 +201,7 @@ class OnboardingController extends Controller
             }
         } elseif ($request->status === 'rejected') {
             $candidate->status = 'interview_rejected';
+            $candidate->confirmation_letter = 'not_send';
             $template = EmailTemplate::where('template_key', 'interview_rejected')->first();
             if ($template) {
                 Mail::to($this->getRecipients($candidate))
@@ -205,6 +209,7 @@ class OnboardingController extends Controller
             }
         } elseif ($request->status === 'postponed') {
             $candidate->status = 'interview_postponed';
+            $candidate->confirmation_letter = 'not_send';
             $currentRoundNumber = (int) filter_var($schedule->round, FILTER_SANITIZE_NUMBER_INT);
             $nextRound = 'R' . ($currentRoundNumber + 1);
             $newSchedule = InterviewSchedule::create([
