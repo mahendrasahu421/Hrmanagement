@@ -347,10 +347,32 @@
                         </div>
 
                         <div class="col-md-4">
-                            <label class="form-label">Highest Degree</label>
-                            <input type="text" name="degree" class="form-control">
+                            <label class="form-label">Qualification</label>
+                            <select name="qualification" class="form-select select2" required>
+                                <option value="">Select Qualification</option>
+                                <option value="High School">High School</option>
+                                <option value="Diploma">Diploma</option>
+                                <option value="Post Graduation">Post Graduation</option>
+                                <option value="PhD">PhD</option>
+                                <option value="Certification Course">Certification Course</option>
+                                <option value="ITI">ITI</option>
+                                <option value="Polytechnic">Polytechnic</option>
+                                <option value="Vocational Training">Vocational Training</option>
+                                <option value="Diploma in Management">Diploma in Management</option>
+                                <option value="Professional Course">Professional Course</option>
+                                <option value="Chartered Accountant (CA)">Chartered Accountant (CA)</option>
+                                <option value="Cost & Management Accountant (CMA)">Cost & Management Accountant (CMA)
+                                </option>
+                                <option value="Certified Financial Analyst (CFA)">Certified Financial Analyst (CFA)
+                                </option>
+                                <option value="Company Secretary (CS)">Company Secretary (CS)</option>
+                                <option value="Finance Diploma / Certification">Finance Diploma / Certification
+                                </option>
+                                <option value="Other">Other</option>
+                            </select>
                             <small class="text-danger">This field is required</small>
                         </div>
+
 
                         <div class="col-md-4">
                             <label class="form-label">Institute</label>
