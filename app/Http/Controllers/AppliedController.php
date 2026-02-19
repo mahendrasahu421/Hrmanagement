@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\JobApplication;
+use App\Models\AcflJobs;
 use App\Models\CountryState;
+use App\Models\JobApplication;
 use App\Models\Skills;
 use App\Models\StateCity;
-use App\Models\AcflJobs;
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class AppliedController extends Controller
@@ -75,6 +75,19 @@ class AppliedController extends Controller
             'applied_at' => $employee->created_at->format('d-m-Y'),
         ]);
     }
+    public function jobDetails($id)
+    {
+        $job = AcflJobs::findOrFail($id);
+        return response()->json([
+            'skills' => $job->skill_names,
+            'qualifications' => $job->qualifications,
+            'experience' => $job->min_exp . ' - ' . $job->max_exp . ' years',
+        ]);
+    }
+
+
+
+
 
     /**
      * Show the form for creating a new resource.
@@ -131,6 +144,7 @@ class AppliedController extends Controller
             $limit  = $request->input('length', 10);
             $start  = $request->input('start', 0);
             $jobId  = $request->input('job_id');
+
             $query = JobApplication::with('job');
 
             if (!empty($jobId)) {
@@ -159,57 +173,85 @@ class AppliedController extends Controller
 
             foreach ($candidates as $index => $candidate) {
 
+                $matchScore = 0;
+
+                if ($jobId) {
+                    $job = AcflJobs::find($jobId);
+
+                    if ($job) {
+
+                        $jobSkills = $job->test_skills ?? [];
+                        $candidateSkills = $candidate->skills ?? [];
+
+                        if (!empty($jobSkills)) {
+                            $matchedSkills = array_intersect($jobSkills, $candidateSkills);
+                            $skillPercent = (count($matchedSkills) / count($jobSkills)) * 50;
+                            $matchScore += $skillPercent;
+                        }
+
+                        $jobMinExp = $job->min_exp ?? 0;
+                        $jobMaxExp = $job->max_exp ?? 100;
+
+                        if (
+                            $candidate->experience_years >= $jobMinExp &&
+                            $candidate->experience_years <= $jobMaxExp
+                        ) {
+                            $matchScore += 30;
+                        }
+
+                        $jobQualifications = $job->qualifications ?? [];
+
+                        if (!empty($jobQualifications)) {
+                            if (in_array($candidate->degree, $jobQualifications)) {
+                                $matchScore += 20;
+                            }
+                        }
+                    }
+                }
+
+                $finalPercent = round($matchScore);
+
+                if ($finalPercent >= 70) {
+                    $rowClass = 'match-high';
+                } elseif ($finalPercent >= 40) {
+                    $rowClass = 'match-medium';
+                } else {
+                    $rowClass = 'match-low';
+                }
+
                 $resumeButton = $candidate->resume
-                    ? '<a href="' . asset('storage/' . $candidate->resume) . '" target="_blank" class="btn btn-sm btn-primary">
-                        View CV
-                   </a>'
+                    ? '<a href="' . asset('storage/' . $candidate->resume) . '" target="_blank" class="btn btn-sm btn-primary">View CV</a>'
                     : '<span class="text-muted">N/A</span>';
 
                 $slug = Str::slug($candidate->first_name . ' ' . $candidate->last_name);
                 $id   = $candidate->id;
                 $onboardingUrl = route('employee.onboarding', ['slug' => $slug, 'id' => $id]);
-                if ($candidate->status === 'applied') {
-                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-primary">Onboarding</a>';
-                } elseif ($candidate->status === 'shortlisted') {
-                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-success">Shortlisted</a>';
-                } elseif ($candidate->status === 'interview_scheduled') {
-                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-warning">Interview Scheduled</a>';
-                } elseif ($candidate->status === 'interview_postponed') {
-                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-info">Interview Postponed</a>';
-                } elseif ($candidate->status === 'interview_rejected') {
-                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-danger">Interview Rejected</a>';
-                } elseif ($candidate->status === 'selected') {
-                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-success">Selected</a>';
-                } elseif ($candidate->status === 'confirmation') { 
-                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-success">Confirmation</a>';
-                } elseif ($candidate->status === 'rejected') {
-                    $actionHtml = '<span class="btn btn-sm btn-danger">Rejected</span>';
-                } else {
-                    $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-secondary">Onboarding</a>';
-                }
 
+                $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-primary">Onboarding</a>';
 
                 $rows[] = [
-                    'DT_RowIndex'  => $start + $index + 1,
-                    'job_title'    => $candidate->job->job_title ?? 'N/A',
-                    'applied_date' => $candidate->created_at->format('d-m-Y'),
-                    'first_name'   => ucfirst($candidate->first_name) . ' ' . ucfirst($candidate->last_name) . '
-                      <br>
-                      <button class="badge bg-primary view-details" data-id="' . $candidate->id . '">
-                          View Details
-                      </button>',
-                    'email'        => $candidate->email,
-                    'phone'        => $candidate->phone,
-                    'gender'       => match ($candidate->gender_id) {
+                    'DT_RowIndex'   => $start + $index + 1,
+                    'job_title'     => $candidate->job->job_title ?? 'N/A',
+                    'applied_date'  => $candidate->created_at->format('d-m-Y'),
+                    'first_name'    => ucfirst($candidate->first_name) . ' ' . ucfirst($candidate->last_name) . '
+                    <br>
+                    <button class="badge bg-primary view-details" data-id="' . $candidate->id . '">
+                        View Details
+                    </button>',
+                    'email'         => $candidate->email,
+                    'phone'         => $candidate->phone,
+                    'gender'        => match ($candidate->gender_id) {
                         1 => 'Male',
                         2 => 'Female',
                         3 => 'Other',
                         default => 'N/A',
                     },
-                    'state'        => optional(\App\Models\CountryState::find($candidate->state_id))->name ?? 'N/A',
-                    'city'         => optional(\App\Models\StateCity::find($candidate->city_id))->name ?? 'N/A',
-                    'resume'       => $resumeButton,
-                    'action'       => $actionHtml,
+                    'state'         => optional(\App\Models\CountryState::find($candidate->state_id))->name ?? 'N/A',
+                    'city'          => optional(\App\Models\StateCity::find($candidate->city_id))->name ?? 'N/A',
+                    'resume'        => $resumeButton,
+                    'action'        => $actionHtml,
+                    'match_percent' => $finalPercent . '%',
+                    'DT_RowClass'   => $rowClass,
                 ];
             }
 

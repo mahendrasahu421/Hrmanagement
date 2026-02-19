@@ -157,8 +157,7 @@
 
 <body>
 
-    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')"
-        :message="session('success') ?? session('error')" />
+    <x-alert-modal :type="session('success') ? 'success' : (session('error') ? 'error' : '')" :message="session('success') ?? session('error')" />
 
     @if ($jobs->isEmpty())
         <h4 class="text-center no-jobs">No jobs found!</h4>
@@ -172,11 +171,16 @@
                 $expSlug = Str::slug(($job->min_exp ?? 0) . '-to-' . ($job->max_exp ?? 0) . '-years');
                 $jobCode = $job->id . rand(100000, 999999);
                 $finalSlug =
-                    $titleSlug . '-' .
-                    $branchSlug . '-' .
-                    $locationSlug . '-' .
-                    $stateSlug . '-' .
-                    $expSlug . '-' .
+                    $titleSlug .
+                    '-' .
+                    $branchSlug .
+                    '-' .
+                    $locationSlug .
+                    '-' .
+                    $stateSlug .
+                    '-' .
+                    $expSlug .
+                    '-' .
                     $jobCode;
                 $jobUrl = route('recruitment.jobs.job-deatils', ['slug' => $finalSlug]);
             @endphp
@@ -197,7 +201,8 @@
                 </div>
 
                 <div class="meta">
-                    <div><i class="fa-solid fa-briefcase"></i>{{ $job->min_exp ?? 0 }} – {{ $job->max_exp ?? 0 }} Yrs</div>
+                    <div><i class="fa-solid fa-briefcase"></i>{{ $job->min_exp ?? 0 }} – {{ $job->max_exp ?? 0 }} Yrs
+                    </div>
                     <div><i class="fa-solid fa-indian-rupee-sign"></i>
                         @if ($job->ctc_from !== null && $job->ctc_to !== null)
                             ₹{{ number_format($job->ctc_from / 100000, 2) }} LPA -
@@ -218,9 +223,13 @@
 
                 @if (!empty($job->skill_names))
                     <div class="tags">
-                        @foreach ($job->skill_names as $skill)
-                            <div class="tag">{{ $skill }}</div>
-                        @endforeach
+                        <div class="tags">
+                            @foreach ($job->skill_names ?? [] as $skill)
+                                <div class="tag">{{ $skill }}</div>
+                            @endforeach
+                        </div>
+
+
                     </div>
                 @endif
 
@@ -232,9 +241,9 @@
     @endif
 
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.job-card').forEach(card => {
-                card.addEventListener('click', function () {
+                card.addEventListener('click', function() {
                     const url = this.dataset.url;
                     if (url) window.open(url, '_blank');
                 });

@@ -175,24 +175,28 @@ class JobsController extends Controller
     {
         $data['title'] = 'Recruitment / Jobs / Recommended-Job';
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
-
-        $jobs = AcflJobs::with(['branch.company', 'state'])
-            ->where('status', 'published')
-            ->get();
+        $jobs = AcflJobs::with(['branch.company', 'state'])->where('status', 'published')->get();
         foreach ($jobs as $job) {
-            $cityIds = $job->city_ids ?? [];
+            $cityIds = $job->city_ids;
+            if (is_string($cityIds)) {
+                $cityIds = explode(',', $cityIds);
+            }
+            $cityIds = is_array($cityIds) ? $cityIds : [];
             $job->city_names = StateCity::whereIn('id', $cityIds)
                 ->pluck('name')
                 ->toArray();
-            $skillIds = $job->test_skills ?? [];
+            $skillIds = $job->test_skills;
+            if (is_string($skillIds)) {
+                $skillIds = explode(',', $skillIds);
+            }
+            $skillIds = is_array($skillIds) ? $skillIds : [];
             $job->skill_names = Skills::whereIn('id', $skillIds)
                 ->pluck('name')
                 ->toArray();
             $job->state_name  = optional($job->state)->name ?? 'State not available';
-            $job->branchName = optional($job->branch)->branch_name ?? 'Branch not available';
+            $job->branchName  = optional($job->branch)->branch_name ?? 'Branch not available';
             $job->company_logo = optional($job->branch?->company)->company_logo;
         }
-
         $data['jobs'] = $jobs;
         return view('home.jobs.recommended-job', $data);
     }
