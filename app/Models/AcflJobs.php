@@ -89,4 +89,8 @@ class AcflJobs extends Model
 
         return is_array($value) ? $value : [];
     }
+    public function applications()
+    {
+        return $this->hasMany(JobApplication::class, 'job_id', 'id');
+    }
 }

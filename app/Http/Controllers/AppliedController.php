@@ -10,6 +10,7 @@ use App\Models\StateCity;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class AppliedController extends Controller
 {
@@ -19,7 +20,14 @@ class AppliedController extends Controller
     public function index()
     {
         $data['title'] = 'Recruitment / Jobs / Applied Candidate';
-        $data['jobs'] = AcflJobs::select('id', 'job_title')->get();
+        $data['jobs'] = AcflJobs::select('id', 'job_title')
+            ->where('status', 'published')
+            ->withCount([
+                'applications as applications_count' => function ($q) {
+                    $q->whereNotNull('job_id');
+                }
+            ])
+            ->get();
         $data['imageUrl'] = "https://picsum.photos/200/200?random=" . rand(1, 1000);
         return view('home.jobs.applied-condidate.index', $data);
     }
@@ -71,7 +79,7 @@ class AppliedController extends Controller
 
             'designation' => $employee->designation->name ?? 'N/A',
             'status' => ucfirst($employee->status),
-            'resume' => asset('storage/' . $employee->resume),
+            'resume' => asset($employee->resume),
             'applied_at' => $employee->created_at->format('d-m-Y'),
         ]);
     }
@@ -144,13 +152,63 @@ class AppliedController extends Controller
             $limit  = $request->input('length', 10);
             $start  = $request->input('start', 0);
             $jobId  = $request->input('job_id');
-
+            $recommendation = $request->input('recommendation', false);
             $query = JobApplication::with('job');
-
             if (!empty($jobId)) {
                 $query->where('job_id', $jobId);
             }
+            if ($recommendation && $jobId) {
+                $job = AcflJobs::find($jobId);
+                if ($job) {
+                    $questions = DB::table('jaf_questions')
+                        ->where('job_id', $jobId)
+                        ->where('is_required', 'Yes')
+                        ->get();
+                    if ($questions->count() > 0) {
+                        $query->where(function ($mainQuery) use ($questions) {
+                            foreach ($questions as $question) {
+                                $questionId = $question->id;
+                                if ($question->text_element == 'radio') {
 
+                                    $mainQuery->whereJsonContains(
+                                        'answers->' . $questionId,
+                                        "Yes"
+                                    );
+                                }
+                                elseif ($question->text_element == 'checkbox') {
+                                    $mainQuery->whereNotNull('answers->' . $questionId);
+                                }
+                                elseif ($question->text_element == 'select') {
+                                    $mainQuery->whereNotNull('answers->' . $questionId);
+                                }
+                            }
+                        });
+                    }
+                    $jobSkills = $job->test_skills;
+                    if (is_string($jobSkills)) {
+                        $jobSkills = array_map('trim', explode(',', $jobSkills));
+                    }
+                    if (!empty($jobSkills)) {
+                        $query->where(function ($q2) use ($jobSkills) {
+                            foreach ($jobSkills as $skill) {
+                                $q2->orWhereJsonContains('skills', $skill);
+                            }
+                        });
+                    }
+                    $jobQualifications = $job->qualifications;
+                    if (is_string($jobQualifications)) {
+                        $jobQualifications = array_map('trim', explode(',', $jobQualifications));
+                    }
+                    if (!empty($jobQualifications)) {
+                        $query->whereIn('qualification', $jobQualifications);
+                    }
+                    $minExp = $job->min_exp;
+                    $maxExp = $job->max_exp;
+                    if ($minExp !== null && $maxExp !== null) {
+                        $query->whereBetween('experience_years', [$minExp, $maxExp]);
+                    }
+                }
+            }
             if (!empty($search)) {
                 $query->where(function ($q) use ($search) {
                     $q->where('first_name', 'like', "%{$search}%")
@@ -159,76 +217,22 @@ class AppliedController extends Controller
                         ->orWhere('phone', 'like', "%{$search}%");
                 });
             }
-
             $recordsFiltered = $query->count();
             $recordsTotal    = JobApplication::count();
-
             $candidates = $query
                 ->orderBy('created_at', 'desc')
                 ->skip($start)
                 ->take($limit)
                 ->get();
-
             $rows = [];
-
             foreach ($candidates as $index => $candidate) {
-
-                $matchScore = 0;
-
-                if ($jobId) {
-                    $job = AcflJobs::find($jobId);
-
-                    if ($job) {
-
-                        $jobSkills = $job->test_skills ?? [];
-                        $candidateSkills = $candidate->skills ?? [];
-
-                        if (!empty($jobSkills)) {
-                            $matchedSkills = array_intersect($jobSkills, $candidateSkills);
-                            $skillPercent = (count($matchedSkills) / count($jobSkills)) * 50;
-                            $matchScore += $skillPercent;
-                        }
-
-                        $jobMinExp = $job->min_exp ?? 0;
-                        $jobMaxExp = $job->max_exp ?? 100;
-
-                        if (
-                            $candidate->experience_years >= $jobMinExp &&
-                            $candidate->experience_years <= $jobMaxExp
-                        ) {
-                            $matchScore += 30;
-                        }
-
-                        $jobQualifications = $job->qualifications ?? [];
-
-                        if (!empty($jobQualifications)) {
-                            if (in_array($candidate->degree, $jobQualifications)) {
-                                $matchScore += 20;
-                            }
-                        }
-                    }
-                }
-
-                $finalPercent = round($matchScore);
-
-                if ($finalPercent >= 70) {
-                    $rowClass = 'match-high';
-                } elseif ($finalPercent >= 40) {
-                    $rowClass = 'match-medium';
-                } else {
-                    $rowClass = 'match-low';
-                }
-
                 $resumeButton = $candidate->resume
-                    ? '<a href="' . asset('storage/' . $candidate->resume) . '" target="_blank" class="btn btn-sm btn-primary">View CV</a>'
+                    ? '<a href="' . asset($candidate->resume) . '" target="_blank" class="btn btn-sm btn-primary">View CV</a>'
                     : '<span class="text-muted">N/A</span>';
-
                 $slug = Str::slug($candidate->first_name . ' ' . $candidate->last_name);
                 $id   = $candidate->id;
                 $onboardingUrl = route('employee.onboarding', ['slug' => $slug, 'id' => $id]);
-
                 $actionHtml = '<a href="' . $onboardingUrl . '" class="btn btn-sm btn-primary">Onboarding</a>';
-
                 $rows[] = [
                     'DT_RowIndex'   => $start + $index + 1,
                     'job_title'     => $candidate->job->job_title ?? 'N/A',
@@ -250,8 +254,6 @@ class AppliedController extends Controller
                     'city'          => optional(\App\Models\StateCity::find($candidate->city_id))->name ?? 'N/A',
                     'resume'        => $resumeButton,
                     'action'        => $actionHtml,
-                    'match_percent' => $finalPercent . '%',
-                    'DT_RowClass'   => $rowClass,
                 ];
             }
 
