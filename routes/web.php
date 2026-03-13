@@ -347,7 +347,7 @@ Route::get('/employee/logout', [EmployeeAuthController::class, 'logout'])->name(
 
 Route::get('recruitment/job/applied-candidate', [AppliedController::class, 'index'])->name('recruitment.jobs.applied-candidate');
 Route::get('recruitment/jobs/applied-candidate/list', [AppliedController::class, 'list'])->name('jobs.applied.list');
-
+Route::get('/jobs/details/{id}', [AppliedController::class, 'jobDetails'])->name('jobs.details');
 
 // Employee section routes
 Route::prefix('employee')->middleware('auth:employee')->group(function () {

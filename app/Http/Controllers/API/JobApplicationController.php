@@ -83,7 +83,7 @@ class JobApplicationController extends Controller
                 'ug_percent' => $request->ug_percent,
                 'ug_year' => $request->ug_year,
                 'qualification' => $request->qualification,
-                'degree' => $request->degree,
+                // 'degree' => $request->degree,
                 'institute' => $request->institute,
                 'final_year' => $request->final_year,
 

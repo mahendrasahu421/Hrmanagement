@@ -66,6 +66,13 @@ class AcflJobs extends Model
     {
         return JobSkill::whereIn('id', $this->test_skills ?? [])->pluck('name')->toArray();
     }
+    public function getSkillNamesAttribute()
+    {
+        if (!$this->test_skills) {
+            return [];
+        }
+        return Skills::whereIn('id', $this->test_skills)->pluck('name')->toArray();
+    }
 
     public function getCityIdsAttribute($value)
     {
@@ -81,5 +88,9 @@ class AcflJobs extends Model
         }
 
         return is_array($value) ? $value : [];
+    }
+    public function applications()
+    {
+        return $this->hasMany(JobApplication::class, 'job_id', 'id');
     }
 }
